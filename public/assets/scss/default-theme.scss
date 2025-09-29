@@ -1,0 +1,9 @@
+// default theme
+:root {
+  --base-color: #07b5ff;
+}
+
+.base-img {
+  filter: brightness(0) saturate(100%) invert(76%) sepia(74%) saturate(1946%)
+    hue-rotate(354deg) brightness(104%) contrast(102%);
+}

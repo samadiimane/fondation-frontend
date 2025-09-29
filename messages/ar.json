@@ -1,0 +1,39 @@
+{
+    "topbar": {
+      "email": "AKT_Research_Foundation@gmail.com",
+      "phone": "+212 654-396-789",
+      "darkMode": "الوضع الداكن",
+      "lightMode": "الوضع الفاتح"
+    },
+    "nav": {
+      "aboutUs": "من نحن",
+      "foundation": "المؤسسة",
+      "drTemsamani": "عن الدكتور تمسماني",
+      "structure": "الهيكل الإداري واللجنة العلمية",
+      "libraryResources": "المكتبة والموارد",
+      "digitalLibrary": "المكتبة الرقمية",
+      "journals": "المجلات",
+      "publications": "المنشورات",
+      "archives": "الأرشيف والتراث الوثائقي",
+      "manuscripts": "المخطوطات",
+      "sites": "المواقع والمعالم التاريخية",
+      "issues": "قضايا البحث والإشكاليات",
+      "researchPublishing": "البحث والنشر",
+      "advancedSearch": "البحث المتقدم في المحتوى",
+      "submitResearch": "قدم بحثك",
+      "publishingGuide": "دليل النشر ومعايير التقديم",
+      "services": "الخدمات",
+      "consultations": "الاستشارات الأكاديمية والتوجيه",
+      "support": "دعم وتمكين الباحثين",
+      "platform": "مساحة البحث الشخصية",
+      "events": "الفعاليات",
+      "seminars": "الندوات الأكاديمية والمحاضرات",
+      "awards": "جوائز البحث والتقدير",
+      "exhibitions": "المعارض والوسائط الوثائقية",
+      "supportHelp": "الدعم والمساعدة",
+      "faq": "الأسئلة الشائعة",
+      "contactUs": "اتصل بنا",
+      "policies": "الشروط والسياسات",
+      "joinUs": "انضم إلينا"
+    }
+  }
