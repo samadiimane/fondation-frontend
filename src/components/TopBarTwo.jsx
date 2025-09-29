@@ -1,11 +1,19 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import NiceSelect from "nice-select2";
+import {useLocale, useTranslations} from "next-intl";
+import {usePathname, useRouter} from "@/i18n/navigation";
+import {localeFlagMap, localeLabels, locales} from "@/i18n/config";
 
 const TopBarTwo = () => {
-  const countryRef_two = useRef(null);
-  const countryWrapperRef = useRef(null);
+  const selectRef = useRef(null);
+  const wrapperRef = useRef(null);
+  const niceInstanceRef = useRef(null);
   const [dark, setDark] = useState(false);
+  const t = useTranslations("topbar");
+  const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleDarkVersion = (type) => {
     const body = document.body;
@@ -19,51 +27,89 @@ const TopBarTwo = () => {
   };
 
   useEffect(() => {
-    // initialize dark state from body class
     if (typeof window !== "undefined") {
       setDark(document.body.classList.contains("dark-body"));
     }
+  }, []);
 
-    if (countryRef_two.current) {
-      new NiceSelect(countryRef_two.current, {
-        searchable: false,
-        placeholder: 'Select Language'
-      });
-      if (countryWrapperRef.current) {
-        countryWrapperRef.current.classList.add('enhanced');
+  useEffect(() => {
+    const selectEl = selectRef.current;
+    if (!selectEl) {
+      return;
+    }
+
+    if (niceInstanceRef.current) {
+      niceInstanceRef.current.destroy();
+      niceInstanceRef.current = null;
+    }
+
+    selectEl.innerHTML = "";
+    locales.forEach((code) => {
+      const option = document.createElement("option");
+      option.value = code;
+      option.textContent = localeLabels[code] || code;
+      const flag = localeFlagMap[code];
+      if (flag) {
+        option.setAttribute("data-flag", flag);
+      }
+      selectEl.appendChild(option);
+    });
+
+    selectEl.value = locale;
+
+    if (wrapperRef.current) {
+      wrapperRef.current.classList.add("enhanced");
+    }
+
+    const instance = new NiceSelect(selectEl, {
+      searchable: false,
+      placeholder: t("languagePlaceholder")
+    });
+    niceInstanceRef.current = instance;
+
+    const niceRoot = selectEl.nextElementSibling;
+
+    const renderFlags = () => {
+      if (!niceRoot) return;
+      const selectedOption = selectEl.options[selectEl.selectedIndex];
+      const selectedLocale = selectedOption?.value;
+      const selectedFlag = selectedOption?.getAttribute("data-flag") || "";
+      const selectedLabel = localeLabels[selectedLocale] || selectedOption?.textContent || "";
+      const currentEl = niceRoot.querySelector(".current");
+      if (currentEl) {
+        currentEl.innerHTML = selectedFlag
+          ? `<i class="fi fi-${selectedFlag}"></i> ${selectedLabel}`
+          : selectedLabel;
       }
 
-      const selectEl = countryRef_two.current;
-      const niceRoot = selectEl.nextElementSibling;
+      const listOptions = niceRoot.querySelectorAll(".list .option");
+      listOptions.forEach((li) => {
+        const value = li.getAttribute("data-value");
+        const flag = localeFlagMap[value];
+        const label = localeLabels[value] || value;
+        li.innerHTML = flag ? `<i class="fi fi-${flag}"></i> ${label}` : label;
+      });
+    };
 
-      const renderNiceSelectFlags = () => {
-        if (!niceRoot) return;
-        const selectedOption = selectEl.options[selectEl.selectedIndex];
-        const selectedFlag = selectedOption?.getAttribute('data-flag') || '';
-        const selectedLabel = selectedOption?.textContent || '';
-        const currentEl = niceRoot.querySelector('.current');
-        if (currentEl) {
-          currentEl.innerHTML = selectedFlag
-            ? `<i class="fi fi-${selectedFlag}"></i> ${selectedLabel}`
-            : selectedLabel;
-        }
+    renderFlags();
 
-        const listOptions = niceRoot.querySelectorAll('.list .option');
-        listOptions.forEach((li) => {
-          const value = li.getAttribute('data-value');
-          const opt = Array.from(selectEl.options).find((o) => o.value === value);
-          if (opt) {
-            const flag = opt.getAttribute('data-flag') || '';
-            const label = opt.textContent || '';
-            li.innerHTML = flag ? `<i class=\"fi fi-${flag}\"></i> ${label}` : label;
-          }
-        });
-      };
+    const handleChange = (event) => {
+      const nextLocale = event.target.value;
+      if (nextLocale && nextLocale !== locale) {
+        router.replace(pathname, {locale: nextLocale});
+      }
+    };
 
-      renderNiceSelectFlags();
-      selectEl.addEventListener('change', renderNiceSelectFlags);
-    }
-  }, []);
+    selectEl.addEventListener("change", handleChange);
+    selectEl.addEventListener("change", renderFlags);
+
+    return () => {
+      selectEl.removeEventListener("change", handleChange);
+      selectEl.removeEventListener("change", renderFlags);
+      niceInstanceRef.current?.destroy?.();
+      niceInstanceRef.current = null;
+    };
+  }, [locale, pathname, router, t]);
 
   return (
     <div className="topbar two d-none d-lg-block px-4">
@@ -73,15 +119,15 @@ const TopBarTwo = () => {
             <div className="topbar__list-wrapper">
               <ul className="topbar__list">
                 <li>
-                  <a href="mailto:AKT_Research_Foundation@gmail.com">
+                  <a href={`mailto:${t("email")}`}>
                     <i className="fa-regular fa-envelope" />
-                    AKT_Research_Foundation@gmail.com
+                    {t("email")}
                   </a>
                 </li>
                 <li>
-                  <a href="tel:2305-587-3407">
+                  <a href={`tel:${t("phone")}`}>
                     <i className="fa-solid fa-phone" />
-                    +212 654-396-789
+                    {t("phone")}
                   </a>
                 </li>
               </ul>
@@ -90,35 +136,23 @@ const TopBarTwo = () => {
           <div className="col-12 col-lg-6">
             <div className="topbar__items justify-content-end">
               <button
-                 type="button"
-                 className="topbar__theme-btn"
-                 aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-                 title={dark ? "Light mode" : "Dark mode"}
-                 onClick={() => handleDarkVersion(dark ? "light" : "dark")}
-               >
-                 <i className={`fa-solid ${dark ? "fa-moon" : "fa-sun"}`} />
-               </button>
+                type="button"
+                className="topbar__theme-btn"
+                aria-label={t(dark ? "lightMode" : "darkMode")}
+                title={t(dark ? "lightMode" : "darkMode")}
+                onClick={() => handleDarkVersion(dark ? "light" : "dark")}
+              >
+                <i className={`fa-solid ${dark ? "fa-moon" : "fa-sun"}`} />
+              </button>
 
-              <div className="country-select two" ref={countryWrapperRef}>
+              <div className="country-select two" ref={wrapperRef}>
                 <select
-                  ref={countryRef_two}
-                  name="country"
-                  defaultValue={"English"}
+                  ref={selectRef}
+                  name="language"
+                  defaultValue={locale}
                   className="select two"
-                >
-                  <option value="English" data-flag="gb">
-                    English
-                  </option>
-                  <option value="Arabic" data-flag="ma">
-                    Arabic
-                  </option>
-                  <option value="French" data-flag="fr">
-                    French
-                  </option>
-                  <option value="Spanish" data-flag="es">
-                    Spanish
-                  </option>
-                </select>
+                  aria-label={t("languageLabel")}
+                ></select>
               </div>
 
               <div className="social">
