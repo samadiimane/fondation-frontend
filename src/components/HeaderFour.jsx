@@ -143,7 +143,7 @@ const HeaderFour = () => {
                           isActive(["/foundation", "/dr-temsamani", "/structure"]) ? "active" : ""
                         }`}
                       >
-                         <Link href='#' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
+                         <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
                           {t("aboutUs")}
                          </Link>
                         <ul className='navbar__sub-menu'>
@@ -176,12 +176,9 @@ const HeaderFour = () => {
                             : ""
                         }`}
                       >
-                        <button
-                          type='button'
-                          className='navbar__dropdown-label dropdown-label-alter'
-                        >
+                        <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
                           {t("libraryResources")}
-                        </button>
+                         </Link>
                         <ul className='navbar__sub-menu'>
                           <li className={isActive("/library") ? "active" : ""}>
                             <Link href='/library'>{t("digitalLibrary")}</Link>
@@ -229,12 +226,9 @@ const HeaderFour = () => {
                           isActive(["/advanced-search", "/submit", "/guide"]) ? "active" : ""
                         }`}
                       >
-                        <button
-                          type='button'
-                          className='navbar__dropdown-label dropdown-label-alter'
-                        >
+                        <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
                           {t("researchPublishing")}
-                        </button>
+                         </Link>
                         <ul className='navbar__sub-menu'>
                           <li>
                             <span>{t("advancedSearch")}</span>
@@ -253,12 +247,9 @@ const HeaderFour = () => {
                           isActive(["/consultations", "/support", "/platform"]) ? "active" : ""
                         }`}
                       >
-                        <button
-                          type='button'
-                          className='navbar__dropdown-label dropdown-label-alter'
-                        >
+                        <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
                           {t("services")}
-                        </button>
+                         </Link>
                         <ul className='navbar__sub-menu'>
                           <li>
                             <span>{t("consultations")}</span>
@@ -277,12 +268,9 @@ const HeaderFour = () => {
                           isActive(["/seminars", "/awards", "/exhibitions"]) ? "active" : ""
                         }`}
                       >
-                        <button
-                          type='button'
-                          className='navbar__dropdown-label dropdown-label-alter'
-                        >
+                        <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
                           {t("events")}
-                        </button>
+                         </Link>
                         <ul className='navbar__sub-menu'>
                           <li>
                             <span>{t("seminars")}</span>
@@ -301,12 +289,9 @@ const HeaderFour = () => {
                           isActive(["/faq", "/contact-us", "/policies"]) ? "active" : ""
                         }`}
                       >
-                        <button
-                          type='button'
-                          className='navbar__dropdown-label dropdown-label-alter'
-                        >
+                        <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
                           {t("supportHelp")}
-                        </button>
+                         </Link>
                         <ul className='navbar__sub-menu'>
                           <li>
                             <span>{t("faq")}</span>

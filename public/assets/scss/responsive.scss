@@ -569,8 +569,8 @@
   // header
   .header {
     .main-header__menu-box {
-      padding-inline-start: 28px;
-      padding-inline-end: 28px;
+      padding-inline-start: 10px;
+      padding-inline-end: 10px;
     }
   }
 
@@ -784,7 +784,7 @@
   .header {
     .main-header__menu-box {
       padding: 0px;
-      padding-inline-start: 24px;
+      padding-inline-start: 10px;
     }
   }
 
@@ -963,11 +963,10 @@
 
   .header-tertiary {
     .navbar__list {
-      justify-content: flex-start;
-      padding-inline-start: 60px;
+      justify-content: center;
     }
     .navbar__mobile-options {
-      gap: 50px;
+      gap: 10px;
     }
   }
 
