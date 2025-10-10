@@ -1,6 +1,11 @@
 "use client";
 import { useState } from 'react';
-import Link from 'next/link';
+import { Link } from '@/i18n/navigation';
+import { getDocuments } from '@/lib/api';
+import Pagination from './Pagination';
+import Skeleton from './Skeleton';
+
+const PAGE_SIZE = 20;
 
 const LibrarySearch = () => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -17,6 +22,12 @@ const LibrarySearch = () => {
     const [showAdvanced, setShowAdvanced] = useState(false);
     const [searchResults, setSearchResults] = useState([]);
     const [viewMode, setViewMode] = useState('detailed');
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [page, setPage] = useState(1);
+    const [lastQuery, setLastQuery] = useState('');
+    const [hasNext, setHasNext] = useState(false);
+    const [hasSearched, setHasSearched] = useState(false);
 
 
     const categories = [
@@ -54,133 +65,55 @@ const LibrarySearch = () => {
     ];
 
 
-    const sampleDocuments = [
-        {
-            id: 1,
-            title: "The Almoravid Dynasty and Trans-Saharan Trade: Economic Networks in Medieval Morocco (1040-1147)",
-            author: "Dr. Abdelaziz Khallouk Temsamani",
-            coAuthors: ["Prof. Hassan El-Mansouri", "Dr. Fatima Bennani"],
-            year: 2003,
-            type: "Monograph",
-            category: "Economic & Commercial History",
-            abstract: "This comprehensive study examines the economic foundations of Almoravid power, focusing on the dynasty's control of trans-Saharan trade routes and their impact on North African commercial networks. Through extensive archival research and archaeological evidence, the work demonstrates how the Almoravids transformed Morocco into a central hub of medieval Mediterranean-African commerce.",
-            fullTextAvailable: true,
-            citations: 247,
-            doi: "10.1234/almoravid-trade-2003",
-            isbn: "978-2-7449-0234-5",
-            publisher: "Éditions de la Faculté des Lettres, Rabat",
-            pages: 456,
-            language: "French",
-            keywords: ["Almoravids", "Trans-Saharan Trade", "Medieval Economics", "North Africa", "Commercial Networks"],
-            peerReviewed: true,
-            downloadCount: 3420,
-            bookmarkCount: 89,
-            fileSize: "12.4 MB",
-            format: "PDF",
-            openAccess: true
-        },
-        {
-            id: 2,
-            title: "Architectural Synthesis in Spanish Protectorate Morocco: Neo-Moorish Revival and Colonial Urbanism (1912-1956)",
-            author: "Dr. Abdelaziz Khallouk Temsamani",
-            coAuthors: ["Arch. María José González"],
-            year: 1998,
-            type: "Peer-Reviewed Article",
-            category: "Urban & Architectural Studies",
-            abstract: "This article analyzes the architectural transformation of northern Moroccan cities under Spanish colonial administration, examining how European planning principles were adapted to local contexts. The study reveals the complex negotiations between colonial modernization projects and traditional Maghrebi urban forms.",
-            fullTextAvailable: true,
-            citations: 156,
-            doi: "10.1080/13467584.1998.12345678",
-            journal: "Journal of North African Architecture",
-            volume: "Vol. 23, No. 2",
-            pages: "45-78",
-            language: "English",
-            keywords: ["Colonial Architecture", "Spanish Protectorate", "Urban Planning", "Neo-Moorish", "Tetouan"],
-            peerReviewed: true,
-            downloadCount: 2180,
-            bookmarkCount: 67,
-            fileSize: "8.7 MB",
-            format: "PDF",
-            openAccess: false
-        },
-        {
-            id: 3,
-            title: "Digital Archive of Rif Sufi Manuscripts: Preserving Spiritual Heritage Through Technology",
-            author: "Dr. Abdelaziz Khallouk Temsamani",
-            coAuthors: ["Dr. Ahmed Benali", "Prof. Aicha El-Idrissi"],
-            year: 2010,
-            type: "Digital Collection",
-            category: "Religious & Sufi Traditions",
-            abstract: "A groundbreaking digital preservation project documenting over 200 Sufi manuscripts from the Rif region (15th-20th centuries). This collection includes high-resolution digitizations, paleographic analysis, and searchable transcriptions of mystical texts, poetry, and spiritual commentaries.",
-            fullTextAvailable: true,
-            citations: 203,
-            doi: "10.1234/rif-sufi-digital-2010",
-            publisher: "Digital Humanities Research Center",
-            itemCount: "247 manuscripts",
-            totalPages: "12,450 pages digitized",
-            language: "Classical Arabic",
-            keywords: ["Digital Humanities", "Sufi Manuscripts", "Rif Region", "Paleography", "Islamic Mysticism"],
-            peerReviewed: false,
-            downloadCount: 5240,
-            bookmarkCount: 134,
-            fileSize: "2.1 GB",
-            format: "Digital Archive",
-            openAccess: true
-        },
-        {
-            id: 4,
-            title: "The Mellah of Tetouan: Jewish Community Life and Urban Space in Pre-Colonial Morocco",
-            author: "Dr. Abdelaziz Khallouk Temsamani",
-            coAuthors: ["Dr. Sarah Cohen", "Prof. Mohammed Kenbib"],
-            year: 2006,
-            type: "Book Chapter",
-            category: "Urban & Architectural Studies",
-            abstract: "This chapter examines the spatial organization and social dynamics of Tetouan's Jewish quarter, analyzing how communal identity was expressed through urban planning, architecture, and daily practices. The study draws on oral histories, architectural surveys, and archival documentation.",
-            fullTextAvailable: true,
-            citations: 98,
-            doi: "10.1234/tetouan-mellah-2006",
-            bookTitle: "Jewish Communities in the Islamic World: Historical and Contemporary Perspectives",
-            editor: "Prof. Daniel Schroeter",
-            publisher: "Sussex Academic Press",
-            pages: "187-224",
-            language: "English",
-            keywords: ["Jewish Morocco", "Urban Studies", "Tetouan", "Mellah", "Cultural Heritage"],
-            peerReviewed: true,
-            downloadCount: 1560,
-            bookmarkCount: 45,
-            fileSize: "6.2 MB",
-            format: "PDF",
-            openAccess: false
-        },
-        {
-            id: 5,
-            title: "Manuscript Preservation Techniques in Moroccan Libraries: A Methodological Guide",
-            author: "Dr. Abdelaziz Khallouk Temsamani",
-            year: 2008,
-            type: "Research Thesis",
-            category: "Manuscript Studies",
-            abstract: "A comprehensive methodology for the preservation, cataloging, and digitization of historical manuscripts in Moroccan institutions. This thesis establishes protocols for handling fragile documents while ensuring scholarly accessibility and long-term conservation.",
-            fullTextAvailable: true,
-            citations: 89,
-            doi: "10.1234/manuscript-preservation-2008",
-            university: "Mohammed V University",
-            department: "Department of History and Archaeology",
-            pages: 312,
-            language: "Arabic",
-            keywords: ["Manuscript Preservation", "Library Science", "Digital Preservation", "Conservation"],
-            peerReviewed: true,
-            downloadCount: 980,
-            bookmarkCount: 28,
-            fileSize: "15.3 MB",
-            format: "PDF",
-            openAccess: true
+    const fetchDocuments = async (query, targetPage = 1) => {
+        const trimmedQuery = query?.trim() ?? '';
+        setIsLoading(true);
+        setError(null);
+
+        try {
+            const { documents, hasNext: nextPageAvailable, page: currentPage } = await getDocuments({
+                q: trimmedQuery || undefined,
+                page: targetPage,
+                pageSize: PAGE_SIZE,
+            });
+
+            setSearchResults(documents);
+            setHasNext(nextPageAvailable);
+            setPage(currentPage || targetPage);
+            setLastQuery(trimmedQuery);
+            setHasSearched(true);
+            if (typeof window !== 'undefined') {
+                window.scrollTo({ top: 0, behavior: targetPage > 1 ? 'smooth' : 'auto' });
+            }
+        } catch (err) {
+            console.error(err);
+            const message = err?.message || 'Unable to load documents. Please try again soon.';
+            const friendlyMessage = message.includes('Missing NEXT_PUBLIC_API_BASE')
+                ? 'NEXT_PUBLIC_API_BASE is not configured. Add it to .env.local to enable document search.'
+                : message;
+            setError(friendlyMessage);
+            setSearchResults([]);
+            setHasNext(false);
+            setHasSearched(true);
+        } finally {
+            setIsLoading(false);
         }
-    ];
+    };
 
     const handleSearch = (e) => {
         e.preventDefault();
-        setSearchResults(sampleDocuments);
+        fetchDocuments(searchQuery, 1);
     };
+
+    const handlePageChange = (nextPage) => {
+        if (isLoading || nextPage === page) {
+            return;
+        }
+
+        const query = lastQuery || searchQuery;
+        fetchDocuments(query, nextPage);
+    };
+
 
     const handleFilterChange = (filterType, value) => {
         setFilters(prev => ({
@@ -211,6 +144,11 @@ const LibrarySearch = () => {
         });
         setSearchQuery('');
         setSearchResults([]);
+        setPage(1);
+        setLastQuery('');
+        setHasNext(false);
+        setError(null);
+        setHasSearched(false);
     };
 
     const DocumentCard = ({ document, index }) => {
@@ -229,17 +167,38 @@ const LibrarySearch = () => {
                 : { class: 'restricted', text: 'Institutional Access', icon: 'fa-solid fa-lock' };
         };
 
+        const formatIcon = getFormatIcon(document.format ?? document.type);
+        const typeClass = document.type ? document.type.toLowerCase().replace(/[^a-z0-9]+/g, '-') : '';
+        const accessBadge = getAccessBadge(document.openAccess ?? document.fullTextAvailable);
+        const keywordList = Array.isArray(document.keywords) ? document.keywords : [];
+        const citations = typeof document.citations === 'number' ? document.citations : null;
+        const downloads = typeof document.downloadCount === 'number' ? document.downloadCount : null;
+        const bookmarks = typeof document.bookmarkCount === 'number' ? document.bookmarkCount : null;
+        const hasMetrics = citations !== null || downloads !== null || bookmarks !== null || Boolean(document.fileSize);
+        const downloadLabel = document.openAccess === false ? 'Request Access' : 'Open PDF';
+
         return (
             <div className="result-card">
                 <div className="result-content">
                     <h3 className="result-title">{document.title}</h3>
-
+                    <div className="result-badges">
+                        {document.type && (
+                            <span className={`type-badge ${typeClass}`}>
+                                <i className={formatIcon}></i>
+                                {document.type}
+                            </span>
+                        )}
+                        <span className={`access-badge ${accessBadge.class}`}>
+                            <i className={accessBadge.icon}></i>
+                            {accessBadge.text}
+                        </span>
+                    </div>
                     <div className="result-authors">
                         <div className="primary-author">
                             <i className="fa-solid fa-user-graduate"></i>
-                            <span>{document.author}</span>
+                            <span>{document.author || 'Unknown author'}</span>
                         </div>
-                        {document.coAuthors && (
+                        {Array.isArray(document.coAuthors) && document.coAuthors.length > 0 && (
                             <div className="co-authors">
                                 <span>with {document.coAuthors.join(', ')}</span>
                             </div>
@@ -260,10 +219,12 @@ const LibrarySearch = () => {
                                     <span>{document.publisher}</span>
                                 </div>
                             )}
-                            <div className="pub-detail">
-                                <i className="fa-solid fa-calendar"></i>
-                                <span>{document.year}</span>
-                            </div>
+                            {(document.year || document.year === 0) && (
+                                <div className="pub-detail">
+                                    <i className="fa-solid fa-calendar"></i>
+                                    <span>{document.year}</span>
+                                </div>
+                            )}
                             {document.pages && (
                                 <div className="pub-detail">
                                     <i className="fa-solid fa-file-lines"></i>
@@ -275,42 +236,59 @@ const LibrarySearch = () => {
 
                     <p className="result-abstract">{document.abstract}</p>
 
-                    <div className="result-keywords">
-                        {document.keywords.map((keyword, idx) => (
-                            <span key={idx} className="keyword-tag">
-                                <i className="fa-solid fa-tag"></i>
-                                {keyword}
-                            </span>
-                        ))}
-                    </div>
+                    {keywordList.length > 0 && (
+                        <div className="result-keywords">
+                            {keywordList.map((keyword, idx) => (
+                                <span key={idx} className="keyword-tag">
+                                    <i className="fa-solid fa-tag"></i>
+                                    {keyword}
+                                </span>
+                            ))}
+                        </div>
+                    )}
 
-                    <div className="result-metrics">
-                        <div className="metric-item">
-                            <i className="fa-solid fa-quote-left"></i>
-                            <span>{document.citations.toLocaleString()} citations</span>
+                    {hasMetrics && (
+                        <div className="result-metrics">
+                            {citations !== null && (
+                                <div className="metric-item">
+                                    <i className="fa-solid fa-quote-left"></i>
+                                    <span>{citations.toLocaleString()} citations</span>
+                                </div>
+                            )}
+                            {downloads !== null && (
+                                <div className="metric-item">
+                                    <i className="fa-solid fa-download"></i>
+                                    <span>{downloads.toLocaleString()} downloads</span>
+                                </div>
+                            )}
+                            {bookmarks !== null && (
+                                <div className="metric-item">
+                                    <i className="fa-solid fa-bookmark"></i>
+                                    <span>{bookmarks} bookmarks</span>
+                                </div>
+                            )}
+                            {document.fileSize && (
+                                <div className="metric-item file-info">
+                                    <i className="fa-solid fa-hard-drive"></i>
+                                    <span>{document.fileSize}</span>
+                                </div>
+                            )}
                         </div>
-                        <div className="metric-item">
-                            <i className="fa-solid fa-download"></i>
-                            <span>{document.downloadCount.toLocaleString()} downloads</span>
-                        </div>
-                        <div className="metric-item">
-                            <i className="fa-solid fa-bookmark"></i>
-                            <span>{document.bookmarkCount} bookmarks</span>
-                        </div>
-                        <div className="metric-item file-info">
-                            <i className="fa-solid fa-hard-drive"></i>
-                            <span>{document.fileSize}</span>
-                        </div>
-                    </div>
+                    )}
 
                     <div className="result-footer">
                         <div className="result-doi">
                             {document.doi && (
                                 <>
                                     <span className="doi-label">DOI:</span>
-                                    <Link href={`https://doi.org/${document.doi}`} className="doi-link" target="_blank">
+                                    <a
+                                        href={`https://doi.org/${document.doi}`}
+                                        className="doi-link"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
                                         {document.doi}
-                                    </Link>
+                                    </a>
                                 </>
                             )}
                             {document.isbn && (
@@ -321,17 +299,21 @@ const LibrarySearch = () => {
                             )}
                         </div>
                         <div className="result-actions-footer">
-                            <button className="action-btn preview">
+                            <button className="action-btn preview" type="button">
                                 <i className="fa-solid fa-eye"></i>
                                 Preview
                             </button>
                             {document.fullTextAvailable && (
-                                <button className="action-btn download">
+                                <button className="action-btn download" type="button">
                                     <i className="fa-solid fa-download"></i>
-                                    {document.openAccess ? 'Download Free' : 'Request Access'}
+                                    {downloadLabel}
                                 </button>
                             )}
-                            <Link href={`/library/document/${document.id}`} className="action-btn view-details">
+                            <Link
+                                href={`/documents/${document.id}`}
+                                className="action-btn view-details"
+                                aria-label={`View details for ${document.title}`}
+                            >
                                 <i className="fa-solid fa-external-link-alt"></i>
                                 Full Details
                             </Link>
@@ -358,6 +340,44 @@ const LibrarySearch = () => {
                         Explore over 15,000 peer-reviewed publications, rare manuscripts, and digital archives
                         spanning centuries of Moroccan and North African scholarly heritage
                     </p>
+                </div>
+
+                <div
+                    className="library-shortcuts"
+                    style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        gap: '1rem',
+                        flexWrap: 'wrap',
+                        margin: '2rem 0'
+                    }}
+                >
+                    <Link
+                        href='/documents'
+                        className='search-button'
+                        style={{
+                            padding: '0.65rem 1.75rem',
+                            textDecoration: 'none',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.5rem'
+                        }}
+                    >
+                        <i className='fa-solid fa-book-open'></i> Browse Documents
+                    </Link>
+                    <Link
+                        href='/collections'
+                        className='filter-button'
+                        style={{
+                            padding: '0.65rem 1.75rem',
+                            textDecoration: 'none',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.5rem'
+                        }}
+                    >
+                        <i className='fa-solid fa-layer-group'></i> View Collections
+                    </Link>
                 </div>
 
                 {/* Search Bar */}
@@ -513,8 +533,19 @@ const LibrarySearch = () => {
                                 Research Results
                             </h3>
                             <p className="results-count">
-                                Found {searchResults.length} scholarly resources matching your criteria
+                                {isLoading && !hasSearched && 'Searching the collection...'}
+                                {!isLoading && !hasSearched && 'Start exploring the collection by running a search.'}
+                                {isLoading && hasSearched && 'Refreshing results...'}
+                                {!isLoading && hasSearched && searchResults.length > 0 && (
+                                    <>Found {searchResults.length} scholarly resources matching your criteria</>
+                                )}
+                                {!isLoading && hasSearched && searchResults.length === 0 && 'No documents found for this search.'}
                             </p>
+                            {isLoading && (
+                                <span className="results-loading-indicator" aria-hidden="true">
+                                    <i className="fa-solid fa-spinner fa-spin"></i>
+                                </span>
+                            )}
                         </div>
                         <div className="results-controls">
                             <div className="view-toggle">
@@ -542,10 +573,58 @@ const LibrarySearch = () => {
                     </div>
 
                     <div className={`results-grid ${viewMode}`}>
-                        {searchResults.map((result, index) => (
-                            <DocumentCard key={result.id} document={result} index={index} />
-                        ))}
+                        {isLoading && searchResults.length === 0 && (
+                            Array.from({ length: 3 }).map((_, idx) => (
+                                <div
+                                    key={`skeleton-${idx}`}
+                                    className="result-card skeleton-card"
+                                    style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}
+                                >
+                                    <Skeleton style={{ width: '60%', height: '1.1rem' }} />
+                                    <Skeleton style={{ width: '40%', height: '0.9rem' }} />
+                                    <Skeleton style={{ width: '100%', height: '0.9rem' }} />
+                                    <Skeleton style={{ width: '85%', height: '0.9rem' }} />
+                                </div>
+                            ))
+                        )}
+                        {!isLoading && searchResults.length > 0 && (
+                            searchResults.map((result, index) => (
+                                <DocumentCard key={result.id} document={result} index={index} />
+                            ))
+                        )}
+                        {!isLoading && hasSearched && searchResults.length === 0 && !error && (
+                            <div className="result-card empty-result">
+                                <div className="result-content">
+                                    <i className="fa-solid fa-magnifying-glass mb-3"></i>
+                                    <h4 className="result-title">No documents found</h4>
+                                    <p>Try adjusting your keywords or filters to discover more resources.</p>
+                                </div>
+                            </div>
+                        )}
                     </div>
+                    {error && (
+                        <div
+                            className="results-error"
+                            role="alert"
+                            style={{
+                                marginTop: '1.5rem',
+                                padding: '1rem 1.25rem',
+                                borderRadius: '12px',
+                                border: '1px solid rgba(239, 68, 68, 0.3)',
+                                background: 'rgba(254, 226, 226, 0.6)',
+                                color: '#991b1b',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.75rem',
+                            }}
+                        >
+                            <i className="fa-solid fa-circle-exclamation"></i>
+                            <span>{error}</span>
+                        </div>
+                    )}
+                    {(hasNext || page > 1) && (
+                        <Pagination page={page} hasNext={hasNext} onPageChange={handlePageChange} isLoading={isLoading} />
+                    )}
                 </div>
             </div>
         </section>

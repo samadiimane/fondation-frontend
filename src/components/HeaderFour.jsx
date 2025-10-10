@@ -163,6 +163,8 @@ const HeaderFour = () => {
                         className={`navbar__item navbar__item--has-children nav-fade ${
                           isActive([
                             "/library",
+                            "/documents",
+                            "/collections",
                             "/journals",
                             "/publications",
                             "/archives",
@@ -182,6 +184,12 @@ const HeaderFour = () => {
                         <ul className='navbar__sub-menu'>
                           <li className={isActive("/library") ? "active" : ""}>
                             <Link href='/library'>{t("digitalLibrary")}</Link>
+                          </li>
+                          <li className={isActive("/documents") ? "active" : ""}>
+                            <Link href='/documents'>{t("documents")}</Link>
+                          </li>
+                          <li className={isActive("/collections") ? "active" : ""}>
+                            <Link href='/collections'>{t("collections")}</Link>
                           </li>
                           <li
                             className={`navbar__item navbar__item--has-children ${

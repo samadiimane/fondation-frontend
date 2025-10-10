@@ -34,3 +34,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## eLibrary Setup
+
+Create a `.env.local` file with the API base url exposed to the browser:
+
+```bash
+NEXT_PUBLIC_API_BASE=http://192.168.1.5:8000
+```
+
+Install dependencies and start the development server:
+
+```bash
+npm install
+npm run dev
+```
+
+Then open [http://localhost:3000/en/documents](http://localhost:3000/en/documents) (replace `en` with your locale) to browse the eLibrary. Use `/{locale}/collections` and `/{locale}/collections/{id}` to navigate curated document groups.
