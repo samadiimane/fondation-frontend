@@ -1,83 +1,158 @@
-const rawBaseUrl = process.env.NEXT_PUBLIC_API_BASE;
-const API_BASE = rawBaseUrl ? rawBaseUrl.replace(/\/+$/, '') : undefined;
-let hasLoggedMissingBase = false;
+const rawBase =
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  process.env.NEXT_PUBLIC_API_BASE ||
+  process.env.NEXT_PUBLIC_API_BASEPATH ||
+  "";
+
+const API_BASE = rawBase.replace(/\/+$/, "");
+const CACHE_TTL = 30_000;
+
+const responseCache = new Map();
+let warnedMissingBase = false;
 
 const ensureBaseUrl = () => {
   if (!API_BASE) {
-    if (!hasLoggedMissingBase && process.env.NODE_ENV !== 'production') {
+    if (!warnedMissingBase && typeof window !== "undefined") {
       console.error(
-        'NEXT_PUBLIC_API_BASE is not set. Add it to .env.local so the eLibrary pages can reach the backend.'
+        "NEXT_PUBLIC_API_BASE_URL is not set. Add it to .env.local (e.g. http://127.0.0.1:8000)."
       );
-      hasLoggedMissingBase = true;
+      warnedMissingBase = true;
     }
-    throw new Error('Missing NEXT_PUBLIC_API_BASE');
+    throw new Error("Missing NEXT_PUBLIC_API_BASE_URL");
   }
   return API_BASE;
 };
 
-const buildUrl = (path, searchParams) => {
-  const base = ensureBaseUrl();
-  const normalizedBase = base.endsWith('/') ? base : `${base}/`;
-  const normalizedPath = path.startsWith('/') ? path.slice(1) : path;
-  const url = new URL(normalizedPath, normalizedBase);
+export const apiCache = responseCache;
 
-  if (searchParams) {
-    Object.entries(searchParams).forEach(([key, value]) => {
-      if (value === undefined || value === null || value === '') return;
-      url.searchParams.set(key, String(value));
-    });
-  }
-
-  return url;
+export const buildQuery = (params = {}) => {
+  const searchParams = new URLSearchParams();
+  Object.entries(params).forEach(([key, value]) => {
+    if (value === undefined || value === null) {
+      return;
+    }
+    if (Array.isArray(value)) {
+      value.forEach((item) => {
+        if (item === undefined || item === null || item === "") return;
+        searchParams.append(key, String(item));
+      });
+      return;
+    }
+    if (value === "") return;
+    searchParams.append(key, String(value));
+  });
+  const queryString = searchParams.toString();
+  return queryString ? `?${queryString}` : "";
 };
 
-const request = async (path, { searchParams, cache = 'force-cache', next } = {}) => {
-  const url = buildUrl(path, searchParams);
-  const init = {
-    headers: {
-      Accept: 'application/json',
-    },
-    cache,
+const readCache = (key) => {
+  const cached = responseCache.get(key);
+  if (!cached) return null;
+  if (Date.now() - cached.timestamp > CACHE_TTL) {
+    responseCache.delete(key);
+    return null;
+  }
+  return cached.data;
+};
+
+const writeCache = (key, data) => {
+  responseCache.set(key, {
+    timestamp: Date.now(),
+    data: typeof structuredClone === "function" ? structuredClone(data) : JSON.parse(JSON.stringify(data)),
+  });
+};
+
+const shouldSkipCache = (signal, noCache) => noCache || (signal && signal.aborted);
+
+export const apiFetch = async (path, { params, signal, noCache } = {}) => {
+  const base = ensureBaseUrl();
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  const query = buildQuery(params);
+  const url = `${base}${normalizedPath}${query}`;
+
+  if (!shouldSkipCache(signal, noCache)) {
+    const cached = readCache(url);
+    if (cached) {
+      return typeof structuredClone === "function" ? structuredClone(cached) : JSON.parse(JSON.stringify(cached));
+    }
+  }
+
+  const controller = new AbortController();
+  const compositeSignal = controller.signal;
+  if (signal) {
+    if (signal.aborted) {
+      controller.abort();
+    } else {
+      signal.addEventListener("abort", () => controller.abort(), { once: true });
+    }
+  }
+
+  const fetchOnce = async () => {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+      },
+      signal: compositeSignal,
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      const error = new Error(`API error ${response.status}`);
+      error.status = response.status;
+      throw error;
+    }
+    return response.json();
   };
 
-  if (typeof window === 'undefined' && next) {
-    init.next = next;
+  let attempt = 0;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    try {
+      const data = await fetchOnce();
+      if (!shouldSkipCache(signal, noCache) && !compositeSignal.aborted) {
+        writeCache(url, data);
+      }
+      return data;
+    } catch (error) {
+      if (compositeSignal.aborted || error.name === "AbortError") {
+        throw error;
+      }
+      const status = error.status;
+      if (status && status >= 400 && status < 500) {
+        throw error;
+      }
+      if (attempt >= 1) {
+        throw error;
+      }
+      attempt += 1;
+    }
   }
-
-  const response = await fetch(url.toString(), init);
-
-  if (!response.ok) {
-    throw new Error(`API error ${response.status}`);
-  }
-
-  return response.json();
 };
 
 const parseKeywords = (value) => {
   if (Array.isArray(value)) {
-    return value;
+    return value.filter(Boolean);
   }
-
-  if (typeof value === 'string') {
+  if (typeof value === "string") {
     return value
-      .split(',')
-      .map((keyword) => keyword.trim())
+      .split(",")
+      .map((part) => part.trim())
       .filter(Boolean);
   }
-
   return [];
 };
 
 const normalizeDocument = (doc = {}) => ({
   id: doc.id,
-  title: doc.title ?? 'Untitled document',
-  author: doc.authors ?? doc.author ?? '',
+  title: doc.title ?? "Untitled document",
+  author: doc.authors ?? doc.author ?? "",
   authors: doc.authors ?? null,
   year: doc.year ?? null,
-  type: doc.type ?? '',
-  format: doc.format ?? doc.type ?? '',
-  abstract: doc.abstract ?? '',
-  language: doc.lang ?? doc.language ?? '',
+  type: doc.type ?? "",
+  format: doc.format ?? doc.type ?? "",
+  abstract: doc.abstract ?? "",
+  language: doc.lang ?? doc.language ?? "",
   pages: doc.pages ?? null,
   collectionId: doc.collection_id ?? null,
   fullTextAvailable: Boolean(doc.file_key),
@@ -87,6 +162,7 @@ const normalizeDocument = (doc = {}) => ({
   bookmarkCount: doc.bookmark_count ?? doc.bookmarkCount ?? null,
   keywords: parseKeywords(doc.keywords),
   fileKey: doc.file_key ?? null,
+  primaryCategory: doc.primary_category ?? null,
   identifiers: {
     doi: doc.doi ?? null,
     isbn: doc.isbn ?? null,
@@ -99,84 +175,87 @@ const normalizeDocument = (doc = {}) => ({
   raw: doc,
 });
 
-const resolveDocumentsPayload = (payload) => {
-  const results = Array.isArray(payload) ? payload : payload?.results ?? [];
-  const page = Number(payload?.page) || 1;
-  const pageSize = Number(payload?.page_size ?? payload?.pageSize) || results.length || 20;
-  const hasNextExplicit =
-    typeof payload?.has_next === 'boolean'
-      ? payload.has_next
-      : payload?.next !== undefined
-        ? Boolean(payload.next)
-        : null;
+const resolvePaginatedDocuments = (payload = {}) => {
+  const items = Array.isArray(payload.items)
+    ? payload.items
+    : Array.isArray(payload.results)
+      ? payload.results
+      : Array.isArray(payload.documents)
+        ? payload.documents
+        : [];
 
-  const documents = results.map(normalizeDocument);
+  const page = Number(payload.page) || 1;
+  const pageSize = Number(payload.page_size ?? payload.pageSize) || items.length || 20;
+  const hasNext =
+    typeof payload.has_next === "boolean"
+      ? payload.has_next
+      : payload.next !== undefined
+        ? Boolean(payload.next)
+        : items.length === pageSize;
 
   return {
-    documents,
+    documents: items.map(normalizeDocument),
+    raw: payload,
     page,
     pageSize,
-    hasNext: hasNextExplicit ?? documents.length === pageSize,
+    hasNext,
   };
 };
 
-export const getDocuments = async ({ q, page = 1, pageSize = 20 } = {}) => {
-  const payload = await request('/v1/documents', {
-    searchParams: {
+export const getDocuments = async ({ q, page = 1, pageSize = 20, signal } = {}) => {
+  const payload = await apiFetch("/v1/documents", {
+    params: {
       q,
       page,
       page_size: pageSize,
     },
-    cache: 'no-store',
+    signal,
   });
-
-  return resolveDocumentsPayload(payload);
+  return resolvePaginatedDocuments(payload);
 };
 
-export const getDocument = async (id) => {
+export const getDocument = async (id, { signal } = {}) => {
   if (!id) {
-    throw new Error('Document id is required');
+    throw new Error("Document id is required");
   }
-
-  const payload = await request(`/v1/documents/${id}`, {
-    cache: 'force-cache',
-    next: { revalidate: 300 },
-  });
-
+  const payload = await apiFetch(`/v1/documents/${id}`, { signal });
   return normalizeDocument(payload);
 };
 
-export const getCollections = async () => {
-  const payload = await request('/v1/collections', {
-    cache: 'force-cache',
-    next: { revalidate: 60 },
-  });
-
+export const getCollections = async ({ signal } = {}) => {
+  const payload = await apiFetch("/v1/collections", { signal });
   const collections = Array.isArray(payload)
     ? payload
     : Array.isArray(payload?.data)
       ? payload.data
       : [];
-
   return collections.map((collection) => ({
     id: collection.id,
-    name: collection.name ?? 'Untitled collection',
-    description: collection.description ?? '',
+    name: collection.name ?? "Untitled collection",
+    description: collection.description ?? "",
   }));
 };
 
-export const getCollectionDocuments = async (collectionId, { page = 1, pageSize = 20 } = {}) => {
+export const getCollectionDocuments = async (collectionId, { page = 1, pageSize = 20, signal } = {}) => {
   if (!collectionId) {
-    throw new Error('Collection id is required');
+    throw new Error("Collection id is required");
   }
-
-  const payload = await request(`/v1/collections/${collectionId}/documents`, {
-    searchParams: {
+  const payload = await apiFetch(`/v1/collections/${collectionId}/documents`, {
+    params: {
       page,
       page_size: pageSize,
     },
-    cache: 'no-store',
+    signal,
+    noCache: true,
   });
+  return resolvePaginatedDocuments(payload);
+};
 
-  return resolveDocumentsPayload(payload);
+export default {
+  apiFetch,
+  buildQuery,
+  getDocument,
+  getDocuments,
+  getCollections,
+  getCollectionDocuments,
 };
