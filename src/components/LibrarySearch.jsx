@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import useDocumentsSearch from "@/hooks/useDocumentsSearch";
-import SearchBar from "@/components/search/SearchBar";
-import FacetFilters from "@/components/search/FacetFilters";
+import SearchHero from "@/components/search/SearchHero";
+import FiltersRow from "@/components/search/FiltersRow";
+import AdvancedFilters from "@/components/search/AdvancedFilters";
+import ResultsToolbar from "@/components/search/ResultsToolbar";
 import ResultsList from "@/components/search/ResultsList";
 import SearchPagination from "@/components/search/Pagination";
 
@@ -21,9 +23,9 @@ const LibrarySearch = () => {
     q,
     setQ,
     type,
-    toggleType,
+    setType,
     lang,
-    toggleLang,
+    setLang,
     yearMin,
     setYearMin,
     yearMax,
@@ -37,56 +39,65 @@ const LibrarySearch = () => {
   } = useDocumentsSearch();
 
   const [viewMode, setViewMode] = useState("detailed");
+  const [advancedOpen, setAdvancedOpen] = useState(false);
+
+  const toggleAdvanced = useCallback(() => setAdvancedOpen((prev) => !prev), []);
 
   return (
     <section className="library-search">
-      <div className="search-hero" data-aos="fade-up" data-aos-delay="100">
-        <div className="search-copy">
-          <h2 className="search-title">Explore the Abdelaziz Khallouk Temsamani Library</h2>
-          <p className="search-subtitle">
-            Discover manuscripts, research papers, archival documents, and cultural heritage resources curated by the
-            foundation.
-          </p>
-        </div>
-        <SearchBar value={q} onChange={setQ} loading={loading && !hasLoadedOnce} />
-      </div>
+      <SearchHero query={q} setQuery={setQ} loading={loading && !hasLoadedOnce} />
 
-      <div className="library-content">
-        <FacetFilters
+      <div className="library-search__shell">
+        <FiltersRow
           facets={facets}
           typeSelected={type}
-          toggleType={toggleType}
+          setTypeSelected={setType}
           langSelected={lang}
-          toggleLang={toggleLang}
+          setLangSelected={setLang}
           categorySlug={categorySlug}
           setCategorySlug={setCategorySlug}
-          yearMin={yearMin}
-          setYearMin={setYearMin}
-          yearMax={yearMax}
-          setYearMax={setYearMax}
-          resetFilters={resetFilters}
+          advancedOpen={advancedOpen}
+          onToggleAdvanced={toggleAdvanced}
           loading={loading}
         />
 
-        <div className="results-wrapper">
-          <ResultsList
-            items={items}
-            loading={loading}
-            error={error}
-            hasLoadedOnce={hasLoadedOnce}
-            total={total}
-            page={page}
-            pageSize={pageSize}
-            sort={sort}
-            setSort={setSort}
-            viewMode={viewMode}
-            onViewModeChange={setViewMode}
+        {advancedOpen && (
+          <AdvancedFilters
+            className="advanced-panel--inline"
+            yearMin={yearMin}
+            setYearMin={setYearMin}
+            yearMax={yearMax}
+            setYearMax={setYearMax}
+            resetFilters={resetFilters}
+            onClose={() => setAdvancedOpen(false)}
           />
+        )}
 
-          {(hasNext || page > 1) && (
+        <ResultsToolbar
+          loading={loading}
+          total={total}
+          page={page}
+          pageSize={pageSize}
+          hasLoadedOnce={hasLoadedOnce}
+          sort={sort}
+          setSort={setSort}
+          viewMode={viewMode}
+          onViewModeChange={setViewMode}
+        />
+
+        <ResultsList
+          items={items}
+          loading={loading}
+          error={error}
+          hasLoadedOnce={hasLoadedOnce}
+          viewMode={viewMode}
+        />
+
+        {(hasNext || page > 1) && (
+          <div className="library-search__pagination">
             <SearchPagination page={page} hasNext={hasNext} setPage={setPage} loading={loading} />
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </section>
   );
