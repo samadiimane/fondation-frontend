@@ -97,7 +97,6 @@ const FiltersRow = ({
         onClick={onToggleAdvanced}
         aria-expanded={advancedOpen}
       >
-        <i className="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i>
         {advancedOpen ? "Hide advanced" : "Advanced search"}
       </button>
     </section>

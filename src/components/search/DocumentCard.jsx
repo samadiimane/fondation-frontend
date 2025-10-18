@@ -31,6 +31,21 @@ const DocumentCard = ({ document, viewMode }) => {
       <header className="document-card__header">
         <h3 className="document-card__title">{document.title}</h3>
         <div className="document-card__badges" aria-label="Document metadata">
+          <div className="document-card__meta">
+            {document.authors && <span className="document-card__author">{document.authors}</span>}
+            {!document.authors && document.author && <span className="document-card__author">{document.author}</span>}
+            {language && (
+              <span className="document-card__language">
+                <i className="fa-regular fa-message-lines" aria-hidden="true"></i>
+                {language.toUpperCase()}
+              </span>
+            )}
+            {document.pages && (
+              <span className="document-card__pages">
+                {document.pages} pages
+              </span>
+            )}
+          </div>
           {document.type && (
             <span className={`document-card__badge ${typeClass}`}>
               <i className={formatIcon} aria-hidden="true"></i>
@@ -52,22 +67,7 @@ const DocumentCard = ({ document, viewMode }) => {
         </div>
       </header>
 
-      <div className="document-card__meta">
-        {document.authors && <span className="document-card__author">{document.authors}</span>}
-        {!document.authors && document.author && <span className="document-card__author">{document.author}</span>}
-        {language && (
-          <span className="document-card__language">
-            <i className="fa-regular fa-message-lines" aria-hidden="true"></i>
-            {language.toUpperCase()}
-          </span>
-        )}
-        {document.pages && (
-          <span className="document-card__pages">
-            <i className="fa-regular fa-file-lines" aria-hidden="true"></i>
-            {document.pages} pages
-          </span>
-        )}
-      </div>
+
 
       {trimmedAbstract && <p className="document-card__abstract">{trimmedAbstract}</p>}
 

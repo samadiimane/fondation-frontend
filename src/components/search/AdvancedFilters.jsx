@@ -44,10 +44,6 @@ const AdvancedFilters = ({
   return (
     <section className={`advanced-panel ${className}`.trim()} aria-label="Advanced search filters">
       <header className="advanced-panel__header">
-        <h3 className="advanced-panel__title">
-          <i className="fa-solid fa-magnifying-glass-plus" aria-hidden="true"></i>
-          Advanced search
-        </h3>
         {onClose && (
           <button type="button" className="advanced-panel__close" onClick={onClose}>
             <span className="sr-only">Close advanced search</span>
