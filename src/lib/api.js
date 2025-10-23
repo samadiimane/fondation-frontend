@@ -143,6 +143,12 @@ const parseKeywords = (value) => {
   return [];
 };
 
+const toNumber = (value) => {
+  if (value === undefined || value === null) return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+};
+
 const normalizeDocument = (doc = {}) => ({
   id: doc.id,
   title: doc.title ?? "Untitled document",
@@ -236,6 +242,172 @@ export const getCollections = async ({ signal } = {}) => {
   }));
 };
 
+const normalizeJournal = (payload = {}) => {
+  if (!payload) {
+    return {
+      id: null,
+      slug: "",
+      name: "Untitled journal",
+      issn: null,
+      publisher: "",
+      description: "",
+      foundedYear: null,
+      country: null,
+      language: null,
+      website: null,
+      coverImage: null,
+      counts: { issues: 0, documents: 0 },
+      hasCounts: false,
+      raw: payload,
+    };
+  }
+
+  const base = payload.journal ?? payload;
+  const counts = payload.counts ?? {};
+
+  return {
+    id: base.id ?? null,
+    slug: base.slug ?? "",
+    name: base.name ?? "Untitled journal",
+    issn: base.issn ?? null,
+    publisher: base.publisher ?? "",
+    description: base.description ?? "",
+    foundedYear: toNumber(base.founded_year ?? base.foundedYear),
+    country: base.country ?? null,
+    language: base.language ?? base.lang ?? null,
+    website: base.website ?? base.url ?? null,
+    coverImage: base.cover_image ?? base.coverImage ?? null,
+    counts: {
+      issues:
+        toNumber(counts.issues ?? base.issue_count ?? base.issues_count ?? base.issues) ?? 0,
+      documents:
+        toNumber(counts.documents ?? base.document_count ?? base.documents_count ?? base.documents) ??
+        0,
+    },
+    hasCounts: Boolean(payload.counts) || Boolean(base.issue_count ?? base.issues_count),
+    raw: payload,
+  };
+};
+
+const resolvePaginatedJournals = (payload = {}) => {
+  const items = Array.isArray(payload.items)
+    ? payload.items
+    : Array.isArray(payload.results)
+      ? payload.results
+      : Array.isArray(payload.data)
+        ? payload.data
+        : [];
+
+  const page = Number(payload.page) || 1;
+  const pageSize = Number(payload.page_size ?? payload.pageSize) || items.length || 20;
+  const hasNext =
+    typeof payload.has_next === "boolean"
+      ? payload.has_next
+      : payload.next !== undefined
+        ? Boolean(payload.next)
+        : items.length === pageSize;
+
+  return {
+    journals: items.map((item) => normalizeJournal(item)),
+    raw: payload,
+    page,
+    pageSize,
+    hasNext,
+    total: Number(payload.total ?? items.length) || items.length,
+  };
+};
+
+const normalizeIssue = (issue = {}) => ({
+  id: issue.id ?? null,
+  slug: issue.slug ?? issue.identifier ?? null,
+  journalId: issue.journal_id ?? issue.journalId ?? null,
+  title: issue.title ?? `Issue ${issue.number ?? ""}`.trim(),
+  year: toNumber(issue.year),
+  volume: toNumber(issue.volume),
+  number: toNumber(issue.number),
+  sequence: toNumber(issue.sequence),
+  issueDate: issue.issue_date ?? issue.issueDate ?? issue.published_at ?? null,
+  publishedAt: issue.published_at ?? null,
+  coverImage: issue.cover_image ?? issue.coverImage ?? null,
+  documentsCount: toNumber(issue.documents_count ?? issue.document_count),
+  description: issue.description ?? "",
+  raw: issue,
+});
+
+const resolvePaginatedIssues = (payload = {}) => {
+  const items = Array.isArray(payload.items)
+    ? payload.items
+    : Array.isArray(payload.results)
+      ? payload.results
+      : Array.isArray(payload.data)
+        ? payload.data
+        : [];
+
+  const page = Number(payload.page) || 1;
+  const pageSize = Number(payload.page_size ?? payload.pageSize) || items.length || 20;
+  const hasNext =
+    typeof payload.has_next === "boolean"
+      ? payload.has_next
+      : payload.next !== undefined
+        ? Boolean(payload.next)
+        : items.length === pageSize;
+
+  return {
+    issues: items.map((item) => normalizeIssue(item)),
+    raw: payload,
+    page,
+    pageSize,
+    hasNext,
+    total: Number(payload.total ?? items.length) || items.length,
+  };
+};
+
+export const getJournals = async ({ page = 1, pageSize = 20, q, signal } = {}) => {
+  const payload = await apiFetch("/v1/journals", {
+    params: {
+      page,
+      page_size: pageSize,
+      q,
+    },
+    signal,
+  });
+  return resolvePaginatedJournals(payload);
+};
+
+export const getJournal = async (slug, { signal } = {}) => {
+  if (!slug) {
+    throw new Error("Journal slug is required");
+  }
+  const payload = await apiFetch(`/v1/journals/${slug}`, { signal });
+  return normalizeJournal(payload);
+};
+
+export const getJournalIssues = async (
+  slug,
+  { page = 1, pageSize = 20, signal } = {}
+) => {
+  if (!slug) {
+    throw new Error("Journal slug is required");
+  }
+  const payload = await apiFetch(`/v1/journals/${slug}/issues`, {
+    params: {
+      page,
+      page_size: pageSize,
+    },
+    signal,
+  });
+  return resolvePaginatedIssues(payload);
+};
+
+export const getJournalWithIssues = async (slug, options = {}) => {
+  const { page, pageSize, signal } = options;
+  const [journal, issues] = await Promise.all([
+    getJournal(slug, { signal }),
+    getJournalIssues(slug, { page, pageSize, signal }),
+  ]);
+  return { journal, issues };
+};
+
 export const getCollectionDocuments = async (collectionId, { page = 1, pageSize = 20, signal } = {}) => {
   if (!collectionId) {
     throw new Error("Collection id is required");
@@ -262,6 +434,10 @@ export default {
   buildQuery,
   getDocument,
   getDocuments,
+  getJournals,
+  getJournal,
+  getJournalIssues,
+  getJournalWithIssues,
   getDocumentFileLink,
   getCollections,
   getCollectionDocuments,

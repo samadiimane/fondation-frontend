@@ -169,8 +169,8 @@ const HeaderFour = () => {
                             "/manuscripts",
                             "/sites",
                             "/issues",
-                            "/dar-al-niaba",
-                            "/les-tangerois"
+                            "/journals/dar-al-niaba",
+                            "/journals/les-tangerois"
                           ])
                             ? "active"
                             : ""
@@ -185,7 +185,13 @@ const HeaderFour = () => {
                           </li>
                           <li
                             className={`navbar__item navbar__item--has-children ${
-                              isActive(["/journals", "/dar-al-niaba", "/les-tangerois"]) ? "active" : ""
+                              isActive([
+                                "/journals",
+                                "/journals/dar-al-niaba",
+                                "/journals/les-tangerois"
+                              ])
+                                ? "active"
+                                : ""
                             }`}
                           >
                             <Link
@@ -195,11 +201,11 @@ const HeaderFour = () => {
                               {t("journals")}
                             </Link>
                             <ul className='navbar__sub-menu navbar__sub-menu__nested'>
-                              <li className={isActive("/dar-al-niaba") ? "active" : ""}>
-                                <Link href='/dar-al-niaba'>{t("darAlNiaba")}</Link>
+                              <li className={isActive("/journals/dar-al-niaba") ? "active" : ""}>
+                                <Link href='/journals/dar-al-niaba'>{t("darAlNiaba")}</Link>
                               </li>
-                              <li className={isActive("/les-tangerois") ? "active" : ""}>
-                                <Link href='/les-tangerois'>{t("lesTangerois")}</Link>
+                              <li className={isActive("/journals/les-tangerois") ? "active" : ""}>
+                                <Link href='/journals/les-tangerois'>{t("lesTangerois")}</Link>
                               </li>
                             </ul>
                           </li>

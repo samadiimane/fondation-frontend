@@ -47,6 +47,80 @@
     "home": {
       "title": "الصفحة الرئيسية لمؤسسة البحث AKT",
       "description": "مرحبًا بكم في مؤسسة AKT للبحث العلمي والمعرفة."
+    },
+    "journals": {
+      "title": "Journal Catalogue | AKT Research Foundation",
+      "description": "Browse the foundation's digitised scholarly journals with issue-level detail for researchers and historians."
+    },
+    "journalDetail": {
+      "title": "{name} | AKT Research Foundation Journal",
+      "description": "Scholarly record and issue history for {name}, preserved by the foundation.",
+      "descriptionFallback": "Access the curated record for this foundation journal."
+    }
+  },
+  "journals": {
+    "hero": {
+      "eyebrow": "Research Journals",
+      "title": "Peer-reviewed titles from the foundation archive",
+      "description": "Discover digitised journal titles with curated issue data to support researchers, students, and librarians.",
+      "stats": {
+        "journals": "Journal titles",
+        "issues": "Issues processed",
+        "articles": "Articles indexed"
+      }
+    },
+    "list": {
+      "stats": {
+        "issues": "Issues",
+        "articles": "Articles"
+      },
+      "fallbackDescription": "A descriptive abstract for this journal will be published soon.",
+      "meta": {
+        "periodical": "Academic periodical",
+        "issn": "ISSN",
+        "established": "Established"
+      },
+      "actions": {
+        "details": "Open journal record"
+      },
+      "empty": {
+        "title": "Journal catalogue in progress",
+        "description": "The foundation is preparing additional journal records. Newly digitised titles will appear here shortly."
+      }
+    },
+    "detail": {
+      "backLink": "All journals",
+      "hero": {
+        "eyebrow": "Journal profile",
+        "fallbackDescription": "A full overview for this journal is being prepared.",
+        "stats": {
+          "issues": "Issues",
+          "articles": "Articles"
+        },
+        "meta": {
+          "publisher": "Publisher",
+          "issn": "ISSN",
+          "language": "Language",
+          "country": "Country",
+          "established": "Founded",
+          "website": "Website"
+        }
+      },
+      "issues": {
+        "title": "Issues & volumes",
+        "subtitle": "Each issue is described with bibliographic data once it completes conservation.",
+        "empty": {
+          "title": "Issues in preparation",
+          "description": "Cataloguing for this journal is ongoing. Please check back for newly published issues."
+        },
+        "item": {
+          "untitled": "Untitled issue",
+          "volume": "Volume",
+          "issue": "Issue",
+          "documents": "Articles",
+          "viewDocuments": "View documents in library"
+        }
+      }
     }
   }
 }
