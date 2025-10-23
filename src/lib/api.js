@@ -251,11 +251,18 @@ export const getCollectionDocuments = async (collectionId, { page = 1, pageSize 
   return resolvePaginatedDocuments(payload);
 };
 
+// src/lib/api.js
+export async function getDocumentFileLink(id) {
+  return apiFetch(`/v1/${id}/file`);
+}
+
+
 export default {
   apiFetch,
   buildQuery,
   getDocument,
   getDocuments,
+  getDocumentFileLink,
   getCollections,
   getCollectionDocuments,
 };

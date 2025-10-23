@@ -80,7 +80,7 @@ const DocumentCard = ({ document, viewMode }) => {
           <i className="fa-solid fa-download" aria-hidden="true"></i>
           Download
         </button>
-        <Link href={`/documents/${document.id}`} className="document-card__action document-card__action--link">
+        <Link href={`/library/${document.id}`} className="document-card__action document-card__action--link">
           <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
           Details
         </Link>

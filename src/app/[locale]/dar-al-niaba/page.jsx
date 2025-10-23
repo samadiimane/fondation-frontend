@@ -1,4 +1,3 @@
-import DifferenceTwo from "@/components/DifferenceTwo";
 import FooterOne from "@/components/FooterOne";
 import HeaderFour from "@/components/HeaderFour";
 import Preloader from "@/components/Preloader";
@@ -26,9 +25,6 @@ const page = () => {
 
         {/* HeaderFour */}
         <HeaderFour />
-
-        {/* DifferenceTwo*/}
-        <DifferenceTwo />
 
         {/* FooterOne */}
         <FooterOne />

@@ -5,7 +5,7 @@ import Preloader from '@/components/Preloader';
 import TopBarTwo from '@/components/TopBarTwo';
 import AOSWrap from '@/helper/AOSWrap';
 import CustomCursor from '@/helper/CustomCursor';
-import { getDocument } from '@/lib/api';
+import { getDocument, getDocumentFileLink } from '@/lib/api';
 import { Link } from '@/i18n/navigation';
 
 const detailLabelStyle = {
@@ -28,6 +28,15 @@ const buttonStyle = {
   backgroundColor: 'var(--primary-color, #0f4c81)',
   color: '#fff',
   fontWeight: 600,
+  textDecoration: 'none',
+  display: 'inline-flex',
+  alignItems: 'center',
+  gap: '0.5rem',
+  cursor: 'pointer',
+};
+
+const disabledButtonStyle = {
+  ...buttonStyle,
   cursor: 'not-allowed',
   opacity: 0.6,
 };
@@ -36,6 +45,7 @@ const DocumentDetailPage = async ({ params }) => {
   const { id } = params;
 
   let document;
+  let fileLink = null;
 
   try {
     document = await getDocument(id);
@@ -45,6 +55,15 @@ const DocumentDetailPage = async ({ params }) => {
     }
     console.error(error);
     throw error;
+  }
+
+  try {
+    fileLink = await getDocumentFileLink(id);
+  } catch (error) {
+    if (!error?.message?.includes('404')) {
+      console.error('Failed to load document file link', error);
+    }
+    fileLink = null;
   }
 
   const identifierItems = [
@@ -70,7 +89,7 @@ const DocumentDetailPage = async ({ params }) => {
     metadataItems.push({ label: 'Collection ID', value: `#${document.collectionId}` });
   }
 
-  const showPdfButton = Boolean(document.fileKey);
+  const fileUrl = fileLink?.url ?? null;
 
   return (
     <AOSWrap>
@@ -92,8 +111,8 @@ const DocumentDetailPage = async ({ params }) => {
               }}
             >
               <div>
-                <Link href='/documents' className='back-link'>
-                  <span aria-hidden='true'>{'\u2190'}</span> Back to documents
+                <Link href='/library' className='back-link'>
+                  <span aria-hidden='true'>{'\u2190'}</span> Back to library
                 </Link>
                 <h1 style={{ marginTop: '0.75rem', marginBottom: '0.75rem' }}>{document.title}</h1>
                 <p style={{ color: 'rgba(16, 24, 40, 0.72)', marginBottom: 0 }}>
@@ -103,9 +122,19 @@ const DocumentDetailPage = async ({ params }) => {
                   )}
                 </p>
               </div>
-              {showPdfButton && (
-                <button type='button' disabled style={buttonStyle} aria-disabled='true'>
-                  Open PDF (coming soon)
+              {fileUrl ? (
+                <a
+                  href={fileUrl}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  style={buttonStyle}
+                >
+                  <i className='fa-solid fa-file-pdf' aria-hidden='true'></i>
+                  Open PDF
+                </a>
+              ) : (
+                <button type='button' disabled style={disabledButtonStyle} aria-disabled='true'>
+                  PDF not available yet
                 </button>
               )}
             </div>
@@ -201,4 +230,3 @@ const DocumentDetailPage = async ({ params }) => {
 };
 
 export default DocumentDetailPage;
-
