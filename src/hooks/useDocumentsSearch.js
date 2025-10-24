@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { apiFetch, buildQuery } from "@/lib/api";
+import { apiFetch, buildQuery, getCategories } from "@/lib/api";
 
 const EMPTY_FACETS = {
   type: [],
@@ -88,6 +88,8 @@ const useDocumentsSearch = () => {
   const [page, setPage] = useState(initial.page || 1);
   const [pageSize, setPageSize] = useState(initial.pageSize || 20);
 
+  const [journalCategories, setJournalCategories] = useState([]);
+  const journalCategoriesRef = useRef([]);
   const [items, setItems] = useState([]);
   const [facets, setFacets] = useState(EMPTY_FACETS);
   const [total, setTotal] = useState(0);
@@ -95,6 +97,73 @@ const useDocumentsSearch = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    const controller = new AbortController();
+
+    getCategories({
+      kind: "journal",
+      pageSize: 100,
+      signal: controller.signal,
+    })
+      .then((result) => {
+        if (!active) return;
+        const categories = result?.categories ?? [];
+        journalCategoriesRef.current = categories;
+        setJournalCategories(categories);
+      })
+      .catch((err) => {
+        if (!active || controller.signal.aborted) return;
+        console.error(err);
+        journalCategoriesRef.current = [];
+        setJournalCategories([]);
+      });
+
+    return () => {
+      active = false;
+      controller.abort();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!journalCategories.length) {
+      return;
+    }
+    setFacets((previous) => {
+      if (!previous) {
+        return previous;
+      }
+      const baseCategoryFacets = Array.isArray(previous.category)
+        ? [...previous.category]
+        : [];
+      const seen = new Set(
+        baseCategoryFacets
+          .map((entry) => entry?.slug)
+          .filter(Boolean)
+      );
+      let mutated = false;
+      journalCategories.forEach((category) => {
+        if (!category?.slug || seen.has(category.slug)) {
+          return;
+        }
+        baseCategoryFacets.push({
+          slug: category.slug,
+          name: category.name ?? category.slug,
+          count: null,
+        });
+        seen.add(category.slug);
+        mutated = true;
+      });
+      if (!mutated) {
+        return previous;
+      }
+      return {
+        ...previous,
+        category: baseCategoryFacets,
+      };
+    });
+  }, [journalCategories]);
 
   const abortRef = useRef(null);
   const prevFilterSignature = useRef(null);
@@ -160,10 +229,30 @@ const useDocumentsSearch = () => {
         const safeFacets = data.facets || {};
 
         setItems(safeItems);
+        const baseCategoryFacets = Array.isArray(safeFacets.category)
+          ? [...safeFacets.category]
+          : [];
+        const seenCategorySlugs = new Set(
+          baseCategoryFacets
+            .map((entry) => entry?.slug)
+            .filter(Boolean)
+        );
+        journalCategoriesRef.current.forEach((category) => {
+          if (!category?.slug || seenCategorySlugs.has(category.slug)) {
+            return;
+          }
+          baseCategoryFacets.push({
+            slug: category.slug,
+            name: category.name ?? category.slug,
+            count: null,
+          });
+          seenCategorySlugs.add(category.slug);
+        });
+
         setFacets({
           type: Array.isArray(safeFacets.type) ? safeFacets.type : [],
           lang: Array.isArray(safeFacets.lang) ? safeFacets.lang : [],
-          category: Array.isArray(safeFacets.category) ? safeFacets.category : [],
+          category: baseCategoryFacets,
           year: normalizeFacetYear(safeFacets),
         });
         setTotal(Number(data.total) || safeItems.length);

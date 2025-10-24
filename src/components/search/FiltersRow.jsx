@@ -83,11 +83,17 @@ const FiltersRow = ({
           disabled={loading}
         >
           <option value="">All categories</option>
-          {categoryOptions.map(({ slug, name, count }) => (
-            <option key={slug} value={slug}>
-              {name} ({count})
-            </option>
-          ))}
+          {categoryOptions.map(({ slug, name, count }) => {
+            const label =
+              count === undefined || count === null
+                ? name
+                : `${name} (${count})`;
+            return (
+              <option key={slug} value={slug}>
+                {label}
+              </option>
+            );
+          })}
         </select>
       </label>
 

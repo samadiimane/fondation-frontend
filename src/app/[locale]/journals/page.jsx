@@ -1,117 +1,81 @@
 import FooterOne from "@/components/FooterOne";
 import HeaderFour from "@/components/HeaderFour";
-import JournalsGrid from "@/components/journals/JournalsGrid";
-import JournalsHero from "@/components/journals/JournalsHero";
+import JournalsExplorer from "@/components/journals/JournalsExplorer";
 import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
 import AOSWrap from "@/helper/AOSWrap";
 import CustomCursor from "@/helper/CustomCursor";
-import { getJournal, getJournals } from "@/lib/api";
-import { getLocale, getTranslations } from "next-intl/server";
+import {getLocale, getTranslations} from "next-intl/server";
 
 export async function generateMetadata() {
   const locale = await getLocale();
-  const t = await getTranslations({ locale, namespace: "meta.journals" });
+  const t = await getTranslations({locale, namespace: "library.journals.meta"});
   return {
     title: t("title"),
     description: t("description"),
   };
 }
 
-const formatNumberFactory = (locale) => {
-  try {
-    return new Intl.NumberFormat(locale || undefined);
-  } catch {
-    return new Intl.NumberFormat("en");
-  }
-};
-
-const enrichJournals = async (journals) => {
-  return Promise.all(
-    journals.map(async (journal) => {
-      if (journal.hasCounts && journal.description) {
-        return journal;
-      }
-      try {
-        const detailed = await getJournal(journal.slug);
-        return {
-          ...journal,
-          counts: detailed.counts,
-          description: journal.description || detailed.description,
-          publisher: journal.publisher || detailed.publisher,
-          issn: journal.issn || detailed.issn,
-          language: journal.language || detailed.language,
-          country: journal.country || detailed.country,
-          foundedYear:
-            journal.foundedYear !== null && journal.foundedYear !== undefined
-              ? journal.foundedYear
-              : detailed.foundedYear,
-          website: journal.website || detailed.website,
-          hasCounts: detailed.hasCounts ?? true,
-        };
-      } catch {
-        return journal;
-      }
-    })
-  );
-};
+const buildStrings = (t) => ({
+  title: t("title"),
+  subtitle: t("subtitle"),
+  a11y: {
+    breadcrumbs: t("a11y.breadcrumbs"),
+  },
+  breadcrumbs: {
+    home: {
+      label: t("breadcrumbs.home.label"),
+      href: t("breadcrumbs.home.href"),
+    },
+    journals: {
+      label: t("breadcrumbs.journals.label"),
+      href: t("breadcrumbs.journals.href"),
+    },
+  },
+  toolbar: {
+    searchLabel: t("toolbar.searchLabel"),
+    searchPlaceholder: t("toolbar.searchPlaceholder"),
+    issnLabel: t("toolbar.issnLabel"),
+    issnPlaceholder: t("toolbar.issnPlaceholder"),
+    sortLabel: t("toolbar.sortLabel"),
+    sortOptions: {
+      nameAsc: t("toolbar.sortOptions.nameAsc"),
+      nameDesc: t("toolbar.sortOptions.nameDesc"),
+      createdDesc: t("toolbar.sortOptions.createdDesc"),
+    },
+    summaryTemplate: t("toolbar.summary", {count: "{count}"}),
+    loading: t("toolbar.loading"),
+    announceTemplate: t("toolbar.announce", {count: "{count}"}),
+  },
+  cards: {
+    loading: t("cards.loading"),
+    emptyTitle: t("cards.emptyTitle"),
+    emptyDescription: t("cards.emptyDescription"),
+    badges: {
+      issn: t("cards.badges.issn"),
+      fallback: t("cards.badges.fallback"),
+    },
+    publisherLabel: t("cards.publisherLabel"),
+    publisherUnknown: t("cards.publisherUnknown"),
+    descriptionFallback: t("cards.descriptionFallback"),
+    metaLineTemplate: t("cards.metaLine", {issues: "{issues}", documents: "{documents}"}),
+    cta: t("cards.cta"),
+  },
+  error: {
+    message: t("error.message"),
+  },
+  pagination: {
+    ariaLabel: t("pagination.ariaLabel"),
+    previous: t("pagination.previous"),
+    next: t("pagination.next"),
+    pageTemplate: t("pagination.pageIndicator", {page: "{page}"}),
+  },
+});
 
 export default async function JournalsPage() {
   const locale = await getLocale();
-  const t = await getTranslations({ locale, namespace: "journals" });
-
-  const { journals = [] } = await getJournals({ pageSize: 48 });
-  const enrichedJournals = await enrichJournals(journals);
-
-  const totals = enrichedJournals.reduce(
-    (acc, journal) => {
-      const issues = Number(journal.counts?.issues ?? 0);
-      const documents = Number(journal.counts?.documents ?? 0);
-      if (Number.isFinite(issues)) acc.issues += issues;
-      if (Number.isFinite(documents)) acc.documents += documents;
-      return acc;
-    },
-    { issues: 0, documents: 0 }
-  );
-
-  const formatter = formatNumberFactory(locale);
-  const stats = [
-    {
-      id: "journals",
-      value: formatter.format(enrichedJournals.length),
-      label: t("hero.stats.journals"),
-    },
-    {
-      id: "issues",
-      value: formatter.format(totals.issues),
-      label: t("hero.stats.issues"),
-    },
-    {
-      id: "articles",
-      value: formatter.format(totals.documents),
-      label: t("hero.stats.articles"),
-    },
-  ];
-
-  const listLabels = {
-    stats: {
-      issues: t("list.stats.issues"),
-      articles: t("list.stats.articles"),
-    },
-    fallbackDescription: t("list.fallbackDescription"),
-    meta: {
-      periodical: t("list.meta.periodical"),
-      issn: t("list.meta.issn"),
-      established: t("list.meta.established"),
-    },
-    actions: {
-      details: t("list.actions.details"),
-    },
-    empty: {
-      title: t("list.empty.title"),
-      description: t("list.empty.description"),
-    },
-  };
+  const t = await getTranslations({locale, namespace: "library.journals"});
+  const strings = buildStrings(t);
 
   return (
     <AOSWrap>
@@ -121,20 +85,8 @@ export default async function JournalsPage() {
         <TopBarTwo />
         <HeaderFour />
 
-        <main className="journals-page">
-          <JournalsHero
-            eyebrow={t("hero.eyebrow")}
-            title={t("hero.title")}
-            description={t("hero.description")}
-            stats={stats}
-            cta={null}
-          />
-
-          <JournalsGrid
-            journals={enrichedJournals}
-            labels={listLabels}
-            makeHref={(journal) => `/journals/${journal.slug}`}
-          />
+        <main className="library-journals">
+          <JournalsExplorer locale={locale} strings={strings} />
         </main>
 
         <FooterOne />

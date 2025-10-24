@@ -1,7 +1,8 @@
 "use client";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {Link, usePathname} from "@/i18n/navigation";
+import useNavigationTaxonomy from "@/hooks/useNavigationTaxonomy";
 
 const HeaderFour = () => {
   const t = useTranslations("nav");
@@ -10,6 +11,7 @@ const HeaderFour = () => {
   const [search, setSearch] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [scroll, setScroll] = useState(false);
+  const {categories, loading: categoriesLoading} = useNavigationTaxonomy();
   const mobileMenuListRef = useRef(null);
 
   const normalizedPath = (() => {
@@ -116,6 +118,60 @@ const HeaderFour = () => {
     setMobileMenu((prev) => !prev);
   };
 
+  const collator = useMemo(() => {
+    try {
+      return new Intl.Collator(locale || undefined, {sensitivity: "base"});
+    } catch {
+      return new Intl.Collator("en", {sensitivity: "base"});
+    }
+  }, [locale]);
+
+  const journalLinks = useMemo(() => {
+    const journals = (categories || []).filter((category) => category.kind === "journal");
+    const mapped = journals.map((category) => ({
+      slug: category.slug,
+      label: category.name || category.slug,
+      href: category.linkedJournal
+        ? `/journals/${category.linkedJournal.slug}`
+        : `/journals/${category.slug}`,
+    }));
+    mapped.sort((a, b) => collator.compare(a.label, b.label));
+    return mapped;
+  }, [categories, collator]);
+
+  const librarySectionLinks = useMemo(() => {
+    const sections = (categories || []).filter(
+      (category) =>
+        category.kind === "section" &&
+        category.slug !== "library" &&
+        category.slug !== "journals"
+    );
+    const unique = new Map();
+    sections.forEach((section) => {
+      if (!section?.slug || unique.has(section.slug)) return;
+      unique.set(section.slug, {
+        slug: section.slug,
+        label: section.name || section.slug,
+        href: `/library?category=${section.slug}`,
+      });
+    });
+    const values = Array.from(unique.values());
+    values.sort((a, b) => collator.compare(a.label, b.label));
+    return values;
+  }, [categories, collator]);
+
+  const journalActiveTargets = useMemo(
+    () => ["/journals", ...journalLinks.map((item) => item.href.split("?")[0])],
+    [journalLinks]
+  );
+
+  const libraryActiveTargets = useMemo(
+    () => ["/library", ...journalActiveTargets, ...librarySectionLinks.map((item) => item.href.split("?")[0])],
+    [journalActiveTargets, librarySectionLinks]
+  );
+
+  const extractPath = (href) => (href || "").split("?")[0];
+
   return (
     <>
       <header
@@ -161,37 +217,23 @@ const HeaderFour = () => {
 
                       <li
                         className={`navbar__item navbar__item--has-children nav-fade ${
-                          isActive([
-                            "/library",
-                            "/journals",
-                            "/publications",
-                            "/archives",
-                            "/manuscripts",
-                            "/sites",
-                            "/issues",
-                            "/journals/dar-al-niaba",
-                            "/journals/les-tangerois"
-                          ])
-                            ? "active"
-                            : ""
+                          isActive(libraryActiveTargets) ? "active" : ""
                         }`}
                       >
-                        <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
+                        <Link
+                          href='/library'
+                          aria-label='dropdown menu'
+                          className='navbar__dropdown-label dropdown-label-alter'
+                        >
                           {t("libraryResources")}
-                         </Link>
+                        </Link>
                         <ul className='navbar__sub-menu'>
                           <li className={isActive("/library") ? "active" : ""}>
                             <Link href='/library'>{t("digitalLibrary")}</Link>
                           </li>
                           <li
                             className={`navbar__item navbar__item--has-children ${
-                              isActive([
-                                "/journals",
-                                "/journals/dar-al-niaba",
-                                "/journals/les-tangerois"
-                              ])
-                                ? "active"
-                                : ""
+                              isActive(journalActiveTargets) ? "active" : ""
                             }`}
                           >
                             <Link
@@ -201,29 +243,49 @@ const HeaderFour = () => {
                               {t("journals")}
                             </Link>
                             <ul className='navbar__sub-menu navbar__sub-menu__nested'>
-                              <li className={isActive("/journals/dar-al-niaba") ? "active" : ""}>
-                                <Link href='/journals/dar-al-niaba'>{t("darAlNiaba")}</Link>
-                              </li>
-                              <li className={isActive("/journals/les-tangerois") ? "active" : ""}>
-                                <Link href='/journals/les-tangerois'>{t("lesTangerois")}</Link>
-                              </li>
+                              {categoriesLoading ? (
+                                <li>
+                                  <span>{t("journalsLoading")}</span>
+                                </li>
+                              ) : journalLinks.length ? (
+                                <>
+                                  <li className={isActive("/journals") ? "active" : ""}>
+                                    <Link href='/journals'>{t("journalsAll")}</Link>
+                                  </li>
+                                  {journalLinks.map((journal) => (
+                                    <li
+                                      key={journal.slug}
+                                      className={isActive(extractPath(journal.href)) ? "active" : ""}
+                                    >
+                                      <Link href={journal.href}>{journal.label}</Link>
+                                    </li>
+                                  ))}
+                                </>
+                              ) : (
+                                <li>
+                                  <span>{t("journalsEmpty")}</span>
+                                </li>
+                              )}
                             </ul>
                           </li>
-                          <li>
-                            <span>{t("publications")}</span>
-                          </li>
-                          <li>
-                            <span>{t("archives")}</span>
-                          </li>
-                          <li>
-                            <span>{t("manuscripts")}</span>
-                          </li>
-                          <li>
-                            <span>{t("sites")}</span>
-                          </li>
-                          <li>
-                            <span>{t("issues")}</span>
-                          </li>
+                          {categoriesLoading ? (
+                            <li>
+                              <span>{t("libraryLoading")}</span>
+                            </li>
+                          ) : librarySectionLinks.length ? (
+                            librarySectionLinks.map((section) => (
+                              <li
+                                key={section.slug}
+                                className={isActive(extractPath(section.href)) ? "active" : ""}
+                              >
+                                <Link href={section.href}>{section.label}</Link>
+                              </li>
+                            ))
+                          ) : (
+                            <li>
+                              <span>{t("libraryEmpty")}</span>
+                            </li>
+                          )}
                         </ul>
                       </li>
 
