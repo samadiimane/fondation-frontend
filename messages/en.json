@@ -207,7 +207,7 @@
           "dateUnknown": "Date unavailable",
           "documents": "Documents",
           "actions": "Actions",
-          "browseIssue": "Open pdf or read article",
+          "browseIssue": "See articles",
           "valueUnknown": "-",
           "untitled": "Untitled issue"
         },
@@ -239,7 +239,8 @@
         "journals": {
           "label": "Journals",
           "href": "/journals"
-        }
+        },
+        "issue": "Issue Vol {volume} No {number} ({year})"
       },
       "a11y": {
         "breadcrumbs": "Breadcrumb"
@@ -257,7 +258,15 @@
           "doi": "DOI",
           "isbn": "ISBN",
           "issn": "ISSN"
-        }
+        },
+        "valueUnknown": "—",
+        "labels": {
+          "authors": "Authors",
+          "year": "Year",
+          "type": "Type",
+          "language": "Language"
+        },
+        "imageAlt": "Cover image for {title}"
       },
       "download": {
         "cta": "Read / Download",
@@ -285,7 +294,75 @@
         "primaryCategory": "Primary category",
         "createdAt": "Record created",
         "keywords": "Keywords",
-        "noKeywords": "No keywords recorded"
+        "noKeywords": "No keywords recorded",
+        "journal": "Journal",
+        "issue": "Issue"
+      }
+    },
+    "issueArticles": {
+      "meta": {
+        "title": "{journal} issue articles | AKT Research Foundation",
+        "description": "Browse digitised articles from {journal}."
+      },
+      "breadcrumbs": {
+        "home": {
+          "label": "Home",
+          "href": "/"
+        },
+        "library": {
+          "label": "Library",
+          "href": "/library"
+        },
+        "journals": {
+          "label": "Journals",
+          "href": "/journals"
+        }
+      },
+      "a11y": {
+        "breadcrumbs": "Breadcrumb",
+        "results": "{count} articles"
+      },
+      "header": {
+        "journalLabel": "Journal",
+        "title": "{journal}",
+        "subtitle": "Issue {issue}",
+        "issueLabel": "Vol {volume} • No {number} • {year}",
+        "documentsCount": "{count} articles",
+        "unknown": "—",
+        "meta": {
+          "volume": "Volume",
+          "number": "Issue",
+          "year": "Year",
+          "documents": "Articles"
+        }
+      },
+      "resultsLabel": "articles",
+      "error": {
+        "message": "Unable to load articles for this issue."
+      },
+      "empty": {
+        "title": "No articles catalogued yet",
+        "description": "Cataloguing for this issue is still in progress. Please check back soon."
+      },
+      "table": {
+        "ariaLabel": "Issue articles",
+        "title": "Title",
+        "authors": "Authors",
+        "authorsFallback": "Unknown authors",
+        "year": "Year",
+        "noYear": "—",
+        "typeLang": "Type • Language",
+        "noType": "—",
+        "pages": "Pages",
+        "noPages": "—",
+        "actions": "Actions",
+        "seeDetails": "See details"
+      },
+      "pagination": {
+        "ariaLabel": "Issue articles pagination",
+        "previous": "Previous",
+        "next": "Next",
+        "pageIndicator": "Page {page}"
       }
     }
   }

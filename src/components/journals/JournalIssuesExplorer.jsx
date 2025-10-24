@@ -187,10 +187,7 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                               </td>
                               <td data-title={strings.table.actions}>
                                 <Link
-                                  href={{
-                                    pathname: "/library",
-                                    query: { issue_id: issue.id },
-                                  }}
+                                  href={`/journals/${slug}/issues/${issue.id}`}
                                   className="journal-issues__action"
                                 >
                                   {strings.table.browseIssue}
@@ -233,10 +230,7 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                               </li>
                             </ul>
                             <Link
-                              href={{
-                                pathname: "/library",
-                                query: { issue_id: issue.id },
-                              }}
+                              href={`/journals/${slug}/issues/${issue.id}`}
                               className="journal-issues__action journal-issues__action--full"
                             >
                               {strings.table.browseIssue}

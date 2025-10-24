@@ -207,7 +207,7 @@
           "dateUnknown": "Date unavailable",
           "documents": "Documents",
           "actions": "Actions",
-          "browseIssue": "Open pdf or read article",
+          "browseIssue": "Ver artículos",
           "valueUnknown": "-",
           "untitled": "Untitled issue"
         },
@@ -239,7 +239,8 @@
         "journals": {
           "label": "Journals",
           "href": "/journals"
-        }
+        },
+        "issue": "Número Vol {volume} Nº {number} ({year})"
       },
       "a11y": {
         "breadcrumbs": "Breadcrumb"
@@ -257,7 +258,15 @@
           "doi": "DOI",
           "isbn": "ISBN",
           "issn": "ISSN"
-        }
+        },
+        "valueUnknown": "—",
+        "labels": {
+          "authors": "Autores",
+          "year": "Año",
+          "type": "Tipo",
+          "language": "Idioma"
+        },
+        "imageAlt": "Imagen de portada de {title}"
       },
       "download": {
         "cta": "Read / Download",
@@ -285,7 +294,75 @@
         "primaryCategory": "Primary category",
         "createdAt": "Record created",
         "keywords": "Keywords",
-        "noKeywords": "No keywords recorded"
+        "noKeywords": "No keywords recorded",
+        "journal": "Revista",
+        "issue": "Número"
+      }
+    },
+    "issueArticles": {
+      "meta": {
+        "title": "{journal} | Artículos del número",
+        "description": "Explora los artículos digitalizados de {journal}."
+      },
+      "breadcrumbs": {
+        "home": {
+          "label": "Inicio",
+          "href": "/"
+        },
+        "library": {
+          "label": "Biblioteca",
+          "href": "/library"
+        },
+        "journals": {
+          "label": "Revistas",
+          "href": "/journals"
+        }
+      },
+      "a11y": {
+        "breadcrumbs": "Ruta de navegación",
+        "results": "{count} artículos"
+      },
+      "header": {
+        "journalLabel": "Revista",
+        "title": "{journal}",
+        "subtitle": "Número {issue}",
+        "issueLabel": "Vol. {volume} • Núm. {number} • {year}",
+        "documentsCount": "{count} artículos",
+        "unknown": "—",
+        "meta": {
+          "volume": "Volumen",
+          "number": "Número",
+          "year": "Año",
+          "documents": "Artículos"
+        }
+      },
+      "resultsLabel": "artículos",
+      "error": {
+        "message": "No se pudieron cargar los artículos de este número."
+      },
+      "empty": {
+        "title": "Aún no hay artículos catalogados",
+        "description": "El catalogado de este número sigue en curso. Vuelve más tarde."
+      },
+      "table": {
+        "ariaLabel": "Artículos del número",
+        "title": "Título",
+        "authors": "Autor(es)",
+        "authorsFallback": "Autores desconocidos",
+        "year": "Año",
+        "noYear": "—",
+        "typeLang": "Tipo • Idioma",
+        "noType": "—",
+        "pages": "Páginas",
+        "noPages": "—",
+        "actions": "Acciones",
+        "seeDetails": "Ver detalles"
+      },
+      "pagination": {
+        "ariaLabel": "Paginación de artículos del número",
+        "previous": "Anterior",
+        "next": "Siguiente",
+        "pageIndicator": "Página {page}"
       }
     }
   }

@@ -207,7 +207,7 @@
           "dateUnknown": "Date unavailable",
           "documents": "Documents",
           "actions": "Actions",
-          "browseIssue": "Open pdf or read article",
+          "browseIssue": "عرض المقالات",
           "valueUnknown": "-",
           "untitled": "Untitled issue"
         },
@@ -239,7 +239,8 @@
         "journals": {
           "label": "Journals",
           "href": "/journals"
-        }
+        },
+        "issue": "عدد المجلد {volume} رقم {number} ({year})"
       },
       "a11y": {
         "breadcrumbs": "Breadcrumb"
@@ -257,7 +258,15 @@
           "doi": "DOI",
           "isbn": "ISBN",
           "issn": "ISSN"
-        }
+        },
+        "valueUnknown": "—",
+        "labels": {
+          "authors": "المؤلفون",
+          "year": "السنة",
+          "type": "النوع",
+          "language": "اللغة"
+        },
+        "imageAlt": "صورة الغلاف لـ {title}"
       },
       "download": {
         "cta": "Read / Download",
@@ -285,7 +294,75 @@
         "primaryCategory": "Primary category",
         "createdAt": "Record created",
         "keywords": "Keywords",
-        "noKeywords": "No keywords recorded"
+        "noKeywords": "No keywords recorded",
+        "journal": "المجلة",
+        "issue": "العدد"
+      }
+    },
+    "issueArticles": {
+      "meta": {
+        "title": "مقالات عدد {journal}",
+        "description": "تصفّح المقالات الرقمية لمجلة {journal}."
+      },
+      "breadcrumbs": {
+        "home": {
+          "label": "الرئيسية",
+          "href": "/"
+        },
+        "library": {
+          "label": "المكتبة",
+          "href": "/library"
+        },
+        "journals": {
+          "label": "الدوريات",
+          "href": "/journals"
+        }
+      },
+      "a11y": {
+        "breadcrumbs": "مسار التصفح",
+        "results": "{count} مقالات"
+      },
+      "header": {
+        "journalLabel": "مجلة",
+        "title": "{journal}",
+        "subtitle": "العدد {issue}",
+        "issueLabel": "المجلد {volume} • العدد {number} • {year}",
+        "documentsCount": "{count} مقالات",
+        "unknown": "—",
+        "meta": {
+          "volume": "المجلد",
+          "number": "العدد",
+          "year": "السنة",
+          "documents": "المقالات"
+        }
+      },
+      "resultsLabel": "مقالات",
+      "error": {
+        "message": "تعذّر تحميل مقالات هذا العدد."
+      },
+      "empty": {
+        "title": "لا توجد مقالات مفهرسة بعد",
+        "description": "يتم العمل على فهرسة هذا العدد حالياً، الرجاء العودة لاحقاً."
+      },
+      "table": {
+        "ariaLabel": "مقالات العدد",
+        "title": "العنوان",
+        "authors": "المؤلفون",
+        "authorsFallback": "مؤلفون غير معروفين",
+        "year": "السنة",
+        "noYear": "—",
+        "typeLang": "النوع • اللغة",
+        "noType": "—",
+        "pages": "الصفحات",
+        "noPages": "—",
+        "actions": "الإجراءات",
+        "seeDetails": "عرض التفاصيل"
+      },
+      "pagination": {
+        "ariaLabel": "ترقيم صفحات مقالات العدد",
+        "previous": "السابق",
+        "next": "التالي",
+        "pageIndicator": "الصفحة {page}"
       }
     }
   }

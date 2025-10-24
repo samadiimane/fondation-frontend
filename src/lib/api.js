@@ -197,6 +197,13 @@ const normalizeDocument = (doc = {}) => ({
   primaryCategory: doc.primary_category ?? doc.primaryCategory ?? null,
   categorySlug: doc.category_slug ?? doc.categorySlug ?? null,
   category: doc.category ?? null,
+  coverImage:
+    doc.cover_image_url ??
+    doc.cover_image ??
+    doc.coverImage ??
+    doc.lead_image ??
+    doc.leadImage ??
+    null,
   identifiers: {
     doi: doc.doi ?? null,
     isbn: doc.isbn ?? null,
@@ -517,6 +524,28 @@ export async function getDocumentFileLink(id) {
   return apiFetch(`/v1/${id}/file`);
 }
 
+export const getIssueArticles = async (
+  slug,
+  issueId,
+  {
+    page = 1,
+    pageSize = 20,
+    signal,
+  } = {}
+) => {
+  if (!slug || !issueId) {
+    throw new Error("Issue articles request requires journal slug and issue id");
+  }
+  const payload = await apiFetch(`/v1/journals/${slug}/issues/${issueId}/articles`, {
+    params: {
+      page,
+      page_size: pageSize,
+    },
+    signal,
+  });
+  return resolvePaginatedDocuments(payload);
+};
+
 export const getCategories = async ({
   kind,
   parentSlug,
@@ -549,5 +578,6 @@ export default {
   getDocumentFileLink,
   getCollections,
   getCollectionDocuments,
+  getIssueArticles,
   getCategories,
 };

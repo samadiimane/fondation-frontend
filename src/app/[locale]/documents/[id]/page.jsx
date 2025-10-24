@@ -1,6 +1,7 @@
 import FooterOne from "@/components/FooterOne";
 import HeaderFour from "@/components/HeaderFour";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import { Link } from "@/i18n/navigation";
 import DocumentDownloadButton from "@/components/documents/DocumentDownloadButton";
 import DocumentPreview from "@/components/documents/DocumentPreview";
 import ExpandableText from "@/components/documents/ExpandableText";
@@ -17,6 +18,7 @@ const buildStrings = (t) => ({
     home: { label: t("breadcrumbs.home.label"), href: t("breadcrumbs.home.href") },
     library: { label: t("breadcrumbs.library.label"), href: t("breadcrumbs.library.href") },
     journals: { label: t("breadcrumbs.journals.label"), href: t("breadcrumbs.journals.href") },
+    issue: t("breadcrumbs.issue"),
   },
   a11y: {
     breadcrumbs: t("a11y.breadcrumbs"),
@@ -30,6 +32,14 @@ const buildStrings = (t) => ({
     journalContext: t("header.journalContext"),
     issueContext: t("header.issueContext"),
     pages: t("header.pages"),
+    valueUnknown: t("header.valueUnknown"),
+    labels: {
+      authors: t("header.labels.authors"),
+      year: t("header.labels.year"),
+      type: t("header.labels.type"),
+      language: t("header.labels.language"),
+    },
+    imageAlt: t("header.imageAlt"),
     badges: {
       doi: t("header.badges.doi"),
       isbn: t("header.badges.isbn"),
@@ -61,6 +71,8 @@ const buildStrings = (t) => ({
     category: t("details.category"),
     primaryCategory: t("details.primaryCategory"),
     createdAt: t("details.createdAt"),
+    journal: t("details.journal"),
+    issue: t("details.issue"),
     keywords: t("details.keywords"),
     noKeywords: t("details.noKeywords"),
   },
@@ -72,6 +84,13 @@ const formatAuthors = (value) => {
     return value.filter(Boolean).join(", ");
   }
   return value;
+};
+
+const formatTypeLabel = (value, fallback) => {
+  if (!value) return fallback;
+  const formatted = value.replace(/_/g, " ").trim();
+  if (!formatted) return fallback;
+  return formatted.replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
 export async function generateMetadata({ params }) {
@@ -117,35 +136,66 @@ export default async function DocumentDetailPage({ params }) {
 
   const authors = formatAuthors(document.authors) || strings.header.authorsFallback;
   const year = document.year ?? strings.header.yearFallback;
-  const type = document.type || strings.header.typeFallback;
+  const typeLabel = formatTypeLabel(document.type, strings.header.typeFallback);
   const language = (document.language || strings.header.languageFallback).toUpperCase();
-  const pages = document.startPage && document.endPage
-    ? `${document.startPage}-${document.endPage}`
-    : document.pages || null;
+  const pages =
+    document.startPage && document.endPage
+      ? `${document.startPage}–${document.endPage}`
+      : document.pages || null;
+  const coverImage = document.coverImage || null;
+
+  const issueContext = document.issue
+    ? strings.header.issueContext
+        .replace("{volume}", document.issue.volume ?? strings.header.valueUnknown)
+        .replace("{number}", document.issue.number ?? strings.header.valueUnknown)
+        .replace("{year}", document.issue.year ?? strings.header.valueUnknown)
+    : null;
+
+  const issueBreadcrumbLabel = issueContext
+    ? strings.breadcrumbs.issue
+        .replace("{volume}", document.issue?.volume ?? strings.header.valueUnknown)
+        .replace("{number}", document.issue?.number ?? strings.header.valueUnknown)
+        .replace("{year}", document.issue?.year ?? strings.header.valueUnknown)
+    : null;
+
+  const journalLink = document.journal?.slug ? `/journals/${document.journal.slug}` : null;
+
+  const typeClass = (document.type || "document")
+    .toString()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-");
+  const detailClassName = `article-detail article-detail--${typeClass}`;
 
   const breadcrumbItems = [
     strings.breadcrumbs.home,
     strings.breadcrumbs.library,
+    strings.breadcrumbs.journals,
   ];
 
   if (document.journal?.name) {
     breadcrumbItems.push({
-      label: strings.breadcrumbs.journals.label,
-      href: strings.breadcrumbs.journals.href,
+      label: document.journal.name,
+      href: journalLink ?? undefined,
     });
-    if (document.journal.slug) {
+    if (issueBreadcrumbLabel) {
       breadcrumbItems.push({
-        label: document.journal.name,
-        href: `/journals/${document.journal.slug}`,
+        label: issueBreadcrumbLabel,
       });
-    } else {
-      breadcrumbItems.push({ label: document.journal.name, current: true });
     }
-  } else {
-    breadcrumbItems.push(strings.breadcrumbs.journals);
   }
 
   breadcrumbItems.push({ label: document.title, current: true });
+
+  const primaryCategoryName =
+    typeof document.primaryCategory === "string"
+      ? document.primaryCategory
+      : document.primaryCategory?.name ?? document.primaryCategory?.slug ?? null;
+  const categoryLabel =
+    document.category?.name ??
+    document.category?.title ??
+    (typeof document.category === "string" ? document.category : null) ??
+    document.categorySlug ??
+    null;
 
   const keywords = Array.isArray(document.keywords) ? document.keywords.filter(Boolean) : [];
 
@@ -163,37 +213,45 @@ export default async function DocumentDetailPage({ params }) {
         <TopBarTwo />
         <HeaderFour />
 
-        <main className="article-detail">
+        <main className={detailClassName}>
           <Breadcrumbs items={breadcrumbItems} ariaLabel={strings.a11y.breadcrumbs} />
 
           <div className="article-detail__layout">
             <article className="article-detail__main">
               <header className="article-detail__header">
-                <span className="article-detail__eyebrow">{type}</span>
+                <span className="article-detail__eyebrow">{typeLabel}</span>
                 <h1>{document.title}</h1>
-                <p className="article-detail__meta">
-                  <span>{authors}</span>
-                  <span aria-hidden="true">{strings.header.metaSeparator}</span>
-                  <span>{year}</span>
-                  <span aria-hidden="true">{strings.header.metaSeparator}</span>
-                  <span>{language}</span>
-                </p>
+                <ul className="article-detail__meta-list">
+                  <li>
+                    <strong>{strings.header.labels.authors}</strong>
+                    <span>{authors}</span>
+                  </li>
+                  <li>
+                    <strong>{strings.header.labels.year}</strong>
+                    <span>{year}</span>
+                  </li>
+                  <li>
+                    <strong>{strings.header.labels.type}</strong>
+                    <span>{typeLabel}</span>
+                  </li>
+                  <li>
+                    <strong>{strings.header.labels.language}</strong>
+                    <span>{language}</span>
+                  </li>
+                </ul>
 
                 {document.journal?.name && (
                   <p className="article-detail__context">
                     <strong>{strings.header.journalContext}</strong>
-                    {document.journal.slug ? (
-                      <a href={`/journals/${document.journal.slug}`}>{document.journal.name}</a>
+                    {journalLink ? (
+                      <Link href={journalLink}>{document.journal.name}</Link>
                     ) : (
                       <span>{document.journal.name}</span>
                     )}
-                    {document.issue && (
-                      <span>
+                    {issueContext && (
+                      <span className="article-detail__issue">
                         {strings.header.metaSeparator}
-                        {strings.header.issueContext
-                          .replace("{volume}", document.issue.volume ?? "-")
-                          .replace("{number}", document.issue.number ?? "-")
-                          .replace("{year}", document.issue.year ?? year)}
+                        {issueContext}
                       </span>
                     )}
                   </p>
@@ -242,6 +300,16 @@ export default async function DocumentDetailPage({ params }) {
                 </ul>
               </header>
 
+              {coverImage && (
+                <figure className="article-detail__image">
+                  <img
+                    src={coverImage}
+                    alt={strings.header.imageAlt.replace("{title}", document.title)}
+                    loading="lazy"
+                  />
+                </figure>
+              )}
+
               <section className="article-detail__abstract" aria-labelledby="article-abstract">
                 <h2 id="article-abstract">{strings.abstract.title}</h2>
                 {document.abstract ? (
@@ -282,16 +350,34 @@ export default async function DocumentDetailPage({ params }) {
                       <dd>{document.issn}</dd>
                     </div>
                   )}
-                  {document.primaryCategory && (
+                  {document.journal?.name && (
                     <div>
-                      <dt>{strings.details.primaryCategory}</dt>
-                      <dd>{document.primaryCategory}</dd>
+                      <dt>{strings.details.journal}</dt>
+                      <dd>
+                        {journalLink ? (
+                          <Link href={journalLink}>{document.journal.name}</Link>
+                        ) : (
+                          document.journal.name
+                        )}
+                      </dd>
                     </div>
                   )}
-                  {document.categorySlug && (
+                  {issueContext && (
+                    <div>
+                      <dt>{strings.details.issue}</dt>
+                      <dd>{issueContext}</dd>
+                    </div>
+                  )}
+                  {primaryCategoryName && (
+                    <div>
+                      <dt>{strings.details.primaryCategory}</dt>
+                      <dd>{primaryCategoryName}</dd>
+                    </div>
+                  )}
+                  {categoryLabel && (
                     <div>
                       <dt>{strings.details.category}</dt>
-                      <dd>{document.categorySlug}</dd>
+                      <dd>{categoryLabel}</dd>
                     </div>
                   )}
                   {createdAt && (

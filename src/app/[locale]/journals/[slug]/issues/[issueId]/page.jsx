@@ -1,0 +1,187 @@
+import FooterOne from "@/components/FooterOne";
+import HeaderFour from "@/components/HeaderFour";
+import IssueArticlesExplorer from "@/components/journals/IssueArticlesExplorer";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import Preloader from "@/components/Preloader";
+import TopBarTwo from "@/components/TopBarTwo";
+import AOSWrap from "@/helper/AOSWrap";
+import CustomCursor from "@/helper/CustomCursor";
+import { getJournal, getJournalIssues } from "@/lib/api";
+import { getLocale, getTranslations } from "next-intl/server";
+import { notFound } from "next/navigation";
+
+const ISSUE_PAGE_SIZE = 100;
+const MAX_LOOKUP_ITERATIONS = 20;
+
+const findIssueById = async (slug, issueId) => {
+  let page = 1;
+  let iterations = 0;
+
+  while (iterations < MAX_LOOKUP_ITERATIONS) {
+    const response = await getJournalIssues(slug, {
+      page,
+      pageSize: ISSUE_PAGE_SIZE,
+    });
+
+    const issues = Array.isArray(response.issues) ? response.issues : [];
+    const match = issues.find((entry) => Number(entry.id) === Number(issueId));
+    if (match) {
+      return match;
+    }
+
+    if (!response.hasNext || issues.length === 0) {
+      break;
+    }
+
+    page += 1;
+    iterations += 1;
+  }
+
+  return null;
+};
+
+export async function generateMetadata({ params }) {
+  const locale = await getLocale();
+  const slug = params?.slug;
+  const issueId = Number(params?.issueId);
+  if (!slug || Number.isNaN(issueId)) {
+    return {};
+  }
+
+  const t = await getTranslations({ locale, namespace: "library.issueArticles.meta" });
+
+  try {
+    const journal = await getJournal(slug);
+    return {
+      title: t("title", { journal: journal.name }),
+      description: t("description", { journal: journal.name }),
+    };
+  } catch {
+    return {
+      title: t("title", { journal: slug }),
+      description: t("description", { journal: slug }),
+    };
+  }
+}
+
+export default async function IssueArticlesPage({ params }) {
+  const locale = await getLocale();
+  const slug = params?.slug;
+  const issueIdParam = params?.issueId;
+  const issueId = Number(issueIdParam);
+
+  if (!slug || Number.isNaN(issueId)) {
+    notFound();
+  }
+
+  let journal;
+  try {
+    journal = await getJournal(slug);
+  } catch (error) {
+    if (error?.message?.includes("404")) {
+      notFound();
+    }
+    throw error;
+  }
+
+  const issue = await findIssueById(slug, issueId);
+  if (!issue) {
+    notFound();
+  }
+
+  const t = await getTranslations({ locale, namespace: "library.issueArticles" });
+  const detailT = await getTranslations({ locale, namespace: "library.articleDetail" });
+
+  const strings = {
+    header: {
+      journalLabel: t("header.journalLabel"),
+      title: t("header.title"),
+      subtitle: t("header.subtitle"),
+      issueLabel: t("header.issueLabel"),
+      documentsCount: t("header.documentsCount"),
+      unknown: t("header.unknown"),
+      meta: {
+        volume: t("header.meta.volume"),
+        number: t("header.meta.number"),
+        year: t("header.meta.year"),
+        documents: t("header.meta.documents"),
+      },
+    },
+    resultsLabel: t("resultsLabel"),
+    a11y: {
+      results: t("a11y.results"),
+    },
+    error: {
+      message: t("error.message"),
+    },
+    empty: {
+      title: t("empty.title"),
+      description: t("empty.description"),
+    },
+    table: {
+      ariaLabel: t("table.ariaLabel"),
+      title: t("table.title"),
+      authors: t("table.authors"),
+      authorsFallback: t("table.authorsFallback"),
+      year: t("table.year"),
+      noYear: t("table.noYear"),
+      typeLang: t("table.typeLang"),
+      noType: t("table.noType"),
+      pages: t("table.pages"),
+      noPages: t("table.noPages"),
+      actions: t("table.actions"),
+      seeDetails: t("table.seeDetails"),
+    },
+    download: {
+      cta: detailT("download.cta"),
+      loading: detailT("download.loading"),
+      error: detailT("download.error"),
+    },
+    pagination: {
+      ariaLabel: t("pagination.ariaLabel"),
+      previous: t("pagination.previous"),
+      next: t("pagination.next"),
+      pageTemplate: t("pagination.pageIndicator"),
+    },
+  };
+
+  const breadcrumbsItems = [
+    { label: t("breadcrumbs.home.label"), href: t("breadcrumbs.home.href") },
+    { label: t("breadcrumbs.library.label"), href: t("breadcrumbs.library.href") },
+    { label: t("breadcrumbs.journals.label"), href: t("breadcrumbs.journals.href") },
+    { label: journal.name, href: `/journals/${slug}` },
+    {
+      label: t("breadcrumbs.issue", {
+        volume: issue.volume ?? strings.header.unknown,
+        number: issue.number ?? strings.header.unknown,
+        year: issue.year ?? strings.header.unknown,
+      }),
+      current: true,
+    },
+  ];
+
+  return (
+    <AOSWrap>
+      <section className="page-wrapper">
+        <Preloader />
+        <CustomCursor />
+        <TopBarTwo />
+        <HeaderFour />
+
+        <main className="issue-articles-page">
+          <Breadcrumbs items={breadcrumbsItems} ariaLabel={t("a11y.breadcrumbs")} />
+          <IssueArticlesExplorer
+            slug={slug}
+            issueId={issueId}
+            locale={locale}
+            strings={strings}
+            journal={journal}
+            issue={issue}
+          />
+        </main>
+
+        <FooterOne />
+      </section>
+    </AOSWrap>
+  );
+}
