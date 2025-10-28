@@ -56,7 +56,7 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
     <section className="journal-issues-section" id="issues">
       <div className="journal-issues__header">
         <div>
-          <h2>{strings.title}</h2>
+          <h5>{strings.title}</h5>
           <p>{strings.subtitle}</p>
         </div>
         <div className="journal-issues__sort">
@@ -123,7 +123,7 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
         </aside>
 
         <div className="journal-issues__results">
-          <div className="journal-issues__summary" role="status" aria-live="polite">
+          <div className="journal-issues__summary mb-3" role="status" aria-live="polite">
             <span className="sr-only">
               {strings.a11y.resultsTemplate.replace("{count}", announcement || "0")}
             </span>
@@ -153,9 +153,9 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                       <thead>
                         <tr>
                           <th scope="col">{strings.table.year}</th>
+                          <th scope="col">{strings.table.title}</th>
                           <th scope="col">{strings.table.volume}</th>
                           <th scope="col">{strings.table.number}</th>
-                          <th scope="col">{strings.table.title}</th>
                           <th scope="col">{strings.table.date}</th>
                           <th scope="col">{strings.table.documents}</th>
                           <th scope="col" aria-label={strings.table.actions}></th>
@@ -172,14 +172,14 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                               <td data-title={strings.table.year}>
                                 {issue.year ?? strings.table.valueUnknown}
                               </td>
+                              <td data-title={strings.table.title}>
+                                {issue.title || strings.table.untitled}
+                              </td>
                               <td data-title={strings.table.volume}>
                                 {issue.volume ?? strings.table.valueUnknown}
                               </td>
                               <td data-title={strings.table.number}>
                                 {issue.number ?? strings.table.valueUnknown}
-                              </td>
-                              <td data-title={strings.table.title}>
-                                {issue.title || strings.table.untitled}
                               </td>
                               <td data-title={strings.table.date}>{formattedDate}</td>
                               <td data-title={strings.table.documents}>

@@ -184,7 +184,7 @@ export default async function JournalDetailPage({params}) {
 
   return (
     <AOSWrap>
-      <section className="page-wrapper">
+      <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
         <Preloader />
         <CustomCursor />
         <TopBarTwo />
@@ -202,11 +202,6 @@ export default async function JournalDetailPage({params}) {
             }}
             locale={locale}
           />
-
-          <nav className="journal-subnav" aria-label={navStrings.ariaLabel}>
-            <a href="#overview">{navStrings.overview}</a>
-            <a href="#issues">{navStrings.issues}</a>
-          </nav>
 
           <JournalIssuesExplorer slug={slug} locale={locale} strings={issuesStrings} />
         </main>

@@ -82,7 +82,8 @@
         "journals": {
           "label": "Journals",
           "href": "/journals"
-        }
+        },
+        "issue": "Issue Vol {volume} No {number} ({year})"
       },
       "toolbar": {
         "searchLabel": "Search journals",
@@ -143,7 +144,7 @@
         }
       },
       "header": {
-        "eyebrow": "Journal profile",
+        "eyebrow": "Journal",
         "descriptionFallback": "A detailed overview for this journal will be published soon.",
         "descriptionToggle": {
           "more": "Show more",
@@ -259,12 +260,13 @@
           "isbn": "ISBN",
           "issn": "ISSN"
         },
-        "valueUnknown": "—",
+        "valueUnknown": "\u2014",
         "labels": {
           "authors": "Authors",
           "year": "Year",
           "type": "Type",
-          "language": "Language"
+          "language": "Language",
+          "pages": "Pages"
         },
         "imageAlt": "Cover image for {title}"
       },
@@ -316,7 +318,8 @@
         "journals": {
           "label": "Journals",
           "href": "/journals"
-        }
+        },
+        "issue": "Issue Vol {volume} No {number} ({year})"
       },
       "a11y": {
         "breadcrumbs": "Breadcrumb",
@@ -326,9 +329,9 @@
         "journalLabel": "Journal",
         "title": "{journal}",
         "subtitle": "Issue {issue}",
-        "issueLabel": "Vol {volume} • No {number} • {year}",
+        "issueLabel": "Vol {volume} \u2022 No {number} \u2022 {year}",
         "documentsCount": "{count} articles",
-        "unknown": "—",
+        "unknown": "\u2014",
         "meta": {
           "volume": "Volume",
           "number": "Issue",
@@ -350,11 +353,13 @@
         "authors": "Authors",
         "authorsFallback": "Unknown authors",
         "year": "Year",
-        "noYear": "—",
-        "typeLang": "Type • Language",
-        "noType": "—",
+        "noYear": "\u2014",
+        "typeLang": "Type \u2022 Language",
+        "noType": "\u2014",
+        "langOnly": "Language",
+        "languageFallback": "\u2014",
         "pages": "Pages",
-        "noPages": "—",
+        "noPages": "\u2014",
         "actions": "Actions",
         "seeDetails": "See details"
       },

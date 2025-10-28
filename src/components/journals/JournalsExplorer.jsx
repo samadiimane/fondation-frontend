@@ -60,11 +60,16 @@ const JournalsExplorer = ({ locale, strings }) => {
   return (
     <section className="journals-explorer">
       <Breadcrumbs items={breadcrumbItems} ariaLabel={strings.a11y.breadcrumbs} />
+      <div
+        className='section__header'
+        data-aos='fade-up'
+        data-aos-duration={900}
+      >
+        <h2 className="title-animation_inner mt-0">{strings.title}</h2>
 
-      <header className="journals-explorer__header">
-        <h1>{strings.title}</h1>
-        <p>{strings.subtitle}</p>
-      </header>
+      </div>
+      <p className="mb-3">{strings.subtitle}</p>
+
 
       <JournalsToolbar
         strings={strings.toolbar}

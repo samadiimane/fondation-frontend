@@ -40,8 +40,9 @@ const findIssueById = async (slug, issueId) => {
   return null;
 };
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(context) {
   const locale = await getLocale();
+  const params = await context?.params;
   const slug = params?.slug;
   const issueId = Number(params?.issueId);
   if (!slug || Number.isNaN(issueId)) {
@@ -64,8 +65,9 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function IssueArticlesPage({ params }) {
+export default async function IssueArticlesPage(context) {
   const locale = await getLocale();
+  const params = await context?.params;
   const slug = params?.slug;
   const issueIdParam = params?.issueId;
   const issueId = Number(issueIdParam);
@@ -92,14 +94,20 @@ export default async function IssueArticlesPage({ params }) {
   const t = await getTranslations({ locale, namespace: "library.issueArticles" });
   const detailT = await getTranslations({ locale, namespace: "library.articleDetail" });
 
+  const unknownLabel = t("header.unknown");
+
   const strings = {
     header: {
       journalLabel: t("header.journalLabel"),
-      title: t("header.title"),
-      subtitle: t("header.subtitle"),
-      issueLabel: t("header.issueLabel"),
-      documentsCount: t("header.documentsCount"),
-      unknown: t("header.unknown"),
+      title: t("header.title", { journal: "{journal}" }),
+      subtitle: t("header.subtitle", { issue: "{issue}" }),
+      issueLabel: t("header.issueLabel", {
+        volume: "{volume}",
+        number: "{number}",
+        year: "{year}",
+      }),
+      documentsCount: t("header.documentsCount", { count: "{count}" }),
+      unknown: unknownLabel,
       meta: {
         volume: t("header.meta.volume"),
         number: t("header.meta.number"),
@@ -109,7 +117,7 @@ export default async function IssueArticlesPage({ params }) {
     },
     resultsLabel: t("resultsLabel"),
     a11y: {
-      results: t("a11y.results"),
+      results: t("a11y.results", { count: "{count}" }),
     },
     error: {
       message: t("error.message"),
@@ -127,6 +135,8 @@ export default async function IssueArticlesPage({ params }) {
       noYear: t("table.noYear"),
       typeLang: t("table.typeLang"),
       noType: t("table.noType"),
+      langOnly: t("table.langOnly"),
+      languageFallback: t("table.languageFallback"),
       pages: t("table.pages"),
       noPages: t("table.noPages"),
       actions: t("table.actions"),
@@ -141,28 +151,28 @@ export default async function IssueArticlesPage({ params }) {
       ariaLabel: t("pagination.ariaLabel"),
       previous: t("pagination.previous"),
       next: t("pagination.next"),
-      pageTemplate: t("pagination.pageIndicator"),
+      pageTemplate: t("pagination.pageIndicator", { page: "{page}" }),
     },
   };
 
+  const formatIssueValue = (value) => (value ?? unknownLabel);
+  const journalDisplayName = journal?.name?.trim() || slug;
+  const issueBreadcrumbLabel = t("breadcrumbs.issue", {
+    volume: formatIssueValue(issue.volume),
+    number: formatIssueValue(issue.number),
+    year: formatIssueValue(issue.year),
+  });
+
   const breadcrumbsItems = [
     { label: t("breadcrumbs.home.label"), href: t("breadcrumbs.home.href") },
-    { label: t("breadcrumbs.library.label"), href: t("breadcrumbs.library.href") },
     { label: t("breadcrumbs.journals.label"), href: t("breadcrumbs.journals.href") },
-    { label: journal.name, href: `/journals/${slug}` },
-    {
-      label: t("breadcrumbs.issue", {
-        volume: issue.volume ?? strings.header.unknown,
-        number: issue.number ?? strings.header.unknown,
-        year: issue.year ?? strings.header.unknown,
-      }),
-      current: true,
-    },
+    { label: journalDisplayName, href: `/journals/${slug}` },
+    { label: issueBreadcrumbLabel, current: true },
   ];
 
   return (
     <AOSWrap>
-      <section className="page-wrapper">
+      <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
         <Preloader />
         <CustomCursor />
         <TopBarTwo />
@@ -175,7 +185,7 @@ export default async function IssueArticlesPage({ params }) {
             issueId={issueId}
             locale={locale}
             strings={strings}
-            journal={journal}
+            journal={{ ...journal, name: journalDisplayName }}
             issue={issue}
           />
         </main>

@@ -36,9 +36,8 @@ const JournalCard = ({ journal, strings, formatNumber }) => {
         className="journal-card__publisher"
         title={journal.publisher?.trim() ? journal.publisher.trim() : undefined}
       >
-        <i className="fa-solid fa-building-columns" aria-hidden="true" />
         <span>
-          <strong>{strings.publisherLabel}</strong> {publisherDisplay}
+          <strong>{strings.publisherLabel} :</strong> {publisherDisplay}
         </span>
       </p>
 

@@ -18,34 +18,40 @@ const JournalHeader = ({ journal, strings, stats, locale }) => {
 
   return (
     <header className="journal-header" id="overview">
-      <div className="journal-header__primary">
-        <div className="journal-header__eyebrow">{strings.eyebrow}</div>
-        <h1 className="journal-header__title">{journal.name}</h1>
+      <div>
+        <div
+          className='section__header'
+          data-aos='fade-up'
+          data-aos-duration={900}
+        >
+          <h2 className="title-animation_inner mt-0"><span>{strings.eyebrow} :</span> {journal.name}</h2>
 
-        <ul className="journal-header__meta">
+        </div>
+
+        <ul className="journal-header__meta mb-3">
           <li>
-            <span className="label">{strings.meta.issn}</span>
+            <span className="label">{strings.meta.issn} :</span>
             <span>{journal.issn || strings.meta.issnUnknown}</span>
           </li>
           <li title={journal.publisher || undefined}>
-            <span className="label">{strings.meta.publisher}</span>
+            <span className="label">{strings.meta.publisher} :</span>
             <span>{journal.publisher || strings.meta.publisherUnknown}</span>
           </li>
           {journal.language && (
             <li>
-              <span className="label">{strings.meta.language}</span>
+              <span className="label">{strings.meta.language} :</span>
               <span>{journal.language}</span>
             </li>
           )}
           {journal.country && (
             <li>
-              <span className="label">{strings.meta.country}</span>
+              <span className="label">{strings.meta.country} :</span>
               <span>{journal.country}</span>
             </li>
           )}
         </ul>
 
-        <div className={`journal-header__description ${expanded ? "is-expanded" : ""}`}>
+        <div className={`journal-header__description mb-2 ${expanded ? "is-expanded" : ""}`}>
           <p>{journal.description || strings.descriptionFallback}</p>
           {journal.description && journal.description.length > 320 && (
             <button
@@ -58,29 +64,6 @@ const JournalHeader = ({ journal, strings, stats, locale }) => {
           )}
         </div>
       </div>
-
-      <aside className="journal-header__stats-card" aria-label={strings.statsCardLabel}>
-        <dl>
-          <div>
-            <dt>{strings.stats.issues}</dt>
-            <dd>{issuesCount}</dd>
-          </div>
-          <div>
-            <dt>{strings.stats.documents}</dt>
-            <dd>{documentsCount}</dd>
-          </div>
-          <div>
-            <dt>{strings.stats.coverage}</dt>
-            <dd>{stats.coverage || strings.stats.coverageUnknown}</dd>
-          </div>
-          {stats.holdings && (
-            <div>
-              <dt>{strings.stats.holdings}</dt>
-              <dd>{stats.holdings}</dd>
-            </div>
-          )}
-        </dl>
-      </aside>
     </header>
   );
 };

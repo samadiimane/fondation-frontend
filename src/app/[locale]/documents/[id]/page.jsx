@@ -18,7 +18,11 @@ const buildStrings = (t) => ({
     home: { label: t("breadcrumbs.home.label"), href: t("breadcrumbs.home.href") },
     library: { label: t("breadcrumbs.library.label"), href: t("breadcrumbs.library.href") },
     journals: { label: t("breadcrumbs.journals.label"), href: t("breadcrumbs.journals.href") },
-    issue: t("breadcrumbs.issue"),
+    issue: t("breadcrumbs.issue", {
+      volume: "{volume}",
+      number: "{number}",
+      year: "{year}",
+    }),
   },
   a11y: {
     breadcrumbs: t("a11y.breadcrumbs"),
@@ -30,8 +34,12 @@ const buildStrings = (t) => ({
     typeFallback: t("header.typeFallback"),
     languageFallback: t("header.languageFallback"),
     journalContext: t("header.journalContext"),
-    issueContext: t("header.issueContext"),
-    pages: t("header.pages"),
+    issueContext: t("header.issueContext", {
+      volume: "{volume}",
+      number: "{number}",
+      year: "{year}",
+    }),
+    pages: t("header.pages", { pages: "{pages}" }),
     valueUnknown: t("header.valueUnknown"),
     labels: {
       authors: t("header.labels.authors"),
@@ -39,7 +47,7 @@ const buildStrings = (t) => ({
       type: t("header.labels.type"),
       language: t("header.labels.language"),
     },
-    imageAlt: t("header.imageAlt"),
+    imageAlt: t("header.imageAlt", { title: "{title}" }),
     badges: {
       doi: t("header.badges.doi"),
       isbn: t("header.badges.isbn"),
@@ -93,8 +101,9 @@ const formatTypeLabel = (value, fallback) => {
   return formatted.replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
-export async function generateMetadata({ params }) {
+export async function generateMetadata(context) {
   const locale = await getLocale();
+  const params = await context?.params;
   const id = params?.id;
   if (!id) return {};
 
@@ -114,8 +123,9 @@ export async function generateMetadata({ params }) {
   }
 }
 
-export default async function DocumentDetailPage({ params }) {
+export default async function DocumentDetailPage(context) {
   const locale = await getLocale();
+  const params = await context?.params;
   const id = params?.id;
   if (!id) {
     notFound();
@@ -134,31 +144,52 @@ export default async function DocumentDetailPage({ params }) {
   const t = await getTranslations({ locale, namespace: "library.articleDetail" });
   const strings = buildStrings(t);
 
+  const documentTitle = document.title?.trim() || strings.header.valueUnknown;
   const authors = formatAuthors(document.authors) || strings.header.authorsFallback;
   const year = document.year ?? strings.header.yearFallback;
   const typeLabel = formatTypeLabel(document.type, strings.header.typeFallback);
-  const language = (document.language || strings.header.languageFallback).toUpperCase();
+  const languageRaw = document.language ?? strings.header.languageFallback;
+  const language = String(languageRaw).toUpperCase();
   const pages =
     document.startPage && document.endPage
-      ? `${document.startPage}–${document.endPage}`
+      ? `${document.startPage}-${document.endPage}`
       : document.pages || null;
+  const pagesValue = pages ?? strings.header.valueUnknown;
   const coverImage = document.coverImage || null;
+  const normalizeMetaValue = (value) =>
+    value === null || value === undefined || value === "" ? strings.header.valueUnknown : value;
+  const issueVolume = document.issue?.volume ?? null;
+  const issueNumber = document.issue?.number ?? null;
+  const issueYear = document.issue?.year ?? null;
+  const hasIssueMetadata =
+    document.issue &&
+    [issueVolume, issueNumber, issueYear].some(
+      (value) => value !== null && value !== undefined && value !== ""
+    );
 
-  const issueContext = document.issue
+  const issueContext = hasIssueMetadata
     ? strings.header.issueContext
-        .replace("{volume}", document.issue.volume ?? strings.header.valueUnknown)
-        .replace("{number}", document.issue.number ?? strings.header.valueUnknown)
-        .replace("{year}", document.issue.year ?? strings.header.valueUnknown)
+        .replace("{volume}", String(normalizeMetaValue(issueVolume)))
+        .replace("{number}", String(normalizeMetaValue(issueNumber)))
+        .replace("{year}", String(normalizeMetaValue(issueYear)))
     : null;
 
-  const issueBreadcrumbLabel = issueContext
+  const issueBreadcrumbLabel = hasIssueMetadata
     ? strings.breadcrumbs.issue
-        .replace("{volume}", document.issue?.volume ?? strings.header.valueUnknown)
-        .replace("{number}", document.issue?.number ?? strings.header.valueUnknown)
-        .replace("{year}", document.issue?.year ?? strings.header.valueUnknown)
+        .replace("{volume}", String(normalizeMetaValue(issueVolume)))
+        .replace("{number}", String(normalizeMetaValue(issueNumber)))
+        .replace("{year}", String(normalizeMetaValue(issueYear)))
     : null;
 
+  const journalName = document.journal?.name?.trim() || null;
   const journalLink = document.journal?.slug ? `/journals/${document.journal.slug}` : null;
+  const coverAlt = strings.header.imageAlt.replace("{title}", documentTitle);
+  const metaItems = [
+    { key: "year", label: strings.header.labels.year, value: year },
+    { key: "type", label: strings.header.labels.type, value: typeLabel },
+    { key: "language", label: strings.header.labels.language, value: language },
+    { key: "pages", label: strings.header.labels.pages, value: pagesValue },
+  ];
 
   const typeClass = (document.type || "document")
     .toString()
@@ -168,13 +199,12 @@ export default async function DocumentDetailPage({ params }) {
 
   const breadcrumbItems = [
     strings.breadcrumbs.home,
-    strings.breadcrumbs.library,
     strings.breadcrumbs.journals,
   ];
 
-  if (document.journal?.name) {
+  if (journalName) {
     breadcrumbItems.push({
-      label: document.journal.name,
+      label: journalName,
       href: journalLink ?? undefined,
     });
     if (issueBreadcrumbLabel) {
@@ -184,7 +214,7 @@ export default async function DocumentDetailPage({ params }) {
     }
   }
 
-  breadcrumbItems.push({ label: document.title, current: true });
+  breadcrumbItems.push({ label: documentTitle, current: true });
 
   const primaryCategoryName =
     typeof document.primaryCategory === "string"
@@ -207,7 +237,7 @@ export default async function DocumentDetailPage({ params }) {
 
   return (
     <AOSWrap>
-      <section className="page-wrapper">
+      <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
         <Preloader />
         <CustomCursor />
         <TopBarTwo />
@@ -216,54 +246,41 @@ export default async function DocumentDetailPage({ params }) {
         <main className={detailClassName}>
           <Breadcrumbs items={breadcrumbItems} ariaLabel={strings.a11y.breadcrumbs} />
 
-          <div className="article-detail__layout">
-            <article className="article-detail__main">
-              <header className="article-detail__header">
-                <span className="article-detail__eyebrow">{typeLabel}</span>
-                <h1>{document.title}</h1>
-                <ul className="article-detail__meta-list">
-                  <li>
-                    <strong>{strings.header.labels.authors}</strong>
-                    <span>{authors}</span>
-                  </li>
-                  <li>
-                    <strong>{strings.header.labels.year}</strong>
-                    <span>{year}</span>
-                  </li>
-                  <li>
-                    <strong>{strings.header.labels.type}</strong>
-                    <span>{typeLabel}</span>
-                  </li>
-                  <li>
-                    <strong>{strings.header.labels.language}</strong>
-                    <span>{language}</span>
-                  </li>
-                </ul>
+          <section className="article-detail__section">
+            <header className="article-detail__header">
+              <div className="article-detail__intro">
+                <div
+          className='section__header'
+          data-aos='fade-up'
+          data-aos-duration={900}
+        >
+          <h5 className="title-animation_inner mt-0"><span>{typeLabel} :</span> {documentTitle}</h5>
 
-                {document.journal?.name && (
+        </div>
+                <p className="article-detail__byline">
+                  <strong>{strings.header.labels.authors}</strong>
+                  <span>{authors}</span>
+                </p>
+                {(journalName || issueContext) && (
                   <p className="article-detail__context">
-                    <strong>{strings.header.journalContext}</strong>
-                    {journalLink ? (
-                      <Link href={journalLink}>{document.journal.name}</Link>
-                    ) : (
-                      <span>{document.journal.name}</span>
+                    {journalName && (
+                      <>
+                        <strong>{strings.header.journalContext}</strong>
+                        {journalLink ? (
+                          <Link href={journalLink}>{journalName}</Link>
+                        ) : (
+                          <span>{journalName}</span>
+                        )}
+                      </>
                     )}
                     {issueContext && (
                       <span className="article-detail__issue">
-                        {strings.header.metaSeparator}
+                        {journalName ? strings.header.metaSeparator : ""}
                         {issueContext}
                       </span>
                     )}
                   </p>
                 )}
-
-                {pages && (
-                  <p className="article-detail__pages">
-                    <i className="fa-regular fa-file-lines" aria-hidden="true" />
-                    <span>{strings.header.pages.replace("{pages}", pages)}</span>
-                  </p>
-                )}
-
                 <div className="article-detail__actions">
                   <DocumentDownloadButton
                     documentId={document.id}
@@ -271,67 +288,74 @@ export default async function DocumentDetailPage({ params }) {
                     tone="primary"
                   />
                 </div>
-
-                <ul className="article-detail__badges">
-                  {document.doi && (
-                    <li>
-                      <span>{strings.header.badges.doi}</span>
-                      <a
-                        href={`https://doi.org/${document.doi}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {document.doi}
-                      </a>
-                    </li>
-                  )}
-                  {document.isbn && (
-                    <li>
-                      <span>{strings.header.badges.isbn}</span>
-                      <span>{document.isbn}</span>
-                    </li>
-                  )}
-                  {document.issn && (
-                    <li>
-                      <span>{strings.header.badges.issn}</span>
-                      <span>{document.issn}</span>
-                    </li>
-                  )}
-                </ul>
-              </header>
-
-              {coverImage && (
-                <figure className="article-detail__image">
-                  <img
-                    src={coverImage}
-                    alt={strings.header.imageAlt.replace("{title}", document.title)}
-                    loading="lazy"
-                  />
-                </figure>
-              )}
-
-              <section className="article-detail__abstract" aria-labelledby="article-abstract">
-                <h2 id="article-abstract">{strings.abstract.title}</h2>
-                {document.abstract ? (
-                  <ExpandableText
-                    text={document.abstract}
-                    strings={{ more: strings.abstract.more, less: strings.abstract.less }}
-                  />
-                ) : (
-                  <p className="article-detail__abstract-empty">{strings.abstract.empty}</p>
+                {(document.doi || document.isbn || document.issn) && (
+                  <ul className="article-detail__badges">
+                    {document.doi && (
+                      <li>
+                        <span>{strings.header.badges.doi}</span>
+                        <a
+                          href={`https://doi.org/${document.doi}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          {document.doi}
+                        </a>
+                      </li>
+                    )}
+                    {document.isbn && (
+                      <li>
+                        <span>{strings.header.badges.isbn}</span>
+                        <span>{document.isbn}</span>
+                      </li>
+                    )}
+                    {document.issn && (
+                      <li>
+                        <span>{strings.header.badges.issn}</span>
+                        <span>{document.issn}</span>
+                      </li>
+                    )}
+                  </ul>
                 )}
-              </section>
+              </div>
+              <dl className="article-detail__meta">
+                {metaItems.map((item) => (
+                  <div key={item.key}>
+                    <dt>{item.label}</dt>
+                    <dd>{item.value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </header>
 
-              <section className="article-detail__preview" aria-labelledby="article-preview">
-                <h2 id="article-preview">{strings.preview.ariaLabel}</h2>
-                <DocumentPreview documentId={document.id} strings={strings.preview} />
-              </section>
-            </article>
+            <div className="article-detail__grid">
+              <article className="article-detail__card article-detail__card--primary">
+                {coverImage && (
+                  <figure className="article-detail__cover">
+                    <img src={coverImage} alt={coverAlt} loading="lazy" />
+                  </figure>
+                )}
 
-            <aside className="article-detail__sidebar">
-              <div className="article-detail__panel">
+                <section className="article-detail__block" aria-labelledby="article-abstract">
+                  <h2 id="article-abstract">{strings.abstract.title}</h2>
+                  {document.abstract ? (
+                    <ExpandableText
+                      text={document.abstract}
+                      strings={{ more: strings.abstract.more, less: strings.abstract.less }}
+                    />
+                  ) : (
+                    <p className="article-detail__abstract-empty">{strings.abstract.empty}</p>
+                  )}
+                </section>
+
+                <section className="article-detail__block" aria-labelledby="article-preview">
+                  <h2 id="article-preview">{strings.preview.ariaLabel}</h2>
+                  <DocumentPreview documentId={document.id} strings={strings.preview} />
+                </section>
+              </article>
+
+              <aside className="article-detail__card article-detail__card--info">
                 <h2>{strings.details.title}</h2>
-                <dl>
+                <dl className="article-detail__info-list">
                   {document.doi && (
                     <div>
                       <dt>{strings.details.doi}</dt>
@@ -400,9 +424,9 @@ export default async function DocumentDetailPage({ params }) {
                     <p>{strings.details.noKeywords}</p>
                   )}
                 </div>
-              </div>
-            </aside>
-          </div>
+              </aside>
+            </div>
+          </section>
         </main>
 
         <FooterOne />

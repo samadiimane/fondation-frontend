@@ -3,7 +3,6 @@
 import { useMemo } from "react";
 import { Link } from "@/i18n/navigation";
 import useIssueArticles from "@/hooks/useIssueArticles";
-import DocumentDownloadButton from "@/components/documents/DocumentDownloadButton";
 
 const formatAuthors = (value, fallback) => {
   if (!value) return fallback;
@@ -12,11 +11,6 @@ const formatAuthors = (value, fallback) => {
     return filtered.length ? filtered.join(", ") : fallback;
   }
   return value;
-};
-
-const formatTypeLabel = (value) => {
-  if (!value) return "";
-  return value.replace(/_/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
 };
 
 const IssueArticlesExplorer = ({
@@ -48,27 +42,42 @@ const IssueArticlesExplorer = ({
     }
   }, [locale]);
 
+  const fallbackDocumentsCount =
+    typeof issue?.counts?.documents === "number"
+      ? issue.counts.documents
+      : Number.parseInt(issue?.counts?.documents ?? "", 10);
+  const normalizedTotal = Number.isFinite(total)
+    ? total
+    : Number.isFinite(fallbackDocumentsCount)
+      ? fallbackDocumentsCount
+      : 0;
+  const currentPage = Number.isFinite(page) ? page : 1;
+  const currentPageSize = Number.isFinite(pageSize) ? pageSize : Math.max(items.length, 20);
+
   const issueLabel = strings.header.issueLabel
-    .replace("{volume}", issue?.volume ?? strings.header.unknown)
-    .replace("{number}", issue?.number ?? strings.header.unknown)
-    .replace("{year}", issue?.year ?? strings.header.unknown);
+    .replace("{volume}", String(issue?.volume ?? strings.header.unknown))
+    .replace("{number}", String(issue?.number ?? strings.header.unknown))
+    .replace("{year}", String(issue?.year ?? strings.header.unknown));
 
-  const documentsLabel = strings.header.documentsCount.replace(
-    "{count}",
-    numberFormatter.format(total ?? issue?.counts?.documents ?? 0)
-  );
+  const hasDocumentsCount = Number.isFinite(total) || Number.isFinite(fallbackDocumentsCount);
+  const documentsLabel = hasDocumentsCount
+    ? strings.header.documentsCount.replace("{count}", numberFormatter.format(normalizedTotal))
+    : strings.header.unknown;
 
-  const canShowPagination = total > pageSize || page > 1 || hasNext;
+  const canShowPagination = normalizedTotal > currentPageSize || currentPage > 1 || hasNext;
+  const announcementValue = announcement || numberFormatter.format(normalizedTotal);
+  const journalName = journal?.name ?? strings.header.unknown;
 
   return (
     <section className="issue-articles" aria-live="polite">
       <header className="issue-articles__header">
-        <div>
-          <p className="issue-articles__eyebrow">{strings.header.journalLabel}</p>
-          <h1>{strings.header.title.replace("{journal}", journal.name)}</h1>
-          <p className="issue-articles__subtitle">
-            {strings.header.subtitle.replace("{issue}", issueLabel)}
-          </p>
+        <div
+          className='section__header'
+          data-aos='fade-up'
+          data-aos-duration={900}
+        >
+          <h2 className="title-animation_inner mt-0"><span>{strings.header.journalLabel} :</span> {strings.header.title.replace("{journal}", journalName)} </h2>
+
         </div>
         <dl className="issue-articles__meta">
           <div>
@@ -91,13 +100,6 @@ const IssueArticlesExplorer = ({
       </header>
 
       <div className="issue-articles__results">
-        <div className="issue-articles__summary" role="status" aria-live="polite">
-          <span className="sr-only">
-            {strings.a11y.results.replace("{count}", announcement || "0")}
-          </span>
-          <strong>{numberFormatter.format(total)}</strong> {strings.resultsLabel}
-        </div>
-
         {error ? (
           <div className="issue-articles__error" role="alert">
             <p>{strings.error.message}</p>
@@ -117,7 +119,7 @@ const IssueArticlesExplorer = ({
                       <th scope="col">{strings.table.title}</th>
                       <th scope="col">{strings.table.authors}</th>
                       <th scope="col">{strings.table.year}</th>
-                      <th scope="col">{strings.table.typeLang}</th>
+                      <th scope="col">{strings.table.langOnly}</th>
                       <th scope="col">{strings.table.pages}</th>
                       <th scope="col" aria-label={strings.table.actions}></th>
                     </tr>
@@ -125,11 +127,10 @@ const IssueArticlesExplorer = ({
                   <tbody>
                     {items.map((doc) => {
                       const authors = formatAuthors(doc.authors, strings.table.authorsFallback);
-                      const typeLabel = formatTypeLabel(doc.type);
                       const langLabel = (doc.language || "").toUpperCase();
                       const pages =
                         doc.startPage && doc.endPage
-                          ? `${doc.startPage}–${doc.endPage}`
+                          ? `${doc.startPage}-${doc.endPage}`
                           : doc.pages || strings.table.noPages;
                       return (
                         <tr key={doc.id}>
@@ -140,25 +141,14 @@ const IssueArticlesExplorer = ({
                           <td data-title={strings.table.year}>
                             {doc.year ?? strings.table.noYear}
                           </td>
-                          <td data-title={strings.table.typeLang}>
-                            <span>{typeLabel}</span>
-                            {langLabel && <span className="issue-articles__lang">{langLabel}</span>}
+                          <td data-title={strings.table.langOnly}>
+                            {langLabel || strings.table.languageFallback}
                           </td>
                           <td data-title={strings.table.pages}>{pages}</td>
                           <td data-title={strings.table.actions}>
-                            <div className="issue-articles__actions">
-                              <Link
-                                href={`/library/${doc.id}`}
-                                className="issue-articles__details"
-                              >
-                                {strings.table.seeDetails}
-                              </Link>
-                              <DocumentDownloadButton
-                                documentId={doc.id}
-                                strings={strings.download}
-                                tone="ghost"
-                              />
-                            </div>
+                            <Link href={`/library/${doc.id}`} className="journal-issues__action">
+                              {strings.table.seeDetails}
+                            </Link>
                           </td>
                         </tr>
                       );
@@ -169,11 +159,10 @@ const IssueArticlesExplorer = ({
                 <div className="issue-articles__cards">
                   {items.map((doc) => {
                     const authors = formatAuthors(doc.authors, strings.table.authorsFallback);
-                    const typeLabel = formatTypeLabel(doc.type);
                     const langLabel = (doc.language || "").toUpperCase();
                     const pages =
                       doc.startPage && doc.endPage
-                        ? `${doc.startPage}–${doc.endPage}`
+                        ? `${doc.startPage}-${doc.endPage}`
                         : doc.pages || strings.table.noPages;
                     return (
                       <article key={`card-${doc.id}`} className="issue-articles__card">
@@ -189,22 +178,17 @@ const IssueArticlesExplorer = ({
                             {doc.year ?? strings.table.noYear}
                           </li>
                           <li>
-                            <strong>{strings.table.typeLang}</strong>{" "}
-                            {[typeLabel, langLabel].filter(Boolean).join(" • ") || strings.table.noType}
+                            <strong>{strings.table.langOnly}</strong>{" "}
+                            {langLabel || strings.table.languageFallback}
                           </li>
                           <li>
                             <strong>{strings.table.pages}</strong> {pages}
                           </li>
                         </ul>
                         <div className="issue-articles__card-actions">
-                          <Link href={`/library/${doc.id}`} className="issue-articles__details">
+                          <Link href={`/library/${doc.id}`} className="journal-issues__action">
                             {strings.table.seeDetails}
                           </Link>
-                          <DocumentDownloadButton
-                            documentId={doc.id}
-                            strings={strings.download}
-                            tone="ghost"
-                          />
                         </div>
                       </article>
                     );
@@ -219,16 +203,16 @@ const IssueArticlesExplorer = ({
           <nav className="issue-articles__pagination" aria-label={strings.pagination.ariaLabel}>
             <button
               type="button"
-              onClick={() => setPage(Math.max(page - 1, 1))}
-              disabled={loading || page <= 1}
+              onClick={() => setPage(Math.max(currentPage - 1, 1))}
+              disabled={loading || currentPage <= 1}
             >
               <i className="fa-solid fa-arrow-left" aria-hidden="true" />
               {strings.pagination.previous}
             </button>
-            <span>{strings.pagination.pageTemplate.replace("{page}", String(page))}</span>
+            <span>{strings.pagination.pageTemplate.replace("{page}", String(currentPage))}</span>
             <button
               type="button"
-              onClick={() => setPage(page + 1)}
+              onClick={() => setPage(currentPage + 1)}
               disabled={loading || !hasNext}
             >
               {strings.pagination.next}

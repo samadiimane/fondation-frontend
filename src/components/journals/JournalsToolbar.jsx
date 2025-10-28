@@ -18,7 +18,7 @@ const JournalsToolbar = ({
   }, []);
 
   return (
-    <form className="journals-toolbar" role="search" onSubmit={handleSubmit}>
+    <form className="journals-toolbar mb-3" role="search" onSubmit={handleSubmit}>
       <div className="journals-toolbar__inputs">
         <div className="journals-toolbar__field">
           <label htmlFor="journals-search">{strings.searchLabel}</label>
