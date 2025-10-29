@@ -271,7 +271,7 @@
         "imageAlt": "Cover image for {title}"
       },
       "download": {
-        "cta": "Read / Download",
+        "cta": "Download",
         "loading": "Preparing download...",
         "error": "Download unavailable right now."
       },

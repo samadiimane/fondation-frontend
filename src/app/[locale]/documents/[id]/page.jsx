@@ -46,6 +46,7 @@ const buildStrings = (t) => ({
       year: t("header.labels.year"),
       type: t("header.labels.type"),
       language: t("header.labels.language"),
+      pages: t("header.labels.pages"),
     },
     imageAlt: t("header.imageAlt", { title: "{title}" }),
     badges: {
@@ -169,27 +170,116 @@ export default async function DocumentDetailPage(context) {
 
   const issueContext = hasIssueMetadata
     ? strings.header.issueContext
-        .replace("{volume}", String(normalizeMetaValue(issueVolume)))
-        .replace("{number}", String(normalizeMetaValue(issueNumber)))
-        .replace("{year}", String(normalizeMetaValue(issueYear)))
+      .replace("{volume}", String(normalizeMetaValue(issueVolume)))
+      .replace("{number}", String(normalizeMetaValue(issueNumber)))
+      .replace("{year}", String(normalizeMetaValue(issueYear)))
     : null;
 
   const issueBreadcrumbLabel = hasIssueMetadata
     ? strings.breadcrumbs.issue
-        .replace("{volume}", String(normalizeMetaValue(issueVolume)))
-        .replace("{number}", String(normalizeMetaValue(issueNumber)))
-        .replace("{year}", String(normalizeMetaValue(issueYear)))
+      .replace("{volume}", String(normalizeMetaValue(issueVolume)))
+      .replace("{number}", String(normalizeMetaValue(issueNumber)))
+      .replace("{year}", String(normalizeMetaValue(issueYear)))
     : null;
 
   const journalName = document.journal?.name?.trim() || null;
   const journalLink = document.journal?.slug ? `/journals/${document.journal.slug}` : null;
   const coverAlt = strings.header.imageAlt.replace("{title}", documentTitle);
-  const metaItems = [
+  const primaryCategoryName =
+    typeof document.primaryCategory === "string"
+      ? document.primaryCategory
+      : document.primaryCategory?.name ?? document.primaryCategory?.slug ?? null;
+  const categoryLabel =
+    document.category?.name ??
+    document.category?.title ??
+    (typeof document.category === "string" ? document.category : null) ??
+    document.categorySlug ??
+    null;
+  const keywords = Array.isArray(document.keywords) ? document.keywords.filter(Boolean) : [];
+  const createdAt = document.createdAt
+    ? new Intl.DateTimeFormat(locale || undefined, { dateStyle: "medium" }).format(
+        new Date(document.createdAt)
+      )
+    : null;
+  const detailEntries = [
+    { key: "authors", label: strings.header.labels.authors, value: authors },
     { key: "year", label: strings.header.labels.year, value: year },
     { key: "type", label: strings.header.labels.type, value: typeLabel },
     { key: "language", label: strings.header.labels.language, value: language },
     { key: "pages", label: strings.header.labels.pages, value: pagesValue },
   ];
+
+  if (journalName) {
+    detailEntries.push({
+      key: "journal",
+      label: strings.details.journal,
+      value: journalLink ? <Link href={journalLink}>{journalName}</Link> : journalName,
+    });
+  }
+
+  if (issueContext) {
+    detailEntries.push({
+      key: "issue",
+      label: strings.details.issue,
+      value: issueContext,
+    });
+  }
+
+  if (document.doi) {
+    detailEntries.push({
+      key: "doi",
+      label: strings.details.doi,
+      value: (
+        <a
+          href={`https://doi.org/${document.doi}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {document.doi}
+        </a>
+      ),
+    });
+  }
+
+  if (document.isbn) {
+    detailEntries.push({
+      key: "isbn",
+      label: strings.details.isbn,
+      value: document.isbn,
+    });
+  }
+
+  if (document.issn) {
+    detailEntries.push({
+      key: "issn",
+      label: strings.details.issn,
+      value: document.issn,
+    });
+  }
+
+  if (primaryCategoryName) {
+    detailEntries.push({
+      key: "primaryCategory",
+      label: strings.details.primaryCategory,
+      value: primaryCategoryName,
+    });
+  }
+
+  if (categoryLabel) {
+    detailEntries.push({
+      key: "category",
+      label: strings.details.category,
+      value: categoryLabel,
+    });
+  }
+
+  if (createdAt) {
+    detailEntries.push({
+      key: "createdAt",
+      label: strings.details.createdAt,
+      value: createdAt,
+    });
+  }
 
   const typeClass = (document.type || "document")
     .toString()
@@ -216,28 +306,9 @@ export default async function DocumentDetailPage(context) {
 
   breadcrumbItems.push({ label: documentTitle, current: true });
 
-  const primaryCategoryName =
-    typeof document.primaryCategory === "string"
-      ? document.primaryCategory
-      : document.primaryCategory?.name ?? document.primaryCategory?.slug ?? null;
-  const categoryLabel =
-    document.category?.name ??
-    document.category?.title ??
-    (typeof document.category === "string" ? document.category : null) ??
-    document.categorySlug ??
-    null;
-
-  const keywords = Array.isArray(document.keywords) ? document.keywords.filter(Boolean) : [];
-
-  const createdAt = document.createdAt
-    ? new Intl.DateTimeFormat(locale || undefined, { dateStyle: "medium" }).format(
-        new Date(document.createdAt)
-      )
-    : null;
-
   return (
     <AOSWrap>
-      <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
+      <section className="page-wrapper" style={{ backgroundColor: "#f7f8fc" }}>
         <Preloader />
         <CustomCursor />
         <TopBarTwo />
@@ -248,83 +319,13 @@ export default async function DocumentDetailPage(context) {
 
           <section className="article-detail__section">
             <header className="article-detail__header">
-              <div className="article-detail__intro">
                 <div
-          className='section__header'
-          data-aos='fade-up'
-          data-aos-duration={900}
-        >
-          <h5 className="title-animation_inner mt-0"><span>{typeLabel} :</span> {documentTitle}</h5>
-
-        </div>
-                <p className="article-detail__byline">
-                  <strong>{strings.header.labels.authors}</strong>
-                  <span>{authors}</span>
-                </p>
-                {(journalName || issueContext) && (
-                  <p className="article-detail__context">
-                    {journalName && (
-                      <>
-                        <strong>{strings.header.journalContext}</strong>
-                        {journalLink ? (
-                          <Link href={journalLink}>{journalName}</Link>
-                        ) : (
-                          <span>{journalName}</span>
-                        )}
-                      </>
-                    )}
-                    {issueContext && (
-                      <span className="article-detail__issue">
-                        {journalName ? strings.header.metaSeparator : ""}
-                        {issueContext}
-                      </span>
-                    )}
-                  </p>
-                )}
-                <div className="article-detail__actions">
-                  <DocumentDownloadButton
-                    documentId={document.id}
-                    strings={strings.download}
-                    tone="primary"
-                  />
+                  className='section__header'
+                  data-aos='fade-up'
+                  data-aos-duration={900}
+                >
+                  <h5 className="title-animation_inner mt-0"><span>{typeLabel} :</span> {documentTitle}</h5>
                 </div>
-                {(document.doi || document.isbn || document.issn) && (
-                  <ul className="article-detail__badges">
-                    {document.doi && (
-                      <li>
-                        <span>{strings.header.badges.doi}</span>
-                        <a
-                          href={`https://doi.org/${document.doi}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {document.doi}
-                        </a>
-                      </li>
-                    )}
-                    {document.isbn && (
-                      <li>
-                        <span>{strings.header.badges.isbn}</span>
-                        <span>{document.isbn}</span>
-                      </li>
-                    )}
-                    {document.issn && (
-                      <li>
-                        <span>{strings.header.badges.issn}</span>
-                        <span>{document.issn}</span>
-                      </li>
-                    )}
-                  </ul>
-                )}
-              </div>
-              <dl className="article-detail__meta">
-                {metaItems.map((item) => (
-                  <div key={item.key}>
-                    <dt>{item.label}</dt>
-                    <dd>{item.value}</dd>
-                  </div>
-                ))}
-              </dl>
             </header>
 
             <div className="article-detail__grid">
@@ -350,66 +351,25 @@ export default async function DocumentDetailPage(context) {
                 <section className="article-detail__block" aria-labelledby="article-preview">
                   <h2 id="article-preview">{strings.preview.ariaLabel}</h2>
                   <DocumentPreview documentId={document.id} strings={strings.preview} />
+                  <div className="article-detail__download">
+                    <DocumentDownloadButton
+                      documentId={document.id}
+                      strings={strings.download}
+                      tone="primary"
+                    />
+                  </div>
                 </section>
               </article>
 
-              <aside className="article-detail__card article-detail__card--info">
+              <aside className="article-detail__card--info">
                 <h2>{strings.details.title}</h2>
                 <dl className="article-detail__info-list">
-                  {document.doi && (
-                    <div>
-                      <dt>{strings.details.doi}</dt>
-                      <dd>{document.doi}</dd>
+                  {detailEntries.map((entry) => (
+                    <div key={entry.key}>
+                      <dt>{entry.label}</dt>
+                      <dd>{entry.value}</dd>
                     </div>
-                  )}
-                  {document.isbn && (
-                    <div>
-                      <dt>{strings.details.isbn}</dt>
-                      <dd>{document.isbn}</dd>
-                    </div>
-                  )}
-                  {document.issn && (
-                    <div>
-                      <dt>{strings.details.issn}</dt>
-                      <dd>{document.issn}</dd>
-                    </div>
-                  )}
-                  {document.journal?.name && (
-                    <div>
-                      <dt>{strings.details.journal}</dt>
-                      <dd>
-                        {journalLink ? (
-                          <Link href={journalLink}>{document.journal.name}</Link>
-                        ) : (
-                          document.journal.name
-                        )}
-                      </dd>
-                    </div>
-                  )}
-                  {issueContext && (
-                    <div>
-                      <dt>{strings.details.issue}</dt>
-                      <dd>{issueContext}</dd>
-                    </div>
-                  )}
-                  {primaryCategoryName && (
-                    <div>
-                      <dt>{strings.details.primaryCategory}</dt>
-                      <dd>{primaryCategoryName}</dd>
-                    </div>
-                  )}
-                  {categoryLabel && (
-                    <div>
-                      <dt>{strings.details.category}</dt>
-                      <dd>{categoryLabel}</dd>
-                    </div>
-                  )}
-                  {createdAt && (
-                    <div>
-                      <dt>{strings.details.createdAt}</dt>
-                      <dd>{createdAt}</dd>
-                    </div>
-                  )}
+                  ))}
                 </dl>
 
                 <div className="article-detail__keywords">

@@ -7,69 +7,13 @@
 
 .article-detail__section {
   display: grid;
-  gap: clamp(2rem, 5vw, 3rem);
 }
 
 .article-detail__header {
   display: flex;
   flex-wrap: wrap;
-  gap: clamp(1rem, 3vw, 2rem);
   justify-content: space-between;
   align-items: flex-start;
-}
-
-.article-detail__intro {
-  display: grid;
-  gap: 0.9rem;
-  max-width: min(640px, 100%);
-}
-
-.article-detail__eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: #0f315f;
-}
-
-.article-detail__intro h1 {
-  margin: 0;
-  font-size: clamp(2.1rem, 4vw, 3rem);
-  color: #132443;
-}
-
-.article-detail__byline {
-  margin: 0;
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  align-items: baseline;
-  font-size: 0.95rem;
-  color: #4c566a;
-}
-
-.article-detail__byline strong {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.78rem;
-  color: #0f315f;
-}
-
-.article-detail__context {
-  margin: 0;
-  font-size: 0.92rem;
-  color: #3a4b6a;
-}
-
-.article-detail__context strong {
-  margin-right: 0.35rem;
-  color: #0f315f;
-}
-
-.article-detail__context a {
-  color: #0f315f;
-  font-weight: 600;
-  text-decoration: none;
 }
 
 .article-detail__issue {
@@ -153,9 +97,9 @@
   border-radius: 24px;
   border: 1px solid #e3e8f4;
   box-shadow: 0 18px 38px rgba(18, 32, 56, 0.08);
-  padding: clamp(1.75rem, 4vw, 2.2rem);
+  padding: 1.3em;
   display: grid;
-  gap: clamp(1.4rem, 3vw, 2rem);
+  gap: clamp(1rem, 2vw, 1.5rem);
 }
 
 .article-detail__card--primary {
@@ -163,7 +107,16 @@
 }
 
 .article-detail__card--info {
-  gap: clamp(1.2rem, 3vw, 1.8rem);
+  align-content: start;
+  gap: 1.5rem;
+}
+
+.article-detail__card--info h2 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f315f;
+  border-bottom: 1.5px solid #0f315f;
 }
 
 .article-detail__cover {
@@ -182,13 +135,14 @@
 
 .article-detail__block {
   display: grid;
-  gap: 1rem;
+  gap: 1.3rem;
 }
 
 .article-detail__block h2 {
   margin: 0;
   font-size: 1.35rem;
-  color: #132443;
+  font-weight: 700;
+  color: #0f315f;
 }
 
 .article-detail__abstract-empty {
@@ -198,40 +152,42 @@
 }
 
 .article-detail__info-list {
-  margin: 0;
-  padding: 0;
+  margin: 2em 0;
   display: grid;
-  gap: 1rem;
+  gap: 2rem;
 }
 
 .article-detail__info-list div {
   display: grid;
-  gap: 0.25rem;
+  gap: 1.8rem;
 }
 
 .article-detail__info-list dt {
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  font-size: 0.75rem;
+  font-size: 0.85rem;
+  font-weight: 800;
   color: rgba(15, 49, 95, 0.75);
 }
 
 .article-detail__info-list dd {
   margin: 0;
   font-size: 0.95rem;
-  color: #3a4b6a;
+  color: #3f4b60;
 }
 
 .article-detail__keywords {
   display: grid;
-  gap: 0.8rem;
+  gap: 0.6rem;
 }
 
 .article-detail__keywords h3 {
   margin: 0;
-  font-size: 1.1rem;
-  color: #132443;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f315f;
+  border-bottom: 1.5px solid #0f315f;
 }
 
 .article-detail__keywords ul {
@@ -261,22 +217,30 @@
 .document-download {
   display: grid;
   gap: 0.5rem;
+  max-width: max-content;
 }
 
 .document-download__button {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem 1.5rem;
+  gap: 0.5rem;
+  padding: 0.5rem 1.5rem;
   border-radius: 999px;
-  border: none;
+  text-decoration: none;
   font-weight: 600;
   cursor: pointer;
 }
 
 .document-download__button--primary {
-  background: linear-gradient(135deg, #0f315f, #1a4a86);
-  color: #fff;
+  background-color: #0f315f;
+  border: 1px solid rgb(15, 50, 95);
+  color: #ffffff;
+}
+
+.document-download__button--primary:hover {
+  background-color: #ffffff;
+  border: 1px solid rgb(15, 50, 95);
+  color: #0f315f;
 }
 
 .document-download__button--ghost {
@@ -322,7 +286,7 @@
 
 .document-preview__embed {
   width: 100%;
-  height: 520px;
+  height: 600px;
   border: none;
 }
 
@@ -348,12 +312,14 @@
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: var(--clamp, 6);
+  line-clamp: 6;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .expandable-text.is-expanded p {
   -webkit-line-clamp: unset;
+  line-clamp: unset;
 }
 
 .expandable-text__toggle {
