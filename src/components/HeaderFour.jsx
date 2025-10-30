@@ -4,6 +4,32 @@ import {useLocale, useTranslations} from "next-intl";
 import {Link, usePathname} from "@/i18n/navigation";
 import useNavigationTaxonomy from "@/hooks/useNavigationTaxonomy";
 
+const KNOWN_SECTION_CONFIG = {
+  archives: {
+    href: "/categories/archives",
+    priority: 1,
+  },
+  "research-themes": {
+    href: "/categories/research-themes",
+    priority: 2,
+  },
+  "historical-sites": {
+    href: "/categories/historical-sites",
+    priority: 3,
+  },
+  publications: {
+    href: "/categories/publications",
+    priority: 4,
+  },
+};
+
+const toTitleFromSlug = (slug = "") =>
+  slug
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+
 const HeaderFour = () => {
   const t = useTranslations("nav");
   const locale = useLocale();
@@ -128,13 +154,16 @@ const HeaderFour = () => {
 
   const journalLinks = useMemo(() => {
     const journals = (categories || []).filter((category) => category.kind === "journal");
-    const mapped = journals.map((category) => ({
-      slug: category.slug,
-      label: category.name || category.slug,
-      href: category.linkedJournal
-        ? `/journals/${category.linkedJournal.slug}`
-        : `/journals/${category.slug}`,
-    }));
+    const mapped = journals.map((category) => {
+      const fallbackLabel = toTitleFromSlug(category.slug);
+      return {
+        slug: category.slug,
+        label: category.name?.trim() || fallbackLabel,
+        href: category.linkedJournal
+          ? `/journals/${category.linkedJournal.slug}`
+          : `/journals/${category.slug}`,
+      };
+    });
     mapped.sort((a, b) => collator.compare(a.label, b.label));
     return mapped;
   }, [categories, collator]);
@@ -149,14 +178,22 @@ const HeaderFour = () => {
     const unique = new Map();
     sections.forEach((section) => {
       if (!section?.slug || unique.has(section.slug)) return;
+      const config = KNOWN_SECTION_CONFIG[section.slug];
+      const fallbackLabel = toTitleFromSlug(section.slug);
       unique.set(section.slug, {
         slug: section.slug,
-        label: section.name || section.slug,
-        href: `/library?category=${section.slug}`,
+        label: section.name?.trim() || fallbackLabel,
+        href: config?.href ?? `/library?category=${section.slug}`,
+        priority: config?.priority ?? Number.MAX_SAFE_INTEGER,
       });
     });
     const values = Array.from(unique.values());
-    values.sort((a, b) => collator.compare(a.label, b.label));
+    values.sort((a, b) => {
+      if (a.priority !== b.priority) {
+        return a.priority - b.priority;
+      }
+      return collator.compare(a.label, b.label);
+    });
     return values;
   }, [categories, collator]);
 

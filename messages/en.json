@@ -369,6 +369,57 @@
         "next": "Next",
         "pageIndicator": "Page {page}"
       }
+    },
+    "category": {
+      "meta": {
+        "title": "Library collections | AKT Research Foundation",
+        "description": "Discover archival collections, research themes, sites, and publications curated by the foundation."
+      },
+      "breadcrumbs": {
+        "home": "Home",
+        "library": "Library",
+        "archives": "Archives",
+        "researchThemes": "Research Themes",
+        "historicalSites": "Historical Sites & Landmarks",
+        "publications": "Publications",
+        "collection": "Collection",
+        "topic": "Topic"
+      },
+      "header": {
+        "descriptionFallback": "Explore curated resources and scholarly materials connected to this category."
+      },
+      "toolbar": {
+        "searchLabel": "Search within this category",
+        "searchPlaceholder": "Search documents...",
+        "sortLabel": "Sort",
+        "sortOptions": {
+          "titleAsc": "Title (A–Z)",
+          "titleDesc": "Title (Z–A)",
+          "yearDesc": "Year (newest first)",
+          "yearAsc": "Year (oldest first)"
+        },
+        "typeLabel": "Document type",
+        "typeOptions": {
+          "book": "Books",
+          "article": "Articles",
+          "thesis": "Theses",
+          "report": "Reports"
+        },
+        "summary": "{count} results",
+        "reset": "Clear",
+        "loading": "Loading documents…",
+        "refreshing": "Refreshing results…",
+        "empty": "No documents matched the current filters.",
+        "default": "Browse documents connected to this category."
+      },
+      "grid": {
+        "collectionsTitle": "Archival collections",
+        "topicsTitle": "Research themes",
+        "loading": "Loading entries…",
+        "emptyTitle": "Nothing to display yet",
+        "emptyDescription": "Additional collections will be published soon.",
+        "error": "We couldn’t load these items. Please try again."
+      }
     }
   }
 }

@@ -168,6 +168,12 @@ const normalizeCategory = (category = {}) => ({
         name: category.linked_journal.name ?? "",
       }
     : null,
+  counts:
+    category.counts && typeof category.counts === "object"
+      ? {
+          documents: toNumber(category.counts.documents),
+        }
+      : null,
   raw: category,
 });
 
@@ -289,6 +295,70 @@ const resolvePaginatedCategories = (payload = {}) => {
     hasNext,
     total: Number(payload.total ?? items.length) || items.length,
   };
+};
+
+/**
+ * Search documents using the /v1/search/documents endpoint.
+ * @param {Object} [params]
+ * @param {string} [params.q]
+ * @param {string} [params.category]
+ * @param {string} [params.categorySlug]
+ * @param {string} [params.slug]
+ * @param {Array<string>|string} [params.lang]
+ * @param {Array<string>|string} [params.type]
+ * @param {number} [params.yearFrom]
+ * @param {number} [params.yearTo]
+ * @param {number} [params.page=1]
+ * @param {number} [params.pageSize=20]
+ * @param {string} [params.sort]
+ * @param {boolean} [params.includeDescendants=false]
+ * @param {AbortSignal} [params.signal]
+ * @returns {Promise<{documents: Array, raw: any, page: number, pageSize: number, hasNext: boolean}>}
+ */
+export const searchDocuments = async ({
+  q,
+  category,
+  categorySlug,
+  slug,
+  lang,
+  type,
+  yearFrom,
+  yearTo,
+  page = 1,
+  pageSize = 20,
+  sort,
+  includeDescendants = false,
+  signal,
+} = {}) => {
+  const resolvedPage = Math.max(Number(page) || 1, 1);
+  const resolvedPageSize = Math.min(Math.max(Number(pageSize) || 20, 1), 100);
+  const params = {
+    q,
+    page: resolvedPage,
+    page_size: resolvedPageSize,
+    sort: sort || undefined,
+    category: category ?? categorySlug ?? slug ?? undefined,
+    include_descendants: includeDescendants ? "true" : undefined,
+  };
+
+  if (lang !== undefined) {
+    params.lang = lang;
+  }
+  if (type !== undefined) {
+    params.type = type;
+  }
+  if (yearFrom !== undefined && yearFrom !== null) {
+    params.year_from = yearFrom;
+  }
+  if (yearTo !== undefined && yearTo !== null) {
+    params.year_to = yearTo;
+  }
+
+  const payload = await apiFetch("/v1/search/documents", {
+    params,
+    signal,
+  });
+  return resolvePaginatedDocuments(payload);
 };
 
 export const getDocuments = async ({ q, page = 1, pageSize = 20, signal } = {}) => {
@@ -546,6 +616,97 @@ export const getIssueArticles = async (
   return resolvePaginatedDocuments(payload);
 };
 
+/**
+ * Fetch a single category by slug.
+ * @param {string} slug
+ * @param {{ signal?: AbortSignal }} [options]
+ * @returns {Promise<object|null>}
+ */
+export const getCategory = async (slug, { signal } = {}) => {
+  if (!slug) {
+    return null;
+  }
+  try {
+    const payload = await apiFetch(`/v1/categories/${slug}`, { signal });
+    const normalized = normalizeCategory(payload?.category ?? payload ?? {});
+    const counts =
+      payload?.counts && typeof payload.counts === "object"
+        ? { documents: toNumber(payload.counts.documents) }
+        : normalized.counts;
+    return counts ? { ...normalized, counts } : normalized;
+  } catch (error) {
+    if (error?.status === 404) {
+      return null;
+    }
+    throw error;
+  }
+};
+
+const fetchCategoryChildrenLegacy = async (slug, { kind, signal } = {}) => {
+  const payload = await apiFetch("/v1/categories", {
+    params: {
+      parent: slug,
+      parent_slug: slug,
+      kind,
+      page_size: 100,
+    },
+    signal,
+  });
+  const items = Array.isArray(payload?.items) ? payload.items : [];
+  return items.map((item) => normalizeCategory(item));
+};
+
+/**
+ * Fetch immediate children for a category slug.
+ * @param {string} slug
+ * @param {{ kind?: string, withCounts?: boolean, signal?: AbortSignal }} [options]
+ * @returns {Promise<Array<object>>}
+ */
+export const getCategoryChildren = async (
+  slug,
+  { kind, withCounts = false, signal } = {},
+) => {
+  if (!slug) {
+    return [];
+  }
+  try {
+    const payload = await apiFetch(`/v1/categories/${slug}/children`, {
+      params: {
+        kind,
+        with_counts: withCounts ? "true" : undefined,
+      },
+      signal,
+    });
+    const items = Array.isArray(payload?.items) ? payload.items : [];
+    return items.map((item) => {
+      const normalized = normalizeCategory(item);
+      if (normalized.counts) {
+        return normalized;
+      }
+      const counts =
+        item?.counts && typeof item.counts === "object"
+          ? { documents: toNumber(item.counts.documents) }
+          : null;
+      return counts ? { ...normalized, counts } : normalized;
+    });
+  } catch (error) {
+    if (error?.name === "AbortError") {
+      throw error;
+    }
+    if (error?.status === 404) {
+      return [];
+    }
+    try {
+      return await fetchCategoryChildrenLegacy(slug, { kind, signal });
+    } catch (legacyError) {
+      if (legacyError?.status === 404) {
+        return [];
+      }
+      throw legacyError;
+    }
+  }
+};
+
 export const getCategories = async ({
   kind,
   parentSlug,
@@ -571,6 +732,9 @@ export default {
   buildQuery,
   getDocument,
   getDocuments,
+  searchDocuments,
+  getCategory,
+  getCategoryChildren,
   getJournals,
   getJournal,
   getJournalIssues,

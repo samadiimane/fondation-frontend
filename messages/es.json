@@ -18,290 +18,292 @@
     "collections": "Colecciones",
     "journals": "Revistas",
     "darAlNiaba": "Dar Al-Niaba",
-    "lesTangerois": "Los Tangerois",
+    "lesTangerois": "Les Tangérois",
+    "journalsLoading": "Cargando títulos de revistas...",
+    "journalsEmpty": "Los títulos de revistas se publicarán en breve.",
+    "journalsAll": "Todas las revistas",
+    "libraryLoading": "Cargando secciones de la biblioteca...",
+    "libraryEmpty": "Se publicarán secciones adicionales en breve.",
     "publications": "Publicaciones",
     "archives": "Archivos y patrimonio documental",
     "manuscripts": "Manuscritos",
-    "sites": "Sitios y monumentos históricos",
-    "issues": "Cuestiones de investigación",
+    "sites": "Sitios históricos y monumentos",
+    "issues": "Temas de investigación",
     "researchPublishing": "Investigación y publicación",
     "advancedSearch": "Búsqueda avanzada",
     "submitResearch": "Enviar investigación",
     "publishingGuide": "Guía de publicación",
     "services": "Servicios",
-    "consultations": "Consultas y orientación académica",
-    "support": "Apoyo a los investigadores",
+    "consultations": "Consultorías académicas y orientación",
+    "support": "Apoyo a investigadores",
     "platform": "Plataforma personal",
     "events": "Eventos",
     "seminars": "Seminarios y conferencias",
     "awards": "Premios de investigación",
     "exhibitions": "Exposiciones",
     "supportHelp": "Soporte y ayuda",
-    "faq": "Preguntas frecuentes",
-    "contactUs": "Contáctenos",
+    "faq": "FAQ",
+    "contactUs": "Contáctanos",
     "policies": "Términos y políticas",
-    "joinUs": "Únete a nosotros",
-    "searchPlaceholder": "Buscar...",
-    "journalsLoading": "Cargando revistas...",
-    "journalsEmpty": "Los títulos de revistas se publicarán en breve.",
-    "journalsAll": "Todas las revistas",
-    "libraryLoading": "Cargando secciones de la biblioteca...",
-    "libraryEmpty": "Se publicarán más secciones en breve."
+    "joinUs": "Únete",
+    "searchPlaceholder": "Buscar..."
   },
   "meta": {
     "home": {
-      "title": "Inicio Fundación de Investigación AKT",
-      "description": "Bienvenido a la Fundación de Investigación AKT para el Conocimiento y los Estudios."
+      "title": "Inicio — Fundación AKT para la Investigación",
+      "description": "Bienvenido a la Fundación AKT para el Conocimiento y los Estudios."
     },
     "journals": {
-      "title": "Journal Catalogue | AKT Research Foundation",
-      "description": "Browse the foundation's digitised scholarly journals with issue-level detail for researchers and historians."
+      "title": "Catálogo de revistas | Fundación AKT",
+      "description": "Explora las revistas académicas digitalizadas de la fundación con detalle a nivel de números, para investigadores e historiadores."
     },
     "journalDetail": {
-      "title": "{name} | AKT Research Foundation Journal",
-      "description": "Scholarly record and issue history for {name}, preserved by the foundation.",
-      "descriptionFallback": "Access the curated record for this foundation journal."
+      "title": "{name} | Revista de la Fundación AKT",
+      "description": "Registro académico e historial de números de {name}, preservado por la fundación.",
+      "descriptionFallback": "Accede al registro curado de esta revista de la fundación."
     }
   },
   "library": {
     "journals": {
       "meta": {
-        "title": "Journal Catalogue | AKT Research Foundation",
-        "description": "Browse the foundation's digitised scholarly journals with issue-level detail for researchers and historians."
+        "title": "Catálogo de revistas | Fundación AKT",
+        "description": "Explora las revistas académicas digitalizadas de la fundación con detalle a nivel de números, para investigadores e historiadores."
       },
-      "title": "Journals",
-      "subtitle": "Peer-reviewed periodicals and serials held in the AKT collection.",
+      "title": "Revistas",
+      "subtitle": "Periódicos y series con revisión por pares conservados en la colección AKT.",
       "a11y": {
-        "breadcrumbs": "Breadcrumb"
+        "breadcrumbs": "Ruta de navegación"
       },
       "breadcrumbs": {
         "home": {
-          "label": "Home",
+          "label": "Inicio",
           "href": "/"
         },
         "journals": {
-          "label": "Journals",
+          "label": "Revistas",
           "href": "/journals"
-        }
+        },
+        "issue": "Número Vol {volume} Núm. {number} ({year})"
       },
       "toolbar": {
-        "searchLabel": "Search journals",
-        "searchPlaceholder": "Search by title or publisher",
+        "searchLabel": "Buscar revistas",
+        "searchPlaceholder": "Buscar por título o editorial",
         "issnLabel": "ISSN",
-        "issnPlaceholder": "e.g. 1234-567X",
-        "sortLabel": "Sort",
+        "issnPlaceholder": "p. ej. 1234-567X",
+        "sortLabel": "Ordenar",
         "sortOptions": {
-          "nameAsc": "Name A-Z",
-          "nameDesc": "Name Z-A",
-          "createdDesc": "Newest added"
+          "nameAsc": "Nombre A–Z",
+          "nameDesc": "Nombre Z–A",
+          "createdDesc": "Añadidas recientemente"
         },
-        "summary": "{count} journals",
-        "loading": "Loading journals...",
-        "announce": "{count} journals found"
+        "summary": "{count} revistas",
+        "loading": "Cargando revistas...",
+        "announce": "Se encontraron {count} revistas"
       },
       "cards": {
-        "loading": "Loading journals...",
-        "emptyTitle": "No journals found",
-        "emptyDescription": "Try adjusting the search or filter criteria.",
+        "loading": "Cargando revistas...",
+        "emptyTitle": "No se encontraron revistas",
+        "emptyDescription": "Intenta ajustar los criterios de búsqueda o filtros.",
         "badges": {
           "issn": "ISSN",
-          "fallback": "Academic periodical"
+          "fallback": "Publicación académica"
         },
-        "publisherLabel": "Publisher",
-        "publisherUnknown": "Publisher unavailable",
-        "descriptionFallback": "A descriptive abstract for this journal will be published soon.",
-        "metaLine": "{issues} issues / {documents} documents",
-        "cta": "Open journal record"
+        "publisherLabel": "Editorial",
+        "publisherUnknown": "Editorial no disponible",
+        "descriptionFallback": "Se publicará próximamente una descripción para esta revista.",
+        "metaLine": "{issues} números / {documents} documentos",
+        "cta": "Abrir ficha de la revista"
       },
       "error": {
-        "message": "Unable to load journals right now."
+        "message": "No se pueden cargar las revistas en este momento."
       },
       "pagination": {
-        "ariaLabel": "Journals pagination",
-        "previous": "Previous",
-        "next": "Next",
-        "pageIndicator": "Page {page}"
+        "ariaLabel": "Paginación de revistas",
+        "previous": "Anterior",
+        "next": "Siguiente",
+        "pageIndicator": "Página {page}"
       }
     },
     "journalDetail": {
       "meta": {
-        "title": "{name} | AKT Research Foundation Journal",
-        "description": "Scholarly record and issue history for {name}, preserved by the foundation.",
-        "descriptionFallback": "Access the curated record for this foundation journal."
+        "title": "{name} | Revista de la Fundación AKT",
+        "description": "Registro académico e historial de números de {name}, preservado por la fundación.",
+        "descriptionFallback": "Accede al registro curado de esta revista."
       },
       "a11y": {
-        "breadcrumbs": "Breadcrumb"
+        "breadcrumbs": "Ruta de navegación"
       },
       "breadcrumbs": {
         "home": {
-          "label": "Home",
+          "label": "Inicio",
           "href": "/"
         },
         "journals": {
-          "label": "Journals",
+          "label": "Revistas",
           "href": "/journals"
         }
       },
       "header": {
-        "eyebrow": "Journal profile",
-        "descriptionFallback": "A detailed overview for this journal will be published soon.",
+        "eyebrow": "Revista",
+        "descriptionFallback": "Próximamente se publicará una descripción detallada de esta revista.",
         "descriptionToggle": {
-          "more": "Show more",
-          "less": "Show less"
+          "more": "Mostrar más",
+          "less": "Mostrar menos"
         },
         "meta": {
           "issn": "ISSN",
-          "issnUnknown": "ISSN unavailable",
-          "publisher": "Publisher",
-          "publisherUnknown": "Publisher unavailable",
-          "language": "Language",
-          "country": "Country"
+          "issnUnknown": "ISSN no disponible",
+          "publisher": "Editorial",
+          "publisherUnknown": "Editorial no disponible",
+          "language": "Idioma",
+          "country": "País"
         },
         "stats": {
-          "issues": "Issues",
-          "documents": "Documents",
-          "coverage": "Coverage",
-          "coverageUnknown": "Coverage unavailable",
-          "coverageSingle": "Coverage",
-          "holdings": "Holdings note"
+          "issues": "Números",
+          "documents": "Documentos",
+          "coverage": "Cobertura",
+          "coverageUnknown": "Cobertura no disponible",
+          "coverageSingle": "Cobertura",
+          "holdings": "Nota de fondos"
         },
-        "statsCardLabel": "Journal metrics"
+        "statsCardLabel": "Métricas de la revista"
       },
       "nav": {
-        "ariaLabel": "Journal sections",
-        "overview": "Overview",
-        "issues": "Issues"
+        "ariaLabel": "Secciones de la revista",
+        "overview": "Resumen",
+        "issues": "Números"
       },
       "issues": {
-        "title": "Issues & volumes",
-        "subtitle": "Each issue is described with bibliographic data once it completes conservation.",
-        "summary": "{count} issues",
-        "loading": "Loading issues...",
-        "error": "Unable to load issues right now.",
+        "title": "Números y volúmenes",
+        "subtitle": "Cada número se describe con datos bibliográficos una vez completada su conservación.",
+        "summary": "{count} números",
+        "loading": "Cargando números...",
+        "error": "No se pueden cargar los números en este momento.",
         "sort": {
-          "label": "Sort",
+          "label": "Ordenar",
           "options": {
-            "yearDesc": "Year (newest)",
-            "yearAsc": "Year (oldest)"
+            "yearDesc": "Año (más reciente)",
+            "yearAsc": "Año (más antiguo)"
           }
         },
         "filters": {
-          "ariaLabel": "Issue filters",
-          "title": "Filter issues",
-          "yearMin": "Year from",
-          "yearMax": "Year to",
-          "volume": "Volume",
-          "number": "Number",
-          "reset": "Reset filters"
+          "ariaLabel": "Filtros de números",
+          "title": "Filtrar números",
+          "yearMin": "Año desde",
+          "yearMax": "Año hasta",
+          "volume": "Volumen",
+          "number": "Número",
+          "reset": "Restablecer filtros"
         },
         "empty": {
-          "title": "Issues in preparation",
-          "description": "Cataloguing for this journal is ongoing. Please check back for newly published issues."
+          "title": "Números en preparación",
+          "description": "El catalogado de esta revista está en curso. Vuelve pronto para ver los números publicados."
         },
         "table": {
-          "year": "Year",
-          "volume": "Volume",
-          "number": "Issue",
-          "title": "Title",
-          "date": "Issue date",
-          "dateUnknown": "Date unavailable",
-          "documents": "Documents",
-          "actions": "Actions",
+          "year": "Año",
+          "volume": "Volumen",
+          "number": "Número",
+          "title": "Título",
+          "date": "Fecha de publicación",
+          "dateUnknown": "Fecha no disponible",
+          "documents": "Documentos",
+          "actions": "Acciones",
           "browseIssue": "Ver artículos",
           "valueUnknown": "-",
-          "untitled": "Untitled issue"
+          "untitled": "Número sin título"
         },
         "pagination": {
-          "ariaLabel": "Issue pagination",
-          "previous": "Previous",
-          "next": "Next",
-          "page": "Page {page}"
+          "ariaLabel": "Paginación de números",
+          "previous": "Anterior",
+          "next": "Siguiente",
+          "page": "Página {page}"
         },
         "a11y": {
-          "results": "{count} issues"
+          "results": "{count} números"
         }
       }
     },
     "articleDetail": {
       "meta": {
-        "title": "{title} | AKT Research Foundation Article",
-        "descriptionFallback": "Research output from the AKT digital library."
+        "title": "{title} | Artículo — Fundación AKT",
+        "descriptionFallback": "Resultado de investigación de la biblioteca digital AKT."
       },
       "breadcrumbs": {
         "home": {
-          "label": "Home",
+          "label": "Inicio",
           "href": "/"
         },
         "library": {
-          "label": "Library",
+          "label": "Biblioteca",
           "href": "/library"
         },
         "journals": {
-          "label": "Journals",
+          "label": "Revistas",
           "href": "/journals"
         },
-        "issue": "Número Vol {volume} Nº {number} ({year})"
+        "issue": "Número Vol {volume} Núm. {number} ({year})"
       },
       "a11y": {
-        "breadcrumbs": "Breadcrumb"
+        "breadcrumbs": "Ruta de navegación"
       },
       "header": {
         "metaSeparator": " | ",
-        "authorsFallback": "Unknown authors",
-        "yearFallback": "Year unknown",
-        "typeFallback": "Document",
+        "authorsFallback": "Autores desconocidos",
+        "yearFallback": "Año desconocido",
+        "typeFallback": "Documento",
         "languageFallback": "--",
-        "journalContext": "Journal:",
-        "issueContext": "Vol {volume}, No {number}, {year}",
-        "pages": "Pages {pages}",
+        "journalContext": "Revista:",
+        "issueContext": "Vol {volume}, Núm. {number}, {year}",
+        "pages": "Páginas {pages}",
         "badges": {
           "doi": "DOI",
           "isbn": "ISBN",
           "issn": "ISSN"
         },
-        "valueUnknown": "—",
+        "valueUnknown": "\u2014",
         "labels": {
           "authors": "Autores",
           "year": "Año",
           "type": "Tipo",
-          "language": "Idioma"
+          "language": "Idioma",
+          "pages": "Páginas"
         },
         "imageAlt": "Imagen de portada de {title}"
       },
       "download": {
-        "cta": "Read / Download",
-        "loading": "Preparing download...",
-        "error": "Download unavailable right now."
+        "cta": "Descargar",
+        "loading": "Preparando descarga...",
+        "error": "Descarga no disponible en este momento."
       },
       "preview": {
-        "loading": "Loading preview...",
-        "unavailable": "Preview unavailable in this browser.",
-        "hint": "Use the download button to open the article in a new tab.",
-        "ariaLabel": "Article preview"
+        "loading": "Cargando vista previa...",
+        "unavailable": "Vista previa no disponible en este navegador.",
+        "hint": "Usa el botón de descarga para abrir el artículo en una nueva pestaña.",
+        "ariaLabel": "Vista previa del artículo"
       },
       "abstract": {
-        "title": "Abstract",
-        "more": "Show more",
-        "less": "Show less",
-        "empty": "No abstract is available for this document."
+        "title": "Resumen",
+        "more": "Mostrar más",
+        "less": "Mostrar menos",
+        "empty": "No hay resumen disponible para este documento."
       },
       "details": {
-        "title": "Details",
+        "title": "Detalles",
         "doi": "DOI",
         "isbn": "ISBN",
         "issn": "ISSN",
-        "category": "Category",
-        "primaryCategory": "Primary category",
-        "createdAt": "Record created",
-        "keywords": "Keywords",
-        "noKeywords": "No keywords recorded",
+        "category": "Categoría",
+        "primaryCategory": "Categoría principal",
+        "createdAt": "Registro creado",
+        "keywords": "Palabras clave",
+        "noKeywords": "No hay palabras clave registradas",
         "journal": "Revista",
         "issue": "Número"
       }
     },
     "issueArticles": {
       "meta": {
-        "title": "{journal} | Artículos del número",
+        "title": "Artículos del número {journal} | Fundación AKT",
         "description": "Explora los artículos digitalizados de {journal}."
       },
       "breadcrumbs": {
@@ -316,7 +318,8 @@
         "journals": {
           "label": "Revistas",
           "href": "/journals"
-        }
+        },
+        "issue": "Número Vol {volume} Núm. {number} ({year})"
       },
       "a11y": {
         "breadcrumbs": "Ruta de navegación",
@@ -326,9 +329,9 @@
         "journalLabel": "Revista",
         "title": "{journal}",
         "subtitle": "Número {issue}",
-        "issueLabel": "Vol. {volume} • Núm. {number} • {year}",
+        "issueLabel": "Vol {volume} \u2022 Núm. {number} \u2022 {year}",
         "documentsCount": "{count} artículos",
-        "unknown": "—",
+        "unknown": "\u2014",
         "meta": {
           "volume": "Volumen",
           "number": "Número",
@@ -338,23 +341,25 @@
       },
       "resultsLabel": "artículos",
       "error": {
-        "message": "No se pudieron cargar los artículos de este número."
+        "message": "No se pueden cargar los artículos de este número."
       },
       "empty": {
         "title": "Aún no hay artículos catalogados",
-        "description": "El catalogado de este número sigue en curso. Vuelve más tarde."
+        "description": "El catalogado de este número sigue en curso. Vuelve pronto."
       },
       "table": {
         "ariaLabel": "Artículos del número",
         "title": "Título",
-        "authors": "Autor(es)",
+        "authors": "Autores",
         "authorsFallback": "Autores desconocidos",
         "year": "Año",
-        "noYear": "—",
-        "typeLang": "Tipo • Idioma",
-        "noType": "—",
+        "noYear": "\u2014",
+        "typeLang": "Tipo \u2022 Idioma",
+        "noType": "\u2014",
+        "langOnly": "Idioma",
+        "languageFallback": "\u2014",
         "pages": "Páginas",
-        "noPages": "—",
+        "noPages": "\u2014",
         "actions": "Acciones",
         "seeDetails": "Ver detalles"
       },
@@ -363,6 +368,57 @@
         "previous": "Anterior",
         "next": "Siguiente",
         "pageIndicator": "Página {page}"
+      }
+    },
+    "category": {
+      "meta": {
+        "title": "Colecciones de la biblioteca | Fundación AKT",
+        "description": "Descubre colecciones de archivo, temas de investigación, sitios históricos y publicaciones seleccionadas por la fundación."
+      },
+      "breadcrumbs": {
+        "home": "Inicio",
+        "library": "Biblioteca",
+        "archives": "Archivos",
+        "researchThemes": "Temas de investigación",
+        "historicalSites": "Sitios históricos y monumentos",
+        "publications": "Publicaciones",
+        "collection": "Colección",
+        "topic": "Tema"
+      },
+      "header": {
+        "descriptionFallback": "Explora los recursos y materiales académicos vinculados a esta categoría."
+      },
+      "toolbar": {
+        "searchLabel": "Buscar dentro de esta categoría",
+        "searchPlaceholder": "Buscar documentos...",
+        "sortLabel": "Ordenar",
+        "sortOptions": {
+          "titleAsc": "Título (A–Z)",
+          "titleDesc": "Título (Z–A)",
+          "yearDesc": "Año (más reciente)",
+          "yearAsc": "Año (más antiguo)"
+        },
+        "typeLabel": "Tipo de documento",
+        "typeOptions": {
+          "book": "Libros",
+          "article": "Artículos",
+          "thesis": "Tesis",
+          "report": "Informes"
+        },
+        "summary": "{count} resultados",
+        "reset": "Limpiar",
+        "loading": "Cargando documentos…",
+        "refreshing": "Actualizando resultados…",
+        "empty": "No hay documentos que coincidan con los filtros actuales.",
+        "default": "Explora los documentos asociados a esta categoría."
+      },
+      "grid": {
+        "collectionsTitle": "Colecciones de archivo",
+        "topicsTitle": "Temas de investigación",
+        "loading": "Cargando…",
+        "emptyTitle": "No hay contenido disponible aún",
+        "emptyDescription": "Pronto se publicarán nuevas colecciones.",
+        "error": "No se pudieron cargar estos elementos. Intenta nuevamente."
       }
     }
   }

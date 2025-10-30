@@ -50,259 +50,183 @@
   },
   "meta": {
     "home": {
-      "title": "الصفحة الرئيسية لمؤسسة البحث AKT",
-      "description": "مرحبًا بكم في مؤسسة AKT للبحث العلمي والمعرفة."
+      "title": "الصفحة الرئيسية — مؤسسة AKT للبحث",
+      "description": "مرحبًا بكم في مؤسسة AKT للمعرفة والدراسات."
     },
     "journals": {
-      "title": "Journal Catalogue | AKT Research Foundation",
-      "description": "Browse the foundation's digitised scholarly journals with issue-level detail for researchers and historians."
+      "title": "فهرس الدوريات | مؤسسة AKT",
+      "description": "تصفّح الدوريات العلمية الرقمية التابعة للمؤسسة مع تفاصيل على مستوى الأعداد، لفائدة الباحثين والمؤرخين."
     },
     "journalDetail": {
-      "title": "{name} | AKT Research Foundation Journal",
-      "description": "Scholarly record and issue history for {name}, preserved by the foundation.",
-      "descriptionFallback": "Access the curated record for this foundation journal."
+      "title": "{name} | دورية تابعة لمؤسسة AKT",
+      "description": "السجل العلمي وتاريخ الأعداد لـ {name}، محفوظ في المؤسسة.",
+      "descriptionFallback": "اطلع على السجل المنسق لهذه الدورية."
     }
   },
   "library": {
     "journals": {
       "meta": {
-        "title": "Journal Catalogue | AKT Research Foundation",
-        "description": "Browse the foundation's digitised scholarly journals with issue-level detail for researchers and historians."
+        "title": "فهرس الدوريات | مؤسسة AKT",
+        "description": "تصفّح الدوريات العلمية الرقمية التابعة للمؤسسة مع تفاصيل على مستوى الأعداد، لفائدة الباحثين والمؤرخين."
       },
-      "title": "Journals",
-      "subtitle": "Peer-reviewed periodicals and serials held in the AKT collection.",
+      "title": "الدوريات",
+      "subtitle": "دوريات وسلاسل مُحكَّمة محفوظة ضمن مجموعة AKT.",
       "a11y": {
-        "breadcrumbs": "Breadcrumb"
+        "breadcrumbs": "مسار التصفح"
       },
       "breadcrumbs": {
         "home": {
-          "label": "Home",
+          "label": "الرئيسية",
           "href": "/"
         },
         "journals": {
-          "label": "Journals",
+          "label": "الدوريات",
           "href": "/journals"
-        }
+        },
+        "issue": "عدد المجلد {volume} رقم {number} ({year})"
       },
       "toolbar": {
-        "searchLabel": "Search journals",
-        "searchPlaceholder": "Search by title or publisher",
+        "searchLabel": "البحث في الدوريات",
+        "searchPlaceholder": "ابحث بالعنوان أو الناشر",
         "issnLabel": "ISSN",
-        "issnPlaceholder": "e.g. 1234-567X",
-        "sortLabel": "Sort",
+        "issnPlaceholder": "مثال: 1234-567X",
+        "sortLabel": "ترتيب",
         "sortOptions": {
-          "nameAsc": "Name A-Z",
-          "nameDesc": "Name Z-A",
-          "createdDesc": "Newest added"
+          "nameAsc": "الاسم A–Z",
+          "nameDesc": "الاسم Z–A",
+          "createdDesc": "الأحدث إضافة"
         },
-        "summary": "{count} journals",
-        "loading": "Loading journals...",
-        "announce": "{count} journals found"
+        "summary": "{count} دوريات",
+        "loading": "جاري تحميل الدوريات...",
+        "announce": "تم العثور على {count} دوريات"
       },
       "cards": {
-        "loading": "Loading journals...",
-        "emptyTitle": "No journals found",
-        "emptyDescription": "Try adjusting the search or filter criteria.",
+        "loading": "جاري تحميل الدوريات...",
+        "emptyTitle": "لا توجد دوريات",
+        "emptyDescription": "حاول تعديل معايير البحث أو التصفية.",
         "badges": {
           "issn": "ISSN",
-          "fallback": "Academic periodical"
+          "fallback": "دورية أكاديمية"
         },
-        "publisherLabel": "Publisher",
-        "publisherUnknown": "Publisher unavailable",
-        "descriptionFallback": "A descriptive abstract for this journal will be published soon.",
-        "metaLine": "{issues} issues / {documents} documents",
-        "cta": "Open journal record"
+        "publisherLabel": "الناشر",
+        "publisherUnknown": "الناشر غير متوفر",
+        "descriptionFallback": "سيُنشر لاحقًا ملخص وصفي لهذه الدورية.",
+        "metaLine": "{issues} أعداد / {documents} وثائق",
+        "cta": "فتح سجل الدورية"
       },
       "error": {
-        "message": "Unable to load journals right now."
+        "message": "يتعذّر تحميل الدوريات حاليًا."
       },
       "pagination": {
-        "ariaLabel": "Journals pagination",
-        "previous": "Previous",
-        "next": "Next",
-        "pageIndicator": "Page {page}"
+        "ariaLabel": "ترقيم صفحات الدوريات",
+        "previous": "السابق",
+        "next": "التالي",
+        "pageIndicator": "الصفحة {page}"
       }
     },
     "journalDetail": {
       "meta": {
-        "title": "{name} | AKT Research Foundation Journal",
-        "description": "Scholarly record and issue history for {name}, preserved by the foundation.",
-        "descriptionFallback": "Access the curated record for this foundation journal."
+        "title": "{name} | دورية تابعة لمؤسسة AKT",
+        "description": "السجل العلمي وتاريخ الأعداد لـ {name}، محفوظ في المؤسسة.",
+        "descriptionFallback": "اطلع على السجل المنسق لهذه الدورية."
       },
       "a11y": {
-        "breadcrumbs": "Breadcrumb"
+        "breadcrumbs": "مسار التصفح"
       },
       "breadcrumbs": {
         "home": {
-          "label": "Home",
+          "label": "الرئيسية",
           "href": "/"
         },
         "journals": {
-          "label": "Journals",
+          "label": "الدوريات",
           "href": "/journals"
         }
       },
       "header": {
-        "eyebrow": "Journal profile",
-        "descriptionFallback": "A detailed overview for this journal will be published soon.",
+        "eyebrow": "دورية",
+        "descriptionFallback": "سيُنشر قريبًا عرض تفصيلي لهذه الدورية.",
         "descriptionToggle": {
-          "more": "Show more",
-          "less": "Show less"
+          "more": "عرض المزيد",
+          "less": "عرض أقل"
         },
         "meta": {
           "issn": "ISSN",
-          "issnUnknown": "ISSN unavailable",
-          "publisher": "Publisher",
-          "publisherUnknown": "Publisher unavailable",
-          "language": "Language",
-          "country": "Country"
+          "issnUnknown": "ISSN غير متوفر",
+          "publisher": "الناشر",
+          "publisherUnknown": "الناشر غير متوفر",
+          "language": "اللغة",
+          "country": "الدولة"
         },
         "stats": {
-          "issues": "Issues",
-          "documents": "Documents",
-          "coverage": "Coverage",
-          "coverageUnknown": "Coverage unavailable",
-          "coverageSingle": "Coverage",
-          "holdings": "Holdings note"
+          "issues": "الأعداد",
+          "documents": "الوثائق",
+          "coverage": "التغطية",
+          "coverageUnknown": "التغطية غير متوفرة",
+          "coverageSingle": "التغطية",
+          "holdings": "ملاحظة عن المقتنيات"
         },
-        "statsCardLabel": "Journal metrics"
+        "statsCardLabel": "مؤشرات الدورية"
       },
       "nav": {
-        "ariaLabel": "Journal sections",
-        "overview": "Overview",
-        "issues": "Issues"
+        "ariaLabel": "أقسام الدورية",
+        "overview": "نظرة عامة",
+        "issues": "الأعداد"
       },
       "issues": {
-        "title": "Issues & volumes",
-        "subtitle": "Each issue is described with bibliographic data once it completes conservation.",
-        "summary": "{count} issues",
-        "loading": "Loading issues...",
-        "error": "Unable to load issues right now.",
+        "title": "الأعداد والمجلدات",
+        "subtitle": "يُستكمل الوصف البيبلوغرافي لكل عدد بعد انتهاء أعمال الحفظ والصيانة.",
+        "summary": "{count} أعداد",
+        "loading": "جاري تحميل الأعداد...",
+        "error": "يتعذّر تحميل الأعداد حاليًا.",
         "sort": {
-          "label": "Sort",
+          "label": "ترتيب",
           "options": {
-            "yearDesc": "Year (newest)",
-            "yearAsc": "Year (oldest)"
+            "yearDesc": "السنة (الأحدث)",
+            "yearAsc": "السنة (الأقدم)"
           }
         },
         "filters": {
-          "ariaLabel": "Issue filters",
-          "title": "Filter issues",
-          "yearMin": "Year from",
-          "yearMax": "Year to",
-          "volume": "Volume",
-          "number": "Number",
-          "reset": "Reset filters"
+          "ariaLabel": "مرشحات الأعداد",
+          "title": "تصفية الأعداد",
+          "yearMin": "من سنة",
+          "yearMax": "إلى سنة",
+          "volume": "المجلد",
+          "number": "العدد",
+          "reset": "إعادة التعيين"
         },
         "empty": {
-          "title": "Issues in preparation",
-          "description": "Cataloguing for this journal is ongoing. Please check back for newly published issues."
+          "title": "أعداد قيد الإعداد",
+          "description": "يجري فهرسة هذه الدورية. يُرجى العودة لاحقًا للاطلاع على الأعداد المنشورة."
         },
         "table": {
-          "year": "Year",
-          "volume": "Volume",
-          "number": "Issue",
-          "title": "Title",
-          "date": "Issue date",
-          "dateUnknown": "Date unavailable",
-          "documents": "Documents",
-          "actions": "Actions",
+          "year": "السنة",
+          "volume": "المجلد",
+          "number": "العدد",
+          "title": "العنوان",
+          "date": "تاريخ الإصدار",
+          "dateUnknown": "التاريخ غير متوفر",
+          "documents": "الوثائق",
+          "actions": "الإجراءات",
           "browseIssue": "عرض المقالات",
           "valueUnknown": "-",
-          "untitled": "Untitled issue"
+          "untitled": "عدد بلا عنوان"
         },
         "pagination": {
-          "ariaLabel": "Issue pagination",
-          "previous": "Previous",
-          "next": "Next",
-          "page": "Page {page}"
+          "ariaLabel": "ترقيم صفحات الأعداد",
+          "previous": "السابق",
+          "next": "التالي",
+          "page": "الصفحة {page}"
         },
         "a11y": {
-          "results": "{count} issues"
+          "results": "{count} أعداد"
         }
       }
     },
     "articleDetail": {
       "meta": {
-        "title": "{title} | AKT Research Foundation Article",
-        "descriptionFallback": "Research output from the AKT digital library."
-      },
-      "breadcrumbs": {
-        "home": {
-          "label": "Home",
-          "href": "/"
-        },
-        "library": {
-          "label": "Library",
-          "href": "/library"
-        },
-        "journals": {
-          "label": "Journals",
-          "href": "/journals"
-        },
-        "issue": "عدد المجلد {volume} رقم {number} ({year})"
-      },
-      "a11y": {
-        "breadcrumbs": "Breadcrumb"
-      },
-      "header": {
-        "metaSeparator": " | ",
-        "authorsFallback": "Unknown authors",
-        "yearFallback": "Year unknown",
-        "typeFallback": "Document",
-        "languageFallback": "--",
-        "journalContext": "Journal:",
-        "issueContext": "Vol {volume}, No {number}, {year}",
-        "pages": "Pages {pages}",
-        "badges": {
-          "doi": "DOI",
-          "isbn": "ISBN",
-          "issn": "ISSN"
-        },
-        "valueUnknown": "—",
-        "labels": {
-          "authors": "المؤلفون",
-          "year": "السنة",
-          "type": "النوع",
-          "language": "اللغة"
-        },
-        "imageAlt": "صورة الغلاف لـ {title}"
-      },
-      "download": {
-        "cta": "Read / Download",
-        "loading": "Preparing download...",
-        "error": "Download unavailable right now."
-      },
-      "preview": {
-        "loading": "Loading preview...",
-        "unavailable": "Preview unavailable in this browser.",
-        "hint": "Use the download button to open the article in a new tab.",
-        "ariaLabel": "Article preview"
-      },
-      "abstract": {
-        "title": "Abstract",
-        "more": "Show more",
-        "less": "Show less",
-        "empty": "No abstract is available for this document."
-      },
-      "details": {
-        "title": "Details",
-        "doi": "DOI",
-        "isbn": "ISBN",
-        "issn": "ISSN",
-        "category": "Category",
-        "primaryCategory": "Primary category",
-        "createdAt": "Record created",
-        "keywords": "Keywords",
-        "noKeywords": "No keywords recorded",
-        "journal": "المجلة",
-        "issue": "العدد"
-      }
-    },
-    "issueArticles": {
-      "meta": {
-        "title": "مقالات عدد {journal}",
-        "description": "تصفّح المقالات الرقمية لمجلة {journal}."
+        "title": "{title} | مقالة — مؤسسة AKT",
+        "descriptionFallback": "مخرج بحثي من المكتبة الرقمية لمؤسسة AKT."
       },
       "breadcrumbs": {
         "home": {
@@ -316,19 +240,98 @@
         "journals": {
           "label": "الدوريات",
           "href": "/journals"
-        }
+        },
+        "issue": "عدد المجلد {volume} رقم {number} ({year})"
+      },
+      "a11y": {
+        "breadcrumbs": "مسار التصفح"
+      },
+      "header": {
+        "metaSeparator": " | ",
+        "authorsFallback": "مؤلفون غير معروفين",
+        "yearFallback": "سنة غير معروفة",
+        "typeFallback": "وثيقة",
+        "languageFallback": "--",
+        "journalContext": "الدورية:",
+        "issueContext": "المجلد {volume}، العدد {number}، {year}",
+        "pages": "الصفحات {pages}",
+        "badges": {
+          "doi": "DOI",
+          "isbn": "ISBN",
+          "issn": "ISSN"
+        },
+        "valueUnknown": "\u2014",
+        "labels": {
+          "authors": "المؤلفون",
+          "year": "السنة",
+          "type": "النوع",
+          "language": "اللغة",
+          "pages": "الصفحات"
+        },
+        "imageAlt": "صورة الغلاف لـ {title}"
+      },
+      "download": {
+        "cta": "تنزيل",
+        "loading": "جاري تجهيز التنزيل...",
+        "error": "التنزيل غير متاح حاليًا."
+      },
+      "preview": {
+        "loading": "جاري تحميل المعاينة...",
+        "unavailable": "المعاينة غير متاحة في هذا المتصفح.",
+        "hint": "استخدم زر التنزيل لفتح المقالة في نافذة جديدة.",
+        "ariaLabel": "معاينة المقالة"
+      },
+      "abstract": {
+        "title": "الملخص",
+        "more": "عرض المزيد",
+        "less": "عرض أقل",
+        "empty": "لا يوجد ملخص متاح لهذه الوثيقة."
+      },
+      "details": {
+        "title": "تفاصيل",
+        "doi": "DOI",
+        "isbn": "ISBN",
+        "issn": "ISSN",
+        "category": "الفئة",
+        "primaryCategory": "الفئة الرئيسية",
+        "createdAt": "تاريخ إنشاء السجل",
+        "keywords": "الكلمات المفتاحية",
+        "noKeywords": "لا توجد كلمات مفتاحية مسجلة",
+        "journal": "الدورية",
+        "issue": "العدد"
+      }
+    },
+    "issueArticles": {
+      "meta": {
+        "title": "مقالات عدد {journal} | مؤسسة AKT",
+        "description": "تصفّح المقالات الرقمية من {journal}."
+      },
+      "breadcrumbs": {
+        "home": {
+          "label": "الرئيسية",
+          "href": "/"
+        },
+        "library": {
+          "label": "المكتبة",
+          "href": "/library"
+        },
+        "journals": {
+          "label": "الدوريات",
+          "href": "/journals"
+        },
+        "issue": "عدد المجلد {volume} رقم {number} ({year})"
       },
       "a11y": {
         "breadcrumbs": "مسار التصفح",
         "results": "{count} مقالات"
       },
       "header": {
-        "journalLabel": "مجلة",
+        "journalLabel": "الدورية",
         "title": "{journal}",
         "subtitle": "العدد {issue}",
-        "issueLabel": "المجلد {volume} • العدد {number} • {year}",
+        "issueLabel": "المجلد {volume} \u2022 العدد {number} \u2022 {year}",
         "documentsCount": "{count} مقالات",
-        "unknown": "—",
+        "unknown": "\u2014",
         "meta": {
           "volume": "المجلد",
           "number": "العدد",
@@ -338,11 +341,11 @@
       },
       "resultsLabel": "مقالات",
       "error": {
-        "message": "تعذّر تحميل مقالات هذا العدد."
+        "message": "يتعذّر تحميل مقالات هذا العدد."
       },
       "empty": {
         "title": "لا توجد مقالات مفهرسة بعد",
-        "description": "يتم العمل على فهرسة هذا العدد حالياً، الرجاء العودة لاحقاً."
+        "description": "لا يزال فهرسة هذا العدد قيد الإنجاز. يُرجى العودة لاحقًا."
       },
       "table": {
         "ariaLabel": "مقالات العدد",
@@ -350,11 +353,13 @@
         "authors": "المؤلفون",
         "authorsFallback": "مؤلفون غير معروفين",
         "year": "السنة",
-        "noYear": "—",
-        "typeLang": "النوع • اللغة",
-        "noType": "—",
+        "noYear": "\u2014",
+        "typeLang": "النوع \u2022 اللغة",
+        "noType": "\u2014",
+        "langOnly": "اللغة",
+        "languageFallback": "\u2014",
         "pages": "الصفحات",
-        "noPages": "—",
+        "noPages": "\u2014",
         "actions": "الإجراءات",
         "seeDetails": "عرض التفاصيل"
       },
@@ -363,6 +368,57 @@
         "previous": "السابق",
         "next": "التالي",
         "pageIndicator": "الصفحة {page}"
+      }
+    },
+    "category": {
+      "meta": {
+        "title": "مجموعات المكتبة | مؤسسة AKT",
+        "description": "اكتشف المجموعات الأرشيفية، محاور البحث، المواقع التاريخية، والإصدارات التي تنسقها المؤسسة."
+      },
+      "breadcrumbs": {
+        "home": "الرئيسية",
+        "library": "المكتبة",
+        "archives": "الأرشيف",
+        "researchThemes": "محاور البحث",
+        "historicalSites": "المواقع والمعالم التاريخية",
+        "publications": "الإصدارات",
+        "collection": "المجموعة",
+        "topic": "المحور"
+      },
+      "header": {
+        "descriptionFallback": "استكشف الموارد والمواد العلمية المرتبطة بهذه الفئة."
+      },
+      "toolbar": {
+        "searchLabel": "البحث داخل هذه الفئة",
+        "searchPlaceholder": "ابحث في الوثائق...",
+        "sortLabel": "ترتيب",
+        "sortOptions": {
+          "titleAsc": "العنوان (أ–ي)",
+          "titleDesc": "العنوان (ي–أ)",
+          "yearDesc": "السنة (الأحدث أولاً)",
+          "yearAsc": "السنة (الأقدم أولاً)"
+        },
+        "typeLabel": "نوع الوثيقة",
+        "typeOptions": {
+          "book": "كتب",
+          "article": "مقالات",
+          "thesis": "أطروحات",
+          "report": "تقارير"
+        },
+        "summary": "{count} نتائج",
+        "reset": "مسح",
+        "loading": "جاري تحميل الوثائق...",
+        "refreshing": "جاري تحديث النتائج...",
+        "empty": "لا توجد وثائق تطابق عوامل التصفية الحالية.",
+        "default": "استكشف الوثائق المرتبطة بهذه الفئة."
+      },
+      "grid": {
+        "collectionsTitle": "المجموعات الأرشيفية",
+        "topicsTitle": "محاور البحث",
+        "loading": "جاري التحميل...",
+        "emptyTitle": "لا يوجد محتوى بعد",
+        "emptyDescription": "ستُضاف مجموعات جديدة قريباً.",
+        "error": "تعذر تحميل هذه العناصر حالياً."
       }
     }
   }
