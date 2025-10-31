@@ -29,7 +29,7 @@ const ArchiveCollectionPage = async ({ params }) => {
 
   return (
     <AOSWrap>
-      <section className="page-wrapper">
+      <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
         <Preloader />
         <CustomCursor />
         <TopBarTwo />
