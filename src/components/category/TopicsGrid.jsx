@@ -16,6 +16,13 @@ const formatCount = (count) => {
   return numeric;
 };
 
+const toTitleFromSlug = (slug = "") =>
+  slug
+    .split(/[-_]/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+
 const TopicsGrid = ({ items = [] }) => {
   const t = useTranslations("library.category");
 
@@ -36,17 +43,12 @@ const TopicsGrid = ({ items = [] }) => {
         const description = formatDescription(item?.description);
         const count = formatCount(item?.counts?.documents ?? item?.documentsCount);
         const key = item?.id ?? slug ?? `topic-${index}`;
+        const displayName = item?.name ?? (slug ? toTitleFromSlug(slug) : t("grid.topicsTitle"));
 
-        return (
-          <article key={key} className="category-card" aria-label={item?.name ?? slug}>
+        const cardContent = (
+          <>
             <header className="category-card__header">
-              {slug ? (
-                <Link href={`/categories/research-themes/${slug}`} className="category-card__title">
-                  {item?.name ?? slug}
-                </Link>
-              ) : (
-                <span className="category-card__title">{item?.name ?? "Theme"}</span>
-              )}
+              <span className="category-card__title">{displayName}</span>
               {count !== null && (
                 <span className="category-card__count" aria-label={t("toolbar.summary", { count })}>
                   <i className="fa-regular fa-book" aria-hidden="true"></i>
@@ -61,6 +63,25 @@ const TopicsGrid = ({ items = [] }) => {
                 {t("grid.emptyDescription")}
               </p>
             )}
+          </>
+        );
+
+        if (slug) {
+          return (
+            <Link
+              key={key}
+              href={`/categories/research-themes/${slug}`}
+              className="category-card category-card--link"
+              aria-label={displayName}
+            >
+              {cardContent}
+            </Link>
+          );
+        }
+
+        return (
+          <article key={key} className="category-card" aria-label={displayName}>
+            {cardContent}
           </article>
         );
       })}

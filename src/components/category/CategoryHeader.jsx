@@ -23,10 +23,10 @@ const CategoryHeader = ({ title, description, meta }) => {
     <section className="category-header" aria-labelledby={`${descriptionId}-title`}>
       <div className="category-header__inner">
         <header className="category-header__heading">
-          <h1 id={`${descriptionId}-title`} className="category-header__title">
+          <h3 id={`${descriptionId}-title`} className="category-header__title">
             {safeTitle}
-          </h1>
-          {Boolean(meta) && <div className="category-header__meta">{meta}</div>}
+          </h3>
+          {Boolean(meta) && <div className="category-header__meta my-3">{meta}</div>}
         </header>
         <div
           id={descriptionId}

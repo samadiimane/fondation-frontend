@@ -103,21 +103,21 @@ const CategoryDocumentsExplorer = ({
 
   const summaryLabel = useMemo(() => {
     if (loading && !hasLoadedOnce) {
-      return "Loading documents for this category…";
+      return tToolbar("loading");
     }
     if (loading && hasLoadedOnce) {
-      return "Refreshing results…";
+      return tToolbar("refreshing");
     }
     if (!loading && hasLoadedOnce && total === 0) {
-      return "No documents matched the current filters.";
+      return tToolbar("empty");
     }
     if (!loading && total > 0) {
-      return `${total} document${total === 1 ? "" : "s"} available at page ${page}.`;
+      return tToolbar("summary", { count: total });
     }
-    return "Browse documents connected to this category.";
-  }, [loading, hasLoadedOnce, total, page]);
+    return tToolbar("default");
+  }, [loading, hasLoadedOnce, total, tToolbar]);
 
-  const setPageSafe = useCallback(
+const setPageSafe = useCallback(
     (value) => {
       const next = Math.max(Number(value) || 1, 1);
       setPage(next);
