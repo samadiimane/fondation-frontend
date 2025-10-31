@@ -51,8 +51,8 @@ const TopicsGrid = ({ items = [] }) => {
               <span className="category-card__title">{displayName}</span>
               {count !== null && (
                 <span className="category-card__count" aria-label={t("toolbar.summary", { count })}>
-                  <i className="fa-regular fa-book" aria-hidden="true"></i>
-                  {t("toolbar.summary", { count })}
+                  <i className="fa-solid fa-layer-group" aria-hidden="true"></i>
+                  { count }
                 </span>
               )}
             </header>
