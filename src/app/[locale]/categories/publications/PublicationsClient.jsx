@@ -12,6 +12,7 @@ const PublicationsClient = ({ category }) => {
 
   const typeOptions = useMemo(
     () => [
+      { value: "", label: t("toolbar.typeOptions.all") },
       { value: "book", label: t("toolbar.typeOptions.book") },
       { value: "article", label: t("toolbar.typeOptions.article") },
       { value: "thesis", label: t("toolbar.typeOptions.thesis") },
@@ -38,7 +39,8 @@ const PublicationsClient = ({ category }) => {
         defaultFilters={{
           typeFilter: {
             options: typeOptions,
-            multiple: true,
+            multiple: false,
+            value: "",
           },
         }}
       />

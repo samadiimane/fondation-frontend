@@ -400,7 +400,8 @@
         },
         "typeLabel": "نوع الوثيقة",
         "typeOptions": {
-          "book": "كتب",
+          "all": "كل الأنواع",
+      "book": "كتب",
           "article": "مقالات",
           "thesis": "أطروحات",
           "report": "تقارير"

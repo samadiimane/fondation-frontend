@@ -400,7 +400,8 @@
         },
         "typeLabel": "Type de document",
         "typeOptions": {
-          "book": "Livres",
+          "all": "Tous les types",
+      "book": "Livres",
           "article": "Articles",
           "thesis": "Thèses",
           "report": "Rapports"

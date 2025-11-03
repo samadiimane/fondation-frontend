@@ -400,7 +400,8 @@
         },
         "typeLabel": "Document type",
         "typeOptions": {
-          "book": "Books",
+          "all": "All types",
+      "book": "Books",
           "article": "Articles",
           "thesis": "Theses",
           "report": "Reports"

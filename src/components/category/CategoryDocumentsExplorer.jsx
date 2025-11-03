@@ -170,7 +170,7 @@ const setPageSafe = useCallback(
   const typeFilterControl = defaultTypeFilter
     ? {
         ...defaultTypeFilter,
-        value: types,
+        value: defaultTypeFilter.multiple ? types : (types[0] ?? ""),
         onChange: setTypesSafe,
       }
     : undefined;
@@ -244,4 +244,5 @@ const setPageSafe = useCallback(
 };
 
 export default CategoryDocumentsExplorer;
+
 
