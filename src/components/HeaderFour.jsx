@@ -36,6 +36,12 @@ const SERVICE_LINKS = [
   {href: "/services/personal-platform", labelKey: "platform"},
 ];
 
+const SUPPORT_LINKS = [
+  {href: "/support/faq", labelKey: "faq"},
+  {href: "/support/contact", labelKey: "contactUs"},
+  {href: "/support/terms", labelKey: "policies"},
+];
+
 const HeaderFour = () => {
   const t = useTranslations("nav");
   const locale = useLocale();
@@ -397,22 +403,22 @@ const HeaderFour = () => {
 
                       <li
                         className={`navbar__item navbar__item--has-children nav-fade ${
-                          isActive(["/faq", "/contact-us", "/policies"]) ? "active" : ""
+                          isActive(SUPPORT_LINKS.map(({href}) => href)) ? "active" : ""
                         }`}
                       >
-                        <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
+                        <Link
+                          href='/support/faq'
+                          aria-label='dropdown menu'
+                          className='navbar__dropdown-label dropdown-label-alter'
+                        >
                           {t("supportHelp")}
-                         </Link>
+                        </Link>
                         <ul className='navbar__sub-menu'>
-                          <li>
-                            <span>{t("faq")}</span>
-                          </li>
-                          <li>
-                            <span>{t("contactUs")}</span>
-                          </li>
-                          <li>
-                            <span>{t("policies")}</span>
-                          </li>
+                          {SUPPORT_LINKS.map(({href, labelKey}) => (
+                            <li key={href}>
+                              <Link href={href}>{t(labelKey)}</Link>
+                            </li>
+                          ))}
                         </ul>
                       </li>
                     </ul>

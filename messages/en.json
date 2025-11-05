@@ -439,5 +439,26 @@
       "ariaLabel": "Breadcrumb"
     },
     "fallback": "Content will be available soon."
+  },
+  "support": {
+    "title": "Support & Help",
+    "faq": "Frequently Asked Questions",
+    "faqIntro": "Find quick answers to the most common questions from researchers.",
+    "contact": "Contact Us",
+    "contactTagline": "Reach the AKT Research Foundation support desk.",
+    "terms": "Terms & Policies",
+    "termsTocLabel": "Terms sections",
+    "termsSectionFallback": "Section {number}",
+    "empty": "Content will be available soon.",
+    "breadcrumbs": {
+      "home": "Home",
+      "ariaLabel": "Breadcrumb"
+    },
+    "contactFields": {
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email",
+      "note": "Notes"
+    }
   }
 }
