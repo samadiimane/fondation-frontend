@@ -30,6 +30,12 @@ const toTitleFromSlug = (slug = "") =>
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
 
+const SERVICE_LINKS = [
+  {href: "/services/academic-consultations", labelKey: "consultations"},
+  {href: "/services/researcher-support", labelKey: "support"},
+  {href: "/services/personal-platform", labelKey: "platform"},
+];
+
 const HeaderFour = () => {
   const t = useTranslations("nav");
   const locale = useLocale();
@@ -349,22 +355,22 @@ const HeaderFour = () => {
 
                       <li
                         className={`navbar__item navbar__item--has-children nav-fade ${
-                          isActive(["/consultations", "/support", "/platform"]) ? "active" : ""
+                          isActive(SERVICE_LINKS.map(({href}) => href)) ? "active" : ""
                         }`}
                       >
-                        <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
+                        <Link
+                          href='/services/academic-consultations'
+                          aria-label='dropdown menu'
+                          className='navbar__dropdown-label dropdown-label-alter'
+                        >
                           {t("services")}
-                         </Link>
+                        </Link>
                         <ul className='navbar__sub-menu'>
-                          <li>
-                            <span>{t("consultations")}</span>
-                          </li>
-                          <li>
-                            <span>{t("support")}</span>
-                          </li>
-                          <li>
-                            <span>{t("platform")}</span>
-                          </li>
+                          {SERVICE_LINKS.map(({href, labelKey}) => (
+                            <li key={href}>
+                              <Link href={href}>{t(labelKey)}</Link>
+                            </li>
+                          ))}
                         </ul>
                       </li>
 

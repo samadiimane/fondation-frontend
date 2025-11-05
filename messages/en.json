@@ -260,7 +260,7 @@
           "isbn": "ISBN",
           "issn": "ISSN"
         },
-        "valueUnknown": "\u2014",
+        "valueUnknown": "—",
         "labels": {
           "authors": "Authors",
           "year": "Year",
@@ -334,9 +334,9 @@
         "journalLabel": "Journal",
         "title": "{journal}",
         "subtitle": "Issue {issue}",
-        "issueLabel": "Vol {volume} \u2022 No {number} \u2022 {year}",
+        "issueLabel": "Vol {volume} • No {number} • {year}",
         "documentsCount": "{count} articles",
-        "unknown": "\u2014",
+        "unknown": "—",
         "meta": {
           "volume": "Volume",
           "number": "Issue",
@@ -358,13 +358,13 @@
         "authors": "Authors",
         "authorsFallback": "Unknown authors",
         "year": "Year",
-        "noYear": "\u2014",
-        "typeLang": "Type \u2022 Language",
-        "noType": "\u2014",
+        "noYear": "—",
+        "typeLang": "Type • Language",
+        "noType": "—",
         "langOnly": "Language",
-        "languageFallback": "\u2014",
+        "languageFallback": "—",
         "pages": "Pages",
-        "noPages": "\u2014",
+        "noPages": "—",
         "actions": "Actions",
         "seeDetails": "See details"
       },
@@ -408,7 +408,7 @@
         "typeLabel": "Document type",
         "typeOptions": {
           "all": "All types",
-      "book": "Books",
+          "book": "Books",
           "article": "Articles",
           "thesis": "Theses",
           "report": "Reports"
@@ -430,5 +430,14 @@
         "error": "We couldn’t load these items. Please try again."
       }
     }
+  },
+  "services": {
+    "title": "Services",
+    "breadcrumbs": {
+      "home": "Home",
+      "services": "Services",
+      "ariaLabel": "Breadcrumb"
+    },
+    "fallback": "Content will be available soon."
   }
 }

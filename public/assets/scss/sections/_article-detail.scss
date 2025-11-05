@@ -198,6 +198,25 @@
   color: #0f315f;
 }
 
+.service-detail__inner {
+  max-width: 100%;
+  display: grid;
+  padding: 0%;
+  gap: clamp(1rem, 2vw, 2rem);
+}
+
+.service-detail__header p {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #4a5a78;
+}
+
+.service-detail__cover figcaption {
+  margin-top: 0.75rem;
+  font-size: 0.92rem;
+  color: #4a5a78;
+}
+
 .article-detail__abstract-empty {
   margin: 0;
   font-size: 0.95rem;

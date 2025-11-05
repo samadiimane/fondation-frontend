@@ -260,7 +260,7 @@
           "isbn": "ISBN",
           "issn": "ISSN"
         },
-        "valueUnknown": "\u2014",
+        "valueUnknown": "—",
         "labels": {
           "authors": "Autores",
           "year": "Año",
@@ -334,9 +334,9 @@
         "journalLabel": "Revista",
         "title": "{journal}",
         "subtitle": "Número {issue}",
-        "issueLabel": "Vol {volume} \u2022 Núm. {number} \u2022 {year}",
+        "issueLabel": "Vol {volume} • Núm. {number} • {year}",
         "documentsCount": "{count} artículos",
-        "unknown": "\u2014",
+        "unknown": "—",
         "meta": {
           "volume": "Volumen",
           "number": "Número",
@@ -358,13 +358,13 @@
         "authors": "Autores",
         "authorsFallback": "Autores desconocidos",
         "year": "Año",
-        "noYear": "\u2014",
-        "typeLang": "Tipo \u2022 Idioma",
-        "noType": "\u2014",
+        "noYear": "—",
+        "typeLang": "Tipo • Idioma",
+        "noType": "—",
         "langOnly": "Idioma",
-        "languageFallback": "\u2014",
+        "languageFallback": "—",
         "pages": "Páginas",
-        "noPages": "\u2014",
+        "noPages": "—",
         "actions": "Acciones",
         "seeDetails": "Ver detalles"
       },
@@ -408,7 +408,7 @@
         "typeLabel": "Tipo de documento",
         "typeOptions": {
           "all": "Todos los tipos",
-      "book": "Libros",
+          "book": "Libros",
           "article": "Artículos",
           "thesis": "Tesis",
           "report": "Informes"
@@ -430,5 +430,14 @@
         "error": "No se pudieron cargar estos elementos. Intenta nuevamente."
       }
     }
+  },
+  "services": {
+    "title": "Servicios",
+    "breadcrumbs": {
+      "home": "Inicio",
+      "services": "Servicios",
+      "ariaLabel": "Ruta de navegacion"
+    },
+    "fallback": "El contenido estara disponible pronto."
   }
 }
