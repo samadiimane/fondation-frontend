@@ -260,7 +260,7 @@
           "isbn": "ISBN",
           "issn": "ISSN"
         },
-        "valueUnknown": "\u2014",
+        "valueUnknown": "—",
         "labels": {
           "authors": "المؤلفون",
           "year": "السنة",
@@ -301,6 +301,11 @@
         "issue": "العدد"
       }
     },
+    "search": {
+      "authorLabel": "المؤلف",
+      "authorPlaceholder": "تصفية حسب اسم المؤلف",
+      "summaryAuthor": "المؤلف: {author}"
+    },
     "issueArticles": {
       "meta": {
         "title": "مقالات عدد {journal} | مؤسسة AKT",
@@ -329,9 +334,9 @@
         "journalLabel": "الدورية",
         "title": "{journal}",
         "subtitle": "العدد {issue}",
-        "issueLabel": "المجلد {volume} \u2022 العدد {number} \u2022 {year}",
+        "issueLabel": "المجلد {volume} • العدد {number} • {year}",
         "documentsCount": "{count} مقالات",
-        "unknown": "\u2014",
+        "unknown": "—",
         "meta": {
           "volume": "المجلد",
           "number": "العدد",
@@ -353,13 +358,13 @@
         "authors": "المؤلفون",
         "authorsFallback": "مؤلفون غير معروفين",
         "year": "السنة",
-        "noYear": "\u2014",
-        "typeLang": "النوع \u2022 اللغة",
-        "noType": "\u2014",
+        "noYear": "—",
+        "typeLang": "النوع • اللغة",
+        "noType": "—",
         "langOnly": "اللغة",
-        "languageFallback": "\u2014",
+        "languageFallback": "—",
         "pages": "الصفحات",
-        "noPages": "\u2014",
+        "noPages": "—",
         "actions": "الإجراءات",
         "seeDetails": "عرض التفاصيل"
       },
@@ -391,6 +396,8 @@
       "toolbar": {
         "searchLabel": "البحث داخل هذه الفئة",
         "searchPlaceholder": "ابحث في الوثائق...",
+        "authorLabel": "المؤلف",
+        "authorPlaceholder": "تصفية حسب اسم المؤلف",
         "sortLabel": "ترتيب",
         "sortOptions": {
           "titleAsc": "العنوان (أ–ي)",
@@ -401,12 +408,13 @@
         "typeLabel": "نوع الوثيقة",
         "typeOptions": {
           "all": "كل الأنواع",
-      "book": "كتب",
+          "book": "كتب",
           "article": "مقالات",
           "thesis": "أطروحات",
           "report": "تقارير"
         },
         "summary": "{count} نتائج",
+        "summaryAuthor": "المؤلف: {author}",
         "reset": "مسح",
         "loading": "جاري تحميل الوثائق...",
         "refreshing": "جاري تحديث النتائج...",

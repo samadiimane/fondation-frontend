@@ -6,6 +6,7 @@ type BuildCategoryQueryArgs = {
   sort?: string | null;
   includeDescendants?: boolean;
   type?: string | string[] | null;
+  author?: string | null;
 };
 
 const BASE_PATH = "/v1/search/documents";
@@ -60,6 +61,7 @@ export function buildCategoryQuery({
   sort,
   includeDescendants = false,
   type,
+  author,
 }: BuildCategoryQueryArgs): string {
   const params = new URLSearchParams();
 
@@ -98,6 +100,11 @@ export function buildCategoryQuery({
 
   if (includeDescendants) {
     params.set("include_descendants", "true");
+  }
+
+  const sanitizedAuthor = sanitizeText(author ?? "");
+  if (sanitizedAuthor) {
+    params.set("author", sanitizedAuthor);
   }
 
   const query = params.toString();

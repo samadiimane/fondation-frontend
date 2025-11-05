@@ -301,6 +301,11 @@
         "issue": "Issue"
       }
     },
+    "search": {
+      "authorLabel": "Author",
+      "authorPlaceholder": "Search by author name",
+      "summaryAuthor": "author: {author}"
+    },
     "issueArticles": {
       "meta": {
         "title": "{journal} issue articles | AKT Research Foundation",
@@ -391,6 +396,8 @@
       "toolbar": {
         "searchLabel": "Search within this category",
         "searchPlaceholder": "Search documents...",
+        "authorLabel": "Author",
+        "authorPlaceholder": "Filter by author name",
         "sortLabel": "Sort",
         "sortOptions": {
           "titleAsc": "Title (A–Z)",
@@ -407,6 +414,7 @@
           "report": "Reports"
         },
         "summary": "{count} results",
+        "summaryAuthor": "author: {author}",
         "reset": "Clear",
         "loading": "Loading documents…",
         "refreshing": "Refreshing results…",

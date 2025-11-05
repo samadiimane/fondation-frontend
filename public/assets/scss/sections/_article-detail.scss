@@ -16,6 +16,59 @@
   align-items: flex-start;
 }
 
+.article-detail__authors-inline {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+  color: #4a5a78;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.article-detail__authors-label {
+  font-weight: 600;
+  color: #0f4c81;
+}
+
+.article-detail__author-inline {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.25rem;
+  color: inherit;
+}
+
+.article-detail__author-inline-affiliation,
+.article-detail__author-affiliation {
+  color: #6b7a99;
+  font-weight: 500;
+}
+
+.article-detail__authors-separator {
+  margin: 0 0.2rem;
+  color: #8a97b7;
+}
+
+.article-detail__authors-fallback {
+  color: #7a849c;
+}
+
+.article-detail__author-list {
+  list-style: none;
+  margin: 0.35rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.article-detail__author-list-item {
+  color: #394e7c;
+}
+
+.article-detail__author-name {
+  font-weight: 600;
+  color: #0f4c81;
+}
+
 .article-detail__issue {
   margin-left: 0.4rem;
   color: #4a5a78;

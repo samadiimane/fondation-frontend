@@ -6,6 +6,7 @@ import { buildCategoryQuery } from "@/lib/categoryQuery";
 
 const DEFAULT_SORT = "title_asc";
 const ALLOWED_SORTS = new Set(["title_asc", "title_desc", "year_desc", "year_asc"]);
+const LEGACY_AUTHOR_ERROR_CODES = new Set([400, 422]);
 
 const parseInitialState = () => {
   if (typeof window === "undefined") {
@@ -21,7 +22,8 @@ const parseInitialState = () => {
   const sort = ALLOWED_SORTS.has(sortParam) ? sortParam : DEFAULT_SORT;
   const parsedPage = Number(params.get("page")) || 1;
   const page = parsedPage > 0 ? parsedPage : 1;
-  return { q, sort, page };
+  const author = params.get("author") || "";
+  return { q, sort, page, author };
 };
 
 const useDebouncedValue = (value, delay = 300) => {
@@ -93,6 +95,8 @@ const useCategoryDocuments = (
   const [sort, setSort] = useState(initial.sort);
   const [page, setPage] = useState(initial.page);
   const [pageSize] = useState(() => clampPageSize(initialPageSize));
+  const [author, setAuthor] = useState(initial.author || "");
+  const [authorSupported, setAuthorSupported] = useState(true);
 
   const [items, setItems] = useState(() => []);
   const [total, setTotal] = useState(0);
@@ -102,8 +106,10 @@ const useCategoryDocuments = (
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 
   const debouncedQ = useDebouncedValue(q);
+  const debouncedAuthor = useDebouncedValue(author);
 
   const requestKey = useMemo(() => {
+    const authorFilter = (debouncedAuthor || "").trim();
     return JSON.stringify({
       slug,
       q: debouncedQ,
@@ -112,8 +118,20 @@ const useCategoryDocuments = (
       pageSize,
       includeDescendants,
       type: normalizeTypes(externalTypes),
+      author: authorFilter,
+      authorSupported,
     });
-  }, [slug, debouncedQ, sort, page, pageSize, includeDescendants, externalTypes]);
+  }, [
+    slug,
+    debouncedQ,
+    debouncedAuthor,
+    sort,
+    page,
+    pageSize,
+    includeDescendants,
+    externalTypes,
+    authorSupported,
+  ]);
 
   const previousSlugRef = useRef(slug);
 
@@ -148,6 +166,12 @@ const useCategoryDocuments = (
       params.delete("page");
     }
 
+    if (author) {
+      params.set("author", author);
+    } else {
+      params.delete("author");
+    }
+
     const typeValues = normalizeTypes(externalTypes);
     params.delete("type");
     typeValues.forEach((value) => params.append("type", value));
@@ -155,7 +179,7 @@ const useCategoryDocuments = (
     const query = params.toString();
     const newUrl = query ? `${window.location.pathname}?${query}` : window.location.pathname;
     window.history.replaceState(null, "", newUrl);
-  }, [q, sort, page, externalTypes]);
+  }, [q, sort, page, externalTypes, author]);
 
   useEffect(() => {
     let active = true;
@@ -173,32 +197,64 @@ const useCategoryDocuments = (
       };
     }
 
-    const fetchDocuments = async () => {
+    const authorFilter = (debouncedAuthor || "").trim();
+
+    const applyPayload = (payload) => {
+      const { items: fetchedItems, total: fetchedTotal, hasNext: fetchedHasNext } = normalizeDocuments(payload);
+      setItems(fetchedItems);
+      setTotal(fetchedTotal);
+      setHasNext(Boolean(fetchedHasNext));
+      setHasLoadedOnce(true);
+    };
+
+    const buildResource = (includeAuthor) => {
+      const queryArgs = {
+        slug,
+        q: debouncedQ,
+        page,
+        pageSize,
+        sort,
+        includeDescendants,
+      };
+      if (includeAuthor && authorFilter) {
+        queryArgs.author = authorFilter;
+      }
+      return buildCategoryQuery(queryArgs);
+    };
+
+    const run = async () => {
       setLoading(true);
       setError(null);
       try {
-        const resource = buildCategoryQuery({
-          slug,
-          q: debouncedQ,
-          page,
-          pageSize,
-          sort,
-          includeDescendants,
-        });
+        const resource = buildResource(authorSupported);
         const payload = await apiFetch(resource, { signal: controller.signal });
         if (!active || controller.signal.aborted) return;
-        const {
-          items: fetchedItems,
-          total: fetchedTotal,
-          hasNext: fetchedHasNext,
-        } = normalizeDocuments(payload);
-        setItems(fetchedItems);
-        setTotal(fetchedTotal);
-        setHasNext(Boolean(fetchedHasNext));
-        setHasLoadedOnce(true);
+        applyPayload(payload);
       } catch (err) {
         if (!active || controller.signal.aborted) return;
         if (err?.name === "AbortError") return;
+        const status = err?.status;
+        if (authorSupported && authorFilter && status && LEGACY_AUTHOR_ERROR_CODES.has(status)) {
+          console.warn("Category documents endpoint does not support author filter; retrying without it.", err);
+          setAuthorSupported(false);
+          try {
+            const fallbackResource = buildResource(false);
+            const fallbackPayload = await apiFetch(fallbackResource, { signal: controller.signal });
+            if (!active || controller.signal.aborted) return;
+            applyPayload(fallbackPayload);
+            return;
+          } catch (fallbackError) {
+            if (!active || controller.signal.aborted) return;
+            if (fallbackError?.name === "AbortError") return;
+            console.error(fallbackError);
+            setError(fallbackError?.message || "Unable to load documents.");
+            setItems([]);
+            setTotal(0);
+            setHasNext(false);
+            setHasLoadedOnce(true);
+            return;
+          }
+        }
         console.error(err);
         setError(err?.message || "Unable to load documents.");
         setItems([]);
@@ -211,13 +267,24 @@ const useCategoryDocuments = (
       }
     };
 
-    fetchDocuments();
+    run();
 
     return () => {
       active = false;
       controller.abort();
     };
-  }, [requestKey, slug, debouncedQ, sort, page, pageSize, includeDescendants, externalTypes]);
+  }, [
+    requestKey,
+    slug,
+    debouncedQ,
+    debouncedAuthor,
+    sort,
+    page,
+    pageSize,
+    includeDescendants,
+    externalTypes,
+    authorSupported,
+  ]);
 
   const setPageSafe = useCallback((value) => {
     const next = Math.max(Number(value) || 1, 1);
@@ -239,6 +306,11 @@ const useCategoryDocuments = (
     setPageSafe(1);
   }, [setPageSafe]);
 
+  const setAuthorSafe = useCallback((value) => {
+    setAuthor(value);
+    setPageSafe(1);
+  }, [setPageSafe]);
+
   return {
     items,
     total,
@@ -250,6 +322,9 @@ const useCategoryDocuments = (
     setQ: setQSafe,
     sort,
     setSort: setSortSafe,
+    author,
+    setAuthor: setAuthorSafe,
+    authorSupported,
     setPage: setPageSafe,
     hasNext,
     hasLoadedOnce,

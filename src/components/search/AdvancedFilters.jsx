@@ -1,16 +1,21 @@
 "use client";
 
 import { memo, useCallback } from "react";
+import { useTranslations } from "next-intl";
 
 const AdvancedFilters = ({
   yearMin,
   setYearMin,
   yearMax,
   setYearMax,
+  author,
+  setAuthor,
+  authorSupported = true,
   resetFilters,
   onClose,
   className = "",
 }) => {
+  const t = useTranslations("library.search");
   const handleYearMin = useCallback(
     (event) => {
       const { value } = event.target;
@@ -41,6 +46,13 @@ const AdvancedFilters = ({
     [setYearMax]
   );
 
+  const handleAuthorChange = useCallback(
+    (event) => {
+      setAuthor?.(event.target.value);
+    },
+    [setAuthor]
+  );
+
   return (
     <section className={`advanced-panel ${className}`.trim()} aria-label="Advanced search filters">
       <header className="advanced-panel__header">
@@ -53,6 +65,21 @@ const AdvancedFilters = ({
       </header>
 
       <div className="advanced-panel__body">
+        <div className="advanced-panel__group">
+          <label className="advanced-panel__label" htmlFor="advanced-author">
+            {t("authorLabel")}
+          </label>
+          <input
+            id="advanced-author"
+            type="search"
+            className="advanced-panel__input"
+            value={author ?? ""}
+            onChange={handleAuthorChange}
+            placeholder={t("authorPlaceholder")}
+            autoComplete="off"
+            disabled={!authorSupported}
+          />
+        </div>
         <div className="advanced-panel__group">
           <label className="advanced-panel__label" htmlFor="advanced-year-min">
             Publication year (from)

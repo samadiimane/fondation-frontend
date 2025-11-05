@@ -11,10 +11,15 @@ const CategoryToolbar = ({
   typeFilter,
   onReset,
   summaryLabel,
+  author = "",
+  setAuthor,
+  authorSupported = true,
 }) => {
   const t = useTranslations("library.category.toolbar");
   const [searchValue, setSearchValue] = useState(q ?? "");
+  const [authorValue, setAuthorValue] = useState(author ?? "");
   const inputId = useId();
+  const authorId = useId();
   const sortId = useId();
   const typeId = useId();
   const summaryId = useId();
@@ -24,11 +29,22 @@ const CategoryToolbar = ({
   }, [q]);
 
   useEffect(() => {
+    setAuthorValue(author ?? "");
+  }, [author]);
+
+  useEffect(() => {
     const handle = setTimeout(() => {
       setQ?.(searchValue);
     }, 300);
     return () => clearTimeout(handle);
   }, [searchValue, setQ]);
+
+  useEffect(() => {
+    const handle = setTimeout(() => {
+      setAuthor?.(authorValue);
+    }, 300);
+    return () => clearTimeout(handle);
+  }, [authorValue, setAuthor]);
 
   const resolvedSummary = summaryLabel || t("default");
 
@@ -77,6 +93,20 @@ const CategoryToolbar = ({
             onChange={(event) => setSearchValue(event.target.value)}
             autoComplete="off"
             aria-describedby={summaryId}
+          />
+        </div>
+
+        <div className="category-toolbar__field">
+          <label htmlFor={authorId}>{t("authorLabel")}</label>
+          <input
+            id={authorId}
+            type="search"
+            placeholder={t("authorPlaceholder")}
+            value={authorValue}
+            onChange={(event) => setAuthorValue(event.target.value)}
+            autoComplete="off"
+            aria-describedby={summaryId}
+            disabled={!authorSupported}
           />
         </div>
 

@@ -22,6 +22,7 @@ const ResultsToolbar = ({
   onOpenFilters,
   viewMode,
   onViewModeChange,
+  activeFiltersSummary,
 }) => {
   const handleSortChange = useCallback(
     (event) => {
@@ -49,6 +50,7 @@ const ResultsToolbar = ({
           {!loading && hasLoadedOnce && total > 0 && (
             <>
               {total} document{total === 1 ? "" : "s"} - Page {page} of {totalPages}
+              {activeFiltersSummary ? ` — ${activeFiltersSummary}` : ""}
             </>
           )}
           {!loading && hasLoadedOnce && total === 0 && "No documents found for this search."}

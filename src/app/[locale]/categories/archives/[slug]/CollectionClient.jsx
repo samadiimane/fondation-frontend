@@ -1,11 +1,13 @@
 "use client";
 
 import { useMemo } from "react";
+import { useLocale } from "next-intl";
 import CategoryHeader from "@/components/category/CategoryHeader";
 import CategoryToolbar from "@/components/category/CategoryToolbar";
 import Pagination from "@/components/search/Pagination";
 import { Link } from "@/i18n/navigation";
 import useCategoryDocuments from "@/hooks/useCategoryDocuments";
+import { getFirstAuthor } from "@/lib/authors";
 
 const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80",
@@ -49,6 +51,8 @@ const formatSummary = ({ loading, hasLoadedOnce, total, page }) => {
 };
 
 const CollectionClient = ({ category, slug }) => {
+  const locale = useLocale();
+
   const {
     items,
     total,
@@ -140,6 +144,9 @@ const CollectionClient = ({ category, slug }) => {
               const language = formatLanguage(document.language ?? document.lang);
               const pages = formatPages(document.pages);
               const linkHref = document.id ? `/documents/${document.id}` : null;
+              const firstAuthor = getFirstAuthor(document.authors, locale);
+              const authorEntry =
+                firstAuthor ?? (document.author ? { name: document.author, affiliation: null } : null);
 
               return (
                 <article key={document.id ?? `${document.title}-${index}`} className="collection-card">
@@ -148,6 +155,14 @@ const CollectionClient = ({ category, slug }) => {
                   </div>
                   <div className="collection-card__body">
                     <h6 className="collection-card__title">{document.title ?? "Untitled"}</h6>
+                    {authorEntry && (
+                      <p className="collection-card__author">
+                        <span>{authorEntry.name}</span>
+                        {authorEntry.affiliation && (
+                          <span className="collection-card__author-affiliation"> — {authorEntry.affiliation}</span>
+                        )}
+                      </p>
+                    )}
                     {abstract ? (
                       <p className="collection-card__excerpt">{abstract}</p>
                     ) : (

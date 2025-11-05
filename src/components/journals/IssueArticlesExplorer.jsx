@@ -3,15 +3,7 @@
 import { useMemo } from "react";
 import { Link } from "@/i18n/navigation";
 import useIssueArticles from "@/hooks/useIssueArticles";
-
-const formatAuthors = (value, fallback) => {
-  if (!value) return fallback;
-  if (Array.isArray(value)) {
-    const filtered = value.filter(Boolean);
-    return filtered.length ? filtered.join(", ") : fallback;
-  }
-  return value;
-};
+import { formatAuthorsText, getFirstAuthor } from "@/lib/authors";
 
 const IssueArticlesExplorer = ({
   slug,
@@ -126,7 +118,12 @@ const IssueArticlesExplorer = ({
                   </thead>
                   <tbody>
                     {items.map((doc) => {
-                      const authors = formatAuthors(doc.authors, strings.table.authorsFallback);
+                      const authorsFromList = formatAuthorsText(doc.authors, locale, "").trim();
+                      const authors =
+                        authorsFromList ||
+                        (typeof doc.author === "string" && doc.author.trim().length > 0
+                          ? doc.author.trim()
+                          : strings.table.authorsFallback);
                       const langLabel = (doc.language || "").toUpperCase();
                       const pages =
                         doc.startPage && doc.endPage
@@ -158,7 +155,12 @@ const IssueArticlesExplorer = ({
 
                 <div className="issue-articles__cards">
                   {items.map((doc) => {
-                    const authors = formatAuthors(doc.authors, strings.table.authorsFallback);
+                    const firstAuthor = getFirstAuthor(doc.authors, locale);
+                    const authorEntry =
+                      firstAuthor ?? (doc.author ? { name: doc.author, affiliation: null } : null);
+                    const authorLine = authorEntry
+                      ? `${authorEntry.name}${authorEntry.affiliation ? ` — ${authorEntry.affiliation}` : ""}`
+                      : strings.table.authorsFallback;
                     const langLabel = (doc.language || "").toUpperCase();
                     const pages =
                       doc.startPage && doc.endPage
@@ -170,7 +172,7 @@ const IssueArticlesExplorer = ({
                           <h3>
                             <Link href={`/library/${doc.id}`}>{doc.title}</Link>
                           </h3>
-                          <p className="issue-articles__card-authors">{authors}</p>
+                          <p className="issue-articles__card-authors">{authorLine}</p>
                         </header>
                         <ul className="issue-articles__card-meta">
                           <li>

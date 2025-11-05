@@ -2,10 +2,14 @@
 
 import { memo } from "react";
 import { Link } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
+import { getFirstAuthor } from "@/lib/authors";
 
 const formatTypeClass = (type = "") => type.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
 const DocumentCard = ({ document, viewMode }) => {
+  const locale = useLocale();
+
   const formatIcon = (() => {
     const format = document.format ?? document.type;
     switch ((format || "").toLowerCase()) {
@@ -20,6 +24,13 @@ const DocumentCard = ({ document, viewMode }) => {
     }
   })();
 
+  const firstAuthor = getFirstAuthor(document.authors, locale);
+  const fallbackAuthor =
+    !firstAuthor && document.author
+      ? { name: document.author, affiliation: document.affiliation ?? null }
+      : null;
+  const authorLine = firstAuthor ?? fallbackAuthor;
+
   const typeClass = formatTypeClass(document.type);
   const abstract = document.abstract || "";
   const trimmedAbstract = abstract.length > 320 ? `${abstract.slice(0, 317)}...` : abstract;
@@ -29,11 +40,19 @@ const DocumentCard = ({ document, viewMode }) => {
   return (
     <article className={`document-card ${viewMode === "compact" ? "document-card--compact" : ""}`}>
       <header className="document-card__header">
-        <h3 className="document-card__title">{document.title}</h3>
+        <div className="document-card__heading">
+          <h3 className="document-card__title">{document.title}</h3>
+          {authorLine && (
+            <p className="document-card__author">
+              <span>{authorLine.name}</span>
+              {authorLine.affiliation && (
+                <span className="document-card__author-affiliation"> — {authorLine.affiliation}</span>
+              )}
+            </p>
+          )}
+        </div>
         <div className="document-card__badges" aria-label="Document metadata">
           <div className="document-card__meta">
-            {document.authors && <span className="document-card__author">{document.authors}</span>}
-            {!document.authors && document.author && <span className="document-card__author">{document.author}</span>}
             {language && (
               <span className="document-card__language">
                 <i className="fa-regular fa-message-lines" aria-hidden="true"></i>
@@ -66,8 +85,6 @@ const DocumentCard = ({ document, viewMode }) => {
           )}
         </div>
       </header>
-
-
 
       {trimmedAbstract && <p className="document-card__abstract">{trimmedAbstract}</p>}
 

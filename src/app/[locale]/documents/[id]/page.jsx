@@ -10,6 +10,7 @@ import TopBarTwo from "@/components/TopBarTwo";
 import AOSWrap from "@/helper/AOSWrap";
 import CustomCursor from "@/helper/CustomCursor";
 import { getDocument } from "@/lib/api";
+import { mapAuthors } from "@/lib/authors";
 import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
@@ -87,14 +88,6 @@ const buildStrings = (t) => ({
   },
 });
 
-const formatAuthors = (value) => {
-  if (!value) return null;
-  if (Array.isArray(value)) {
-    return value.filter(Boolean).join(", ");
-  }
-  return value;
-};
-
 const formatTypeLabel = (value, fallback) => {
   if (!value) return fallback;
   const formatted = value.replace(/_/g, " ").trim();
@@ -146,7 +139,29 @@ export default async function DocumentDetailPage(context) {
   const strings = buildStrings(t);
 
   const documentTitle = document.title?.trim() || strings.header.valueUnknown;
-  const authors = formatAuthors(document.authors) || strings.header.authorsFallback;
+  const resolvedAuthorEntries = mapAuthors(document.authors, locale);
+  const authorEntries =
+    resolvedAuthorEntries.length > 0
+      ? resolvedAuthorEntries
+      : document.author
+        ? [{ key: "fallback-author", name: document.author, affiliation: null }]
+        : [];
+
+  const authorsDetailValue =
+    authorEntries.length > 0
+      ? (
+          <ul className="article-detail__author-list">
+            {authorEntries.map((entry) => (
+              <li key={entry.key} className="article-detail__author-list-item">
+                <span className="article-detail__author-name">{entry.name}</span>
+                {entry.affiliation && (
+                  <span className="article-detail__author-affiliation"> — {entry.affiliation}</span>
+                )}
+              </li>
+            ))}
+          </ul>
+        )
+      : strings.header.authorsFallback;
   const year = document.year ?? strings.header.yearFallback;
   const typeLabel = formatTypeLabel(document.type, strings.header.typeFallback);
   const languageRaw = document.language ?? strings.header.languageFallback;
@@ -156,7 +171,7 @@ export default async function DocumentDetailPage(context) {
       ? `${document.startPage}-${document.endPage}`
       : document.pages || null;
   const pagesValue = pages ?? strings.header.valueUnknown;
-  const coverImage = document.coverImage || null;
+  const coverImage = document.coverImage ?? document.cover_image_url ?? null;
   const normalizeMetaValue = (value) =>
     value === null || value === undefined || value === "" ? strings.header.valueUnknown : value;
   const issueVolume = document.issue?.volume ?? null;
@@ -202,7 +217,7 @@ export default async function DocumentDetailPage(context) {
       )
     : null;
   const detailEntries = [
-    { key: "authors", label: strings.header.labels.authors, value: authors },
+    { key: "authors", label: strings.header.labels.authors, value: authorsDetailValue },
     { key: "year", label: strings.header.labels.year, value: year },
     { key: "type", label: strings.header.labels.type, value: typeLabel },
     { key: "language", label: strings.header.labels.language, value: language },
@@ -318,15 +333,31 @@ export default async function DocumentDetailPage(context) {
           <Breadcrumbs items={breadcrumbItems} ariaLabel={strings.a11y.breadcrumbs} />
 
           <section className="article-detail__section">
-            <header className="article-detail__header">
-                <div
-                  className='section__header'
-                  data-aos='fade-up'
-                  data-aos-duration={900}
-                >
-                  <h5 className="title-animation_inner mt-0"><span>{typeLabel} :</span> {documentTitle}</h5>
-                </div>
-            </header>
+      <header className="article-detail__header">
+        <div
+          className='section__header'
+          data-aos='fade-up'
+          data-aos-duration={900}
+        >
+          <h5 className="title-animation_inner mt-0"><span>{typeLabel} :</span> {documentTitle}</h5>
+        </div>
+        <div className="article-detail__authors-inline" aria-label={strings.header.labels.authors}>
+          <span className="article-detail__authors-label">{strings.header.labels.authors}:</span>{" "}
+          {authorEntries.length > 0 ? (
+            authorEntries.map((entry, index) => (
+              <span key={entry.key} className="article-detail__author-inline">
+                {entry.name}
+                {entry.affiliation && (
+                  <span className="article-detail__author-inline-affiliation"> — {entry.affiliation}</span>
+                )}
+                {index < authorEntries.length - 1 && <span className="article-detail__authors-separator">; </span>}
+              </span>
+            ))
+          ) : (
+            <span className="article-detail__authors-fallback">{strings.header.authorsFallback}</span>
+          )}
+        </div>
+      </header>
 
             <div className="article-detail__grid">
               <article className="article-detail__card article-detail__card--primary">

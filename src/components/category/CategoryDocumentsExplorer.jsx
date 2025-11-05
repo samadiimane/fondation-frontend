@@ -62,6 +62,9 @@ const CategoryDocumentsExplorer = ({
     setQ,
     sort,
     setSort,
+    author,
+    setAuthor,
+    authorSupported,
     setPage,
     hasNext,
     hasLoadedOnce,
@@ -116,8 +119,12 @@ const CategoryDocumentsExplorer = ({
     }
     return tToolbar("default");
   }, [loading, hasLoadedOnce, total, tToolbar]);
+  const authorFilter = (author || "").trim();
+  const authorSummary =
+    authorSupported && authorFilter ? tToolbar("summaryAuthor", { author: authorFilter }) : null;
+  const summaryWithFilters = authorSummary ? `${summaryLabel} — ${authorSummary}` : summaryLabel;
 
-const setPageSafe = useCallback(
+  const setPageSafe = useCallback(
     (value) => {
       const next = Math.max(Number(value) || 1, 1);
       setPage(next);
@@ -146,6 +153,14 @@ const setPageSafe = useCallback(
     [setQ, setPageSafe],
   );
 
+  const setAuthorSafe = useCallback(
+    (value) => {
+      setAuthor(value);
+      setPageSafe(1);
+    },
+    [setAuthor, setPageSafe],
+  );
+
   const setTypesSafe = useCallback(
     (value) => {
       const normalized = normalizeTypeValues(value);
@@ -165,7 +180,8 @@ const setPageSafe = useCallback(
     setQSafe("");
     setSortSafe("title_asc");
     setTypesSafe([]);
-  }, [setQSafe, setSortSafe, setTypesSafe]);
+    setAuthorSafe("");
+  }, [setQSafe, setSortSafe, setTypesSafe, setAuthorSafe]);
 
   const typeFilterControl = defaultTypeFilter
     ? {
@@ -188,11 +204,14 @@ const setPageSafe = useCallback(
     error,
     hasNext,
     hasLoadedOnce,
-    summaryLabel,
+    summaryLabel: summaryWithFilters,
     resetFilters: handleResetFilters,
     typeFilter: typeFilterControl,
     type: types,
     setType: setTypesSafe,
+    author,
+    setAuthor: setAuthorSafe,
+    authorSupported,
     items,
   };
 
@@ -204,9 +223,12 @@ const setPageSafe = useCallback(
       setQ={setQSafe}
       sort={sort}
       setSort={setSortSafe}
-      summaryLabel={summaryLabel}
+      summaryLabel={summaryWithFilters}
       onReset={handleResetFilters}
       typeFilter={typeFilterControl}
+      author={author}
+      setAuthor={setAuthorSafe}
+      authorSupported={authorSupported}
     />
   );
 
@@ -223,6 +245,7 @@ const setPageSafe = useCallback(
           hasLoadedOnce={hasLoadedOnce}
           sort={sort}
           setSort={setSortSafe}
+          activeFiltersSummary={authorSummary}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
         />

@@ -621,6 +621,16 @@
   color: #102248;
 }
 
+.collection-card__author {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4a5a78;
+}
+
+.collection-card__author-affiliation {
+  color: #6b7a99;
+}
+
 .collection-card__body {
   display: flex;
   flex-direction: column;

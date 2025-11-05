@@ -301,6 +301,11 @@
         "issue": "Número"
       }
     },
+    "search": {
+      "authorLabel": "Autor",
+      "authorPlaceholder": "Filtrar por nombre de autor",
+      "summaryAuthor": "autor: {author}"
+    },
     "issueArticles": {
       "meta": {
         "title": "Artículos del número {journal} | Fundación AKT",
@@ -391,6 +396,8 @@
       "toolbar": {
         "searchLabel": "Buscar dentro de esta categoría",
         "searchPlaceholder": "Buscar documentos...",
+        "authorLabel": "Autor",
+        "authorPlaceholder": "Filtrar por nombre de autor",
         "sortLabel": "Ordenar",
         "sortOptions": {
           "titleAsc": "Título (A–Z)",
@@ -407,6 +414,7 @@
           "report": "Informes"
         },
         "summary": "{count} resultados",
+        "summaryAuthor": "autor: {author}",
         "reset": "Limpiar",
         "loading": "Cargando documentos…",
         "refreshing": "Actualizando resultados…",

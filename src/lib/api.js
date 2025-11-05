@@ -177,58 +177,63 @@ const normalizeCategory = (category = {}) => ({
   raw: category,
 });
 
-const normalizeDocument = (doc = {}) => ({
-  id: doc.id,
-  title: doc.title ?? "Untitled document",
-  author: doc.authors ?? doc.author ?? "",
-  authors: doc.authors ?? null,
-  year: doc.year ?? null,
-  type: doc.type ?? "",
-  format: doc.format ?? doc.type ?? "",
-  abstract: doc.abstract ?? "",
-  language: doc.lang ?? doc.language ?? "",
-  pages: doc.pages ?? null,
-  collectionId: doc.collection_id ?? null,
-  journalId: doc.journal_id ?? doc.journalId ?? null,
-  issueId: doc.issue_id ?? doc.issueId ?? null,
-  startPage: doc.start_page ?? doc.page_start ?? null,
-  endPage: doc.end_page ?? doc.page_end ?? null,
-  fullTextAvailable: Boolean(doc.file_key),
-  openAccess: doc.open_access ?? doc.openAccess ?? null,
-  citations: doc.citations ?? null,
-  downloadCount: doc.download_count ?? doc.downloadCount ?? null,
-  bookmarkCount: doc.bookmark_count ?? doc.bookmarkCount ?? null,
-  keywords: parseKeywords(doc.keywords),
-  fileKey: doc.file_key ?? null,
-  primaryCategory: doc.primary_category ?? doc.primaryCategory ?? null,
-  categorySlug: doc.category_slug ?? doc.categorySlug ?? null,
-  category: doc.category ?? null,
-  coverImage:
-    doc.cover_image_url ??
-    doc.cover_image ??
-    doc.coverImage ??
-    doc.lead_image ??
-    doc.leadImage ??
-    null,
-  identifiers: {
+const normalizeDocument = (doc = {}) => {
+  const rawAuthors = doc.authors ?? null;
+  const authors =
+    Array.isArray(rawAuthors) ? rawAuthors : rawAuthors ? [rawAuthors] : null;
+
+  return {
+    id: doc.id,
+    title: doc.title ?? "Untitled document",
+    author: typeof doc.author === "string" ? doc.author : "",
+    authors,
+    year: doc.year ?? null,
+    type: doc.type ?? "",
+    format: doc.format ?? doc.type ?? "",
+    abstract: doc.abstract ?? "",
+    language: doc.lang ?? doc.language ?? "",
+    pages: doc.pages ?? null,
+    collectionId: doc.collection_id ?? null,
+    journalId: doc.journal_id ?? doc.journalId ?? null,
+    issueId: doc.issue_id ?? doc.issueId ?? null,
+    startPage: doc.start_page ?? doc.page_start ?? null,
+    endPage: doc.end_page ?? doc.page_end ?? null,
+    fullTextAvailable: Boolean(doc.file_key),
+    openAccess: doc.open_access ?? doc.openAccess ?? null,
+    citations: doc.citations ?? null,
+    downloadCount: doc.download_count ?? doc.downloadCount ?? null,
+    bookmarkCount: doc.bookmark_count ?? doc.bookmarkCount ?? null,
+    keywords: parseKeywords(doc.keywords),
+    fileKey: doc.file_key ?? null,
+    primaryCategory: doc.primary_category ?? doc.primaryCategory ?? null,
+    categorySlug: doc.category_slug ?? doc.categorySlug ?? null,
+    category: doc.category ?? null,
+    coverImage:
+      doc.cover_image_url ??
+      doc.cover_image ??
+      doc.coverImage ??
+      doc.lead_image ??
+      doc.leadImage ??
+      null,
+    identifiers: {
+      doi: doc.doi ?? null,
+      isbn: doc.isbn ?? null,
+      issn: doc.issn ?? null,
+    },
     doi: doc.doi ?? null,
     isbn: doc.isbn ?? null,
     issn: doc.issn ?? null,
-  },
-  doi: doc.doi ?? null,
-  isbn: doc.isbn ?? null,
-  issn: doc.issn ?? null,
-  createdAt: doc.created_at ?? null,
-  updatedAt: doc.updated_at ?? null,
-  journal:
-    doc.journal && typeof doc.journal === "object"
-      ? {
-          id: doc.journal.id ?? null,
-          name: doc.journal.name ?? "",
-          slug: doc.journal.slug ?? null,
-          issn: doc.journal.issn ?? null,
-        }
-      : null,
+    createdAt: doc.created_at ?? null,
+    updatedAt: doc.updated_at ?? null,
+    journal:
+      doc.journal && typeof doc.journal === "object"
+        ? {
+            id: doc.journal.id ?? null,
+            name: doc.journal.name ?? "",
+            slug: doc.journal.slug ?? null,
+            issn: doc.journal.issn ?? null,
+          }
+        : null,
     issue:
       doc.issue && typeof doc.issue === "object"
         ? {
@@ -240,7 +245,8 @@ const normalizeDocument = (doc = {}) => ({
           }
         : null,
     raw: doc,
-  });
+  };
+};
 
 const resolvePaginatedDocuments = (payload = {}) => {
   const items = Array.isArray(payload.items)
@@ -328,6 +334,7 @@ export const searchDocuments = async ({
   pageSize = 20,
   sort,
   includeDescendants = false,
+  author,
   signal,
 } = {}) => {
   const resolvedPage = Math.max(Number(page) || 1, 1);
@@ -352,6 +359,10 @@ export const searchDocuments = async ({
   }
   if (yearTo !== undefined && yearTo !== null) {
     params.year_to = yearTo;
+  }
+  const authorValue = typeof author === "string" ? author.trim() : "";
+  if (authorValue) {
+    params.author = authorValue;
   }
 
   const payload = await apiFetch("/v1/search/documents", {
