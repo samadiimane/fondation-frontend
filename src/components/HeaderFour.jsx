@@ -36,6 +36,13 @@ const SERVICE_LINKS = [
   {href: "/services/personal-platform", labelKey: "platform"},
 ];
 
+const EVENT_LINKS = [
+  {href: "/events", labelKey: "events"},
+  {href: "/events?type=seminar", labelKey: "seminars"},
+  {href: "/events?type=award", labelKey: "awards"},
+  {href: "/events?type=exhibitions", labelKey: "exhibitions"},
+];
+
 const SUPPORT_LINKS = [
   {href: "/support/faq", labelKey: "faq"},
   {href: "/support/contact", labelKey: "contactUs"},
@@ -382,22 +389,24 @@ const HeaderFour = () => {
 
                       <li
                         className={`navbar__item navbar__item--has-children nav-fade ${
-                          isActive(["/seminars", "/awards", "/exhibitions"]) ? "active" : ""
+                          isActive(["/events"]) ? "active" : ""
                         }`}
                       >
-                        <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
+                        <Link
+                          href='/events'
+                          aria-label='dropdown menu'
+                          className='navbar__dropdown-label dropdown-label-alter'
+                        >
                           {t("events")}
-                         </Link>
+                        </Link>
                         <ul className='navbar__sub-menu'>
-                          <li>
-                            <span>{t("seminars")}</span>
-                          </li>
-                          <li>
-                            <span>{t("awards")}</span>
-                          </li>
-                          <li>
-                            <span>{t("exhibitions")}</span>
-                          </li>
+                          {EVENT_LINKS.filter(({ labelKey }) => labelKey !== "events").map(
+                            ({ href, labelKey }) => (
+                              <li key={href}>
+                                <Link href={href}>{t(labelKey)}</Link>
+                              </li>
+                            ),
+                          )}
                         </ul>
                       </li>
 

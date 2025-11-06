@@ -460,5 +460,50 @@
       "email": "Correo electrónico",
       "note": "Notas"
     }
+  },
+  "events": {
+    "title": "Eventos y actividades",
+    "intro": "Descubre seminarios, premios y exposiciones de la Fundación.",
+    "tabs": {
+      "ariaLabel": "Filtrar eventos por tipo",
+      "all": "Todos",
+      "seminar": "Seminarios y conferencias",
+      "award": "Premios de investigación",
+      "exhibition": "Exposiciones y medios documentales"
+    },
+    "labels": {
+      "date": "Fecha",
+      "location": "Lugar",
+      "type": "Tipo"
+    },
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "pageOf": "Página {page} de {total}"
+    },
+    "loading": "Cargando eventos…",
+    "empty": "No hay eventos disponibles por el momento.",
+    "detailsSoon": "Los detalles se publicarán pronto.",
+    "dateTba": "Fecha por anunciar",
+    "locationTba": "Lugar por anunciar",
+    "speakers": "Ponentes",
+    "agenda": "Programa",
+    "winners": "Ganadores",
+    "gallery": "Galería",
+    "galleryItemAlt": "Imagen del evento",
+    "awardYear": "Año",
+    "discipline": "Disciplina",
+    "rankLabel": "{rank}.º puesto",
+    "honorableMention": "Mención honorífica",
+    "venue": "Sede",
+    "curator": "Curador",
+    "overviewHeading": "Resumen",
+    "backToList": "Volver a eventos",
+    "breadcrumbs": {
+      "home": "Inicio",
+      "events": "Eventos y actividades",
+      "ariaLabel": "Ruta de navegación"
+    },
+    "error": "No pudimos cargar los eventos. Inténtalo de nuevo más tarde."
   }
 }

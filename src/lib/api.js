@@ -392,6 +392,135 @@ export const getDocument = async (id, { signal } = {}) => {
   return normalizeDocument(payload);
 };
 
+const normalizeEventBase = (raw = {}, fallbackTitle = "Untitled event") => ({
+  id: raw.id ?? null,
+  slug: clampString(raw.slug) || "",
+  type: raw.type ?? "",
+  title: clampString(raw.title) || fallbackTitle,
+  summary: clampString(raw.summary) || "",
+  startDate: raw.start_date ?? raw.startDate ?? null,
+  endDate: raw.end_date ?? raw.endDate ?? null,
+  location: clampString(raw.location) || null,
+  coverImageUrl: raw.cover_image_url ?? raw.coverImageUrl ?? null,
+  raw,
+});
+
+const normalizeSeminarDetails = (details = {}) => ({
+  speakers: Array.isArray(details.speakers)
+    ? details.speakers
+        .map((item) => ({
+          name: clampString(item?.name) || "",
+          role: clampString(item?.role) || null,
+          affiliation: clampString(item?.affiliation) || null,
+        }))
+        .filter((speaker) => speaker.name)
+    : [],
+  agenda: Array.isArray(details.agenda)
+    ? details.agenda
+        .map((item) => ({
+          title: clampString(item?.title) || "",
+          time: clampString(item?.time) || null,
+          speaker: clampString(item?.speaker) || null,
+        }))
+        .filter((entry) => entry.title)
+    : [],
+  media: Array.isArray(details.media)
+    ? details.media.filter((entry) => typeof entry === "string" && entry.trim().length > 0)
+    : [],
+});
+
+const normalizeAwardDetails = (details = {}) => ({
+  awardYear: toNumber(details.award_year ?? details.awardYear),
+  discipline: clampString(details.discipline) || null,
+  notes: clampString(details.notes) || null,
+  winners: Array.isArray(details.winners)
+    ? details.winners
+        .map((winner) => ({
+          id: winner?.id ?? null,
+          rank: toNumber(winner?.rank),
+          winnerName: clampString(winner?.winner_name ?? winner?.winnerName) || "",
+          workTitle: clampString(winner?.work_title ?? winner?.workTitle) || null,
+          affiliation: clampString(winner?.affiliation) || null,
+          notes: clampString(winner?.notes) || null,
+        }))
+        .filter((winner) => winner.winnerName)
+    : [],
+});
+
+const normalizeExhibitionDetails = (details = {}) => ({
+  venue: clampString(details.venue) || null,
+  curator: clampString(details.curator) || null,
+  gallery: Array.isArray(details.gallery)
+    ? details.gallery.filter((entry) => typeof entry === "string" && entry.trim().length > 0)
+    : [],
+});
+
+const resolvePaginatedEvents = (payload = {}) => {
+  const items = Array.isArray(payload.items)
+    ? payload.items.map((item) => normalizeEventBase(item))
+    : [];
+  const page = Number(payload.page ?? 1) || 1;
+  const pageSize = Number((payload.page_size ?? payload.pageSize ?? items.length) || 1) || 1;
+  const total = Number(payload.total ?? items.length) || 0;
+  const hasNext =
+    typeof payload.has_next === "boolean"
+      ? payload.has_next
+      : typeof payload.hasNext === "boolean"
+        ? payload.hasNext
+        : page * pageSize < total;
+  return { items, total, page, pageSize, hasNext, raw: payload };
+};
+
+const normalizeEventDetail = (payload = {}) => {
+  if (!payload) {
+    return null;
+  }
+  const base = normalizeEventBase(payload);
+  const body = clampString(payload.body) || null;
+  const detailsPayload = payload.details ?? null;
+  let details = null;
+
+  if (detailsPayload && typeof detailsPayload === "object") {
+    const kind = detailsPayload.kind ?? detailsPayload.type ?? base.type;
+    if (kind === "seminar") {
+      details = { kind: "seminar", ...normalizeSeminarDetails(detailsPayload) };
+    } else if (kind === "award") {
+      details = { kind: "award", ...normalizeAwardDetails(detailsPayload) };
+    } else if (kind === "exhibition") {
+      details = { kind: "exhibition", ...normalizeExhibitionDetails(detailsPayload) };
+    }
+  }
+
+  return { ...base, body, details, raw: payload };
+};
+
+export const getEvents = async ({ type, page = 1, pageSize = 12, signal } = {}) => {
+  const params = {
+    page: Math.max(Number(page) || 1, 1),
+    page_size: Math.min(Math.max(Number(pageSize) || 12, 1), 100),
+  };
+  if (type && type !== "all") {
+    params.type = type;
+  }
+  const payload = await apiFetch("/v1/events", { params, signal });
+  return resolvePaginatedEvents(payload);
+};
+
+export const getEvent = async (slug, { signal } = {}) => {
+  if (!slug) {
+    throw new Error("Event slug is required");
+  }
+  try {
+    const payload = await apiFetch(`/v1/events/${slug}`, { signal });
+    return normalizeEventDetail(payload);
+  } catch (error) {
+    if (error?.status === 404) {
+      return null;
+    }
+    throw error;
+  }
+};
+
 export const getCollections = async ({ signal } = {}) => {
   const payload = await apiFetch("/v1/collections", { signal });
   const collections = Array.isArray(payload)
