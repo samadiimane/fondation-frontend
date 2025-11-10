@@ -46,7 +46,26 @@
     "contactUs": "Contact Us",
     "policies": "Terms & Policies",
     "joinUs": "Join Us",
+    "adminLink": "Admin console",
+    "committeeLink": "Committee workspace",
+    "login": "Log in",
+    "logout": "Log out",
     "searchPlaceholder": "Search..."
+  },
+  "auth": {
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Use your foundation credentials to access private tools.",
+      "emailLabel": "Email address",
+      "emailPlaceholder": "name@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "submit": "Continue",
+      "loading": "Signing in...",
+      "error": "We couldn't verify those credentials.",
+      "adminHint": "Only authorized admins or committee members can access internal dashboards.",
+      "back": "Return to home"
+    }
   },
   "meta": {
     "home": {

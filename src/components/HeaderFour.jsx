@@ -3,6 +3,7 @@ import {useEffect, useMemo, useRef, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {Link, usePathname} from "@/i18n/navigation";
 import useNavigationTaxonomy from "@/hooks/useNavigationTaxonomy";
+import useAuth from "@/hooks/useAuth";
 
 const KNOWN_SECTION_CONFIG = {
   archives: {
@@ -57,7 +58,11 @@ const HeaderFour = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [scroll, setScroll] = useState(false);
   const {categories, loading: categoriesLoading} = useNavigationTaxonomy();
+  const {isAuthenticated, roles, logout, initializing: authLoading} = useAuth();
   const mobileMenuListRef = useRef(null);
+  const safeRoles = Array.isArray(roles) ? roles : [];
+  const hasAdminRole = safeRoles.includes("admin");
+  const hasCommitteeRole = safeRoles.includes("committee");
 
   const normalizedPath = (() => {
     if (!pathname) return "/";
@@ -227,6 +232,37 @@ const HeaderFour = () => {
   );
 
   const extractPath = (href) => (href || "").split("?")[0];
+
+  const handleLogout = () => {
+    if (typeof logout === "function") {
+      logout();
+    }
+    setMobileMenu(false);
+  };
+
+  const renderPrimaryCta = () => {
+    if (authLoading) {
+      return null;
+    }
+    if (isAuthenticated) {
+      return (
+        <button
+          type='button'
+          onClick={handleLogout}
+          className='btn--secondary d-none d-md-flex ms-0 ms-md-3 align-items-center gap-2'
+          aria-label={t("logout")}
+        >
+          {t("logout")}
+          <i className='fa-solid fa-arrow-right' />
+        </button>
+      );
+    }
+    return (
+      <Link href='/auth/login' className='btn--secondary d-none d-md-flex align-items-center gap-2'>
+        {t("joinUs")} <i className='fa-solid fa-arrow-right' />
+      </Link>
+    );
+  };
 
   return (
     <>
@@ -436,9 +472,7 @@ const HeaderFour = () => {
                   <div className='navbar__options'>
                     <div className='navbar__mobile-options '>
                       <div className='d-none d-xxl-block'></div>
-                      <Link href='/' className='btn--secondary d-none d-md-flex'>
-                        {t("joinUs")} <i className='fa-solid fa-arrow-right' />
-                      </Link>
+                      {renderPrimaryCta()}
                     </div>
                     <button
                       onClick={handleMobileMenu}
@@ -510,9 +544,20 @@ const HeaderFour = () => {
           <div className='mobile-menu__list' ref={mobileMenuListRef}></div>
 
           <div className='mobile-menu__cta nav-fade d-block d-md-none'>
-            <Link href='/' className='btn--primary '>
-              {t("joinUs")} <i className='fa-solid fa-arrow-right' />
-            </Link>
+            {authLoading ? null : isAuthenticated ? (
+              <button
+                type='button'
+                onClick={handleLogout}
+                className='btn--secondary w-100'
+                aria-label={t("logout")}
+              >
+                {t("logout")} <i className='fa-solid fa-arrow-right' />
+              </button>
+            ) : (
+              <Link href='/auth/login' className='btn--secondary w-100' onClick={handleMobileMenu}>
+                {t("joinUs")} <i className='fa-solid fa-arrow-right' />
+              </Link>
+            )}
           </div>
           <div className='mobile-menu__social social nav-fade'>
             <a

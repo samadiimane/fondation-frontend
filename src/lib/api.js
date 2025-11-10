@@ -6,9 +6,86 @@ const rawBase =
 
 const API_BASE = rawBase.replace(/\/+$/, "");
 const CACHE_TTL = 30_000;
+const AUTH_TOKEN_STORAGE_KEY = "akt.auth.token";
+const AUTH_EVENT_NAME = "akt:auth-change";
 
 const responseCache = new Map();
 let warnedMissingBase = false;
+let authToken = null;
+
+const isBrowser = typeof window !== "undefined";
+
+const emitAuthEvent = () => {
+  if (!isBrowser || typeof window === "undefined" || typeof window.dispatchEvent !== "function") {
+    return;
+  }
+  const event =
+    typeof window.CustomEvent === "function"
+      ? new window.CustomEvent(AUTH_EVENT_NAME)
+      : new Event(AUTH_EVENT_NAME);
+  window.dispatchEvent(event);
+};
+
+export const setStoredToken = (token) => {
+  authToken = token || null;
+  if (isBrowser) {
+    try {
+      if (authToken) {
+        window.localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, authToken);
+      } else {
+        window.localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+      }
+    } catch (error) {
+      console.warn("Unable to access localStorage for auth token", error);
+    }
+    emitAuthEvent();
+  }
+  return authToken;
+};
+
+export const clearStoredToken = () => setStoredToken(null);
+
+export const getStoredToken = () => {
+  if (authToken) {
+    return authToken;
+  }
+  if (!isBrowser) {
+    return null;
+  }
+  try {
+    const stored = window.localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
+    authToken = stored || null;
+    return authToken;
+  } catch {
+    return null;
+  }
+};
+
+const base64Decode = (segment) => {
+  if (!segment) return "";
+  const normalized = segment.replace(/-/g, "+").replace(/_/g, "/");
+  const padded = normalized + "=".repeat((4 - (normalized.length % 4)) % 4);
+  if (typeof globalThis !== "undefined" && typeof globalThis.atob === "function") {
+    return globalThis.atob(padded);
+  }
+  if (typeof Buffer !== "undefined") {
+    return Buffer.from(padded, "base64").toString("utf-8");
+  }
+  throw new Error("No base64 decoder available");
+};
+
+export const decodeJwtPayload = (token) => {
+  if (!token || typeof token !== "string") return null;
+  const parts = token.split(".");
+  if (parts.length < 2) return null;
+  try {
+    const decoded = base64Decode(parts[1]);
+    return JSON.parse(decoded);
+  } catch (error) {
+    console.warn("Failed to decode JWT payload", error);
+    return null;
+  }
+};
 
 const ensureBaseUrl = () => {
   if (!API_BASE) {
@@ -63,14 +140,23 @@ const writeCache = (key, data) => {
 };
 
 const shouldSkipCache = (signal, noCache) => noCache || (signal && signal.aborted);
+const normalizeEmail = (value) => (typeof value === "string" ? value : String(value ?? "")).trim().toLowerCase();
 
-export const apiFetch = async (path, { params, signal, noCache } = {}) => {
+export const apiFetch = async (
+  path,
+  { params, signal, noCache, method = "GET", headers = {}, body } = {},
+) => {
   const base = ensureBaseUrl();
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
   const query = buildQuery(params);
   const url = `${base}${normalizedPath}${query}`;
 
-  if (!shouldSkipCache(signal, noCache)) {
+  const finalMethod = typeof method === "string" ? method.toUpperCase() : "GET";
+  const hasBody = body !== undefined && body !== null;
+  const skipCache = shouldSkipCache(signal, noCache);
+  const canUseCache = !skipCache && finalMethod === "GET" && !hasBody;
+
+  if (canUseCache) {
     const cached = readCache(url);
     if (cached) {
       return typeof structuredClone === "function" ? structuredClone(cached) : JSON.parse(JSON.stringify(cached));
@@ -87,30 +173,93 @@ export const apiFetch = async (path, { params, signal, noCache } = {}) => {
     }
   }
 
+  const requestHeaders = {
+    Accept: "application/json",
+    ...headers,
+  };
+  const token = getStoredToken();
+  if (token && !requestHeaders.Authorization) {
+    requestHeaders.Authorization = `Bearer ${token}`;
+  }
+
+  const requestInit = {
+    method: finalMethod,
+    headers: requestHeaders,
+    signal: compositeSignal,
+    cache: "no-store",
+  };
+
+  if (finalMethod !== "GET") {
+    if (hasBody) {
+      const isFormData = typeof FormData !== "undefined" && body instanceof FormData;
+      const isBlob = typeof Blob !== "undefined" && body instanceof Blob;
+      if (isFormData || isBlob) {
+        requestInit.body = body;
+      } else if (typeof body === "string") {
+        requestHeaders["Content-Type"] = requestHeaders["Content-Type"] || "application/json";
+        requestInit.body = body;
+      } else {
+        requestHeaders["Content-Type"] = requestHeaders["Content-Type"] || "application/json";
+        requestInit.body = JSON.stringify(body);
+      }
+    }
+  }
+
+  const parseSuccess = (response) => {
+    if (response.status === 204) {
+      return Promise.resolve(null);
+    }
+    const contentType = response.headers.get("content-type") || "";
+    if (contentType.includes("application/json")) {
+      return response.json();
+    }
+    return response.text();
+  };
+
   const fetchOnce = async () => {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-      },
-      signal: compositeSignal,
-      cache: "no-store",
-    });
+    const response = await fetch(url, requestInit);
 
     if (!response.ok) {
-      const error = new Error(`API error ${response.status}`);
+      if (response.status === 401) {
+        clearStoredToken();
+      }
+      let errorPayload = null;
+      const contentType = response.headers.get("content-type") || "";
+      if (contentType.includes("application/json")) {
+        try {
+          errorPayload = await response.json();
+        } catch {
+          errorPayload = null;
+        }
+      } else {
+        try {
+          const text = await response.text();
+          errorPayload = text ? { detail: text } : null;
+        } catch {
+          errorPayload = null;
+        }
+      }
+      const message =
+        errorPayload?.detail ||
+        errorPayload?.message ||
+        errorPayload?.error ||
+        `API error ${response.status}`;
+      const error = new Error(message);
       error.status = response.status;
+      error.payload = errorPayload;
       throw error;
     }
-    return response.json();
+
+    return parseSuccess(response);
   };
 
   let attempt = 0;
+  const maxRetries = finalMethod === "GET" ? 1 : 0;
   // eslint-disable-next-line no-constant-condition
   while (true) {
     try {
       const data = await fetchOnce();
-      if (!shouldSkipCache(signal, noCache) && !compositeSignal.aborted) {
+      if (canUseCache && !compositeSignal.aborted) {
         writeCache(url, data);
       }
       return data;
@@ -122,7 +271,7 @@ export const apiFetch = async (path, { params, signal, noCache } = {}) => {
       if (status && status >= 400 && status < 500) {
         throw error;
       }
-      if (attempt >= 1) {
+      if (attempt >= maxRetries) {
         throw error;
       }
       attempt += 1;
@@ -866,6 +1015,47 @@ export const getCategories = async ({
   return resolvePaginatedCategories(payload);
 };
 
+const persistAuthResponse = (payload) => {
+  const token = payload?.access_token || payload?.token;
+  if (token) {
+    setStoredToken(token);
+  }
+  return payload;
+};
+
+export const login = async (email, password) => {
+  const payload = await apiFetch("/v1/auth/login", {
+    method: "POST",
+    body: {
+      email: normalizeEmail(email),
+      password,
+    },
+    noCache: true,
+  });
+  return persistAuthResponse(payload);
+};
+
+export const loginWithGoogle = async (idToken) => {
+  const payload = await apiFetch("/v1/auth/google", {
+    method: "POST",
+    body: { id_token: idToken },
+    noCache: true,
+  });
+  return persistAuthResponse(payload);
+};
+
+export const signup = async (email, password) => {
+  await apiFetch("/v1/auth/signup", {
+    method: "POST",
+    body: {
+      email: normalizeEmail(email),
+      password,
+    },
+    noCache: true,
+  });
+  return login(email, password);
+};
+
 
 export default {
   apiFetch,
@@ -884,4 +1074,13 @@ export default {
   getCollectionDocuments,
   getIssueArticles,
   getCategories,
+  login,
+  signup,
+  loginWithGoogle,
+  getStoredToken,
+  setStoredToken,
+  clearStoredToken,
+  decodeJwtPayload,
 };
+
+export { AUTH_TOKEN_STORAGE_KEY, AUTH_EVENT_NAME };

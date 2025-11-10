@@ -41,12 +41,31 @@
     "contactUs": "اتصل بنا",
     "policies": "الشروط والسياسات",
     "joinUs": "انضم إلينا",
+    "adminLink": "لوحة الإدارة",
+    "committeeLink": "مساحة اللجنة",
+    "login": "تسجيل الدخول",
+    "logout": "تسجيل الخروج",
     "searchPlaceholder": "ابحث...",
     "journalsLoading": "جاري تحميل عناوين الدوريات...",
     "journalsEmpty": "سيتم نشر عناوين الدوريات قريباً.",
     "journalsAll": "جميع الدوريات",
     "libraryLoading": "جاري تحميل أقسام المكتبة...",
     "libraryEmpty": "سيتم نشر مزيد من الأقسام قريباً."
+  },
+  "auth": {
+    "login": {
+      "title": "تسجيل الدخول",
+      "subtitle": "استخدم بيانات اعتماد المؤسسة للوصول إلى الأدوات الخاصة.",
+      "emailLabel": "البريد الإلكتروني",
+      "emailPlaceholder": "name@example.com",
+      "passwordLabel": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "submit": "متابعة",
+      "loading": "جاري تسجيل الدخول...",
+      "error": "تعذر التحقق من بيانات الاعتماد.",
+      "adminHint": "يمكن للمسؤولين أو أعضاء اللجنة المعتمدين فقط الوصول إلى لوحات التحكم الداخلية.",
+      "back": "العودة إلى الرئيسية"
+    }
   },
   "meta": {
     "home": {
