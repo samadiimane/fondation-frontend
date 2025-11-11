@@ -1056,6 +1056,53 @@ export const signup = async (email, password) => {
   return login(email, password);
 };
 
+export const getAdminUsers = async () => {
+  try {
+    const data = await apiFetch("/v1/admin/users", {
+      noCache: true,
+    });
+    return Array.isArray(data) ? data : [];
+  } catch (error) {
+    if (error?.status === 401 || error?.status === 403) {
+      return [];
+    }
+    throw error;
+  }
+};
+
+export const addUserRole = async (userId, role) => {
+  try {
+    await apiFetch(`/v1/auth/users/${userId}/roles`, {
+      method: "POST",
+      body: { role },
+      noCache: true,
+    });
+    return true;
+  } catch (error) {
+    if (error?.status === 403 || error?.status === 404) {
+      const message = error?.payload?.detail || "Not authorized to update roles.";
+      throw new Error(message);
+    }
+    throw error;
+  }
+};
+
+export const removeUserRole = async (userId, role) => {
+  try {
+    await apiFetch(`/v1/auth/users/${userId}/roles/${role}`, {
+      method: "DELETE",
+      noCache: true,
+    });
+    return true;
+  } catch (error) {
+    if (error?.status === 403 || error?.status === 404) {
+      const message = error?.payload?.detail || "Not authorized to update roles.";
+      throw new Error(message);
+    }
+    throw error;
+  }
+};
+
 
 export default {
   apiFetch,
@@ -1077,6 +1124,9 @@ export default {
   login,
   signup,
   loginWithGoogle,
+  getAdminUsers,
+  addUserRole,
+  removeUserRole,
   getStoredToken,
   setStoredToken,
   clearStoredToken,

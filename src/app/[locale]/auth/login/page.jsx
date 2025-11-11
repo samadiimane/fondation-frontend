@@ -15,16 +15,22 @@ const INITIAL_FORM = {
 export default function LoginPage() {
   const t = useTranslations("auth.login");
   const router = useRouter();
-  const {login, isAuthenticated, initializing} = useAuth();
+  const {login, isAuthenticated, initializing, roles} = useAuth();
   const [form, setForm] = useState(INITIAL_FORM);
   const [error, setError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
+  const [autoRedirected, setAutoRedirected] = useState(false);
+  const safeRoles = Array.isArray(roles) ? roles : [];
+  const hasAdminRole = safeRoles.includes("admin");
+  const homePath = "/";
+  const adminPath = "/admin";
 
   useEffect(() => {
-    if (!initializing && isAuthenticated) {
-      router.replace("/");
+    if (!initializing && isAuthenticated && !autoRedirected) {
+      setAutoRedirected(true);
+      router.replace(hasAdminRole ? adminPath : homePath);
     }
-  }, [initializing, isAuthenticated, router]);
+  }, [initializing, isAuthenticated, hasAdminRole, adminPath, homePath, router, autoRedirected]);
 
   const handleChange = (event) => {
     const {name, value} = event.target;
@@ -40,8 +46,20 @@ export default function LoginPage() {
     setSubmitting(true);
     setError(null);
     try {
-      await login(form.email, form.password);
-      router.replace("/");
+      const payload = await login(form.email, form.password);
+      const payloadRoles = Array.isArray(payload?.user?.roles)
+        ? payload.user.roles
+            .map((role) => {
+              if (!role) return null;
+              if (typeof role === "string") return role;
+              return role.role ?? null;
+            })
+            .filter(Boolean)
+        : [];
+      const becameAdmin = payloadRoles.includes("admin");
+      const targetPath = becameAdmin ? adminPath : homePath;
+      setAutoRedirected(true);
+      router.replace(targetPath);
     } catch (submitError) {
       const detail = submitError?.payload?.detail || submitError?.message;
       setError(detail || t("error"));

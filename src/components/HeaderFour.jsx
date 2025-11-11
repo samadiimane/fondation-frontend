@@ -62,7 +62,6 @@ const HeaderFour = () => {
   const mobileMenuListRef = useRef(null);
   const safeRoles = Array.isArray(roles) ? roles : [];
   const hasAdminRole = safeRoles.includes("admin");
-  const hasCommitteeRole = safeRoles.includes("committee");
 
   const normalizedPath = (() => {
     if (!pathname) return "/";

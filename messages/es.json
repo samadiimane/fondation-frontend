@@ -52,6 +52,34 @@
     "logout": "Cerrar sesión",
     "searchPlaceholder": "Buscar..."
   },
+  "admin": {
+    "dashboardTitle": "Panel de administración",
+    "dashboardDescription": "Desde aquí podrás revisar próximas funciones administrativas y herramientas restringidas.",
+    "dashboardEmptyState": "Pronto encontrarás en este espacio analíticas, colas de aprobación y accesos directos para los comités.",
+    "notAuthorizedTitle": "Se requiere acceso de administrador",
+    "notAuthorizedDescription": "Necesitas un rol de administrador para ver esta área. Ponte en contacto con la fundación si crees que se trata de un error.",
+    "backToHome": "Volver al inicio",
+    "loading": "Cargando herramientas de administración…",
+    "users": {
+      "title": "Usuarios",
+      "description": "Cuentas con acceso a los paneles internos y a las herramientas de moderación.",
+      "loading": "Cargando usuarios…",
+      "error": "No se pudieron cargar los usuarios.",
+      "retry": "Intentar de nuevo",
+      "empty": "No se encontraron usuarios.",
+      "rolesFallback": "Sin roles",
+      "makeAdmin": "Hacer admin",
+      "removeAdmin": "Quitar admin",
+      "actionError": "No se pudo actualizar el rol.",
+      "ariaLabel": "Lista de usuarios",
+      "columns": {
+        "email": "Correo electrónico",
+        "roles": "Roles",
+        "created": "Creado",
+        "actions": "Acciones"
+      }
+    }
+  },
   "auth": {
     "login": {
       "title": "Iniciar sesión",

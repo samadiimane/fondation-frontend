@@ -52,6 +52,34 @@
     "logout": "Log out",
     "searchPlaceholder": "Search..."
   },
+  "admin": {
+    "dashboardTitle": "Admin dashboard",
+    "dashboardDescription": "Review upcoming admin features and manage restricted tools from here.",
+    "dashboardEmptyState": "This space will soon host analytics, approval queues, and shortcuts for committee tasks.",
+    "notAuthorizedTitle": "Admin access required",
+    "notAuthorizedDescription": "You need an administrator role to view this area. Please contact the foundation team if you believe this is an error.",
+    "backToHome": "Back to home",
+    "loading": "Loading admin tools…",
+    "users": {
+      "title": "Users",
+      "description": "Accounts with access to internal dashboards and moderation tools.",
+      "loading": "Loading users…",
+      "error": "Could not load users.",
+      "retry": "Try again",
+      "empty": "No users found.",
+      "rolesFallback": "No roles",
+      "makeAdmin": "Make admin",
+      "removeAdmin": "Remove admin",
+      "actionError": "Unable to update role.",
+      "ariaLabel": "Users list",
+      "columns": {
+        "email": "Email",
+        "roles": "Roles",
+        "created": "Created",
+        "actions": "Actions"
+      }
+    }
+  },
   "auth": {
     "login": {
       "title": "Sign in",

@@ -52,6 +52,34 @@
     "logout": "Se déconnecter",
     "searchPlaceholder": "Rechercher..."
   },
+  "admin": {
+    "dashboardTitle": "Tableau de bord admin",
+    "dashboardDescription": "Consultez ici les futures fonctionnalités d’administration et les outils restreints.",
+    "dashboardEmptyState": "Cet espace accueillera bientôt des analyses, des files d’attente d’approbation et des raccourcis pour les comités.",
+    "notAuthorizedTitle": "Accès administrateur requis",
+    "notAuthorizedDescription": "Vous devez disposer d’un rôle administrateur pour voir cette zone. Contactez l’équipe de la fondation si vous pensez qu’il s’agit d’une erreur.",
+    "backToHome": "Retour à l’accueil",
+    "loading": "Chargement des outils d’administration…",
+    "users": {
+      "title": "Utilisateurs",
+      "description": "Comptes disposant d’un accès aux tableaux de bord internes et aux outils de modération.",
+      "loading": "Chargement des utilisateurs…",
+      "error": "Impossible de charger les utilisateurs.",
+      "retry": "Réessayer",
+      "empty": "Aucun utilisateur trouvé.",
+      "rolesFallback": "Aucun rôle",
+      "makeAdmin": "Donner l’accès admin",
+      "removeAdmin": "Retirer l’accès admin",
+      "actionError": "Impossible de mettre à jour le rôle.",
+      "ariaLabel": "Liste des utilisateurs",
+      "columns": {
+        "email": "Email",
+        "roles": "Rôles",
+        "created": "Créé le",
+        "actions": "Actions"
+      }
+    }
+  },
   "auth": {
     "login": {
       "title": "Connexion",
