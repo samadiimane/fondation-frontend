@@ -1,7 +1,14 @@
-"use client";
+import { cn } from "@/lib/utils"
 
-import {cn} from "@/lib/utils";
+function Skeleton({
+  className,
+  ...props
+}) {
+  return (
+    <div
+      className={cn("animate-pulse rounded-md bg-primary/10", className)}
+      {...props} />
+  );
+}
 
-export const Skeleton = ({className, ...props}) => (
-  <div className={cn("h-4 w-full animate-pulse rounded-md bg-neutral-200/80 dark:bg-neutral-800/80", className)} {...props} />
-);
+export { Skeleton }

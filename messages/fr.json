@@ -60,6 +60,30 @@
     "notAuthorizedDescription": "Vous devez disposer d’un rôle administrateur pour voir cette zone. Contactez l’équipe de la fondation si vous pensez qu’il s’agit d’une erreur.",
     "backToHome": "Retour à l’accueil",
     "loading": "Chargement des outils d’administration…",
+    "stats": {
+      "documents": {
+        "title": "Documents",
+        "description": "Publiés dans la bibliothèque numérique"
+      },
+      "journals": {
+        "title": "Revues",
+        "description": "Titres curatorés disponibles"
+      },
+      "users": {
+        "title": "Utilisateurs",
+        "description": "Comptes actifs disposant d’un accès"
+      },
+      "pending": {
+        "title": "En attente",
+        "description": "En cours de validation ou révision"
+      },
+      "noData": "Aucune donnée"
+    },
+    "activity": {
+      "title": "Activité récente",
+      "description": "Dernières actions des administrateurs et éditeurs",
+      "empty": "Aucune activité pour le moment"
+    },
     "users": {
       "title": "Utilisateurs",
       "description": "Comptes disposant d’un accès aux tableaux de bord internes et aux outils de modération.",
@@ -70,6 +94,7 @@
       "rolesFallback": "Aucun rôle",
       "makeAdmin": "Donner l’accès admin",
       "removeAdmin": "Retirer l’accès admin",
+      "manageRoles": "Gérer les rôles",
       "actionError": "Impossible de mettre à jour le rôle.",
       "ariaLabel": "Liste des utilisateurs",
       "columns": {
@@ -78,6 +103,20 @@
         "created": "Créé le",
         "actions": "Actions"
       }
+    },
+    "nav": {
+      "title": "Administration",
+      "label": "Centre de contrôle",
+      "dashboard": "Tableau de bord",
+      "users": "Utilisateurs",
+      "content": "Contenu",
+      "settings": "Paramètres",
+      "openMenu": "Menu",
+      "closeMenu": "Fermer",
+      "collapse": "Réduire la barre",
+      "expand": "Développer la barre",
+      "searchPlaceholder": "Rechercher dans l'administration...",
+      "logout": "Déconnexion"
     }
   },
   "auth": {

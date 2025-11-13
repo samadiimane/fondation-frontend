@@ -1,17 +1,19 @@
 "use client";
 
 import {useMemo} from "react";
-import {useTranslations} from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 import {Link} from "@/i18n/navigation";
 import useAuth from "@/hooks/useAuth";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Button} from "@/components/ui/button";
 
 const AdminGuard = ({children}) => {
   const t = useTranslations("admin");
+  const locale = useLocale();
   let authState = null;
   try {
     authState = useAuth();
-  } catch (error) {
+  } catch {
     authState = null;
   }
 
@@ -40,15 +42,15 @@ const AdminGuard = ({children}) => {
 
   if (!isAuthenticated || !isAdmin) {
     return (
-      <section className='mx-auto flex min-h-[40vh] max-w-3xl flex-col items-center justify-center gap-4 px-6 text-center' aria-live='polite'>
-        <h2 className='text-2xl font-semibold text-neutral-900 dark:text-neutral-50'>{t("notAuthorizedTitle")}</h2>
-        <p className='text-neutral-600 dark:text-neutral-300'>{t("notAuthorizedDescription")}</p>
-        <Link
-          href='/'
-          className='btn--secondary inline-flex items-center justify-center gap-2 rounded-full px-5 py-2 text-sm font-semibold uppercase tracking-wide'
-        >
-          {t("backToHome")}
-        </Link>
+      <section
+        className='mx-auto flex h-[60vh] flex-col items-center justify-center gap-3 px-6 text-center'
+        aria-live='polite'
+      >
+        <h2 className='text-lg font-semibold text-foreground'>{t("notAuthorizedTitle")}</h2>
+        <p className='text-sm text-muted-foreground max-w-md'>{t("notAuthorizedDescription")}</p>
+        <Button asChild>
+          <Link href={`/${locale}`}>{t("backToHome")}</Link>
+        </Button>
       </section>
     );
   }

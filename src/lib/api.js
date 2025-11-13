@@ -1057,14 +1057,28 @@ export const signup = async (email, password) => {
 };
 
 export const getAdminUsers = async () => {
+  const fetchUsers = async (path) => {
+    const payload = await apiFetch(path, { noCache: true });
+    return Array.isArray(payload) ? payload : [];
+  };
+
   try {
-    const data = await apiFetch("/v1/admin/users", {
-      noCache: true,
-    });
-    return Array.isArray(data) ? data : [];
+    return await fetchUsers("/v1/admin/users");
   } catch (error) {
-    if (error?.status === 401 || error?.status === 403) {
+    const status = error?.status;
+    if (status === 401 || status === 403) {
       return [];
+    }
+    if (status === 404) {
+      try {
+        return await fetchUsers("/v1/auth/users");
+      } catch (fallbackError) {
+        const fallbackStatus = fallbackError?.status;
+        if (fallbackStatus === 401 || fallbackStatus === 403) {
+          return [];
+        }
+        throw fallbackError;
+      }
     }
     throw error;
   }

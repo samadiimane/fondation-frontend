@@ -60,6 +60,30 @@
     "notAuthorizedDescription": "Necesitas un rol de administrador para ver esta área. Ponte en contacto con la fundación si crees que se trata de un error.",
     "backToHome": "Volver al inicio",
     "loading": "Cargando herramientas de administración…",
+    "stats": {
+      "documents": {
+        "title": "Documentos",
+        "description": "Publicados en la biblioteca digital"
+      },
+      "journals": {
+        "title": "Revistas",
+        "description": "Títulos curados disponibles"
+      },
+      "users": {
+        "title": "Usuarios",
+        "description": "Cuentas activas con acceso"
+      },
+      "pending": {
+        "title": "Pendientes",
+        "description": "Esperando moderación o revisión"
+      },
+      "noData": "Sin datos aún"
+    },
+    "activity": {
+      "title": "Actividad reciente",
+      "description": "Últimos cambios de administradores y editores",
+      "empty": "Aún no hay actividad"
+    },
     "users": {
       "title": "Usuarios",
       "description": "Cuentas con acceso a los paneles internos y a las herramientas de moderación.",
@@ -70,6 +94,7 @@
       "rolesFallback": "Sin roles",
       "makeAdmin": "Hacer admin",
       "removeAdmin": "Quitar admin",
+      "manageRoles": "Gestionar roles",
       "actionError": "No se pudo actualizar el rol.",
       "ariaLabel": "Lista de usuarios",
       "columns": {
@@ -78,6 +103,20 @@
         "created": "Creado",
         "actions": "Acciones"
       }
+    },
+    "nav": {
+      "title": "Admin",
+      "label": "Centro de control",
+      "dashboard": "Panel",
+      "users": "Usuarios",
+      "content": "Contenido",
+      "settings": "Configuración",
+      "openMenu": "Menú",
+      "closeMenu": "Cerrar",
+      "collapse": "Contraer barra",
+      "expand": "Expandir barra",
+      "searchPlaceholder": "Buscar en administracion...",
+      "logout": "Cerrar sesión"
     }
   },
   "auth": {

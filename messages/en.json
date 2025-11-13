@@ -60,6 +60,30 @@
     "notAuthorizedDescription": "You need an administrator role to view this area. Please contact the foundation team if you believe this is an error.",
     "backToHome": "Back to home",
     "loading": "Loading admin tools…",
+    "stats": {
+      "documents": {
+        "title": "Total documents",
+        "description": "Published in the digital library"
+      },
+      "journals": {
+        "title": "Journals",
+        "description": "Curated titles available"
+      },
+      "users": {
+        "title": "Users",
+        "description": "Active accounts with access"
+      },
+      "pending": {
+        "title": "Pending items",
+        "description": "Awaiting moderation or review"
+      },
+      "noData": "No data yet"
+    },
+    "activity": {
+      "title": "Recent activity",
+      "description": "Latest changes from admins and editors",
+      "empty": "No activity yet"
+    },
     "users": {
       "title": "Users",
       "description": "Accounts with access to internal dashboards and moderation tools.",
@@ -70,6 +94,7 @@
       "rolesFallback": "No roles",
       "makeAdmin": "Make admin",
       "removeAdmin": "Remove admin",
+      "manageRoles": "Manage roles",
       "actionError": "Unable to update role.",
       "ariaLabel": "Users list",
       "columns": {
@@ -78,6 +103,20 @@
         "created": "Created",
         "actions": "Actions"
       }
+    },
+    "nav": {
+      "title": "Admin",
+      "label": "Control center",
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "content": "Content",
+      "settings": "Settings",
+      "openMenu": "Menu",
+      "closeMenu": "Close",
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar",
+      "searchPlaceholder": "Search in admin...",
+      "logout": "Logout"
     }
   },
   "auth": {
