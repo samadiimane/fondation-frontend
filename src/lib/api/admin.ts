@@ -4,6 +4,30 @@ import {apiFetch} from "@/lib/api";
 
 type EndpointStatus = "unknown" | "enabled" | "disabled";
 
+type ApiFetchOptions = {
+  params?: Record<string, unknown>;
+  signal?: AbortSignal;
+  noCache?: boolean;
+  method?: string;
+  headers?: Record<string, string>;
+  body?: unknown;
+};
+
+type ApiFetchFn = <T = unknown>(path: string, options?: ApiFetchOptions) => Promise<T>;
+
+const apiRequest = apiFetch as ApiFetchFn;
+
+const request = <T = unknown>(path: string, options?: ApiFetchOptions) => apiRequest<T>(path, options);
+
+const ADMIN_USERS_PATH = "/v1/admin/users";
+const LEGACY_USERS_PATH = "/v1/auth/users";
+const LEGACY_SIGNUP_PATH = "/v1/auth/signup";
+
+const adminUserPath = (userId: number | string) => `${ADMIN_USERS_PATH}/${userId}`;
+const adminUserRolesPath = (userId: number | string) => `${adminUserPath(userId)}/roles`;
+const adminUserActivePath = (userId: number | string) => `${adminUserPath(userId)}/active`;
+const legacyUserRolesPath = (userId: number | string) => `${LEGACY_USERS_PATH}/${userId}/roles`;
+
 export type AdminUserRecord = {
   id: number | string | null;
   email: string;
@@ -104,6 +128,11 @@ const sanitizeRolesInput = (roles?: string[]) => {
     .filter((role) => role.length > 0);
 };
 
+const normalizeRolesOrDefault = (roles?: string[]) => {
+  const normalized = sanitizeRolesInput(roles);
+  return normalized.length > 0 ? normalized : [DEFAULT_ADMIN_ROLE];
+};
+
 const normalizeRoleValue = (role: unknown) => {
   if (!role) return "";
   if (typeof role === "string") {
@@ -190,7 +219,7 @@ const fetchLegacyUsers = async ({
   role: string;
   signal?: AbortSignal;
 }) => {
-  const payload = await apiFetch("/v1/auth/users", {
+  const payload = await request<any[]>(LEGACY_USERS_PATH, {
     signal,
     noCache: true,
   });
@@ -203,13 +232,13 @@ const legacyCreateUser = async ({
   roles,
   signal,
 }: CreateUserInput): Promise<AdminUserRecord> => {
-  const payload = await apiFetch("/v1/auth/signup", {
+  const payload = await request<Record<string, any>>(LEGACY_SIGNUP_PATH, {
     method: "POST",
     body: {email, password},
     signal,
     noCache: true,
   });
-  const normalizedRoles = sanitizeRolesInput(roles?.length ? roles : [DEFAULT_ADMIN_ROLE]);
+  const normalizedRoles = normalizeRolesOrDefault(roles);
   const userId = payload?.user?.id ?? payload?.id;
 
   if (userId !== undefined && userId !== null) {
@@ -314,7 +343,7 @@ export const listUsers = async ({
 
   if (endpointSupport.users !== "disabled") {
     try {
-      const payload = await apiFetch("/v1/admin/users", {
+      const payload = await request(ADMIN_USERS_PATH, {
         params: {
           page: safePage,
           page_size: safePageSize,
@@ -352,12 +381,12 @@ export const createUser = async (input: CreateUserInput): Promise<AdminUserRecor
   const {email, password, roles, signal} = input;
   if (endpointSupport.users !== "disabled") {
     try {
-      const payload = await apiFetch("/v1/admin/users", {
+      const payload = await request(ADMIN_USERS_PATH, {
         method: "POST",
         body: {
           email,
           password,
-          roles: sanitizeRolesInput(roles?.length ? roles : [DEFAULT_ADMIN_ROLE]),
+          roles: normalizeRolesOrDefault(roles),
         },
         signal,
         noCache: true,
@@ -386,7 +415,7 @@ export const setUserActive = async ({
   signal,
 }: SetUserActiveInput): Promise<AdminUserRecord> => {
   try {
-    const payload = await apiFetch(`/v1/admin/users/${userId}/active`, {
+    const payload = await request(adminUserActivePath(userId), {
       method: "PATCH",
       body: {is_active},
       signal,
@@ -412,7 +441,7 @@ const fetchUserSnapshot = async (
 ): Promise<AdminUserRecord> => {
   if (endpointSupport.users !== "disabled") {
     try {
-      const payload = await apiFetch(`/v1/admin/users/${userId}`, {
+      const payload = await request(adminUserPath(userId), {
         signal,
         noCache: true,
       });
@@ -428,7 +457,7 @@ const fetchUserSnapshot = async (
   }
 
   try {
-    const payload = await apiFetch(`/v1/auth/users/${userId}`, {
+    const payload = await request(`${LEGACY_USERS_PATH}/${userId}`, {
       signal,
       noCache: true,
     });
@@ -455,7 +484,7 @@ const addUserRoleRequest = async (userId: number | string, role: string, signal?
 
   if (endpointSupport.roles !== "disabled") {
     try {
-      await apiFetch(`/v1/admin/users/${userId}/roles`, requestConfig);
+      await request(adminUserRolesPath(userId), requestConfig);
       markEndpointEnabled("roles");
       return;
     } catch (error) {
@@ -467,7 +496,7 @@ const addUserRoleRequest = async (userId: number | string, role: string, signal?
     }
   }
 
-  await apiFetch(`/v1/auth/users/${userId}/roles`, requestConfig);
+  await request(legacyUserRolesPath(userId), requestConfig);
 };
 
 const removeUserRoleRequest = async (
@@ -491,7 +520,7 @@ const removeUserRoleRequest = async (
 
   if (endpointSupport.roles !== "disabled") {
     try {
-      await apiFetch(`/v1/admin/users/${userId}/roles/${encodedRole}`, requestConfig);
+      await request(`${adminUserRolesPath(userId)}/${encodedRole}`, requestConfig);
       markEndpointEnabled("roles");
       return;
     } catch (error) {
@@ -503,7 +532,7 @@ const removeUserRoleRequest = async (
     }
   }
 
-  await apiFetch(`/v1/auth/users/${userId}/roles/${encodedRole}`, requestConfig);
+  await request(`${legacyUserRolesPath(userId)}/${encodedRole}`, requestConfig);
 };
 
 const replaceUserRolesAdminRequest = async (
@@ -516,7 +545,7 @@ const replaceUserRolesAdminRequest = async (
   }
 
   try {
-    const payload = await apiFetch(`/v1/admin/users/${userId}/roles`, {
+    const payload = await request(adminUserRolesPath(userId), {
       method: "PATCH",
       body: {roles},
       signal,
@@ -528,6 +557,9 @@ const replaceUserRolesAdminRequest = async (
     if (isMissingEndpointError(error)) {
       markEndpointDisabled("roles");
       return null;
+    }
+    if ((error as Error)?.name === "AbortError") {
+      throw error;
     }
     throw mapToAdminError(error, friendlyMessages.default);
   }
@@ -555,20 +587,20 @@ const rollbackRoleChanges = async (
   }
 };
 
-export const setUserRoles = async ({
+type LegacyRoleUpdateInput = {
+  userId: number | string;
+  targetRoles: string[];
+  currentRoles?: string[];
+  signal?: AbortSignal;
+};
+
+const applyLegacyRoleDiff = async ({
   userId,
-  roles,
+  targetRoles,
   currentRoles,
   signal,
-}: SetUserRolesInput): Promise<AdminUserRecord> => {
-  const sanitizedRoles = sanitizeRolesInput(roles);
-  const targetRoles = sanitizedRoles.length > 0 ? sanitizedRoles : [DEFAULT_ADMIN_ROLE];
+}: LegacyRoleUpdateInput): Promise<AdminUserRecord> => {
   let fetchedSnapshot: AdminUserRecord | null = null;
-
-  const adminReplacementResult = await replaceUserRolesAdminRequest(userId, targetRoles, signal);
-  if (adminReplacementResult) {
-    return adminReplacementResult;
-  }
 
   const ensureSnapshot = async () => {
     if (!fetchedSnapshot) {
@@ -629,4 +661,20 @@ export const setUserRoles = async ({
     ...snapshot,
     roles: targetRoles,
   };
+};
+
+export const setUserRoles = async ({
+  userId,
+  roles,
+  currentRoles,
+  signal,
+}: SetUserRolesInput): Promise<AdminUserRecord> => {
+  const targetRoles = normalizeRolesOrDefault(roles);
+
+  const adminReplacementResult = await replaceUserRolesAdminRequest(userId, targetRoles, signal);
+  if (adminReplacementResult) {
+    return adminReplacementResult;
+  }
+
+  return applyLegacyRoleDiff({userId, targetRoles, currentRoles, signal});
 };

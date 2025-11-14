@@ -45,10 +45,10 @@ const AddUserDialog = ({ open, onOpenChange, onSubmit, isSubmitting }) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent aria-describedby="add-user-description">
+      <DialogContent>
         <DialogHeader className="space-y-1.5">
           <DialogTitle className="text-lg font-semibold text-foreground">{t("addUser")}</DialogTitle>
-          <DialogDescription id="add-user-description">
+          <DialogDescription>
             {t("addUserDescription")}
           </DialogDescription>
         </DialogHeader>
