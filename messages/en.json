@@ -86,22 +86,56 @@
     },
     "users": {
       "title": "Users",
-      "description": "Accounts with access to internal dashboards and moderation tools.",
-      "loading": "Loading users…",
-      "error": "Could not load users.",
-      "retry": "Try again",
-      "empty": "No users found.",
-      "rolesFallback": "No roles",
-      "makeAdmin": "Make admin",
-      "removeAdmin": "Remove admin",
+      "description": "Manage admin-only access, permissions, and account status.",
+      "searchPlaceholder": "Search by email…",
+      "filterRoleLabel": "Role filter",
+      "role": {
+        "all": "All roles",
+        "admin": "Admin",
+        "committee": "Committee",
+        "researcher": "Researcher"
+      },
+      "addUser": "Add user",
+      "email": "Email",
+      "password": "Password",
+      "rolesLabel": "Roles",
+      "addUserDescription": "Create a password-based account and assign baseline roles.",
+      "manageRolesDescription": "Select which roles should remain active for this account.",
+      "create": "Create",
+      "cancel": "Cancel",
       "manageRoles": "Manage roles",
-      "actionError": "Unable to update role.",
-      "ariaLabel": "Users list",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
       "columns": {
         "email": "Email",
         "roles": "Roles",
+        "status": "Status",
         "created": "Created",
         "actions": "Actions"
+      },
+      "empty": "No users matched the current filters.",
+      "errorLoading": "We couldn't load the users list.",
+      "resultCount": "{count, plural, one {# user} other {# users}}",
+      "refreshing": "Refreshing…",
+      "copyEmail": "Copy email",
+      "pagination": {
+        "summary": "{start}–{end} of {total} users",
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "confirmActivate": "Activate {email}?",
+      "confirmDeactivate": "Deactivate {email}?",
+      "retry": "Try again",
+      "toast": {
+        "created": "User added successfully.",
+        "rolesUpdated": "Roles updated.",
+        "activated": "User activated.",
+        "deactivated": "User deactivated.",
+        "error": "Something went wrong. Please try again."
       }
     },
     "nav": {

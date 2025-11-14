@@ -86,22 +86,56 @@
     },
     "users": {
       "title": "المستخدمون",
-      "description": "الحسابات التي تملك صلاحية الوصول إلى لوحات التحكم الداخلية وأدوات الإشراف.",
-      "loading": "جارٍ تحميل المستخدمين…",
-      "error": "تعذر تحميل قائمة المستخدمين.",
-      "retry": "المحاولة مرة أخرى",
-      "empty": "لا يوجد مستخدمون.",
-      "rolesFallback": "لا توجد أدوار",
-      "makeAdmin": "منح صلاحية المدير",
-      "removeAdmin": "إزالة صلاحية المدير",
+      "description": "إدارة وصول المشرفين والصلاحيات وحالة الحسابات.",
+      "searchPlaceholder": "ابحث بالبريد الإلكتروني…",
+      "filterRoleLabel": "تصفية حسب الدور",
+      "role": {
+        "all": "جميع الأدوار",
+        "admin": "مسؤول",
+        "committee": "لجنة",
+        "researcher": "باحث"
+      },
+      "addUser": "إضافة مستخدم",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "rolesLabel": "الأدوار",
+      "addUserDescription": "أنشئ حسابًا محميًا بكلمة مرور وعيّن الأدوار الأساسية.",
+      "manageRolesDescription": "حدد الأدوار التي يجب أن تبقى مفعّلة لهذا الحساب.",
+      "create": "إنشاء",
+      "cancel": "إلغاء",
       "manageRoles": "إدارة الأدوار",
-      "actionError": "تعذر تحديث الدور.",
-      "ariaLabel": "قائمة المستخدمين",
+      "activate": "تفعيل",
+      "deactivate": "تعطيل",
+      "status": {
+        "active": "مفعل",
+        "inactive": "معطل"
+      },
       "columns": {
         "email": "البريد الإلكتروني",
         "roles": "الأدوار",
+        "status": "الحالة",
         "created": "تاريخ الإنشاء",
-        "actions": "الإجراءات"
+        "actions": "إجراءات"
+      },
+      "empty": "لا توجد حسابات مطابقة للمرشحات.",
+      "errorLoading": "تعذر تحميل قائمة المستخدمين.",
+      "resultCount": "{count, plural, zero {لا مستخدمين} one {مستخدم واحد} two {مستخدمان} few {# مستخدمين} many {# مستخدمًا} other {# مستخدم}}",
+      "refreshing": "جاري التحديث…",
+      "copyEmail": "نسخ البريد الإلكتروني",
+      "pagination": {
+        "summary": "{start}–{end} من {total} مستخدم",
+        "previous": "السابق",
+        "next": "التالي"
+      },
+      "confirmActivate": "هل تريد تفعيل {email}؟",
+      "confirmDeactivate": "هل تريد تعطيل {email}؟",
+      "retry": "إعادة المحاولة",
+      "toast": {
+        "created": "تمت إضافة المستخدم بنجاح.",
+        "rolesUpdated": "تم تحديث الأدوار.",
+        "activated": "تم تفعيل المستخدم.",
+        "deactivated": "تم تعطيل المستخدم.",
+        "error": "حدث خطأ ما، يرجى المحاولة مرة أخرى."
       }
     },
     "nav": {

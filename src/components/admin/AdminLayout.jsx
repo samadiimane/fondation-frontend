@@ -10,6 +10,7 @@ import {Input} from "@/components/ui/input";
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet";
 import {Avatar, AvatarFallback} from "@/components/ui/avatar";
 import {Separator} from "@/components/ui/separator";
+import {Toaster} from "@/components/ui/toaster";
 import {cn} from "@/lib/utils";
 import {
   Bell,
@@ -264,6 +265,7 @@ const AdminShell = ({children}) => {
           </main>
         </div>
       </div>
+      <Toaster />
     </div>
   );
 };

@@ -1,125 +1,201 @@
 "use client";
 
-import {useEffect, useState} from "react";
-import {useLocale, useTranslations} from "next-intl";
-import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
-import {Skeleton} from "@/components/ui/skeleton";
-import {Button} from "@/components/ui/button";
-import {getAdminUsers} from "@/lib/api";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-const UsersInner = () => {
-  const t = useTranslations("admin.users");
-  const locale = useLocale();
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+import AdminUsersToolbar from "@/components/admin/users/AdminUsersToolbar";
+import UsersTable from "@/components/admin/users/UsersTable";
+import { getAdminUsers } from "@/lib/api";
 
-  useEffect(() => {
-    let mounted = true;
-    (async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const data = await getAdminUsers();
-        if (!mounted) return;
-        setUsers(Array.isArray(data) ? data : []);
-      } catch (err) {
-        if (!mounted) return;
-        setError(err);
-      } finally {
-        if (mounted) setLoading(false);
-      }
-    })();
-    return () => {
-      mounted = false;
-    };
-  }, []);
+const PAGE_SIZE = 20;
 
-  const formatRoles = (roles) => {
-    const flat = Array.isArray(roles)
-      ? roles
-          .map((role) => {
-            if (!role) return null;
-            if (typeof role === "string") return role;
-            return role.role ?? null;
-          })
-          .filter(Boolean)
-      : [];
-    return flat.length ? flat.join(", ") : t("rolesFallback");
-  };
-
-  const formatDate = (value) => {
-    if (!value) return "—";
-    try {
-      return new Intl.DateTimeFormat(locale, {dateStyle: "medium", timeStyle: "short"}).format(new Date(value));
-    } catch {
-      return value;
-    }
-  };
-
-  return (
-    <Card className='rounded-2xl border bg-card shadow-md'>
-      <CardHeader>
-        <CardTitle>{t("title")}</CardTitle>
-        <CardDescription>{t("description")}</CardDescription>
-      </CardHeader>
-      <CardContent className='space-y-4'>
-        {loading ? (
-          <div className='space-y-3'>
-            {Array.from({length: 4}).map((_, idx) => (
-              <Skeleton key={idx} className='h-10 w-full rounded-lg' />
-            ))}
-          </div>
-        ) : error ? (
-          <div className='rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive'>
-            {error?.message || t("error")}
-          </div>
-        ) : (
-          <div className='overflow-x-auto rounded-lg border border-border'>
-            <Table className='w-full text-sm' aria-label={t("ariaLabel")}>
-              <TableHeader className='bg-muted/40'>
-                <TableRow>
-                  <TableHead>{t("columns.email")}</TableHead>
-                  <TableHead>{t("columns.roles")}</TableHead>
-                  <TableHead>{t("columns.created")}</TableHead>
-                  <TableHead>{t("columns.actions")}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody className='[&_tr:hover]:bg-muted/30'>
-                {users.length ? (
-                  users.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell className='font-medium'>{user.email}</TableCell>
-                      <TableCell>{formatRoles(user.roles)}</TableCell>
-                      <TableCell>{formatDate(user.created_at)}</TableCell>
-                      <TableCell>
-                        <Button size='sm' variant='outline' disabled className='cursor-not-allowed opacity-60'>
-                          {t("manageRoles")}
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={4} className='py-6 text-center text-muted-foreground'>
-                      {t("empty")}
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
+const parsePage = (value) => {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed) || parsed < 1) return 1;
+  return parsed;
 };
 
-const AdminUsersPage = () => (
-  <div className='flex flex-col gap-6'>
-    <UsersInner />
-  </div>
-);
+const AdminUsersPage = () => {
+  const t = useTranslations("admin.users");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const [query, setQuery] = useState(searchParams.get("q") ?? "");
+  const [role, setRole] = useState(searchParams.get("role") ?? "all");
+  const [page, setPage] = useState(parsePage(searchParams.get("page")));
+
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const updateUrl = useCallback(
+    ({ nextQuery, nextRole, nextPage }) => {
+      const params = new URLSearchParams();
+      if (nextQuery) {
+        params.set("q", nextQuery);
+      }
+      if (nextRole && nextRole !== "all") {
+        params.set("role", nextRole);
+      }
+      if (nextPage > 1) {
+        params.set("page", String(nextPage));
+      }
+      const search = params.toString();
+      const target = search ? `${pathname}?${search}` : pathname;
+      router.replace(target, { scroll: false });
+    },
+    [pathname, router],
+  );
+
+  const fetchUsers = useCallback(
+    async ({ signal }) => {
+      const payload = await getAdminUsers({
+        q: query,
+        role,
+        page,
+        pageSize: PAGE_SIZE,
+        signal,
+      });
+      setData(payload);
+    },
+    [page, query, role],
+  );
+
+  useEffect(() => {
+    const paramsQuery = searchParams.get("q") ?? "";
+    const paramsRole = searchParams.get("role") ?? "all";
+    const paramsPage = parsePage(searchParams.get("page"));
+
+    if (paramsQuery !== query) {
+      setQuery(paramsQuery);
+    }
+    if (paramsRole !== role) {
+      setRole(paramsRole);
+    }
+    if (paramsPage !== page) {
+      setPage(paramsPage);
+    }
+  }, [searchParams, query, role, page]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    let mounted = true;
+    setIsLoading(true);
+    setError(null);
+    fetchUsers({ signal: controller.signal })
+      .catch((err) => {
+        if (controller.signal.aborted || !mounted) return;
+        setError(err);
+      })
+      .finally(() => {
+        if (!mounted) return;
+        setIsLoading(false);
+        setIsRefreshing(false);
+      });
+    return () => {
+      mounted = false;
+      controller.abort();
+    };
+  }, [fetchUsers]);
+
+  const handleRefetch = useCallback(
+    async ({ soft } = {}) => {
+      const controller = new AbortController();
+      if (soft) {
+        setIsRefreshing(true);
+      } else {
+        setIsLoading(true);
+      }
+      setError(null);
+      try {
+        await fetchUsers({ signal: controller.signal });
+      } catch (err) {
+        if (!controller.signal.aborted) {
+          setError(err);
+        }
+      } finally {
+        if (soft) {
+          setIsRefreshing(false);
+        } else {
+          setIsLoading(false);
+        }
+      }
+    },
+    [fetchUsers],
+  );
+
+  const handleQueryChange = useCallback(
+    (value) => {
+      const normalized = value ?? "";
+      if (normalized === query) return;
+      setQuery(normalized);
+      setPage(1);
+      updateUrl({ nextQuery: normalized, nextRole: role, nextPage: 1 });
+    },
+    [query, role, updateUrl],
+  );
+
+  const handleRoleChange = useCallback(
+    (value) => {
+      const nextRole = value || "all";
+      if (nextRole === role) return;
+      setRole(nextRole);
+      setPage(1);
+      updateUrl({ nextQuery: query, nextRole, nextPage: 1 });
+    },
+    [query, role, updateUrl],
+  );
+
+  const handlePageChange = useCallback(
+    (nextPage) => {
+      const parsed = parsePage(nextPage);
+      if (parsed === page) return;
+      setPage(parsed);
+      updateUrl({ nextQuery: query, nextRole: role, nextPage: parsed });
+    },
+    [page, query, role, updateUrl],
+  );
+
+  const handleUserCreated = useCallback(() => {
+    setPage(1);
+    updateUrl({ nextQuery: query, nextRole: role, nextPage: 1 });
+    handleRefetch({ soft: false });
+  }, [handleRefetch, query, role, updateUrl]);
+
+  const total = data?.total ?? 0;
+  const currentPageSize = data?.pageSize ?? PAGE_SIZE;
+
+  return (
+    <div className="flex flex-col gap-6">
+      <header className="flex flex-col gap-1">
+        <p className="text-sm uppercase text-primary/80">{t("title")}</p>
+        <h1 className="text-3xl font-semibold text-slate-900 tracking-tight">{t("title")}</h1>
+        <p className="text-[15px] text-muted-foreground">{t("description")}</p>
+      </header>
+      <AdminUsersToolbar
+        query={query}
+        role={role}
+        total={total}
+        onQueryChange={handleQueryChange}
+        onRoleChange={handleRoleChange}
+        onUserCreated={handleUserCreated}
+        isRefreshing={isRefreshing && !isLoading}
+      />
+      <UsersTable
+        data={data}
+        isLoading={isLoading}
+        error={error}
+        onRetry={() => handleRefetch({ soft: false })}
+        onRefetch={handleRefetch}
+        page={page}
+        pageSize={currentPageSize}
+        onPageChange={handlePageChange}
+      />
+    </div>
+  );
+};
 
 export default AdminUsersPage;

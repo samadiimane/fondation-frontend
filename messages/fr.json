@@ -86,22 +86,56 @@
     },
     "users": {
       "title": "Utilisateurs",
-      "description": "Comptes disposant d’un accès aux tableaux de bord internes et aux outils de modération.",
-      "loading": "Chargement des utilisateurs…",
-      "error": "Impossible de charger les utilisateurs.",
-      "retry": "Réessayer",
-      "empty": "Aucun utilisateur trouvé.",
-      "rolesFallback": "Aucun rôle",
-      "makeAdmin": "Donner l’accès admin",
-      "removeAdmin": "Retirer l’accès admin",
+      "description": "Gérez les accès réservés aux administrateurs, les rôles et l'état des comptes.",
+      "searchPlaceholder": "Rechercher par e-mail…",
+      "filterRoleLabel": "Filtrer par rôle",
+      "role": {
+        "all": "Tous les rôles",
+        "admin": "Administrateur",
+        "committee": "Comité",
+        "researcher": "Chercheur"
+      },
+      "addUser": "Ajouter un utilisateur",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "rolesLabel": "Rôles",
+      "addUserDescription": "Créez un compte protégé par mot de passe et attribuez les rôles de base.",
+      "manageRolesDescription": "Sélectionnez les rôles qui doivent rester actifs pour ce compte.",
+      "create": "Créer",
+      "cancel": "Annuler",
       "manageRoles": "Gérer les rôles",
-      "actionError": "Impossible de mettre à jour le rôle.",
-      "ariaLabel": "Liste des utilisateurs",
+      "activate": "Activer",
+      "deactivate": "Désactiver",
+      "status": {
+        "active": "Actif",
+        "inactive": "Inactif"
+      },
       "columns": {
-        "email": "Email",
+        "email": "E-mail",
         "roles": "Rôles",
-        "created": "Créé le",
+        "status": "Statut",
+        "created": "Créé",
         "actions": "Actions"
+      },
+      "empty": "Aucun utilisateur ne correspond aux filtres.",
+      "errorLoading": "Impossible de charger la liste des utilisateurs.",
+      "resultCount": "{count, plural, one {# utilisateur} other {# utilisateurs}}",
+      "refreshing": "Actualisation…",
+      "copyEmail": "Copier l’e-mail",
+      "pagination": {
+        "summary": "{start}–{end} sur {total} utilisateurs",
+        "previous": "Précédent",
+        "next": "Suivant"
+      },
+      "confirmActivate": "Activer {email} ?",
+      "confirmDeactivate": "Désactiver {email} ?",
+      "retry": "Réessayer",
+      "toast": {
+        "created": "Utilisateur ajouté avec succès.",
+        "rolesUpdated": "Rôles mis à jour.",
+        "activated": "Utilisateur activé.",
+        "deactivated": "Utilisateur désactivé.",
+        "error": "Une erreur est survenue. Merci de réessayer."
       }
     },
     "nav": {

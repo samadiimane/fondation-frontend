@@ -86,22 +86,56 @@
     },
     "users": {
       "title": "Usuarios",
-      "description": "Cuentas con acceso a los paneles internos y a las herramientas de moderación.",
-      "loading": "Cargando usuarios…",
-      "error": "No se pudieron cargar los usuarios.",
-      "retry": "Intentar de nuevo",
-      "empty": "No se encontraron usuarios.",
-      "rolesFallback": "Sin roles",
-      "makeAdmin": "Hacer admin",
-      "removeAdmin": "Quitar admin",
+      "description": "Administra el acceso restringido, los permisos y el estado de las cuentas.",
+      "searchPlaceholder": "Buscar por correo…",
+      "filterRoleLabel": "Filtrar por rol",
+      "role": {
+        "all": "Todos los roles",
+        "admin": "Administrador",
+        "committee": "Comité",
+        "researcher": "Investigador"
+      },
+      "addUser": "Agregar usuario",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "rolesLabel": "Roles",
+      "addUserDescription": "Crea una cuenta con contraseña y asigna los roles base.",
+      "manageRolesDescription": "Selecciona qué roles deben permanecer activos para esta cuenta.",
+      "create": "Crear",
+      "cancel": "Cancelar",
       "manageRoles": "Gestionar roles",
-      "actionError": "No se pudo actualizar el rol.",
-      "ariaLabel": "Lista de usuarios",
+      "activate": "Activar",
+      "deactivate": "Desactivar",
+      "status": {
+        "active": "Activo",
+        "inactive": "Inactivo"
+      },
       "columns": {
-        "email": "Correo electrónico",
+        "email": "Correo",
         "roles": "Roles",
+        "status": "Estado",
         "created": "Creado",
         "actions": "Acciones"
+      },
+      "empty": "Ningún usuario coincide con los filtros.",
+      "errorLoading": "No pudimos cargar la lista de usuarios.",
+      "resultCount": "{count, plural, one {# usuario} other {# usuarios}}",
+      "refreshing": "Actualizando…",
+      "copyEmail": "Copiar correo",
+      "pagination": {
+        "summary": "{start}-{end} de {total} usuarios",
+        "previous": "Anterior",
+        "next": "Siguiente"
+      },
+      "confirmActivate": "¿Activar {email}?",
+      "confirmDeactivate": "¿Desactivar {email}?",
+      "retry": "Intentar nuevamente",
+      "toast": {
+        "created": "Usuario agregado correctamente.",
+        "rolesUpdated": "Roles actualizados.",
+        "activated": "Usuario activado.",
+        "deactivated": "Usuario desactivado.",
+        "error": "Ocurrió un error. Inténtalo otra vez."
       }
     },
     "nav": {
