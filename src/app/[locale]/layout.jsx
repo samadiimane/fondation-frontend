@@ -2,6 +2,7 @@ import InitializeAOS from '@/helper/InitializeAOS';
 import RouteScrollToTop from '@/helper/RouteScrollToTop';
 import {defaultLocale, locales} from '@/i18n/config';
 import {AuthProvider} from '@/hooks/useAuth';
+import QueryProvider from '@/components/providers/QueryProvider';
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages, setRequestLocale} from 'next-intl/server';
 
@@ -17,11 +18,13 @@ export default async function LocaleLayout({children, params}) {
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <AuthProvider>
-        <InitializeAOS />
-        <RouteScrollToTop />
-        {children}
-      </AuthProvider>
+      <QueryProvider>
+        <AuthProvider>
+          <InitializeAOS />
+          <RouteScrollToTop />
+          {children}
+        </AuthProvider>
+      </QueryProvider>
     </NextIntlClientProvider>
   );
 }

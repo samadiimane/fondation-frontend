@@ -1,84 +1,74 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
+import {useEffect, useMemo, useState} from "react";
+import {useTranslations} from "next-intl";
 
-import { replaceUserRoles } from "@/lib/api";
-import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/components/ui/use-toast";
-import { USER_ROLE_VALUES } from "./constants";
+import {Button} from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {USER_ROLE_VALUES, DEFAULT_ROLE} from "./constants";
+import {Label} from "@/components/ui/label";
+import {RadioGroup, RadioGroupItem} from "@/components/ui/radio-group";
+
+const normalizeRoleValue = (value) => {
+  if (!value) return "";
+  if (typeof value === "string") return value.trim().toLowerCase();
+  if (typeof value === "object" && typeof value.role === "string") {
+    return value.role.trim().toLowerCase();
+  }
+  return "";
+};
+
+const normalizeRole = (roles) => {
+  if (!Array.isArray(roles) || roles.length === 0) {
+    return DEFAULT_ROLE;
+  }
+  const first = normalizeRoleValue(roles[0]);
+  return first || DEFAULT_ROLE;
+};
 
 const normalizeRoles = (roles) => {
   if (!Array.isArray(roles)) return [];
-  return roles
-    .map((role) => {
-      if (!role) return null;
-      if (typeof role === "string") return role;
-      if (typeof role === "object" && role.role) {
-        return typeof role.role === "string" ? role.role : role.role?.role ?? null;
-      }
-      return null;
-    })
-    .filter(Boolean);
+  const normalized = roles
+    .map((role) => normalizeRoleValue(role))
+    .filter((role) => role.length > 0);
+  return normalized.length > 0 ? normalized : [DEFAULT_ROLE];
 };
 
-const ManageRolesDialog = ({ user, open, onOpenChange, onUpdated }) => {
+const ManageRolesDialog = ({user, open, onOpenChange, onSubmitRoles, isSubmitting}) => {
   const t = useTranslations("admin.users");
-  const { toast } = useToast();
-  const [selectedRoles, setSelectedRoles] = useState(() => new Set(normalizeRoles(user?.roles)));
-  const [submitting, setSubmitting] = useState(false);
+  const [selectedRole, setSelectedRole] = useState(() => normalizeRole(user?.roles));
+  const [baselineRoles, setBaselineRoles] = useState(() => normalizeRoles(user?.roles));
 
   const roleList = useMemo(() => USER_ROLE_VALUES, []);
 
   useEffect(() => {
     if (open && user) {
-      const nextRoles = normalizeRoles(user.roles);
-      setSelectedRoles(new Set(nextRoles.length ? nextRoles : ["researcher"]));
-    } else if (!open) {
-      setSubmitting(false);
+      setSelectedRole(normalizeRole(user.roles));
+      setBaselineRoles(normalizeRoles(user.roles));
     }
   }, [open, user]);
 
-  const toggleRole = (role) => {
-    setSelectedRoles((prev) => {
-      const next = new Set(prev);
-      if (next.has(role)) {
-        next.delete(role);
-      } else {
-        next.add(role);
-      }
-      return next;
-    });
-  };
-
-  const canSubmit = selectedRoles.size > 0 && !submitting;
+  const canSubmit = Boolean(selectedRole && !isSubmitting);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!user?.id || selectedRoles.size === 0) return;
-    setSubmitting(true);
+    if (!user?.id || !selectedRole) return;
     try {
-      const currentRoles = normalizeRoles(user?.roles);
-      await replaceUserRoles(
-        user.id,
-        Array.from(selectedRoles),
-        {
-          currentRoles,
-          fallbackUser: user,
-        },
-      );
-      toast({ description: t("toast.rolesUpdated") });
-      onUpdated?.();
-      onOpenChange?.(false);
-    } catch (error) {
-      toast({
-        description: error?.message || t("toast.error"),
-        variant: "destructive",
+      await onSubmitRoles?.({
+        userId: user.id,
+        roles: [selectedRole],
+        currentRoles: baselineRoles,
       });
-    } finally {
-      setSubmitting(false);
+      onOpenChange?.(false);
+    } catch {
+      // Notification handled by caller.
     }
   };
 
@@ -97,25 +87,35 @@ const ManageRolesDialog = ({ user, open, onOpenChange, onUpdated }) => {
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-3">
             <p className="text-[15px] font-medium text-foreground">{t("rolesLabel")}</p>
-            <div className="flex flex-col gap-2">
-              {roleList.map((role) => (
-                <label key={role} className="flex items-center gap-2 text-sm font-medium capitalize">
-                  <Checkbox
-                    checked={selectedRoles.has(role)}
-                    onCheckedChange={() => toggleRole(role)}
-                    aria-label={t(`role.${role}`)}
-                  />
-                  <span>{t(`role.${role}`)}</span>
-                </label>
-              ))}
-            </div>
+            <RadioGroup
+              value={selectedRole}
+              onValueChange={(value) => setSelectedRole(value)}
+              className="flex flex-col gap-2"
+            >
+              {roleList.map((role) => {
+                const radioId = `manage-role-${role}`;
+                return (
+                  <div key={role} className="flex items-center gap-2 text-sm font-medium capitalize">
+                    <RadioGroupItem
+                      id={radioId}
+                      value={role}
+                      aria-label={t(`role.${role}`)}
+                      disabled={isSubmitting}
+                    />
+                    <Label htmlFor={radioId} className="cursor-pointer capitalize">
+                      {t(`role.${role}`)}
+                    </Label>
+                  </div>
+                );
+              })}
+            </RadioGroup>
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange?.(false)}>
               {t("cancel")}
             </Button>
             <Button type="submit" disabled={!canSubmit}>
-              {submitting ? `${t("manageRoles")}…` : t("manageRoles")}
+              {isSubmitting ? `${t("manageRoles")}…` : t("manageRoles")}
             </Button>
           </DialogFooter>
         </form>

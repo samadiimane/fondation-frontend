@@ -40,6 +40,30 @@ export default function LoginPage() {
     }));
   };
 
+  const resolveErrorMessage = (payload) => {
+    if (!payload) return null;
+    if (typeof payload === "string") return payload;
+    if (Array.isArray(payload)) {
+      const joined = payload
+        .map((entry) => entry?.msg || entry?.message)
+        .filter(Boolean)
+        .join(" • ");
+      if (joined) return joined;
+    }
+    if (typeof payload === "object") {
+      if (typeof payload.detail === "string") return payload.detail;
+      if (Array.isArray(payload.detail)) {
+        const joined = payload.detail
+          .map((entry) => entry?.msg || entry?.message)
+          .filter(Boolean)
+          .join(" • ");
+        if (joined) return joined;
+      }
+      if (typeof payload.message === "string") return payload.message;
+    }
+    return null;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (submitting) return;
@@ -61,7 +85,11 @@ export default function LoginPage() {
       setAutoRedirected(true);
       router.replace(targetPath);
     } catch (submitError) {
-      const detail = submitError?.payload?.detail || submitError?.message;
+      const detail =
+        resolveErrorMessage(submitError?.payload) ||
+        resolveErrorMessage(submitError?.payload?.detail) ||
+        resolveErrorMessage(submitError?.message) ||
+        submitError?.message;
       setError(detail || t("error"));
     } finally {
       setSubmitting(false);

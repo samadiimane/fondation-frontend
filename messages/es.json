@@ -121,6 +121,7 @@
       "errorLoading": "No pudimos cargar la lista de usuarios.",
       "resultCount": "{count, plural, one {# usuario} other {# usuarios}}",
       "refreshing": "Actualizando…",
+      "working": "Procesando…",
       "copyEmail": "Copiar correo",
       "pagination": {
         "summary": "{start}-{end} de {total} usuarios",

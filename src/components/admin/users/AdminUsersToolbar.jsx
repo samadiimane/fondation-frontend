@@ -9,6 +9,7 @@ import AddUserDialog from "./AddUserDialog";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
 
 const AdminUsersToolbar = ({
   query,
@@ -16,7 +17,8 @@ const AdminUsersToolbar = ({
   total,
   onQueryChange,
   onRoleChange,
-  onUserCreated,
+  onCreateUser,
+  isCreatingUser,
   isRefreshing,
 }) => {
   const t = useTranslations("admin.users");
@@ -50,9 +52,9 @@ const AdminUsersToolbar = ({
         <div className="rounded-3xl border border-border bg-white/90 p-4 shadow backdrop-blur">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex flex-1 flex-col gap-2">
-              <label htmlFor="admin-users-search" className="text-[15px] font-medium text-muted-foreground">
+              <Label htmlFor="admin-users-search" className="text-[15px] font-medium text-muted-foreground">
                 {t("searchPlaceholder")}
-              </label>
+              </Label>
               <div className="relative">
                 <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                 <Input
@@ -66,9 +68,9 @@ const AdminUsersToolbar = ({
               </div>
             </div>
             <div className="flex flex-col gap-2 lg:w-64">
-              <label htmlFor="admin-role-filter" className="text-[15px] font-medium text-muted-foreground">
+              <Label htmlFor="admin-role-filter" className="text-[15px] font-medium text-muted-foreground">
                 {t("filterRoleLabel")}
-              </label>
+              </Label>
               <Select value={role} onValueChange={handleRoleChange}>
                 <SelectTrigger id="admin-role-filter" className="h-11 rounded-2xl border-slate-200 text-[15px]">
                   <SelectValue placeholder={t("role.all")} />
@@ -109,7 +111,10 @@ const AdminUsersToolbar = ({
       <AddUserDialog
         open={addUserOpen}
         onOpenChange={setAddUserOpen}
-        onCreated={onUserCreated}
+        onSubmit={async (payload) => {
+          await onCreateUser?.(payload);
+        }}
+        isSubmitting={isCreatingUser}
       />
     </>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {Link, usePathname, useRouter} from "@/i18n/navigation";
 import useAuth from "@/hooks/useAuth";
@@ -11,6 +11,17 @@ import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from "@/comp
 import {Avatar, AvatarFallback} from "@/components/ui/avatar";
 import {Separator} from "@/components/ui/separator";
 import {Toaster} from "@/components/ui/toaster";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command";
 import {cn} from "@/lib/utils";
 import {
   Bell,
@@ -21,6 +32,7 @@ import {
   Menu,
   Settings,
   Users,
+  Command as CommandIcon,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -40,7 +52,9 @@ const AdminShell = ({children}) => {
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+  const [commandOpen, setCommandOpen] = useState(false);
   const profileMenuRef = useRef(null);
+  const prefetchedRoutesRef = useRef(new Set());
 
   useEffect(() => {
     const handleClick = (event) => {
@@ -60,7 +74,29 @@ const AdminShell = ({children}) => {
       })),
     [t],
   );
+  const availableNavItems = useMemo(
+    () => navItems.filter((item) => !item.disabled),
+    [navItems],
+  );
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
+        event.preventDefault();
+        setCommandOpen((prev) => !prev);
+        return;
+      }
+      if ((event.metaKey || event.ctrlKey) && ["1", "2", "3", "4"].includes(event.key)) {
+        const index = Number(event.key) - 1;
+        const target = availableNavItems[index];
+        if (!target) return;
+        event.preventDefault();
+        router.push(target.href);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [availableNavItems, router]);
   const normalizedPath = useMemo(() => {
     if (!pathname) return "/";
     if (locale && pathname.startsWith(`/${locale}`)) {
@@ -87,11 +123,41 @@ const AdminShell = ({children}) => {
       .join("");
   }, [user?.email]);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     setProfileMenuOpen(false);
     logout?.();
     router.replace("/admin");
-  };
+  }, [logout, router]);
+
+  const handleCommandNavigate = useCallback(
+    (href) => {
+      setCommandOpen(false);
+      router.push(href);
+    },
+    [router],
+  );
+
+  const handleCommandLogout = useCallback(() => {
+    setCommandOpen(false);
+    handleLogout();
+  }, [handleLogout]);
+
+  const prefetchRoute = useCallback(
+    (href) => {
+      if (!href || prefetchedRoutesRef.current.has(href)) return;
+      const prefetcher = router?.prefetch;
+      if (typeof prefetcher !== "function") {
+        return;
+      }
+
+      prefetchedRoutesRef.current.add(href);
+      const maybePromise = prefetcher(href);
+      if (maybePromise?.catch) {
+        maybePromise.catch(() => prefetchedRoutesRef.current.delete(href));
+      }
+    },
+    [router],
+  );
 
   const renderNavLinks = (variant = "desktop") =>
     navItems.map((item) => {
@@ -135,6 +201,8 @@ const AdminShell = ({children}) => {
           onClick={() => {
             if (variant === "mobile") setMobileOpen(false);
           }}
+          onMouseEnter={() => prefetchRoute(item.href)}
+          prefetch={false}
         >
           {content}
         </Link>
@@ -142,8 +210,9 @@ const AdminShell = ({children}) => {
     });
 
   return (
-    <div className="min-h-screen bg-slate-100">
-      <div className="flex min-h-screen">
+    <TooltipProvider delayDuration={150}>
+      <div className="min-h-screen bg-slate-100">
+        <div className="flex min-h-screen">
         <aside
           className={cn(
             "hidden min-h-screen flex-col border-r border-slate-800 bg-blue-950 text-slate-100 transition-all duration-200 shadow-xl md:flex",
@@ -176,15 +245,20 @@ const AdminShell = ({children}) => {
         <div className="flex flex-1 flex-col">
           <header className="sticky top-0 z-30 flex h-14 md:h-16 items-center gap-3 border-b border-border bg-white/95 px-4 shadow-sm backdrop-blur md:px-6">
             <div className="flex items-center gap-2">
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hidden md:inline-flex"
-                onClick={() => setCollapsed((prev) => !prev)}
-                aria-label={collapsed ? t("expand") : t("collapse")}
-              >
-                {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hidden md:inline-flex"
+                    onClick={() => setCollapsed((prev) => !prev)}
+                    aria-label={collapsed ? t("expand") : t("collapse")}
+                  >
+                    {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>{collapsed ? t("expand") : t("collapse")}</TooltipContent>
+              </Tooltip>
               <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
                 <SheetTrigger asChild>
                   <Button variant="ghost" size="icon" className="md:hidden">
@@ -209,9 +283,27 @@ const AdminShell = ({children}) => {
             </div>
 
             <div className="flex items-center gap-2 md:gap-4">
-              <Button variant="ghost" size="icon" aria-label="Notifications" className="text-primary">
-                <Bell className="h-4 w-4" />
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="ghost" size="icon" aria-label="Notifications" className="text-primary">
+                    <Bell className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Notifications</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label="Command menu"
+                    onClick={() => setCommandOpen(true)}
+                  >
+                    <CommandIcon className="h-4 w-4" />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Command (Cmd+K)</TooltipContent>
+              </Tooltip>
               <div
                 ref={profileMenuRef}
                 className="relative flex items-center gap-2 rounded-full border border-border bg-white px-3 py-1 text-sm"
@@ -266,7 +358,32 @@ const AdminShell = ({children}) => {
         </div>
       </div>
       <Toaster />
+      <CommandDialog open={commandOpen} onOpenChange={setCommandOpen}>
+          <CommandInput placeholder={t("searchPlaceholder")} />
+          <CommandList>
+            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandGroup heading="Navigation">
+              {availableNavItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <CommandItem key={item.key} onSelect={() => handleCommandNavigate(item.href)}>
+                    <Icon className="mr-2 h-4 w-4" />
+                    {item.label}
+                  </CommandItem>
+                );
+              })}
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="Actions">
+              <CommandItem onSelect={handleCommandLogout}>
+                {t("logout")}
+                <CommandShortcut>Shift+Cmd+Q</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </CommandDialog>
     </div>
+    </TooltipProvider>
   );
 };
 

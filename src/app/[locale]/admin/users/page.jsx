@@ -1,14 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import {useCallback, useEffect, useMemo} from "react";
+import {useTranslations} from "next-intl";
+import {usePathname, useRouter, useSearchParams} from "next/navigation";
+import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 
 import AdminUsersToolbar from "@/components/admin/users/AdminUsersToolbar";
 import UsersTable from "@/components/admin/users/UsersTable";
-import { getAdminUsers } from "@/lib/api";
+import {createUser, listUsers, setUserActive, setUserRoles} from "@/lib/api/admin";
+import useNotify from "@/hooks/useNotify";
+import useAuth from "@/hooks/useAuth";
 
 const PAGE_SIZE = 20;
+const BASE_QUERY_KEY = ["admin-users"];
 
 const parsePage = (value) => {
   const parsed = Number(value);
@@ -21,18 +25,21 @@ const AdminUsersPage = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const notify = useNotify();
+  const queryClient = useQueryClient();
+  const {logout} = useAuth();
 
-  const [query, setQuery] = useState(searchParams.get("q") ?? "");
-  const [role, setRole] = useState(searchParams.get("role") ?? "all");
-  const [page, setPage] = useState(parsePage(searchParams.get("page")));
+  const query = searchParams.get("q") ?? "";
+  const role = searchParams.get("role") ?? "all";
+  const page = parsePage(searchParams.get("page"));
 
-  const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  const listQueryKey = useMemo(
+    () => [...BASE_QUERY_KEY, {page, pageSize: PAGE_SIZE, role, q: query}],
+    [page, role, query],
+  );
 
   const updateUrl = useCallback(
-    ({ nextQuery, nextRole, nextPage }) => {
+    ({nextQuery, nextRole, nextPage}) => {
       const params = new URLSearchParams();
       if (nextQuery) {
         params.set("q", nextQuery);
@@ -45,95 +52,153 @@ const AdminUsersPage = () => {
       }
       const search = params.toString();
       const target = search ? `${pathname}?${search}` : pathname;
-      router.replace(target, { scroll: false });
+      router.replace(target, {scroll: false});
     },
     [pathname, router],
   );
 
-  const fetchUsers = useCallback(
-    async ({ signal }) => {
-      const payload = await getAdminUsers({
-        q: query,
-        role,
-        page,
-        pageSize: PAGE_SIZE,
-        signal,
+  const handleApiError = useCallback(
+    (error, fallbackKey = "toast.error") => {
+      notify.handleError(error, t(fallbackKey), {
+        sessionExpiredMessage: t("toast.sessionExpired", {defaultMessage: "Session expired."}),
+        forbiddenMessage: t("toast.notAuthorized", {defaultMessage: "Not authorized for this action."}),
+        networkMessage: t("toast.networkError", {defaultMessage: "Network problem, please retry."}),
+        onSessionExpired: () => logout?.(),
       });
-      setData(payload);
     },
-    [page, query, role],
+    [logout, notify, t],
   );
 
-  useEffect(() => {
-    const paramsQuery = searchParams.get("q") ?? "";
-    const paramsRole = searchParams.get("role") ?? "all";
-    const paramsPage = parsePage(searchParams.get("page"));
-
-    if (paramsQuery !== query) {
-      setQuery(paramsQuery);
-    }
-    if (paramsRole !== role) {
-      setRole(paramsRole);
-    }
-    if (paramsPage !== page) {
-      setPage(paramsPage);
-    }
-  }, [searchParams, query, role, page]);
+  const listQuery = useQuery({
+    queryKey: listQueryKey,
+    queryFn: ({signal}) => listUsers({page, pageSize: PAGE_SIZE, role, q: query, signal}),
+    keepPreviousData: true,
+    staleTime: 30_000,
+  });
 
   useEffect(() => {
-    const controller = new AbortController();
-    let mounted = true;
-    setIsLoading(true);
-    setError(null);
-    fetchUsers({ signal: controller.signal })
-      .catch((err) => {
-        if (controller.signal.aborted || !mounted) return;
-        setError(err);
-      })
-      .finally(() => {
-        if (!mounted) return;
-        setIsLoading(false);
-        setIsRefreshing(false);
-      });
-    return () => {
-      mounted = false;
-      controller.abort();
-    };
-  }, [fetchUsers]);
+    if (listQuery.error) {
+      handleApiError(listQuery.error, "errorLoading");
+    }
+  }, [handleApiError, listQuery.error]);
 
-  const handleRefetch = useCallback(
-    async ({ soft } = {}) => {
-      const controller = new AbortController();
-      if (soft) {
-        setIsRefreshing(true);
-      } else {
-        setIsLoading(true);
-      }
-      setError(null);
-      try {
-        await fetchUsers({ signal: controller.signal });
-      } catch (err) {
-        if (!controller.signal.aborted) {
-          setError(err);
+  const createUserMutation = useMutation({
+    mutationFn: createUser,
+    onMutate: async (variables) => {
+      await queryClient.cancelQueries({queryKey: BASE_QUERY_KEY});
+      const previous = queryClient.getQueryData(listQueryKey);
+      let tempId = null;
+
+      if (page === 1 && previous) {
+        tempId = `temp-${Date.now()}`;
+        const optimisticUser = {
+          id: tempId,
+          email: variables.email,
+          is_active: true,
+          roles: variables.roles ?? ["researcher"],
+          created_at: new Date().toISOString(),
+        };
+        const nextItems = [optimisticUser, ...previous.items];
+        if (nextItems.length > PAGE_SIZE) {
+          nextItems.pop();
         }
-      } finally {
-        if (soft) {
-          setIsRefreshing(false);
-        } else {
-          setIsLoading(false);
-        }
+        queryClient.setQueryData(listQueryKey, {
+          ...previous,
+          items: nextItems,
+          total: previous.total + 1,
+        });
       }
+
+      return {previous, tempId};
     },
-    [fetchUsers],
-  );
+    onError: (error, _variables, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(listQueryKey, context.previous);
+      }
+      handleApiError(error);
+    },
+    onSuccess: (result, _variables, context) => {
+      if (context?.tempId) {
+        queryClient.setQueryData(listQueryKey, (current) => {
+          if (!current) return current;
+          return {
+            ...current,
+            items: current.items.map((item) => (item.id === context.tempId ? result : item)),
+          };
+        });
+      }
+      notify.success(t("toast.created"));
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({queryKey: BASE_QUERY_KEY});
+    },
+  });
+
+  const setUserActiveMutation = useMutation({
+    mutationFn: setUserActive,
+    onMutate: async (variables) => {
+      await queryClient.cancelQueries({queryKey: BASE_QUERY_KEY});
+      const previous = queryClient.getQueryData(listQueryKey);
+      if (previous) {
+        queryClient.setQueryData(listQueryKey, {
+          ...previous,
+          items: previous.items.map((item) =>
+            item.id === variables.userId ? {...item, is_active: variables.is_active} : item,
+          ),
+        });
+      }
+      return {previous};
+    },
+    onError: (error, _variables, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(listQueryKey, context.previous);
+      }
+      handleApiError(error);
+    },
+    onSuccess: (_result, variables) => {
+      notify.success(
+        variables.is_active ? t("toast.activated") : t("toast.deactivated"),
+      );
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({queryKey: BASE_QUERY_KEY});
+    },
+  });
+
+  const setUserRolesMutation = useMutation({
+    mutationFn: setUserRoles,
+    onMutate: async (variables) => {
+      await queryClient.cancelQueries({queryKey: BASE_QUERY_KEY});
+      const previous = queryClient.getQueryData(listQueryKey);
+      if (previous) {
+        queryClient.setQueryData(listQueryKey, {
+          ...previous,
+          items: previous.items.map((item) =>
+            item.id === variables.userId ? {...item, roles: variables.roles} : item,
+          ),
+        });
+      }
+      return {previous};
+    },
+    onError: (error, _variables, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(listQueryKey, context.previous);
+      }
+      handleApiError(error);
+    },
+    onSuccess: () => {
+      notify.success(t("toast.rolesUpdated"));
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({queryKey: BASE_QUERY_KEY});
+    },
+  });
 
   const handleQueryChange = useCallback(
     (value) => {
       const normalized = value ?? "";
       if (normalized === query) return;
-      setQuery(normalized);
-      setPage(1);
-      updateUrl({ nextQuery: normalized, nextRole: role, nextPage: 1 });
+      updateUrl({nextQuery: normalized, nextRole: role, nextPage: 1});
     },
     [query, role, updateUrl],
   );
@@ -142,9 +207,7 @@ const AdminUsersPage = () => {
     (value) => {
       const nextRole = value || "all";
       if (nextRole === role) return;
-      setRole(nextRole);
-      setPage(1);
-      updateUrl({ nextQuery: query, nextRole, nextPage: 1 });
+      updateUrl({nextQuery: query, nextRole, nextPage: 1});
     },
     [query, role, updateUrl],
   );
@@ -153,20 +216,30 @@ const AdminUsersPage = () => {
     (nextPage) => {
       const parsed = parsePage(nextPage);
       if (parsed === page) return;
-      setPage(parsed);
-      updateUrl({ nextQuery: query, nextRole: role, nextPage: parsed });
+      updateUrl({nextQuery: query, nextRole: role, nextPage: parsed});
     },
     [page, query, role, updateUrl],
   );
 
-  const handleUserCreated = useCallback(() => {
-    setPage(1);
-    updateUrl({ nextQuery: query, nextRole: role, nextPage: 1 });
-    handleRefetch({ soft: false });
-  }, [handleRefetch, query, role, updateUrl]);
+  const handleCreateUser = useCallback(
+    async (payload) => {
+      await createUserMutation.mutateAsync(payload);
+    },
+    [createUserMutation],
+  );
 
-  const total = data?.total ?? 0;
-  const currentPageSize = data?.pageSize ?? PAGE_SIZE;
+  const handleToggleActive = useCallback(
+    (payload) => setUserActiveMutation.mutateAsync(payload),
+    [setUserActiveMutation],
+  );
+
+  const handleSetUserRoles = useCallback(
+    (payload) => setUserRolesMutation.mutateAsync(payload),
+    [setUserRolesMutation],
+  );
+
+  const total = listQuery.data?.total ?? 0;
+  const currentPageSize = listQuery.data?.pageSize ?? PAGE_SIZE;
 
   return (
     <div className="flex flex-col gap-6">
@@ -181,18 +254,27 @@ const AdminUsersPage = () => {
         total={total}
         onQueryChange={handleQueryChange}
         onRoleChange={handleRoleChange}
-        onUserCreated={handleUserCreated}
-        isRefreshing={isRefreshing && !isLoading}
+        onCreateUser={handleCreateUser}
+        isCreatingUser={createUserMutation.isPending}
+        isRefreshing={listQuery.isFetching && !listQuery.isLoading}
       />
       <UsersTable
-        data={data}
-        isLoading={isLoading}
-        error={error}
-        onRetry={() => handleRefetch({ soft: false })}
-        onRefetch={handleRefetch}
+        data={listQuery.data}
+        isLoading={listQuery.isLoading}
+        isFetching={listQuery.isFetching}
+        error={listQuery.error}
+        onRetry={() => listQuery.refetch()}
         page={page}
         pageSize={currentPageSize}
         onPageChange={handlePageChange}
+        onToggleActive={handleToggleActive}
+        onSetUserRoles={handleSetUserRoles}
+        activationPendingId={
+          setUserActiveMutation.isPending ? setUserActiveMutation.variables?.userId : null
+        }
+        rolesPendingUserId={
+          setUserRolesMutation.isPending ? setUserRolesMutation.variables?.userId : null
+        }
       />
     </div>
   );

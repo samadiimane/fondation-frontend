@@ -121,6 +121,7 @@
       "errorLoading": "We couldn't load the users list.",
       "resultCount": "{count, plural, one {# user} other {# users}}",
       "refreshing": "Refreshing…",
+      "working": "Working…",
       "copyEmail": "Copy email",
       "pagination": {
         "summary": "{start}–{end} of {total} users",

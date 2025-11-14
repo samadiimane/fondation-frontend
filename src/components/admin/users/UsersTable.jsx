@@ -1,25 +1,12 @@
 "use client";
 
-import { useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Skeleton } from "@/components/ui/skeleton";
+import {useState} from "react";
+import {useLocale, useTranslations} from "next-intl";
+import {Badge} from "@/components/ui/badge";
+import {Button} from "@/components/ui/button";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
+import {Skeleton} from "@/components/ui/skeleton";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,10 +17,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { useToast } from "@/components/ui/use-toast";
-import { setUserActive } from "@/lib/api";
 import ManageRolesDialog from "./ManageRolesDialog";
-import { Check, Copy, MoreHorizontal } from "lucide-react";
+import {Check, Copy} from "lucide-react";
+import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip";
 
 const coerceRoleKey = (value) => {
   if (!value) return "";
@@ -60,27 +46,27 @@ const formatRole = (t, value) => {
 
 const normalizeRoleList = (roles) => {
   if (!Array.isArray(roles)) return [];
-  return roles.map((role) => {
-    return coerceRoleKey(role);
-  }).filter(Boolean);
+  return roles.map((role) => coerceRoleKey(role)).filter(Boolean);
 };
 
 const UsersTable = ({
   data,
   isLoading,
+  isFetching,
   error,
   onRetry,
-  onRefetch,
   page,
   pageSize,
   onPageChange,
+  onToggleActive,
+  onSetUserRoles,
+  activationPendingId,
+  rolesPendingUserId,
 }) => {
   const t = useTranslations("admin.users");
   const locale = useLocale();
-  const { toast } = useToast();
   const [rolesDialogUser, setRolesDialogUser] = useState(null);
   const [confirmDialog, setConfirmDialog] = useState(null);
-  const [statusPending, setStatusPending] = useState({});
   const [copiedId, setCopiedId] = useState(null);
 
   const items = data?.items ?? [];
@@ -101,10 +87,6 @@ const UsersTable = ({
 
   const handleCopy = async (user) => {
     if (typeof navigator === "undefined" || !navigator.clipboard) {
-      toast({
-        description: t("toast.error"),
-        variant: "destructive",
-      });
       return;
     }
     try {
@@ -112,69 +94,49 @@ const UsersTable = ({
       setCopiedId(user.id);
       setTimeout(() => setCopiedId(null), 1500);
     } catch {
-      toast({
-        description: t("toast.error"),
-        variant: "destructive",
-      });
+      setCopiedId(null);
     }
   };
 
   const openStatusDialog = (user, nextStatus) => {
-    setConfirmDialog({ user, nextStatus });
+    setConfirmDialog({user, nextStatus});
   };
 
   const closeStatusDialog = () => setConfirmDialog(null);
 
   const handleStatusChange = async () => {
     if (!confirmDialog?.user) return;
-    const { user, nextStatus } = confirmDialog;
-    setStatusPending((prev) => ({ ...prev, [user.id]: nextStatus }));
+    const {user, nextStatus} = confirmDialog;
     try {
-      await setUserActive(user.id, nextStatus);
-      toast({
-        description: nextStatus ? t("toast.activated") : t("toast.deactivated"),
-      });
-      await onRefetch?.({ soft: true });
-      setStatusPending((prev) => {
-        const clone = { ...prev };
-        delete clone[user.id];
-        return clone;
-      });
+      await onToggleActive?.({userId: user.id, is_active: nextStatus});
       setConfirmDialog(null);
-    } catch (error) {
-      setStatusPending((prev) => {
-        const clone = { ...prev };
-        delete clone[user.id];
-        return clone;
-      });
-      toast({
-        description: error?.message || t("toast.error"),
-        variant: "destructive",
-      });
-      setConfirmDialog(null);
+    } catch {
+      // errors handled upstream
     }
   };
 
   const handlePageChange = (nextPage) => {
-    if (nextPage < 1 || nextPage > totalPages || nextPage === page) return;
-    onPageChange?.(nextPage);
+    const parsed = Math.max(Number(nextPage) || 1, 1);
+    if (parsed === page) return;
+    onPageChange?.(parsed);
   };
 
   const renderSkeletonRows = () =>
-    Array.from({ length: 5 }).map((_, index) => (
+    Array.from({length: 5}).map((_, index) => (
       <TableRow key={`skeleton-${index}`}>
-        {Array.from({ length: 5 }).map((__, cellIndex) => (
-          <TableCell key={`s-${index}-${cellIndex}`}>
-            <Skeleton className="h-6 w-full rounded-md" />
-          </TableCell>
-        ))}
+        <TableCell colSpan={5}>
+          <Skeleton className="h-10 w-full rounded-2xl" />
+        </TableCell>
       </TableRow>
     ));
 
   const renderEmptyState = () => (
     <TableRow>
-      <TableCell colSpan={5} className="py-10 text-center text-[15px] text-muted-foreground">
-        {t("empty")}
+      <TableCell colSpan={5}>
+        <div className="flex flex-col items-center justify-center py-12 text-center text-sm text-muted-foreground">
+          <p>{t("empty.title", {defaultMessage: "No users match your filters."})}</p>
+          <p className="text-xs">{t("empty.hint", {defaultMessage: "Try updating the search or role filter."})}</p>
+        </div>
       </TableCell>
     </TableRow>
   );
@@ -182,22 +144,34 @@ const UsersTable = ({
   const renderRows = () =>
     items.map((user) => {
       const roleValues = normalizeRoleList(user.roles);
-      const isActive = statusPending[user.id] ?? Boolean(user.is_active ?? user.isActive);
+      const isActive = Boolean(user.is_active ?? user.isActive);
+      const isActivationPending = activationPendingId === user.id;
+      const isRolesPending = rolesPendingUserId === user.id;
+
       return (
-        <TableRow key={user.id} className="text-[15px]">
+        <TableRow key={user.id} className="text-[15px] hover:bg-muted/40">
           <TableCell className="max-w-[240px]">
             <div className="flex items-center gap-2">
               <span className="font-mono text-[15px] text-foreground">{user.email}</span>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className="h-7 w-7"
-                onClick={() => handleCopy(user)}
-                aria-label={t("copyEmail")}
-              >
-                {copiedId === user.id ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
-              </Button>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="icon"
+                    className="h-7 w-7"
+                    onClick={() => handleCopy(user)}
+                    aria-label={t("copyEmail", {defaultMessage: "Copy email"})}
+                  >
+                    {copiedId === user.id ? <Check className="h-4 w-4 text-green-500" /> : <Copy className="h-4 w-4" />}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  {copiedId === user.id
+                    ? t("copied", {defaultMessage: "Copied"})
+                    : t("copyEmail", {defaultMessage: "Copy email"})}
+                </TooltipContent>
+              </Tooltip>
             </div>
           </TableCell>
           <TableCell>
@@ -214,29 +188,36 @@ const UsersTable = ({
             </div>
           </TableCell>
           <TableCell>
-            <Badge variant={isActive ? "outline" : "destructive"} className="px-3 py-1 text-[13px]">
-              {isActive ? t("status.active") : t("status.inactive")}
-            </Badge>
+            <div className="flex flex-wrap items-center gap-3">
+              <Badge variant={isActive ? "outline" : "destructive"} className="px-3 py-1 text-[13px]">
+                {isActive ? t("status.active") : t("status.inactive")}
+              </Badge>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => openStatusDialog(user, !isActive)}
+                disabled={isActivationPending}
+              >
+                {isActivationPending
+                  ? t("working", {defaultMessage: "Working..."})
+                  : isActive
+                    ? t("deactivate")
+                    : t("activate")}
+              </Button>
+            </div>
           </TableCell>
           <TableCell>{formatDate(user.created_at ?? user.createdAt)}</TableCell>
           <TableCell className="text-right">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full border border-border">
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="rounded-2xl border-border p-1">
-                <DropdownMenuItem onSelect={() => setRolesDialogUser(user)}>
-                  {t("manageRoles")}
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onSelect={() => openStatusDialog(user, !isActive)}
-                >
-                  {isActive ? t("deactivate") : t("activate")}
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => setRolesDialogUser(user)}
+              disabled={isRolesPending}
+            >
+              {isRolesPending ? t("working", {defaultMessage: "Working..."}) : t("manageRoles")}
+            </Button>
           </TableCell>
         </TableRow>
       );
@@ -252,7 +233,7 @@ const UsersTable = ({
           {error && !isLoading ? (
             <div className="rounded-2xl border border-destructive/30 bg-destructive/5 p-4 text-[15px] text-destructive">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-                <p>{t("errorLoading")}</p>
+                <p>{error.userMessage || t("errorLoading")}</p>
                 <Button variant="outline" size="sm" onClick={onRetry}>
                   {t("retry")}
                 </Button>
@@ -276,8 +257,8 @@ const UsersTable = ({
               </Table>
             </div>
           )}
-          <div className="flex items-center justify-between text-[15px] text-muted-foreground">
-            <span>
+          <div className="flex flex-col gap-2 text-[15px] text-muted-foreground md:flex-row md:items-center md:justify-between">
+            <span aria-live="polite">
               {t("pagination.summary", {
                 start: total === 0 ? 0 : (page - 1) * pageSize + 1,
                 end: Math.min(page * pageSize, total),
@@ -285,6 +266,11 @@ const UsersTable = ({
               })}
             </span>
             <div className="flex items-center gap-2">
+              {isFetching && !isLoading ? (
+                <span className="text-xs text-primary" aria-live="polite">
+                  {t("refreshing")}
+                </span>
+              ) : null}
               <Button
                 type="button"
                 variant="outline"
@@ -314,7 +300,10 @@ const UsersTable = ({
         onOpenChange={(open) => {
           if (!open) setRolesDialogUser(null);
         }}
-        onUpdated={() => onRefetch?.({ soft: true })}
+        onSubmitRoles={async ({userId, roles, currentRoles}) => {
+          await onSetUserRoles?.({userId, roles, currentRoles});
+        }}
+        isSubmitting={rolesPendingUserId === rolesDialogUser?.id}
       />
 
       <AlertDialog open={Boolean(confirmDialog)} onOpenChange={(open) => !open && closeStatusDialog()}>
@@ -325,13 +314,16 @@ const UsersTable = ({
             </AlertDialogTitle>
             <AlertDialogDescription>
               {confirmDialog?.nextStatus
-                ? t("confirmActivate", { email: confirmDialog?.user?.email ?? "" })
-                : t("confirmDeactivate", { email: confirmDialog?.user?.email ?? "" })}
+                ? t("confirmActivate", {email: confirmDialog?.user?.email ?? ""})
+                : t("confirmDeactivate", {email: confirmDialog?.user?.email ?? ""})}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-            <AlertDialogAction onClick={handleStatusChange}>
+            <AlertDialogAction
+              onClick={handleStatusChange}
+              disabled={activationPendingId === confirmDialog?.user?.id}
+            >
               {confirmDialog?.nextStatus ? t("activate") : t("deactivate")}
             </AlertDialogAction>
           </AlertDialogFooter>

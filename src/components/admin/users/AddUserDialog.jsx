@@ -3,21 +3,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 
-import { createAdminUser } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Checkbox } from "@/components/ui/checkbox";
-import { useToast } from "@/components/ui/use-toast";
 import { DEFAULT_ROLE, USER_ROLE_VALUES } from "./constants";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
-const AddUserDialog = ({ open, onOpenChange, onCreated }) => {
+const AddUserDialog = ({ open, onOpenChange, onSubmit, isSubmitting }) => {
   const t = useTranslations("admin.users");
-  const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [selectedRoles, setSelectedRoles] = useState(() => new Set([DEFAULT_ROLE]));
-  const [submitting, setSubmitting] = useState(false);
+  const [selectedRole, setSelectedRole] = useState(DEFAULT_ROLE);
 
   const roleList = useMemo(() => USER_ROLE_VALUES, []);
 
@@ -25,45 +22,24 @@ const AddUserDialog = ({ open, onOpenChange, onCreated }) => {
     if (!open) {
       setEmail("");
       setPassword("");
-      setSelectedRoles(new Set([DEFAULT_ROLE]));
-      setSubmitting(false);
+      setSelectedRole(DEFAULT_ROLE);
     }
   }, [open]);
 
-  const toggleRole = (role) => {
-    setSelectedRoles((prev) => {
-      const next = new Set(prev);
-      if (next.has(role)) {
-        next.delete(role);
-      } else {
-        next.add(role);
-      }
-      return next;
-    });
-  };
-
-  const canSubmit = email.trim() && password.trim() && selectedRoles.size > 0 && !submitting;
+  const canSubmit = Boolean(email.trim() && password.trim() && selectedRole && !isSubmitting);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!canSubmit) return;
-    setSubmitting(true);
     try {
-      await createAdminUser({
-        email,
+      await onSubmit?.({
+        email: email.trim(),
         password,
-        roles: Array.from(selectedRoles),
+        roles: [selectedRole || DEFAULT_ROLE],
       });
-      toast({ description: t("toast.created") });
-      onCreated?.();
       onOpenChange?.(false);
-    } catch (error) {
-      toast({
-        description: error?.message || t("toast.error"),
-        variant: "destructive",
-      });
-    } finally {
-      setSubmitting(false);
+    } catch {
+      // Notification handled by caller.
     }
   };
 
@@ -78,9 +54,9 @@ const AddUserDialog = ({ open, onOpenChange, onCreated }) => {
         </DialogHeader>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
-            <label htmlFor="admin-user-email" className="text-[15px] font-medium text-foreground">
+            <Label htmlFor="admin-user-email" className="text-[15px] font-medium text-foreground">
               {t("email")}
-            </label>
+            </Label>
             <Input
               id="admin-user-email"
               type="email"
@@ -92,9 +68,9 @@ const AddUserDialog = ({ open, onOpenChange, onCreated }) => {
             />
           </div>
           <div className="space-y-2">
-            <label htmlFor="admin-user-password" className="text-[15px] font-medium text-foreground">
+            <Label htmlFor="admin-user-password" className="text-[15px] font-medium text-foreground">
               {t("password")}
-            </label>
+            </Label>
             <Input
               id="admin-user-password"
               type="password"
@@ -107,25 +83,30 @@ const AddUserDialog = ({ open, onOpenChange, onCreated }) => {
           </div>
           <div className="space-y-3">
             <p className="text-[15px] font-medium text-foreground">{t("rolesLabel")}</p>
-            <div className="flex flex-wrap gap-3">
-              {roleList.map((role) => (
-                <label key={role} className="flex items-center gap-2 text-sm font-medium capitalize">
-                  <Checkbox
-                    checked={selectedRoles.has(role)}
-                    onCheckedChange={() => toggleRole(role)}
-                    aria-label={t(`role.${role}`)}
-                  />
-                  <span>{t(`role.${role}`)}</span>
-                </label>
-              ))}
-            </div>
+            <RadioGroup
+              value={selectedRole}
+              onValueChange={(value) => setSelectedRole(value)}
+              className="grid gap-3"
+            >
+              {roleList.map((role) => {
+                const radioId = `add-user-role-${role}`;
+                return (
+                  <div key={role} className="flex items-center gap-2 text-sm font-medium capitalize">
+                    <RadioGroupItem id={radioId} value={role} aria-label={t(`role.${role}`)} />
+                    <Label htmlFor={radioId} className="cursor-pointer text-sm font-medium capitalize">
+                      {t(`role.${role}`)}
+                    </Label>
+                  </div>
+                );
+              })}
+            </RadioGroup>
           </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={() => onOpenChange?.(false)}>
               {t("cancel")}
             </Button>
             <Button type="submit" disabled={!canSubmit}>
-              {submitting ? `${t("create")}…` : t("create")}
+              {isSubmitting ? `${t("create")}…` : t("create")}
             </Button>
           </DialogFooter>
         </form>

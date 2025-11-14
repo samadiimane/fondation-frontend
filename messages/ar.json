@@ -121,6 +121,7 @@
       "errorLoading": "تعذر تحميل قائمة المستخدمين.",
       "resultCount": "{count, plural, zero {لا مستخدمين} one {مستخدم واحد} two {مستخدمان} few {# مستخدمين} many {# مستخدمًا} other {# مستخدم}}",
       "refreshing": "جاري التحديث…",
+      "working": "جاري التنفيذ…",
       "copyEmail": "نسخ البريد الإلكتروني",
       "pagination": {
         "summary": "{start}–{end} من {total} مستخدم",
