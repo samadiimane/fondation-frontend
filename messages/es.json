@@ -139,11 +139,165 @@
         "error": "Ocurrió un error. Inténtalo otra vez."
       }
     },
+    "categories": {
+      "title": "Categorías",
+      "subtitle": "Organiza taxonomías jerárquicas para revistas, archivos y temas de investigación.",
+      "description": "Explora el árbol, busca entradas específicas y gestiona el orden o los padres.",
+      "toolbar": {
+        "searchLabel": "Buscar",
+        "searchPlaceholder": "Busca por nombre o slug…",
+        "kindLabel": "Tipo",
+        "addCategory": "Agregar categoría"
+      },
+      "create": {
+        "title": "Crear categoría",
+        "description": "Define el nombre, el slug y la jerarquía de la categoría."
+      },
+      "fields": {
+        "name": "Nombre",
+        "slug": "Slug",
+        "optional": "opcional",
+        "kind": "Tipo",
+        "parent": "Padre",
+        "order": "Orden",
+        "documents": "Documentos"
+      },
+      "actions": {
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "move": "Mover…",
+        "working": "Procesando…"
+      },
+      "parent": {
+        "searchPlaceholder": "Filtra opciones de padre…",
+        "placeholder": "Selecciona un padre (opcional)",
+        "none": "Sin padre",
+        "empty": "No se encontraron categorías.",
+        "clearSearch": "Borrar búsqueda"
+      },
+      "inspector": {
+        "title": "Inspector",
+        "metaTitle": "Metadatos actuales",
+        "empty": "Selecciona una categoría para editarla."
+      },
+      "delete": {
+        "confirmTitle": "¿Eliminar categoría?",
+        "confirmMessage": "¿Seguro que quieres eliminar {name}? Esta acción no se puede deshacer.",
+        "description": "Eliminar una categoría la quita definitivamente del árbol.",
+        "disabledHint": "No puedes eliminar una categoría que tiene documentos o categorías hijas."
+      },
+      "moveDialog": {
+        "title": "Mover categoría",
+        "description": "Selecciona un nuevo padre y, si lo deseas, una posición exacta.",
+        "parentLabel": "Padre",
+        "orderLabel": "Orden",
+        "orderPlaceholder": "Déjalo vacío para mover al final",
+        "submit": "Mover categoría",
+        "cancel": "Cancelar"
+      },
+      "toast": {
+        "created": "Categoría creada.",
+        "updated": "Categoría actualizada.",
+        "reordered": "Orden actualizado.",
+        "deleted": "Categoría eliminada."
+      },
+      "errors": {
+        "generic": "Ha ocurrido un error.",
+        "create": "No se pudo crear la categoría.",
+        "update": "No se pudo actualizar la categoría.",
+        "reorder": "No se pudo reordenar.",
+        "delete": "No se pudo eliminar la categoría.",
+        "loadChildren": "No se pudieron cargar los hijos.",
+        "sessionExpired": "Sesión expirada.",
+        "forbidden": "No estás autorizado para esta acción.",
+        "network": "Problema de red. Intenta nuevamente.",
+        "noAccess": "No tienes permiso para ver las categorías."
+      },
+      "kinds": {
+        "all": "Todos los tipos",
+        "section": "Secciones",
+        "journal": "Revistas",
+        "archive_collection": "Colecciones de archivo",
+        "topic": "Temas"
+      },
+      "tree": {
+        "title": "Árbol de categorías"
+      },
+      "searchResults": {
+        "title": "Resultados",
+        "summary": "{total, plural, one {{total} resultado} other {{total} resultados}} (página {page})",
+        "empty": "Ninguna categoría coincide con tu búsqueda."
+      },
+      "pagination": {
+        "previous": "Anterior",
+        "next": "Siguiente"
+      }
+    },
+    "authors": {
+      "title": "Authors",
+      "subtitle": "Author registry",
+      "description": "Search, paginate, and add author records for documents.",
+      "capabilityDisabled": "Author management is not enabled for your account.",
+      "toolbar": {
+        "search": {
+          "label": "Search",
+          "placeholder": "Search authors..."
+        },
+        "sort": {
+          "label": "Sort by",
+          "name": "Name (A-Z)",
+          "created": "Newest"
+        },
+        "add": "Add author",
+        "resultsSummary": "Page {page} · {total, plural, one {{total} author} other {{total} authors}}"
+      },
+      "dialog": {
+        "add": {
+          "title": "Add author",
+          "description": "Provide at least the latin name to create a new author record."
+        }
+      },
+      "fields": {
+        "nameLatin": "Latin name",
+        "nameArabic": "Arabic name",
+        "affiliation": "Affiliation"
+      },
+      "table": {
+        "headers": {
+          "nameLatin": "Latin name",
+          "nameArabic": "Arabic name",
+          "affiliation": "Affiliation",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "actions": {
+          "placeholder": "Coming soon"
+        },
+        "empty": "No authors found."
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create author",
+        "creating": "Creating..."
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "toast": {
+        "created": {
+          "success": "Author created.",
+          "error": "Unable to create author."
+        }
+      }
+    },
     "nav": {
       "title": "Admin",
       "label": "Centro de control",
       "dashboard": "Panel",
       "users": "Usuarios",
+      "authors": "Authors",
       "content": "Contenido",
       "settings": "Configuración",
       "openMenu": "Menú",
@@ -151,7 +305,8 @@
       "collapse": "Contraer barra",
       "expand": "Expandir barra",
       "searchPlaceholder": "Buscar en administracion...",
-      "logout": "Cerrar sesión"
+      "logout": "Cerrar sesión",
+      "categories": "Categorías"
     }
   },
   "auth": {

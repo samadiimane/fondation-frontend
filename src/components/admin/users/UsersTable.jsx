@@ -1,6 +1,6 @@
 "use client";
 
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {Badge} from "@/components/ui/badge";
 import {Button} from "@/components/ui/button";
@@ -62,6 +62,8 @@ const UsersTable = ({
   onSetUserRoles,
   activationPendingId,
   rolesPendingUserId,
+  canToggleActive = true,
+  canManageRoles = true,
 }) => {
   const t = useTranslations("admin.users");
   const locale = useLocale();
@@ -98,7 +100,20 @@ const UsersTable = ({
     }
   };
 
+  useEffect(() => {
+    if (!canManageRoles) {
+      setRolesDialogUser(null);
+    }
+  }, [canManageRoles]);
+
+  useEffect(() => {
+    if (!canToggleActive) {
+      setConfirmDialog(null);
+    }
+  }, [canToggleActive]);
+
   const openStatusDialog = (user, nextStatus) => {
+    if (!canToggleActive) return;
     setConfirmDialog({user, nextStatus});
   };
 
@@ -121,10 +136,12 @@ const UsersTable = ({
     onPageChange?.(parsed);
   };
 
+  const columnCount = canManageRoles ? 5 : 4;
+
   const renderSkeletonRows = () =>
     Array.from({length: 5}).map((_, index) => (
       <TableRow key={`skeleton-${index}`}>
-        <TableCell colSpan={5}>
+        <TableCell colSpan={columnCount}>
           <Skeleton className="h-10 w-full rounded-2xl" />
         </TableCell>
       </TableRow>
@@ -132,7 +149,7 @@ const UsersTable = ({
 
   const renderEmptyState = () => (
     <TableRow>
-      <TableCell colSpan={5}>
+      <TableCell colSpan={columnCount}>
         <div className="flex flex-col items-center justify-center py-12 text-center text-sm text-muted-foreground">
           <p>{t("empty.title", {defaultMessage: "No users match your filters."})}</p>
           <p className="text-xs">{t("empty.hint", {defaultMessage: "Try updating the search or role filter."})}</p>
@@ -192,33 +209,37 @@ const UsersTable = ({
               <Badge variant={isActive ? "outline" : "destructive"} className="px-3 py-1 text-[13px]">
                 {isActive ? t("status.active") : t("status.inactive")}
               </Badge>
+              {canToggleActive ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => openStatusDialog(user, !isActive)}
+                  disabled={isActivationPending}
+                >
+                  {isActivationPending
+                    ? t("working", {defaultMessage: "Working..."})
+                    : isActive
+                      ? t("deactivate")
+                      : t("activate")}
+                </Button>
+              ) : null}
+            </div>
+          </TableCell>
+          <TableCell>{formatDate(user.created_at ?? user.createdAt)}</TableCell>
+          {canManageRoles ? (
+            <TableCell className="text-right">
               <Button
                 type="button"
                 variant="outline"
                 size="sm"
-                onClick={() => openStatusDialog(user, !isActive)}
-                disabled={isActivationPending}
+                onClick={() => setRolesDialogUser(user)}
+                disabled={isRolesPending}
               >
-                {isActivationPending
-                  ? t("working", {defaultMessage: "Working..."})
-                  : isActive
-                    ? t("deactivate")
-                    : t("activate")}
+                {isRolesPending ? t("working", {defaultMessage: "Working..."}) : t("manageRoles")}
               </Button>
-            </div>
-          </TableCell>
-          <TableCell>{formatDate(user.created_at ?? user.createdAt)}</TableCell>
-          <TableCell className="text-right">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setRolesDialogUser(user)}
-              disabled={isRolesPending}
-            >
-              {isRolesPending ? t("working", {defaultMessage: "Working..."}) : t("manageRoles")}
-            </Button>
-          </TableCell>
+            </TableCell>
+          ) : null}
         </TableRow>
       );
     });
@@ -248,7 +269,11 @@ const UsersTable = ({
                     <TableHead className="text-[15px] font-semibold">{t("columns.roles")}</TableHead>
                     <TableHead className="text-[15px] font-semibold">{t("columns.status")}</TableHead>
                     <TableHead className="text-[15px] font-semibold">{t("columns.created")}</TableHead>
-                    <TableHead className="text-right text-[15px] font-semibold">{t("columns.actions")}</TableHead>
+                    {canManageRoles ? (
+                      <TableHead className="text-right text-[15px] font-semibold">
+                        {t("columns.actions")}
+                      </TableHead>
+                    ) : null}
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -294,41 +319,45 @@ const UsersTable = ({
         </CardContent>
       </Card>
 
-      <ManageRolesDialog
-        user={rolesDialogUser}
-        open={Boolean(rolesDialogUser)}
-        onOpenChange={(open) => {
-          if (!open) setRolesDialogUser(null);
-        }}
-        onSubmitRoles={async ({userId, roles, currentRoles}) => {
-          await onSetUserRoles?.({userId, roles, currentRoles});
-        }}
-        isSubmitting={rolesPendingUserId === rolesDialogUser?.id}
-      />
+      {canManageRoles ? (
+        <ManageRolesDialog
+          user={rolesDialogUser}
+          open={Boolean(rolesDialogUser)}
+          onOpenChange={(open) => {
+            if (!open) setRolesDialogUser(null);
+          }}
+          onSubmitRoles={async ({userId, roles, currentRoles}) => {
+            await onSetUserRoles?.({userId, roles, currentRoles});
+          }}
+          isSubmitting={rolesPendingUserId === rolesDialogUser?.id}
+        />
+      ) : null}
 
-      <AlertDialog open={Boolean(confirmDialog)} onOpenChange={(open) => !open && closeStatusDialog()}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>
-              {confirmDialog?.nextStatus ? t("activate") : t("deactivate")}
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              {confirmDialog?.nextStatus
-                ? t("confirmActivate", {email: confirmDialog?.user?.email ?? ""})
-                : t("confirmDeactivate", {email: confirmDialog?.user?.email ?? ""})}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleStatusChange}
-              disabled={activationPendingId === confirmDialog?.user?.id}
-            >
-              {confirmDialog?.nextStatus ? t("activate") : t("deactivate")}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {canToggleActive ? (
+        <AlertDialog open={Boolean(confirmDialog)} onOpenChange={(open) => !open && closeStatusDialog()}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>
+                {confirmDialog?.nextStatus ? t("activate") : t("deactivate")}
+              </AlertDialogTitle>
+              <AlertDialogDescription>
+                {confirmDialog?.nextStatus
+                  ? t("confirmActivate", {email: confirmDialog?.user?.email ?? ""})
+                  : t("confirmDeactivate", {email: confirmDialog?.user?.email ?? ""})}
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
+              <AlertDialogAction
+                onClick={handleStatusChange}
+                disabled={activationPendingId === confirmDialog?.user?.id}
+              >
+                {confirmDialog?.nextStatus ? t("activate") : t("deactivate")}
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      ) : null}
     </>
   );
 };

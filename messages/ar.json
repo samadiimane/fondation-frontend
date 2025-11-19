@@ -139,11 +139,165 @@
         "error": "حدث خطأ ما، يرجى المحاولة مرة أخرى."
       }
     },
+    "categories": {
+      "title": "التصنيفات",
+      "subtitle": "نظّم البنى الهرمية للمجلات والأرشيفات والمواضيع البحثية.",
+      "description": "استعرض الشجرة، وابحث عن العناصر، وأدر ترتيبها أو تبعيتها.",
+      "toolbar": {
+        "searchLabel": "بحث",
+        "searchPlaceholder": "ابحث بالاسم أو بالـ slug…",
+        "kindLabel": "النوع",
+        "addCategory": "إضافة تصنيف"
+      },
+      "create": {
+        "title": "إنشاء تصنيف",
+        "description": "حدد اسم التصنيف، المعرّف، وهيكل الارتباط."
+      },
+      "fields": {
+        "name": "الاسم",
+        "slug": "المعرّف",
+        "optional": "اختياري",
+        "kind": "النوع",
+        "parent": "التصنيف الأب",
+        "order": "الترتيب",
+        "documents": "عدد المستندات"
+      },
+      "actions": {
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "delete": "حذف",
+        "move": "نقل…",
+        "working": "جارٍ التنفيذ…"
+      },
+      "parent": {
+        "searchPlaceholder": "فلترة التصنيفات الأب…",
+        "placeholder": "اختر التصنيف الأب (اختياري)",
+        "none": "بدون أب",
+        "empty": "لا توجد تصنيفات مطابقة.",
+        "clearSearch": "مسح البحث"
+      },
+      "inspector": {
+        "title": "لوحة التفاصيل",
+        "metaTitle": "البيانات الحالية",
+        "empty": "اختر تصنيفًا لتحريره."
+      },
+      "delete": {
+        "confirmTitle": "حذف التصنيف؟",
+        "confirmMessage": "هل أنت متأكد من حذف {name}؟ لا يمكن التراجع عن ذلك.",
+        "description": "حذف التصنيف يزيله نهائيًا من الشجرة.",
+        "disabledHint": "لا يمكنك حذف تصنيف يحتوي على مستندات أو أبناء."
+      },
+      "moveDialog": {
+        "title": "نقل التصنيف",
+        "description": "اختر أبًا جديدًا وموقعًا اختياريًا داخل القائمة.",
+        "parentLabel": "التصنيف الأب",
+        "orderLabel": "الترتيب",
+        "orderPlaceholder": "اتركه فارغًا للإضافة في النهاية",
+        "submit": "نقل",
+        "cancel": "إلغاء"
+      },
+      "toast": {
+        "created": "تم إنشاء التصنيف.",
+        "updated": "تم تحديث التصنيف.",
+        "reordered": "تم تحديث الترتيب.",
+        "deleted": "تم حذف التصنيف."
+      },
+      "errors": {
+        "generic": "حدث خطأ ما.",
+        "create": "تعذر إنشاء التصنيف.",
+        "update": "تعذر تحديث التصنيف.",
+        "reorder": "تعذر إعادة الترتيب.",
+        "delete": "تعذر حذف التصنيف.",
+        "loadChildren": "تعذر تحميل الأبناء.",
+        "sessionExpired": "انتهت الجلسة.",
+        "forbidden": "غير مصرح لك بهذه العملية.",
+        "network": "مشكلة في الشبكة، حاول مجددًا.",
+        "noAccess": "ليست لديك صلاحية لعرض التصنيفات."
+      },
+      "kinds": {
+        "all": "كل الأنواع",
+        "section": "الأقسام",
+        "journal": "المجلات",
+        "archive_collection": "مجموعات الأرشيف",
+        "topic": "المواضيع"
+      },
+      "tree": {
+        "title": "شجرة التصنيفات"
+      },
+      "searchResults": {
+        "title": "نتائج البحث",
+        "summary": "{total, plural, one {{total} نتيجة} other {{total} نتائج}} (الصفحة {page})",
+        "empty": "لا توجد تصنيفات مطابقة."
+      },
+      "pagination": {
+        "previous": "السابق",
+        "next": "التالي"
+      }
+    },
+    "authors": {
+      "title": "Authors",
+      "subtitle": "Author registry",
+      "description": "Search, paginate, and add author records for documents.",
+      "capabilityDisabled": "Author management is not enabled for your account.",
+      "toolbar": {
+        "search": {
+          "label": "Search",
+          "placeholder": "Search authors..."
+        },
+        "sort": {
+          "label": "Sort by",
+          "name": "Name (A-Z)",
+          "created": "Newest"
+        },
+        "add": "Add author",
+        "resultsSummary": "Page {page} · {total, plural, one {{total} author} other {{total} authors}}"
+      },
+      "dialog": {
+        "add": {
+          "title": "Add author",
+          "description": "Provide at least the latin name to create a new author record."
+        }
+      },
+      "fields": {
+        "nameLatin": "Latin name",
+        "nameArabic": "Arabic name",
+        "affiliation": "Affiliation"
+      },
+      "table": {
+        "headers": {
+          "nameLatin": "Latin name",
+          "nameArabic": "Arabic name",
+          "affiliation": "Affiliation",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "actions": {
+          "placeholder": "Coming soon"
+        },
+        "empty": "No authors found."
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create author",
+        "creating": "Creating..."
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "toast": {
+        "created": {
+          "success": "Author created.",
+          "error": "Unable to create author."
+        }
+      }
+    },
     "nav": {
       "title": "الإدارة",
       "label": "مركز التحكم",
       "dashboard": "لوحة التحكم",
       "users": "المستخدمون",
+      "authors": "Authors",
       "content": "المحتوى",
       "settings": "الإعدادات",
       "openMenu": "القائمة",
@@ -151,7 +305,8 @@
       "collapse": "طي الشريط الجانبي",
       "expand": "توسيع الشريط الجانبي",
       "searchPlaceholder": "ابحث في لوحة الإدارة...",
-      "logout": "تسجيل الخروج"
+      "logout": "تسجيل الخروج",
+      "categories": "التصنيفات"
     }
   },
   "auth": {

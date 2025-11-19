@@ -139,11 +139,166 @@
         "error": "Something went wrong. Please try again."
       }
     },
+    "categories": {
+      "title": "Categories",
+      "subtitle": "Organize hierarchical taxonomies for journals, archives, and research topics.",
+      "description": "Browse the tree, search for specific entries, and manage ordering or parent relationships.",
+      "toolbar": {
+        "searchLabel": "Search",
+        "searchPlaceholder": "Search by name or slug…",
+        "kindLabel": "Kind",
+        "addCategory": "Add category"
+      },
+      "create": {
+        "title": "Create category",
+        "description": "Define the category name, slug, and hierarchy."
+      },
+      "fields": {
+        "name": "Name",
+        "slug": "Slug",
+        "optional": "optional",
+        "kind": "Kind",
+        "parent": "Parent",
+        "order": "Order",
+        "documents": "Documents"
+      },
+      "actions": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "move": "Move…",
+        "working": "Working…"
+      },
+      "parent": {
+        "searchPlaceholder": "Filter parent options…",
+        "placeholder": "Select a parent (optional)",
+        "none": "No parent",
+        "empty": "No categories found.",
+        "clearSearch": "Clear search"
+      },
+      "inspector": {
+        "title": "Inspector",
+        "metaTitle": "Current metadata",
+        "empty": "Select a category to edit its details."
+      },
+      "delete": {
+        "confirmTitle": "Delete category?",
+        "confirmMessage": "Are you sure you want to delete {name}? This cannot be undone.",
+        "description": "Deleting a category removes it from the tree permanently.",
+        "disabledHint": "You can’t delete a category that has documents or children."
+      },
+      "moveDialog": {
+        "title": "Move category",
+        "description": "Select a new parent and optional position for this category.",
+        "parentLabel": "Parent",
+        "orderLabel": "Order",
+        "orderPlaceholder": "Leave blank to append at the end",
+        "submit": "Move category",
+        "cancel": "Cancel"
+      },
+      "toast": {
+        "created": "Category created.",
+        "updated": "Category updated.",
+        "reordered": "Order updated.",
+        "deleted": "Category deleted."
+      },
+      "errors": {
+        "generic": "Something went wrong.",
+        "create": "Unable to create category.",
+        "update": "Unable to update category.",
+        "reorder": "Unable to reorder categories.",
+        "delete": "Unable to delete category.",
+        "loadChildren": "Unable to load children.",
+        "sessionExpired": "Session expired.",
+        "forbidden": "Not authorized for this action.",
+        "network": "Network issue, please retry.",
+        "noAccess": "You do not have permission to view categories."
+      },
+      "kinds": {
+        "all": "All kinds",
+        "section": "Sections",
+        "journal": "Journals",
+        "archive_collection": "Archive collections",
+        "topic": "Topics"
+      },
+      "tree": {
+        "title": "Category tree"
+      },
+      "searchResults": {
+        "title": "Search results",
+        "summary": "{total, plural, one {{total} match} other {{total} matches}} (page {page})",
+        "empty": "No categories matched your search."
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next"
+      }
+    },
+    "authors": {
+      "title": "Authors",
+      "subtitle": "Author registry",
+      "description": "Search, paginate, and add author records for documents.",
+      "capabilityDisabled": "Author management is not enabled for your account.",
+      "toolbar": {
+        "search": {
+          "label": "Search",
+          "placeholder": "Search authors..."
+        },
+        "sort": {
+          "label": "Sort by",
+          "name": "Name (A-Z)",
+          "created": "Newest"
+        },
+        "add": "Add author",
+        "resultsSummary": "Page {page} · {total, plural, one {{total} author} other {{total} authors}}"
+      },
+      "dialog": {
+        "add": {
+          "title": "Add author",
+          "description": "Provide at least the latin name to create a new author record."
+        }
+      },
+      "fields": {
+        "nameLatin": "Latin name",
+        "nameArabic": "Arabic name",
+        "affiliation": "Affiliation"
+      },
+      "table": {
+        "headers": {
+          "nameLatin": "Latin name",
+          "nameArabic": "Arabic name",
+          "affiliation": "Affiliation",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "actions": {
+          "placeholder": "Coming soon"
+        },
+        "empty": "No authors found."
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create author",
+        "creating": "Creating..."
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "toast": {
+        "created": {
+          "success": "Author created.",
+          "error": "Unable to create author."
+        }
+      }
+    },
     "nav": {
       "title": "Admin",
       "label": "Control center",
       "dashboard": "Dashboard",
       "users": "Users",
+      "authors": "Authors",
+      "categories": "Categories",
       "content": "Content",
       "settings": "Settings",
       "openMenu": "Menu",

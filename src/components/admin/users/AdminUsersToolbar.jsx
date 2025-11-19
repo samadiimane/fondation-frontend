@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { useTranslations } from "next-intl";
-import { Search, UserPlus } from "lucide-react";
+import {useEffect, useMemo, useState} from "react";
+import {useTranslations} from "next-intl";
+import {Search, UserPlus} from "lucide-react";
 
 import { ROLE_FILTER_OPTIONS } from "./constants";
 import AddUserDialog from "./AddUserDialog";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
+import {Input} from "@/components/ui/input";
+import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {Button} from "@/components/ui/button";
+import {Label} from "@/components/ui/label";
 
 const AdminUsersToolbar = ({
   query,
@@ -20,6 +20,7 @@ const AdminUsersToolbar = ({
   onCreateUser,
   isCreatingUser,
   isRefreshing,
+  canCreateUsers = true,
 }) => {
   const t = useTranslations("admin.users");
   const [searchValue, setSearchValue] = useState(query ?? "");
@@ -40,6 +41,12 @@ const AdminUsersToolbar = ({
     }, 300);
     return () => clearTimeout(handler);
   }, [searchValue, onQueryChange, query]);
+
+  useEffect(() => {
+    if (!canCreateUsers) {
+      setAddUserOpen(false);
+    }
+  }, [canCreateUsers]);
 
   const handleRoleChange = (value) => {
     if (value === role) return;
@@ -85,14 +92,16 @@ const AdminUsersToolbar = ({
               </Select>
             </div>
             <div className="flex items-end justify-end lg:items-center">
-              <Button
-                type="button"
-                onClick={() => setAddUserOpen(true)}
-                className="h-11 rounded-2xl px-5 text-[15px]"
-              >
-                <UserPlus className="mr-2 h-4 w-4" />
-                {t("addUser")}
-              </Button>
+              {canCreateUsers ? (
+                <Button
+                  type="button"
+                  onClick={() => setAddUserOpen(true)}
+                  className="h-11 rounded-2xl px-5 text-[15px]"
+                >
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  {t("addUser")}
+                </Button>
+              ) : null}
             </div>
           </div>
           <div
@@ -108,14 +117,16 @@ const AdminUsersToolbar = ({
           </div>
         </div>
       </div>
-      <AddUserDialog
-        open={addUserOpen}
-        onOpenChange={setAddUserOpen}
-        onSubmit={async (payload) => {
-          await onCreateUser?.(payload);
-        }}
-        isSubmitting={isCreatingUser}
-      />
+      {canCreateUsers ? (
+        <AddUserDialog
+          open={addUserOpen}
+          onOpenChange={setAddUserOpen}
+          onSubmit={async (payload) => {
+            await onCreateUser?.(payload);
+          }}
+          isSubmitting={isCreatingUser}
+        />
+      ) : null}
     </>
   );
 };

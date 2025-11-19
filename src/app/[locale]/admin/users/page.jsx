@@ -10,6 +10,7 @@ import UsersTable from "@/components/admin/users/UsersTable";
 import {createUser, listUsers, setUserActive, setUserRoles} from "@/lib/api/admin";
 import useNotify from "@/hooks/useNotify";
 import useAuth from "@/hooks/useAuth";
+import useAdminCapabilities from "@/hooks/useAdminCapabilities";
 
 const PAGE_SIZE = 20;
 const BASE_QUERY_KEY = ["admin-users"];
@@ -28,10 +29,15 @@ const AdminUsersPage = () => {
   const notify = useNotify();
   const queryClient = useQueryClient();
   const {logout} = useAuth();
+  const {data: adminCapabilities} = useAdminCapabilities();
 
   const query = searchParams.get("q") ?? "";
   const role = searchParams.get("role") ?? "all";
   const page = parsePage(searchParams.get("page"));
+
+  const canCreateUsers = adminCapabilities?.users?.create !== false;
+  const canManageRoles = adminCapabilities?.users?.roles?.replace !== false;
+  const canToggleActive = adminCapabilities?.users?.activate !== false;
 
   const listQueryKey = useMemo(
     () => [...BASE_QUERY_KEY, {page, pageSize: PAGE_SIZE, role, q: query}],
@@ -223,19 +229,32 @@ const AdminUsersPage = () => {
 
   const handleCreateUser = useCallback(
     async (payload) => {
+      if (!canCreateUsers) {
+        return;
+      }
       await createUserMutation.mutateAsync(payload);
     },
-    [createUserMutation],
+    [canCreateUsers, createUserMutation],
   );
 
   const handleToggleActive = useCallback(
-    (payload) => setUserActiveMutation.mutateAsync(payload),
-    [setUserActiveMutation],
+    async (payload) => {
+      if (!canToggleActive) {
+        return;
+      }
+      await setUserActiveMutation.mutateAsync(payload);
+    },
+    [canToggleActive, setUserActiveMutation],
   );
 
   const handleSetUserRoles = useCallback(
-    (payload) => setUserRolesMutation.mutateAsync(payload),
-    [setUserRolesMutation],
+    async (payload) => {
+      if (!canManageRoles) {
+        return;
+      }
+      await setUserRolesMutation.mutateAsync(payload);
+    },
+    [canManageRoles, setUserRolesMutation],
   );
 
   const total = listQuery.data?.total ?? 0;
@@ -257,6 +276,7 @@ const AdminUsersPage = () => {
         onCreateUser={handleCreateUser}
         isCreatingUser={createUserMutation.isPending}
         isRefreshing={listQuery.isFetching && !listQuery.isLoading}
+        canCreateUsers={canCreateUsers}
       />
       <UsersTable
         data={listQuery.data}
@@ -275,6 +295,8 @@ const AdminUsersPage = () => {
         rolesPendingUserId={
           setUserRolesMutation.isPending ? setUserRolesMutation.variables?.userId : null
         }
+        canToggleActive={canToggleActive}
+        canManageRoles={canManageRoles}
       />
     </div>
   );

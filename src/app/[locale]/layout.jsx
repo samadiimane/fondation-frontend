@@ -1,3 +1,9 @@
+import 'slick-carousel/slick/slick.css';
+import '@/styles/vendor/slick-theme.css';
+import 'react-modal-video/scss/modal-video.scss';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import '@/app/globals.scss';
+
 import InitializeAOS from '@/helper/InitializeAOS';
 import RouteScrollToTop from '@/helper/RouteScrollToTop';
 import {defaultLocale, locales} from '@/i18n/config';

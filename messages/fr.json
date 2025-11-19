@@ -139,11 +139,165 @@
         "error": "Une erreur est survenue. Merci de réessayer."
       }
     },
+    "categories": {
+      "title": "Catégories",
+      "subtitle": "Organisez les taxonomies hiérarchiques pour les journaux, archives et thèmes de recherche.",
+      "description": "Parcourez l'arborescence, recherchez des entrées précises et gérez l'ordre ou les parents.",
+      "toolbar": {
+        "searchLabel": "Recherche",
+        "searchPlaceholder": "Nom ou slug…",
+        "kindLabel": "Type",
+        "addCategory": "Ajouter une catégorie"
+      },
+      "create": {
+        "title": "Créer une catégorie",
+        "description": "Définissez le nom, le slug et la hiérarchie de la catégorie."
+      },
+      "fields": {
+        "name": "Nom",
+        "slug": "Slug",
+        "optional": "optionnel",
+        "kind": "Type",
+        "parent": "Parent",
+        "order": "Ordre",
+        "documents": "Documents"
+      },
+      "actions": {
+        "save": "Enregistrer",
+        "cancel": "Annuler",
+        "delete": "Supprimer",
+        "move": "Déplacer…",
+        "working": "Traitement…"
+      },
+      "parent": {
+        "searchPlaceholder": "Filtrer les parents…",
+        "placeholder": "Sélectionner un parent (facultatif)",
+        "none": "Pas de parent",
+        "empty": "Aucune catégorie trouvée.",
+        "clearSearch": "Effacer la recherche"
+      },
+      "inspector": {
+        "title": "Inspecteur",
+        "metaTitle": "Métadonnées actuelles",
+        "empty": "Sélectionnez une catégorie à modifier."
+      },
+      "delete": {
+        "confirmTitle": "Supprimer la catégorie ?",
+        "confirmMessage": "Voulez-vous vraiment supprimer {name} ?",
+        "description": "La suppression retire définitivement cette catégorie de l’arborescence.",
+        "disabledHint": "Vous ne pouvez pas supprimer une catégorie qui contient des documents ou des enfants."
+      },
+      "moveDialog": {
+        "title": "Déplacer la catégorie",
+        "description": "Choisissez un nouveau parent et, si besoin, une position.",
+        "parentLabel": "Parent",
+        "orderLabel": "Ordre",
+        "orderPlaceholder": "Laissez vide pour ajouter à la fin",
+        "submit": "Déplacer",
+        "cancel": "Annuler"
+      },
+      "toast": {
+        "created": "Catégorie créée.",
+        "updated": "Catégorie mise à jour.",
+        "reordered": "Ordre mis à jour.",
+        "deleted": "Catégorie supprimée."
+      },
+      "errors": {
+        "generic": "Une erreur est survenue.",
+        "create": "Impossible de créer la catégorie.",
+        "update": "Impossible de mettre à jour la catégorie.",
+        "reorder": "Impossible de réorganiser les catégories.",
+        "delete": "Impossible de supprimer la catégorie.",
+        "loadChildren": "Impossible de charger les enfants.",
+        "sessionExpired": "Session expirée.",
+        "forbidden": "Action non autorisée.",
+        "network": "Problème réseau. Merci de réessayer.",
+        "noAccess": "Vous n'avez pas l'autorisation d'afficher les catégories."
+      },
+      "kinds": {
+        "all": "Tous les types",
+        "section": "Sections",
+        "journal": "Journaux",
+        "archive_collection": "Collections d'archives",
+        "topic": "Thèmes"
+      },
+      "tree": {
+        "title": "Arbre des catégories"
+      },
+      "searchResults": {
+        "title": "Résultats",
+        "summary": "{total, plural, one {{total} résultat} other {{total} résultats}} (page {page})",
+        "empty": "Aucune catégorie ne correspond à la recherche."
+      },
+      "pagination": {
+        "previous": "Précédent",
+        "next": "Suivant"
+      }
+    },
+    "authors": {
+      "title": "Authors",
+      "subtitle": "Author registry",
+      "description": "Search, paginate, and add author records for documents.",
+      "capabilityDisabled": "Author management is not enabled for your account.",
+      "toolbar": {
+        "search": {
+          "label": "Search",
+          "placeholder": "Search authors..."
+        },
+        "sort": {
+          "label": "Sort by",
+          "name": "Name (A-Z)",
+          "created": "Newest"
+        },
+        "add": "Add author",
+        "resultsSummary": "Page {page} · {total, plural, one {{total} author} other {{total} authors}}"
+      },
+      "dialog": {
+        "add": {
+          "title": "Add author",
+          "description": "Provide at least the latin name to create a new author record."
+        }
+      },
+      "fields": {
+        "nameLatin": "Latin name",
+        "nameArabic": "Arabic name",
+        "affiliation": "Affiliation"
+      },
+      "table": {
+        "headers": {
+          "nameLatin": "Latin name",
+          "nameArabic": "Arabic name",
+          "affiliation": "Affiliation",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "actions": {
+          "placeholder": "Coming soon"
+        },
+        "empty": "No authors found."
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create author",
+        "creating": "Creating..."
+      },
+      "pagination": {
+        "previous": "Previous",
+        "next": "Next"
+      },
+      "toast": {
+        "created": {
+          "success": "Author created.",
+          "error": "Unable to create author."
+        }
+      }
+    },
     "nav": {
       "title": "Administration",
       "label": "Centre de contrôle",
       "dashboard": "Tableau de bord",
       "users": "Utilisateurs",
+      "authors": "Authors",
       "content": "Contenu",
       "settings": "Paramètres",
       "openMenu": "Menu",
@@ -151,7 +305,8 @@
       "collapse": "Réduire la barre",
       "expand": "Développer la barre",
       "searchPlaceholder": "Rechercher dans l'administration...",
-      "logout": "Déconnexion"
+      "logout": "Déconnexion",
+      "categories": "Catégories"
     }
   },
   "auth": {

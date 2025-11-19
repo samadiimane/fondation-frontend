@@ -1,9 +1,3 @@
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import 'react-modal-video/scss/modal-video.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './globals.scss';
-
 import {defaultLocale, isRtlLocale} from '@/i18n/config';
 import {getLocale} from 'next-intl/server';
 

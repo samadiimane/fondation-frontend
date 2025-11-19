@@ -3,7 +3,9 @@
 import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {Link, usePathname, useRouter} from "@/i18n/navigation";
+import {useQueryClient} from "@tanstack/react-query";
 import useAuth from "@/hooks/useAuth";
+import useAdminCapabilities from "@/hooks/useAdminCapabilities";
 import AdminGuard from "@/components/auth/AdminGuard";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
@@ -23,21 +25,32 @@ import {
   CommandShortcut,
 } from "@/components/ui/command";
 import {cn} from "@/lib/utils";
+import {ADMIN_CAPABILITIES_QUERY_KEY, getAdminCapabilities} from "@/lib/api/adminCapabilities";
 import {
   Bell,
   ChevronLeft,
   ChevronRight,
+  Command as CommandIcon,
   FileText,
+  FolderTree,
   LayoutDashboard,
   Menu,
   Settings,
+  UserRound,
   Users,
-  Command as CommandIcon,
 } from "lucide-react";
 
 const NAV_ITEMS = [
   {key: "dashboard", icon: LayoutDashboard, href: "/admin", disabled: false},
   {key: "users", icon: Users, href: "/admin/users", disabled: false},
+  {
+    key: "authors",
+    icon: UserRound,
+    href: "/admin/authors",
+    disabled: false,
+    requires: (caps) => caps?.authors?.list !== false,
+  },
+  {key: "categories", icon: FolderTree, href: "/admin/categories", disabled: false},
   {key: "content", icon: FileText, href: "/admin/content", disabled: true},
   {key: "settings", icon: Settings, href: "/admin/settings", disabled: true},
 ];
@@ -48,6 +61,8 @@ const AdminShell = ({children}) => {
   const router = useRouter();
   const pathname = usePathname();
   const {user, logout} = useAuth();
+  const {data: adminCapabilities} = useAdminCapabilities();
+  const queryClient = useQueryClient();
 
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -68,17 +83,29 @@ const AdminShell = ({children}) => {
 
   const navItems = useMemo(
     () =>
-      NAV_ITEMS.map((item) => ({
+      NAV_ITEMS.filter((item) => {
+        if (typeof item.requires === "function") {
+          return item.requires(adminCapabilities);
+        }
+        return true;
+      }).map((item) => ({
         ...item,
         label: t(item.key),
       })),
-    [t],
+    [adminCapabilities, t],
   );
   const availableNavItems = useMemo(
     () => navItems.filter((item) => !item.disabled),
     [navItems],
   );
 
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ADMIN_CAPABILITIES_QUERY_KEY,
+      queryFn: ({signal}) => getAdminCapabilities({signal}),
+      staleTime: 5 * 60_000,
+    });
+  }, [queryClient]);
   useEffect(() => {
     const handleKeyDown = (event) => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k") {
