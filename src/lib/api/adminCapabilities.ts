@@ -34,6 +34,8 @@ export type AdminCapabilities = {
     create: boolean;
     update: boolean;
     delete: boolean;
+    softDelete: boolean;
+    restore: boolean;
   };
   journals: {
     list: boolean;

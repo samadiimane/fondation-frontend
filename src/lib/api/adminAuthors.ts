@@ -3,10 +3,11 @@
 import {apiFetch} from "@/lib/api";
 
 const BASE_PATH = "/v1/admin/authors";
+const ADMIN_AUTHORS_ROOT_KEY = ["admin:authors"] as const;
 
 export const ADMIN_AUTHORS_QUERY_KEYS = {
-  all: ["admin:authors"] as const,
-  list: (params: Record<string, unknown>) => ["admin:authors:list", params] as const,
+  all: ADMIN_AUTHORS_ROOT_KEY,
+  list: (params: Record<string, unknown>) => [...ADMIN_AUTHORS_ROOT_KEY, "list", params] as const,
 };
 
 export type AuthorListItem = {
@@ -16,6 +17,7 @@ export type AuthorListItem = {
   affiliation: string | null;
   slug: string;
   created_at: string;
+  deleted_at: string | null;
 };
 
 export type Paginated<T> = {
@@ -97,6 +99,7 @@ const normalizeAuthor = (payload: any): AuthorListItem => ({
   affiliation: payload.affiliation ?? null,
   slug: payload.slug ?? "",
   created_at: payload.created_at ?? "",
+  deleted_at: payload.deleted_at ?? null,
 });
 
 const normalizePaginated = (payload: any): Paginated<AuthorListItem> => ({
@@ -112,6 +115,7 @@ type ListAuthorsOptions = {
   page?: number;
   pageSize?: number;
   sort?: "name" | "created_at";
+  status?: "active" | "deleted" | "all";
   signal?: AbortSignal;
 };
 
@@ -120,6 +124,7 @@ export const listAuthors = async ({
   page = 1,
   pageSize = 20,
   sort = "name",
+  status = "active",
   signal,
 }: ListAuthorsOptions = {}): Promise<Paginated<AuthorListItem>> => {
   try {
@@ -130,6 +135,7 @@ export const listAuthors = async ({
         page,
         page_size: pageSize,
         sort,
+        status,
       },
     });
     return normalizePaginated(payload);
@@ -155,3 +161,18 @@ export const createAuthor = async (payload: CreateAuthorInput): Promise<AuthorLi
   }
 };
 
+export const softDeleteAuthor = async (id: number): Promise<void> => {
+  try {
+    await apiFetch(`${BASE_PATH}/${id}/soft-delete`, {method: "PATCH"});
+  } catch (error) {
+    throw mapToAuthorError(error);
+  }
+};
+
+export const restoreAuthor = async (id: number): Promise<void> => {
+  try {
+    await apiFetch(`${BASE_PATH}/${id}/restore`, {method: "PATCH"});
+  } catch (error) {
+    throw mapToAuthorError(error);
+  }
+};

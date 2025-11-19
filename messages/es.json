@@ -249,6 +249,12 @@
           "name": "Name (A-Z)",
           "created": "Newest"
         },
+        "status": {
+          "label": "Status",
+          "active": "Active",
+          "deleted": "Deleted",
+          "all": "All"
+        },
         "add": "Add author",
         "resultsSummary": "Page {page} · {total, plural, one {{total} author} other {{total} authors}}"
       },
@@ -272,7 +278,16 @@
           "actions": "Actions"
         },
         "actions": {
-          "placeholder": "Coming soon"
+          "placeholder": "Coming soon",
+          "softDelete": "Soft delete",
+          "restore": "Restore",
+          "softDeleting": "Soft deleting...",
+          "restoring": "Restoring...",
+          "confirmTitle": "Soft delete author?",
+          "confirmDescription": "This will hide {name} without removing document links."
+        },
+        "badge": {
+          "deleted": "Deleted"
         },
         "empty": "No authors found."
       },
@@ -289,6 +304,14 @@
         "created": {
           "success": "Author created.",
           "error": "Unable to create author."
+        },
+        "deleted": {
+          "success": "Author removed from listings.",
+          "error": "Unable to remove author."
+        },
+        "restored": {
+          "success": "Author restored.",
+          "error": "Unable to restore author."
         }
       }
     },

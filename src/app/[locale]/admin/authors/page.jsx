@@ -1,12 +1,18 @@
 "use client";
 
-import {useEffect, useMemo, useRef, useState} from "react";
+import {useCallback, useEffect, useMemo, useRef, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 
 import useAdminCapabilities from "@/hooks/useAdminCapabilities";
 import useNotify from "@/hooks/useNotify";
-import {ADMIN_AUTHORS_QUERY_KEYS, createAuthor, listAuthors} from "@/lib/api/adminAuthors";
+import {
+  ADMIN_AUTHORS_QUERY_KEYS,
+  createAuthor,
+  listAuthors,
+  restoreAuthor,
+  softDeleteAuthor,
+} from "@/lib/api/adminAuthors";
 import {Input} from "@/components/ui/input";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card";
@@ -22,12 +28,30 @@ import {Label} from "@/components/ui/label";
 import {Skeleton} from "@/components/ui/skeleton";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import {Badge} from "@/components/ui/badge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const PAGE_SIZE = 20;
 
 const sortOptions = [
   {value: "name", labelKey: "toolbar.sort.name"},
   {value: "created_at", labelKey: "toolbar.sort.created"},
+];
+
+const statusOptions = [
+  {value: "active", labelKey: "toolbar.status.active"},
+  {value: "deleted", labelKey: "toolbar.status.deleted"},
+  {value: "all", labelKey: "toolbar.status.all"},
 ];
 
 const AdminAuthorsPage = () => {
@@ -39,11 +63,14 @@ const AdminAuthorsPage = () => {
 
   const canList = capabilities?.authors?.list !== false;
   const canCreate = capabilities?.authors?.create !== false;
+  const canSoftDelete = capabilities?.authors?.softDelete !== false;
+  const canRestore = capabilities?.authors?.restore !== false;
 
   const [searchValue, setSearchValue] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState("name");
+  const [statusFilter, setStatusFilter] = useState("active");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [form, setForm] = useState({
     name_latin: "",
@@ -84,8 +111,9 @@ const AdminAuthorsPage = () => {
         page,
         pageSize: PAGE_SIZE,
         sort,
+        status: statusFilter,
       }),
-    [debouncedSearch, page, sort],
+    [debouncedSearch, page, sort, statusFilter],
   );
 
   const listQuery = useQuery({
@@ -96,6 +124,7 @@ const AdminAuthorsPage = () => {
         page,
         pageSize: PAGE_SIZE,
         sort,
+        status: statusFilter,
         signal,
       }),
     keepPreviousData: true,
@@ -110,51 +139,66 @@ const AdminAuthorsPage = () => {
     }
   }, [locale]);
 
+  const isAuthorsQueryKey = useCallback(
+    (key) => Array.isArray(key) && key[0] === ADMIN_AUTHORS_QUERY_KEYS.all[0],
+    [],
+  );
+
+  const invalidateAuthors = useCallback(
+    (opts) => {
+      if (opts?.resetPage) {
+        setPage(1);
+      }
+      queryClient.invalidateQueries({
+        predicate: (query) => isAuthorsQueryKey(query.queryKey),
+        refetchType: "all",
+      });
+      if (opts?.remove) {
+        queryClient.removeQueries({
+          predicate: (query) => isAuthorsQueryKey(query.queryKey),
+          type: "inactive",
+        });
+      }
+    },
+    [isAuthorsQueryKey, queryClient],
+  );
+
   const createMutation = useMutation({
     mutationFn: (payload) => createAuthor(payload),
-    onMutate: async (payload) => {
-      if (!canList) return undefined;
-      await queryClient.cancelQueries({queryKey: listQueryKey});
-      const previous = queryClient.getQueryData(listQueryKey);
-      if (!previous) {
-        return {previous: undefined, tempId: undefined};
-      }
-      const trimmedLatin = payload.name_latin.trim();
-      const optimisticItem = {
-        id: Date.now() * -1,
-        name_latin: trimmedLatin,
-        name_ar: payload.name_ar?.trim() || trimmedLatin,
-        affiliation: payload.affiliation?.trim() || null,
-        slug: `temp-${Math.abs(Date.now())}`,
-        created_at: new Date().toISOString(),
-      };
-      queryClient.setQueryData(listQueryKey, {
-        ...previous,
-        items: [optimisticItem, ...previous.items],
-        total: previous.total + 1,
-      });
-      return {previous, tempId: optimisticItem.id};
-    },
-    onError: (error, _variables, context) => {
-      if (context?.previous) {
-        queryClient.setQueryData(listQueryKey, context.previous);
-      }
-      notify.handleError(error, t("toast.created.error"));
-    },
-    onSuccess: (item, _variables, context) => {
-      queryClient.setQueryData(listQueryKey, (current) => {
-        if (!current) return current;
-        return {
-          ...current,
-          items: current.items.map((existing) => (existing.id === context?.tempId ? item : existing)),
-        };
-      });
+    onError: (error) => notify.handleError(error, t("toast.created.error")),
+    onSuccess: () => {
       notify.success(t("toast.created.success"));
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries({queryKey: listQueryKey});
+      invalidateAuthors();
     },
   });
+
+  const softDeleteMutation = useMutation({
+    mutationFn: (authorId) => softDeleteAuthor(authorId),
+    onError: (error) => notify.handleError(error, t("toast.deleted.error")),
+    onSuccess: () => {
+      notify.success(t("toast.deleted.success"));
+      invalidateAuthors();
+    },
+  });
+
+  const restoreMutation = useMutation({
+    mutationFn: (authorId) => restoreAuthor(authorId),
+    onError: (error) => notify.handleError(error, t("toast.restored.error")),
+    onSuccess: () => {
+      notify.success(t("toast.restored.success"));
+      invalidateAuthors();
+    },
+  });
+
+  const handleSoftDelete = (authorId) => {
+    if (!canSoftDelete) return;
+    softDeleteMutation.mutate(authorId);
+  };
+
+  const handleRestore = (authorId) => {
+    if (!canRestore) return;
+    restoreMutation.mutate(authorId);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -202,37 +246,60 @@ const AdminAuthorsPage = () => {
       </header>
 
       <Card className="rounded-3xl border bg-white shadow">
-        <CardHeader className="gap-4 md:flex md:flex-row md:items-end md:justify-between">
-          <div className="flex flex-1 flex-col gap-2">
-            <Label htmlFor="author-search">{t("toolbar.search.label")}</Label>
-            <Input
-              id="author-search"
-              type="search"
-              className="rounded-2xl border-muted bg-muted/40"
-              placeholder={t("toolbar.search.placeholder")}
-              value={searchValue}
-              onChange={(event) => setSearchValue(event.target.value)}
-            />
-          </div>
-          <div className="flex flex-1 flex-col gap-2 md:max-w-xs">
-            <Label>{t("toolbar.sort.label")}</Label>
-            <Select value={sort} onValueChange={(value) => setSort(value)}>
-              <SelectTrigger className="rounded-2xl">
-                <SelectValue placeholder={t("toolbar.sort.label")} />
-              </SelectTrigger>
-              <SelectContent>
-                {sortOptions.map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {t(option.labelKey)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="flex justify-end">
-            <Button type="button" onClick={() => setDialogOpen(true)} disabled={!canCreate}>
-              {t("toolbar.add")}
-            </Button>
+        <CardHeader>
+          <div className="grid gap-4 md:grid-cols-[minmax(0,2fr),minmax(0,1fr),minmax(0,1fr),auto]">
+            <div className="flex flex-col gap-2">
+              <Label htmlFor="author-search">{t("toolbar.search.label")}</Label>
+              <Input
+                id="author-search"
+                type="search"
+                className="rounded-2xl border-muted bg-muted/40"
+                placeholder={t("toolbar.search.placeholder")}
+                value={searchValue}
+                onChange={(event) => setSearchValue(event.target.value)}
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>{t("toolbar.sort.label")}</Label>
+              <Select value={sort} onValueChange={(value) => setSort(value)}>
+                <SelectTrigger className="rounded-2xl">
+                  <SelectValue placeholder={t("toolbar.sort.label")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {sortOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {t(option.labelKey)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex flex-col gap-2">
+              <Label>{t("toolbar.status.label")}</Label>
+              <Select
+                value={statusFilter}
+                onValueChange={(value) => {
+                  setStatusFilter(value);
+                  invalidateAuthors({resetPage: true, remove: true});
+                }}
+              >
+                <SelectTrigger className="rounded-2xl">
+                  <SelectValue placeholder={t("toolbar.status.label")} />
+                </SelectTrigger>
+                <SelectContent>
+                  {statusOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {t(option.labelKey)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="flex items-end justify-end">
+              <Button type="button" onClick={() => setDialogOpen(true)} disabled={!canCreate}>
+                {t("toolbar.add")}
+              </Button>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -257,17 +324,67 @@ const AdminAuthorsPage = () => {
                     </TableRow>
                   ))
                 ) : items.length ? (
-                  items.map((author) => (
-                    <TableRow key={author.id}>
-                      <TableCell className="font-semibold">{author.name_latin}</TableCell>
-                      <TableCell className="text-muted-foreground">{author.name_ar || "—"}</TableCell>
-                      <TableCell className="text-muted-foreground">{author.affiliation || "—"}</TableCell>
-                      <TableCell>{dateFormatter.format(new Date(author.created_at))}</TableCell>
-                      <TableCell className="text-right text-xs uppercase tracking-wide text-muted-foreground">
-                        {t("table.actions.placeholder")}
-                      </TableCell>
-                    </TableRow>
-                  ))
+                  items.map((author) => {
+                    const isDeleted = Boolean(author.deleted_at);
+                    const showDeletedBadge = isDeleted && statusFilter !== "active";
+                    return (
+                      <TableRow key={author.id}>
+                        <TableCell className="font-semibold">
+                          <div className="flex items-center gap-2">
+                            <span>{author.name_latin}</span>
+                            {showDeletedBadge ? (
+                              <Badge variant="outline" className="text-xs">
+                                {t("table.badge.deleted")}
+                              </Badge>
+                            ) : null}
+                          </div>
+                        </TableCell>
+                        <TableCell className="text-muted-foreground">{author.name_ar || "—"}</TableCell>
+                        <TableCell className="text-muted-foreground">{author.affiliation || "—"}</TableCell>
+                        <TableCell>{dateFormatter.format(new Date(author.created_at))}</TableCell>
+                        <TableCell className="text-right">
+                          {isDeleted ? (
+                            <Button
+                              type="button"
+                              variant="secondary"
+                              size="sm"
+                              disabled={!canRestore || restoreMutation.isPending}
+                              onClick={() => handleRestore(author.id)}
+                            >
+                              {restoreMutation.isPending ? t("table.actions.restoring") : t("table.actions.restore")}
+                            </Button>
+                          ) : (
+                            <AlertDialog>
+                              <AlertDialogTrigger asChild>
+                                <Button type="button" variant="destructive" size="sm" disabled={!canSoftDelete}>
+                                  {t("table.actions.softDelete")}
+                                </Button>
+                              </AlertDialogTrigger>
+                              <AlertDialogContent>
+                                <AlertDialogHeader>
+                                  <AlertDialogTitle>{t("table.actions.confirmTitle")}</AlertDialogTitle>
+                                  <AlertDialogDescription>
+                                    {t("table.actions.confirmDescription", {name: author.name_latin})}
+                                  </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                  <AlertDialogCancel>{t("actions.cancel")}</AlertDialogCancel>
+                                  <AlertDialogAction
+                                    onClick={() => handleSoftDelete(author.id)}
+                                    disabled={softDeleteMutation.isPending}
+                                  >
+                                    {softDeleteMutation.isPending
+                                      ? t("table.actions.softDeleting")
+                                      : t("table.actions.softDelete")}
+                                  </AlertDialogAction>
+                                </AlertDialogFooter>
+                              </AlertDialogContent>
+                            </AlertDialog>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })
                 ) : (
                   <TableRow>
                     <TableCell colSpan={5} className="py-6 text-center text-muted-foreground">
