@@ -36,6 +36,7 @@ import {
   LayoutDashboard,
   Menu,
   Settings,
+  BookOpen,
   UserRound,
   Users,
 } from "lucide-react";
@@ -49,6 +50,13 @@ const NAV_ITEMS = [
     href: "/admin/authors",
     disabled: false,
     requires: (caps) => caps?.authors?.list !== false,
+  },
+  {
+    key: "journals",
+    icon: BookOpen,
+    href: "/admin/journals",
+    disabled: false,
+    requires: (caps) => caps?.journals?.list !== false,
   },
   {key: "categories", icon: FolderTree, href: "/admin/categories", disabled: false},
   {key: "content", icon: FileText, href: "/admin/content", disabled: true},

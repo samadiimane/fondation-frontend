@@ -41,8 +41,9 @@ export type AdminCapabilities = {
     list: boolean;
     create: boolean;
     update: boolean;
-    delete: boolean;
-    issues: boolean;
+    softDelete: boolean;
+    restore: boolean;
+    coverPresign: boolean;
   };
   collections: {
     list: boolean;

@@ -330,6 +330,110 @@
       "searchPlaceholder": "Buscar en administracion...",
       "logout": "Cerrar sesión",
       "categories": "Categorías"
+    },
+    "journals": {
+      "title": "Journals",
+      "description": "Manage journals, covers, and issues.",
+      "toolbar": {
+        "search": "Search journals",
+        "status": {
+          "placeholder": "Status",
+          "active": "Active",
+          "deleted": "Deleted",
+          "all": "All",
+          "uploading": "Uploading"
+        },
+        "sort": {
+          "placeholder": "Sort by",
+          "name": "Name",
+          "created_at": "Created"
+        }
+      },
+      "fields": {
+        "name": "Name",
+        "issn": "ISSN",
+        "description": "Description",
+        "cover": "Cover URL",
+        "advanced": "Advanced",
+        "show": "Show",
+        "hide": "Hide",
+        "slug": "Slug",
+        "publisher": "Publisher",
+        "publisherPlaceholder": "Publisher name"
+      },
+      "preview": {
+        "title": "Preview"
+      },
+      "status": {
+        "active": "Active",
+        "deleted": "Deleted",
+        "uploading": "Uploading"
+      },
+      "columns": {
+        "name": "Name",
+        "issn": "ISSN",
+        "issues": "Issues",
+        "articles": "Articles",
+        "created": "Created",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "actions": {
+        "add": "Add journal",
+        "upload": "Upload cover",
+        "remove": "Remove",
+        "more": "More actions",
+        "title": "Actions",
+        "edit": "Edit",
+        "restore": "Restore",
+        "softDelete": "Soft delete",
+        "confirmDelete": "Confirm delete",
+        "cancel": "Cancel",
+        "save": "Save",
+        "saving": "Saving..."
+      },
+      "dialog": {
+        "add": {
+          "title": "Add journal",
+          "description": "Create a new journal."
+        },
+        "edit": {
+          "title": "Edit journal",
+          "description": "Update journal details."
+        },
+        "delete": {
+          "title": "Soft delete?",
+          "description": "This journal can be restored later."
+        }
+      },
+      "table": {
+        "title": "Journals",
+        "description": "All journals",
+        "loading": "Loading...",
+        "empty": "No journals found."
+      },
+      "pagination": {
+        "prev": "Previous",
+        "next": "Next",
+        "summary": "Page {page} - Total {total}"
+      },
+      "toast": {
+        "error": "Unable to load journals.",
+        "forbidden": "Not authorized.",
+        "created": "Journal created.",
+        "updated": "Journal updated.",
+        "deleted": "Journal archived.",
+        "restored": "Journal restored.",
+        "uploaded": "Cover uploaded.",
+        "uploadError": "Upload failed.",
+        "createError": "Create failed.",
+        "updateError": "Update failed.",
+        "deleteError": "Delete failed.",
+        "restoreError": "Restore failed."
+      },
+      "validation": {
+        "nameRequired": "Name is required."
+      }
     }
   },
   "auth": {
