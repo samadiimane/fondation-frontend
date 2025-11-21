@@ -435,31 +435,53 @@
         "nameRequired": "Name is required."
       },
       "issues": {
-        "title": "Issues",
-        "searchPlaceholder": "Search issues",
-        "yearPlaceholder": "Year",
+        "title": "Numéros",
+        "searchPlaceholder": "Rechercher des numéros",
+        "yearPlaceholder": "Année",
+        "new": "Nouveau numéro",
+        "edit": "Modifier le numéro",
+        "delete": "Supprimer le numéro",
+        "dialogCreateDescription": "Ajouter un nouveau numéro à ce journal.",
+        "dialogEditDescription": "Mettre à jour les détails du numéro.",
         "sort": {
-          "placeholder": "Sort",
-          "yearDesc": "Year desc",
-          "yearAsc": "Year asc",
-          "numberDesc": "Number desc",
-          "numberAsc": "Number asc",
-          "createdDesc": "Created desc",
-          "createdAsc": "Created asc"
+          "placeholder": "Trier",
+          "yearDesc": "Année desc",
+          "yearAsc": "Année asc",
+          "numberDesc": "Numéro desc",
+          "numberAsc": "Numéro asc",
+          "createdDesc": "Création desc",
+          "createdAsc": "Création asc"
         },
-        "empty": "No issues found.",
-        "error": "Unable to load issues.",
-        "columns": {
-          "year": "Year",
-          "number": "Number",
+        "empty": "Aucun numéro trouvé.",
+        "error": "Impossible de charger les numéros.",
+        "toast": {
+          "created": "Numéro créé.",
+          "updated": "Numéro mis à jour.",
+          "deleted": "Numéro supprimé.",
+          "error": "Impossible d'enregistrer le numéro."
+        },
+        "form": {
+          "title": "Titre",
+          "titlePlaceholder": "Titre du numéro",
+          "year": "Année",
+          "number": "Numéro",
           "volume": "Volume",
-          "title": "Title",
-          "articles": "Articles",
-          "published": "Published",
-          "created": "Created"
+          "publishedAt": "Date de publication"
         },
-        "open": "View issues",
-        "close": "Close issues"
+        "confirmDeleteTitle": "Supprimer le numéro ?",
+        "confirmDeleteDesc": "Cette action est irréversible.",
+        "columns": {
+          "year": "Année",
+          "number": "Numéro",
+          "volume": "Volume",
+          "title": "Titre",
+          "articles": "Articles",
+          "published": "Publié",
+          "created": "Créé",
+          "actions": "Actions"
+        },
+        "open": "Voir les numéros",
+        "close": "Fermer"
       }
     }
   },

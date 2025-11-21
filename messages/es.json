@@ -435,31 +435,53 @@
         "nameRequired": "Name is required."
       },
       "issues": {
-        "title": "Issues",
-        "searchPlaceholder": "Search issues",
-        "yearPlaceholder": "Year",
+        "title": "Números",
+        "searchPlaceholder": "Buscar números",
+        "yearPlaceholder": "Año",
+        "new": "Nuevo número",
+        "edit": "Editar número",
+        "delete": "Eliminar número",
+        "dialogCreateDescription": "Agregar un nuevo número a esta revista.",
+        "dialogEditDescription": "Actualizar los detalles del número.",
         "sort": {
-          "placeholder": "Sort",
-          "yearDesc": "Year desc",
-          "yearAsc": "Year asc",
-          "numberDesc": "Number desc",
-          "numberAsc": "Number asc",
-          "createdDesc": "Created desc",
-          "createdAsc": "Created asc"
+          "placeholder": "Ordenar",
+          "yearDesc": "Año desc",
+          "yearAsc": "Año asc",
+          "numberDesc": "Número desc",
+          "numberAsc": "Número asc",
+          "createdDesc": "Creado desc",
+          "createdAsc": "Creado asc"
         },
-        "empty": "No issues found.",
-        "error": "Unable to load issues.",
+        "empty": "No se encontraron números.",
+        "error": "No se pueden cargar los números.",
+        "toast": {
+          "created": "Número creado.",
+          "updated": "Número actualizado.",
+          "deleted": "Número eliminado.",
+          "error": "No se pudo guardar el número."
+        },
+        "form": {
+          "title": "Título",
+          "titlePlaceholder": "Título del número",
+          "year": "Año",
+          "number": "Número",
+          "volume": "Volumen",
+          "publishedAt": "Fecha de publicación"
+        },
+        "confirmDeleteTitle": "¿Eliminar número?",
+        "confirmDeleteDesc": "Esta acción no se puede deshacer.",
         "columns": {
-          "year": "Year",
-          "number": "Number",
-          "volume": "Volume",
-          "title": "Title",
-          "articles": "Articles",
-          "published": "Published",
-          "created": "Created"
+          "year": "Año",
+          "number": "Número",
+          "volume": "Volumen",
+          "title": "Título",
+          "articles": "Artículos",
+          "published": "Publicado",
+          "created": "Creado",
+          "actions": "Acciones"
         },
-        "open": "View issues",
-        "close": "Close issues"
+        "open": "Ver números",
+        "close": "Cerrar"
       }
     }
   },

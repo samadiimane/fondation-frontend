@@ -439,6 +439,11 @@
         "title": "Issues",
         "searchPlaceholder": "Search issues",
         "yearPlaceholder": "Year",
+        "new": "New issue",
+        "edit": "Edit issue",
+        "delete": "Delete issue",
+        "dialogCreateDescription": "Add a new issue to this journal.",
+        "dialogEditDescription": "Update issue details.",
         "sort": {
           "placeholder": "Sort",
           "yearDesc": "Year desc",
@@ -450,6 +455,22 @@
         },
         "empty": "No issues found.",
         "error": "Unable to load issues.",
+        "toast": {
+          "created": "Issue created.",
+          "updated": "Issue updated.",
+          "deleted": "Issue deleted.",
+          "error": "Unable to save issue."
+        },
+        "form": {
+          "title": "Title",
+          "titlePlaceholder": "Issue title",
+          "year": "Year",
+          "number": "Number",
+          "volume": "Volume",
+          "publishedAt": "Published at"
+        },
+        "confirmDeleteTitle": "Delete issue?",
+        "confirmDeleteDesc": "This action cannot be undone.",
         "columns": {
           "year": "Year",
           "number": "Number",
@@ -457,10 +478,11 @@
           "title": "Title",
           "articles": "Articles",
           "published": "Published",
-          "created": "Created"
+          "created": "Created",
+          "actions": "Actions"
         },
         "open": "View issues",
-        "close": "Close issues"
+        "close": "Close"
       }
     }
   },

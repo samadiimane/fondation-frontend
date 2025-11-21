@@ -15,6 +15,7 @@ import {
   Search,
   Trash2,
   Upload,
+  Pencil,
 } from "lucide-react";
 
 import AdminGuard from "@/components/auth/AdminGuard";
@@ -68,12 +69,15 @@ import {
   ADMIN_JOURNALS_QUERY_KEYS,
   listJournalIssues,
   createJournal,
+  createJournalIssue,
   listJournals,
   presignUpload,
   restoreJournal,
+  updateIssue,
   softDeleteJournal,
   updateJournal,
   qkJournalIssues,
+  deleteIssue,
 } from "@/lib/api/adminJournals";
 
 const PAGE_SIZE = 20;
@@ -92,7 +96,7 @@ const parsePage = (value) => {
 };
 
 const formatDate = (value) => {
-  if (!value) return "—";
+  if (!value) return "-";
   try {
     return new Date(value).toLocaleDateString();
   } catch {
@@ -315,15 +319,27 @@ const AdminJournalsPage = () => {
     sort: "year_desc",
   });
   const [issuesDebounced, setIssuesDebounced] = useState("");
+  const [issueDialogOpen, setIssueDialogOpen] = useState(false);
+  const [issueDialogMode, setIssueDialogMode] = useState("create");
+  const [editingIssue, setEditingIssue] = useState(null);
+  const [issueForm, setIssueForm] = useState({
+    title: "",
+    year: "",
+    number: "",
+    volume: "",
+    published_at: "",
+  });
+  const issueTitleRef = useRef(null);
+  const [pendingIssueDelete, setPendingIssueDelete] = useState(null);
 
   const [form, setForm] = useState({
-  name: "",
-  slug: "",
-  issn: "",
-  description: "",
-  publisher: "",
-  cover_image_url: "",
-});
+    name: "",
+    slug: "",
+    issn: "",
+    description: "",
+    publisher: "",
+    cover_image_url: "",
+  });
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -345,12 +361,12 @@ const AdminJournalsPage = () => {
       const nextValue = searchValue.trim();
       setDebouncedSearch((prev) => {
         if (prev !== nextValue) {
-              setPage(1);
-              updateUrl({q: nextValue, status: statusFilter, page: 1});
-            }
-            return nextValue;
-          });
-        }, 300);
+          setPage(1);
+          updateUrl({q: nextValue, status: statusFilter, page: 1});
+        }
+        return nextValue;
+      });
+    }, 300);
     return () => clearTimeout(handler);
   }, [searchValue, statusFilter, updateUrl]);
 
@@ -626,15 +642,56 @@ const AdminJournalsPage = () => {
   };
 
   const handleOpenEdit = (journal) => {
+    setIssuesOpen(false);
     setDialogMode("edit");
     setEditingJournal(journal);
     setForm(prefetchedForm(journal));
     setDialogOpen(true);
   };
 
-  const handleOpenIssues = (journal) => {
-    setSelectedJournal(journal);
-    setIssuesOpen(true);
+const handleOpenIssues = (journal) => {
+  if (dialogOpen) return;
+  setSelectedJournal(journal);
+  setIssuesOpen(true);
+};
+
+  const handleOpenIssueCreate = () => {
+    setIssueDialogMode("create");
+    setEditingIssue(null);
+    setIssueForm({
+      title: "",
+      year: "",
+      number: "",
+      volume: "",
+      published_at: "",
+    });
+    setIssueDialogOpen(true);
+  };
+
+  const handleOpenIssueEdit = (issue) => {
+    setIssueDialogMode("edit");
+    setEditingIssue(issue);
+    setIssueForm({
+      title: issue.title || "",
+      year: issue.year ?? "",
+      number: issue.number ?? "",
+      volume: issue.volume ?? "",
+      published_at: issue.published_at ? issue.published_at.slice(0, 10) : "",
+    });
+    setIssueDialogOpen(true);
+  };
+
+  const parseIssuePayload = () => {
+    const year = issueForm.year !== "" ? Number(issueForm.year) : undefined;
+    const number = issueForm.number !== "" ? Number(issueForm.number) : undefined;
+    const volume = issueForm.volume !== "" ? Number(issueForm.volume) : undefined;
+    return {
+      title: issueForm.title?.trim() || undefined,
+      year: Number.isFinite(year) ? year : undefined,
+      number: Number.isFinite(number) ? number : undefined,
+      volume: Number.isFinite(volume) ? volume : undefined,
+      published_at: issueForm.published_at || null,
+    };
   };
 
   const handleSubmit = () => {
@@ -736,9 +793,11 @@ const AdminJournalsPage = () => {
   const isLoading = listQuery.isLoading || listQuery.isFetching;
   const hasNext = listQuery.data?.hasNext ?? false;
 
+  const issuesQueryKey = selectedJournal ? qkJournalIssues(selectedJournal.id, issuesParams) : null;
+
   const issuesQuery = useQuery({
     enabled: issuesOpen && Boolean(selectedJournal),
-    queryKey: selectedJournal ? qkJournalIssues(selectedJournal.id, issuesParams) : ["admin:journals:issues"],
+    queryKey: issuesQueryKey || ["admin:journals:issues"],
     queryFn: ({signal}) =>
       listJournalIssues(selectedJournal.id, {
         page: issuesParams.page,
@@ -770,10 +829,168 @@ const AdminJournalsPage = () => {
   );
 
   useEffect(() => {
-    if (issuesQuery.error && issuesQuery.error?.name !== "AbortError") {
-      handleApiError(issuesQuery.error, "toast.error");
+    if (issueDialogOpen) {
+      requestAnimationFrame(() => issueTitleRef.current?.focus());
     }
-  }, [handleApiError, issuesQuery.error]);
+  }, [issueDialogOpen]);
+
+  const isInteractiveTarget = (target) => {
+    if (!target) return false;
+    const selector =
+      "button, a, input, textarea, select, [role='menuitem'], [data-interactive='true'], [data-radix-dropdown-menu-content], [data-radix-popper-content-wrapper]";
+    return Boolean(target.closest?.(selector));
+  };
+
+  const invalidateIssues = useCallback(() => {
+    if (issuesQueryKey) {
+      queryClient.invalidateQueries({queryKey: issuesQueryKey, exact: true});
+    }
+  }, [issuesQueryKey, queryClient]);
+
+  const issueCreateMutation = useMutation({
+    mutationFn: (payload) => createJournalIssue(selectedJournal.id, payload),
+    onMutate: async (payload) => {
+      if (!issuesQueryKey) return {previous: null};
+      await queryClient.cancelQueries({queryKey: issuesQueryKey});
+      const previous = queryClient.getQueryData(issuesQueryKey);
+      let tempId = null;
+      if (previous && issuesParams.page === 1) {
+        tempId = `temp-issue-${Date.now()}`;
+        const optimistic = {
+          id: tempId,
+          journal_id: selectedJournal.id,
+          title: payload.title || "",
+          year: payload.year ?? null,
+          number: payload.number ?? null,
+          volume: payload.volume ?? null,
+          published_at: payload.published_at ?? null,
+          cover_image_url: null,
+          articles_count: 0,
+          created_at: new Date().toISOString(),
+        };
+        const nextItems = [optimistic, ...previous.items].slice(0, issuesParams.pageSize);
+        queryClient.setQueryData(issuesQueryKey, {
+          ...previous,
+          items: nextItems,
+          total: previous.total + 1,
+        });
+      }
+      return {previous, tempId};
+    },
+    onError: (error, _vars, context) => {
+      if (context?.previous && issuesQueryKey) {
+        queryClient.setQueryData(issuesQueryKey, context.previous);
+      }
+      notify.handleError(error, t("issues.toast.error", {defaultMessage: "Unable to save issue."}));
+    },
+    onSuccess: (data, _vars, context) => {
+      if (issuesQueryKey) {
+        queryClient.setQueryData(issuesQueryKey, (prev) => {
+          if (!prev) return prev;
+          const items = [...prev.items];
+          if (context?.tempId) {
+            const idx = items.findIndex((item) => item.id === context.tempId);
+            if (idx >= 0) {
+              items[idx] = data;
+            } else {
+              items.unshift(data);
+            }
+          } else if (issuesParams.page === 1) {
+            items.unshift(data);
+          }
+          return {...prev, items: items.slice(0, issuesParams.pageSize)};
+        });
+      }
+      setIssueDialogOpen(false);
+      setIssueForm({title: "", year: "", number: "", volume: "", published_at: ""});
+      notify.success(t("issues.toast.created", {defaultMessage: "Issue created"}));
+    },
+    onSettled: invalidateIssues,
+  });
+
+  const issueUpdateMutation = useMutation({
+    mutationFn: ({id, patch}) => updateIssue(id, patch),
+    onMutate: async ({id, patch}) => {
+      if (!issuesQueryKey) return {previous: null};
+      await queryClient.cancelQueries({queryKey: issuesQueryKey});
+      const previous = queryClient.getQueryData(issuesQueryKey);
+      if (previous) {
+        const items = previous.items.map((item) => (item.id === id ? {...item, ...patch} : item));
+        queryClient.setQueryData(issuesQueryKey, {...previous, items});
+      }
+      return {previous};
+    },
+    onError: (error, _vars, context) => {
+      if (context?.previous && issuesQueryKey) {
+        queryClient.setQueryData(issuesQueryKey, context.previous);
+      }
+      notify.handleError(error, t("issues.toast.error", {defaultMessage: "Unable to update issue."}));
+    },
+    onSuccess: (data) => {
+      if (issuesQueryKey) {
+        queryClient.setQueryData(issuesQueryKey, (prev) => {
+          if (!prev) return prev;
+          const items = prev.items.map((item) => (item.id === data.id ? data : item));
+          return {...prev, items};
+        });
+      }
+      setIssueDialogOpen(false);
+      setIssueForm({title: "", year: "", number: "", volume: "", published_at: ""});
+      setEditingIssue(null);
+      notify.success(t("issues.toast.updated", {defaultMessage: "Issue updated"}));
+    },
+    onSettled: invalidateIssues,
+  });
+
+  const issueDeleteMutation = useMutation({
+    mutationFn: (id) => deleteIssue(id),
+    onMutate: async (id) => {
+      if (!issuesQueryKey) return {previous: null};
+      await queryClient.cancelQueries({queryKey: issuesQueryKey});
+      const previous = queryClient.getQueryData(issuesQueryKey);
+      if (previous) {
+        const nextItems = previous.items.filter((item) => item.id !== id);
+        queryClient.setQueryData(issuesQueryKey, {
+          ...previous,
+          items: nextItems,
+          total: Math.max(0, previous.total - 1),
+        });
+      }
+      return {previous};
+    },
+    onError: (error, _vars, context) => {
+      if (context?.previous && issuesQueryKey) {
+        queryClient.setQueryData(issuesQueryKey, context.previous);
+      }
+      notify.handleError(
+        error,
+        error?.userMessage || t("issues.toast.error", {defaultMessage: "Delete failed."}),
+      );
+    },
+    onSuccess: () => {
+      notify.success(t("issues.toast.deleted", {defaultMessage: "Issue deleted"}));
+      setPendingIssueDelete(null);
+    },
+    onSettled: invalidateIssues,
+  });
+
+  const handleIssueSubmit = (event) => {
+    event.preventDefault();
+    if (!selectedJournal) return;
+    const payload = parseIssuePayload();
+    if (issueDialogMode === "edit" && editingIssue) {
+      issueUpdateMutation.mutate({id: editingIssue.id, patch: payload});
+    } else {
+      issueCreateMutation.mutate(payload);
+    }
+  };
+
+  const handleIssueDelete = () => {
+    if (!pendingIssueDelete) return;
+    issueDeleteMutation.mutate(pendingIssueDelete.id);
+  };
+
+  const issueSubmitting = issueCreateMutation.isPending || issueUpdateMutation.isPending;
 
   return (
     <AdminGuard>
@@ -854,9 +1071,18 @@ const AdminJournalsPage = () => {
                         role="button"
                         tabIndex={0}
                         className="cursor-pointer"
-                        onClick={() => handleOpenIssues(journal)}
+                        onMouseDownCapture={(event) => {
+                          if (isInteractiveTarget(event.target)) {
+                            event.stopPropagation();
+                          }
+                        }}
+                        onClick={(event) => {
+                          if (isInteractiveTarget(event.target)) return;
+                          handleOpenIssues(journal);
+                        }}
                         onMouseEnter={() => prefetchIssues(journal)}
                         onKeyDown={(event) => {
+                          if (isInteractiveTarget(event.target)) return;
                           if (event.key === "Enter" || event.key === " ") {
                             event.preventDefault();
                             handleOpenIssues(journal);
@@ -886,7 +1112,7 @@ const AdminJournalsPage = () => {
                             </div>
                           </div>
                         </TableCell>
-                        <TableCell className="text-sm text-muted-foreground">{journal.issn || "—"}</TableCell>
+                        <TableCell className="text-sm text-muted-foreground">{journal.issn || "-"}</TableCell>
                         <TableCell className="text-right font-medium">{journal.issues_count}</TableCell>
                         <TableCell className="text-right font-medium">{journal.articles_count}</TableCell>
                         <TableCell className="text-sm text-muted-foreground">{formatDate(journal.created_at)}</TableCell>
@@ -904,6 +1130,7 @@ const AdminJournalsPage = () => {
                                 variant="ghost"
                                 size="icon"
                                 aria-label={t("actions.more")}
+                                data-interactive="true"
                                 onClick={(event) => event.stopPropagation()}
                               >
                                 <MoreHorizontal className="h-4 w-4" />
@@ -920,7 +1147,13 @@ const AdminJournalsPage = () => {
                                 {t("issues.open")}
                               </DropdownMenuItem>
                               {canUpdate ? (
-                                <DropdownMenuItem onClick={() => handleOpenEdit(journal)}>
+                                <DropdownMenuItem
+                                  onSelect={(event) => {
+                                    event.preventDefault();
+                                    event.stopPropagation();
+                                    handleOpenEdit(journal);
+                                  }}
+                                >
                                   {t("actions.edit")}
                                 </DropdownMenuItem>
                               ) : null}
@@ -928,7 +1161,11 @@ const AdminJournalsPage = () => {
                               {journal.deleted_at ? (
                                 canRestore && (
                                   <DropdownMenuItem
-                                    onClick={() => restoreMutation.mutate(journal.id)}
+                                    onSelect={(event) => {
+                                      event.preventDefault();
+                                      event.stopPropagation();
+                                      restoreMutation.mutate(journal.id);
+                                    }}
                                     disabled={restoreMutation.isPending}
                                   >
                                     <RotateCcw className="mr-2 h-4 w-4" />
@@ -941,6 +1178,7 @@ const AdminJournalsPage = () => {
                                     className="text-destructive focus:text-destructive"
                                     onSelect={(event) => {
                                       event.preventDefault();
+                                      event.stopPropagation();
                                       setPendingDelete(journal);
                                     }}
                                   >
@@ -1050,7 +1288,7 @@ const AdminJournalsPage = () => {
         </AlertDialog>
 
         <Sheet open={issuesOpen} onOpenChange={(open) => setIssuesOpen(open)}>
-          <SheetContent side="right" className="w-full min-w-[360px] p-0 sm:max-w-[750px]">
+          <SheetContent side="right" className="w-full min-w-[380px] p-0 sm:max-w-[900px]">
             <SheetHeader className="border-b px-6 py-4 text-left">
               <SheetTitle>{selectedJournal?.name || t("issues.title")}</SheetTitle>
               <SheetDescription>
@@ -1102,6 +1340,10 @@ const AdminJournalsPage = () => {
                     </SelectContent>
                   </Select>
                 </div>
+                <Button onClick={handleOpenIssueCreate} data-interactive="true">
+                  <Plus className="mr-2 h-4 w-4" />
+                  {t("issues.new")}
+                </Button>
               </div>
 
               <div className="border rounded-md">
@@ -1115,13 +1357,14 @@ const AdminJournalsPage = () => {
                       <TableHead className="text-right">{t("issues.columns.articles")}</TableHead>
                       <TableHead>{t("issues.columns.published")}</TableHead>
                       <TableHead>{t("issues.columns.created")}</TableHead>
+                      <TableHead className="w-[60px] text-right">{t("issues.columns.actions", {defaultMessage: "Actions"})}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {issuesQuery.isLoading ? (
                       Array.from({length: 4}).map((_, idx) => (
                         <TableRow key={idx}>
-                          <TableCell colSpan={7}>
+                          <TableCell colSpan={8}>
                             <Skeleton className="h-5 w-full" />
                           </TableCell>
                         </TableRow>
@@ -1129,18 +1372,50 @@ const AdminJournalsPage = () => {
                     ) : issuesQuery.data?.items?.length ? (
                       issuesQuery.data.items.map((issue) => (
                         <TableRow key={issue.id}>
-                          <TableCell>{issue.year ?? "—"}</TableCell>
-                          <TableCell>{issue.number ?? "—"}</TableCell>
-                          <TableCell>{issue.volume ?? "—"}</TableCell>
-                          <TableCell className="max-w-[200px] truncate">{issue.title || "—"}</TableCell>
+                          <TableCell>{issue.year ?? "-"}</TableCell>
+                          <TableCell>{issue.number ?? "-"}</TableCell>
+                          <TableCell>{issue.volume ?? "-"}</TableCell>
+                          <TableCell className="max-w-[200px] truncate">{issue.title || "-"}</TableCell>
                           <TableCell className="text-right font-medium">{issue.articles_count}</TableCell>
-                          <TableCell>{issue.published_at ? new Date(issue.published_at).toLocaleDateString() : "—"}</TableCell>
-                          <TableCell>{issue.created_at ? new Date(issue.created_at).toLocaleDateString() : "—"}</TableCell>
+                          <TableCell>{issue.published_at ? new Date(issue.published_at).toLocaleDateString() : "-"}</TableCell>
+                          <TableCell>{issue.created_at ? new Date(issue.created_at).toLocaleDateString() : "-"}</TableCell>
+                          <TableCell className="text-right">
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon" data-interactive="true" onClick={(event) => event.stopPropagation()}>
+                                  <MoreHorizontal className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuLabel>{t("actions.title")}</DropdownMenuLabel>
+                                <DropdownMenuItem
+                                  onSelect={(event) => {
+                                    event.preventDefault();
+                                    handleOpenIssueEdit(issue);
+                                  }}
+                                >
+                                  <Pencil className="mr-2 h-4 w-4" />
+                                  {t("issues.edit")}
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                                <DropdownMenuItem
+                                  className="text-destructive focus:text-destructive"
+                                  onSelect={(event) => {
+                                    event.preventDefault();
+                                    setPendingIssueDelete(issue);
+                                  }}
+                                >
+                                  <Trash2 className="mr-2 h-4 w-4" />
+                                  {t("issues.delete")}
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </TableCell>
                         </TableRow>
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={7} className="py-8 text-center text-sm text-muted-foreground">
+                        <TableCell colSpan={8} className="py-8 text-center text-sm text-muted-foreground">
                           {issuesQuery.error ? (
                             <div className="flex flex-col items-center gap-2">
                               <span>{t("issues.error")}</span>
@@ -1189,6 +1464,130 @@ const AdminJournalsPage = () => {
                 </div>
               </div>
             </div>
+
+            <Dialog
+              open={issueDialogOpen}
+              onOpenChange={(open) => {
+                setIssueDialogOpen(open);
+                if (!open) {
+                  setEditingIssue(null);
+                  setIssueForm({title: "", year: "", number: "", volume: "", published_at: ""});
+                }
+              }}
+            >
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>
+                    {issueDialogMode === "edit" ? t("issues.edit") : t("issues.new")}
+                  </DialogTitle>
+                  <DialogDescription>
+                    {issueDialogMode === "edit"
+                      ? t("issues.dialogEditDescription", {defaultMessage: "Update issue details."})
+                      : t("issues.dialogCreateDescription", {defaultMessage: "Add a new issue to this journal."})}
+                  </DialogDescription>
+                </DialogHeader>
+                <form className="space-y-4" onSubmit={handleIssueSubmit}>
+                  <div className="space-y-2">
+                    <Label htmlFor="issue-title">{t("issues.form.title")}</Label>
+                    <Input
+                      id="issue-title"
+                      ref={issueTitleRef}
+                      value={issueForm.title}
+                      onChange={(event) => setIssueForm((prev) => ({...prev, title: event.target.value}))}
+                      placeholder={t("issues.form.titlePlaceholder", {defaultMessage: "Issue title"})}
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                    <div className="space-y-2">
+                      <Label htmlFor="issue-year">{t("issues.form.year")}</Label>
+                      <Input
+                        id="issue-year"
+                        type="number"
+                        value={issueForm.year}
+                        onChange={(event) =>
+                          setIssueForm((prev) => ({...prev, year: event.target.value}))
+                        }
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="issue-number">{t("issues.form.number")}</Label>
+                      <Input
+                        id="issue-number"
+                        type="number"
+                        value={issueForm.number}
+                        onChange={(event) =>
+                          setIssueForm((prev) => ({...prev, number: event.target.value}))
+                        }
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="issue-volume">{t("issues.form.volume")}</Label>
+                      <Input
+                        id="issue-volume"
+                        type="number"
+                        value={issueForm.volume}
+                        onChange={(event) =>
+                          setIssueForm((prev) => ({...prev, volume: event.target.value}))
+                        }
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="issue-published">{t("issues.form.publishedAt")}</Label>
+                    <Input
+                      id="issue-published"
+                      type="date"
+                      value={issueForm.published_at}
+                      onChange={(event) =>
+                        setIssueForm((prev) => ({...prev, published_at: event.target.value}))
+                      }
+                    />
+                  </div>
+                  <DialogFooter className="gap-2">
+                    <Button type="button" variant="outline" onClick={() => setIssueDialogOpen(false)}>
+                      {t("actions.cancel")}
+                    </Button>
+                    <Button type="submit" disabled={issueSubmitting}>
+                      {issueSubmitting
+                        ? t("actions.saving")
+                        : issueDialogMode === "edit"
+                          ? t("actions.save")
+                          : t("issues.new")}
+                    </Button>
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
+
+            <AlertDialog
+              open={Boolean(pendingIssueDelete)}
+              onOpenChange={(open) => {
+                if (!open) setPendingIssueDelete(null);
+              }}
+            >
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>{t("issues.confirmDeleteTitle", {defaultMessage: "Delete issue?"})}</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {t("issues.confirmDeleteDesc", {defaultMessage: "This action cannot be undone."})}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel onClick={() => setPendingIssueDelete(null)}>
+                    {t("issues.close", {defaultMessage: "Close"})}
+                  </AlertDialogCancel>
+                  <AlertDialogAction
+                    className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                    onClick={handleIssueDelete}
+                    disabled={issueDeleteMutation.isPending}
+                  >
+                    {issueDeleteMutation.isPending
+                      ? t("actions.saving")
+                      : t("issues.delete", {defaultMessage: "Delete"})}
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </SheetContent>
         </Sheet>
       </div>

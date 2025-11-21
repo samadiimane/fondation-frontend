@@ -157,6 +157,16 @@ export type ListJournalIssuesParams = {
   signal?: AbortSignal;
 };
 
+export type AdminIssueCreate = {
+  title?: string;
+  year?: number;
+  number?: number;
+  volume?: number;
+  published_at?: string | null;
+};
+
+export type AdminIssueUpdate = Partial<AdminIssueCreate>;
+
 export const listJournalIssues = async (
   journalId: number,
   {
@@ -203,6 +213,57 @@ export const listJournalIssues = async (
     throw mapToJournalError(error);
   }
 };
+
+export const createJournalIssue = async (
+  journalId: number,
+  payload: AdminIssueCreate,
+): Promise<AdminIssueListItem> => {
+  try {
+    const response = await apiFetch(`/v1/admin/journals/${journalId}/issues`, {
+      method: "POST",
+      body: payload,
+    });
+    return normalizeIssueResponse(response, journalId);
+  } catch (error) {
+    throw mapToJournalError(error);
+  }
+};
+
+export const updateIssue = async (
+  issueId: number,
+  patch: AdminIssueUpdate,
+): Promise<AdminIssueListItem> => {
+  try {
+    const response = await apiFetch(`/v1/admin/issues/${issueId}`, {
+      method: "PATCH",
+      body: patch,
+    });
+    return normalizeIssueResponse(response);
+  } catch (error) {
+    throw mapToJournalError(error);
+  }
+};
+
+export const deleteIssue = async (issueId: number): Promise<void> => {
+  try {
+    await apiFetch(`/v1/admin/issues/${issueId}`, {method: "DELETE"});
+  } catch (error) {
+    throw mapToJournalError(error);
+  }
+};
+
+const normalizeIssueResponse = (payload: any, fallbackJournalId?: number): AdminIssueListItem => ({
+  id: Number(payload?.id ?? 0),
+  journal_id: Number(payload?.journal_id ?? fallbackJournalId ?? 0),
+  volume: payload?.volume ?? null,
+  number: payload?.number ?? null,
+  year: payload?.year ?? null,
+  title: payload?.title ?? null,
+  cover_image_url: payload?.cover_image_url ?? null,
+  published_at: payload?.published_at ?? null,
+  articles_count: Number(payload?.articles_count ?? 0),
+  created_at: String(payload?.created_at ?? payload?.createdAt ?? ""),
+});
 
 export const presignUpload = async (contentType: string): Promise<PresignUploadResponse> => {
   try {
