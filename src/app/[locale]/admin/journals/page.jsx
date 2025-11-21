@@ -60,16 +60,20 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle} from "@/components/ui/sheet";
+import {Skeleton} from "@/components/ui/skeleton";
 import useAdminCapabilities from "@/hooks/useAdminCapabilities";
 import useNotify from "@/hooks/useNotify";
 import {
   ADMIN_JOURNALS_QUERY_KEYS,
+  listJournalIssues,
   createJournal,
   listJournals,
   presignUpload,
   restoreJournal,
   softDeleteJournal,
   updateJournal,
+  qkJournalIssues,
 } from "@/lib/api/adminJournals";
 
 const PAGE_SIZE = 20;
@@ -300,6 +304,17 @@ const AdminJournalsPage = () => {
   const fileInputRef = useRef(null);
   const uploadXhrRef = useRef(null);
   const [pendingDelete, setPendingDelete] = useState(null);
+  const [issuesOpen, setIssuesOpen] = useState(false);
+  const [selectedJournal, setSelectedJournal] = useState(null);
+  const issuesSearchRef = useRef(null);
+  const [issuesParams, setIssuesParams] = useState({
+    page: 1,
+    pageSize: 20,
+    q: "",
+    year: undefined,
+    sort: "year_desc",
+  });
+  const [issuesDebounced, setIssuesDebounced] = useState("");
 
   const [form, setForm] = useState({
   name: "",
@@ -328,8 +343,8 @@ const AdminJournalsPage = () => {
   useEffect(() => {
     const handler = setTimeout(() => {
       const nextValue = searchValue.trim();
-          setDebouncedSearch((prev) => {
-            if (prev !== nextValue) {
+      setDebouncedSearch((prev) => {
+        if (prev !== nextValue) {
               setPage(1);
               updateUrl({q: nextValue, status: statusFilter, page: 1});
             }
@@ -338,6 +353,19 @@ const AdminJournalsPage = () => {
         }, 300);
     return () => clearTimeout(handler);
   }, [searchValue, statusFilter, updateUrl]);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setIssuesDebounced(issuesParams.q?.trim() || "");
+    }, 300);
+    return () => clearTimeout(handler);
+  }, [issuesParams.q]);
+
+  useEffect(() => {
+    if (issuesOpen) {
+      requestAnimationFrame(() => issuesSearchRef.current?.focus());
+    }
+  }, [issuesOpen]);
 
   useEffect(() => {
     setSearchValue(initialSearch);
@@ -604,6 +632,11 @@ const AdminJournalsPage = () => {
     setDialogOpen(true);
   };
 
+  const handleOpenIssues = (journal) => {
+    setSelectedJournal(journal);
+    setIssuesOpen(true);
+  };
+
   const handleSubmit = () => {
     const nameValue = form.name.trim();
     if (!nameValue) {
@@ -703,6 +736,45 @@ const AdminJournalsPage = () => {
   const isLoading = listQuery.isLoading || listQuery.isFetching;
   const hasNext = listQuery.data?.hasNext ?? false;
 
+  const issuesQuery = useQuery({
+    enabled: issuesOpen && Boolean(selectedJournal),
+    queryKey: selectedJournal ? qkJournalIssues(selectedJournal.id, issuesParams) : ["admin:journals:issues"],
+    queryFn: ({signal}) =>
+      listJournalIssues(selectedJournal.id, {
+        page: issuesParams.page,
+        pageSize: issuesParams.pageSize,
+        q: issuesDebounced || undefined,
+        year: issuesParams.year,
+        sort: issuesParams.sort,
+        signal,
+      }),
+    keepPreviousData: true,
+    staleTime: 30_000,
+  });
+
+  const prefetchIssues = useCallback(
+    (journal) => {
+      queryClient.prefetchQuery({
+        queryKey: qkJournalIssues(journal.id, issuesParams),
+        queryFn: ({signal}) =>
+          listJournalIssues(journal.id, {
+            page: 1,
+            pageSize: issuesParams.pageSize,
+            sort: issuesParams.sort,
+            signal,
+          }),
+        staleTime: 30_000,
+      });
+    },
+    [issuesParams.pageSize, issuesParams.sort, queryClient],
+  );
+
+  useEffect(() => {
+    if (issuesQuery.error && issuesQuery.error?.name !== "AbortError") {
+      handleApiError(issuesQuery.error, "toast.error");
+    }
+  }, [handleApiError, issuesQuery.error]);
+
   return (
     <AdminGuard>
       <div className="space-y-6">
@@ -777,7 +849,20 @@ const AdminJournalsPage = () => {
                     </TableRow>
                   ) : (
                     items.map((journal) => (
-                      <TableRow key={journal.id}>
+                      <TableRow
+                        key={journal.id}
+                        role="button"
+                        tabIndex={0}
+                        className="cursor-pointer"
+                        onClick={() => handleOpenIssues(journal)}
+                        onMouseEnter={() => prefetchIssues(journal)}
+                        onKeyDown={(event) => {
+                          if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+                            handleOpenIssues(journal);
+                          }
+                        }}
+                      >
                         <TableCell>
                           <div className="flex items-center gap-3">
                             {journal.cover_image_url ? (
@@ -815,12 +900,25 @@ const AdminJournalsPage = () => {
                         <TableCell className="text-right">
                           <DropdownMenu>
                             <DropdownMenuTrigger asChild>
-                              <Button variant="ghost" size="icon" aria-label={t("actions.more")}>
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                aria-label={t("actions.more")}
+                                onClick={(event) => event.stopPropagation()}
+                              >
                                 <MoreHorizontal className="h-4 w-4" />
                               </Button>
                             </DropdownMenuTrigger>
                             <DropdownMenuContent align="end">
                               <DropdownMenuLabel>{t("actions.title")}</DropdownMenuLabel>
+                              <DropdownMenuItem
+                                onSelect={(event) => {
+                                  event.preventDefault();
+                                  handleOpenIssues(journal);
+                                }}
+                              >
+                                {t("issues.open")}
+                              </DropdownMenuItem>
                               {canUpdate ? (
                                 <DropdownMenuItem onClick={() => handleOpenEdit(journal)}>
                                   {t("actions.edit")}
@@ -950,6 +1048,149 @@ const AdminJournalsPage = () => {
             </AlertDialogFooter>
           </AlertDialogContent>
         </AlertDialog>
+
+        <Sheet open={issuesOpen} onOpenChange={(open) => setIssuesOpen(open)}>
+          <SheetContent side="right" className="w-full min-w-[360px] p-0 sm:max-w-[750px]">
+            <SheetHeader className="border-b px-6 py-4 text-left">
+              <SheetTitle>{selectedJournal?.name || t("issues.title")}</SheetTitle>
+              <SheetDescription>
+                {selectedJournal?.issn ? `${t("fields.issn")}: ${selectedJournal.issn}` : null}
+              </SheetDescription>
+            </SheetHeader>
+            <div className="flex flex-col gap-4 px-6 py-4">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <div className="relative w-full sm:w-64">
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    ref={issuesSearchRef}
+                    value={issuesParams.q}
+                    onChange={(event) =>
+                      setIssuesParams((prev) => ({...prev, q: event.target.value, page: 1}))
+                    }
+                    placeholder={t("issues.searchPlaceholder")}
+                    className="pl-8"
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Input
+                    type="number"
+                    value={issuesParams.year ?? ""}
+                    onChange={(event) =>
+                      setIssuesParams((prev) => ({
+                        ...prev,
+                        year: event.target.value ? Number(event.target.value) : undefined,
+                        page: 1,
+                      }))
+                    }
+                    placeholder={t("issues.yearPlaceholder", {defaultMessage: "Year"})}
+                    className="w-28"
+                  />
+                  <Select
+                    value={issuesParams.sort}
+                    onValueChange={(next) => setIssuesParams((prev) => ({...prev, sort: next, page: 1}))}
+                  >
+                    <SelectTrigger className="w-44">
+                      <SelectValue placeholder={t("issues.sort.placeholder")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="year_desc">{t("issues.sort.yearDesc")}</SelectItem>
+                      <SelectItem value="year_asc">{t("issues.sort.yearAsc")}</SelectItem>
+                      <SelectItem value="number_desc">{t("issues.sort.numberDesc")}</SelectItem>
+                      <SelectItem value="number_asc">{t("issues.sort.numberAsc")}</SelectItem>
+                      <SelectItem value="created_desc">{t("issues.sort.createdDesc")}</SelectItem>
+                      <SelectItem value="created_asc">{t("issues.sort.createdAsc")}</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div className="border rounded-md">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>{t("issues.columns.year")}</TableHead>
+                      <TableHead>{t("issues.columns.number")}</TableHead>
+                      <TableHead>{t("issues.columns.volume")}</TableHead>
+                      <TableHead>{t("issues.columns.title")}</TableHead>
+                      <TableHead className="text-right">{t("issues.columns.articles")}</TableHead>
+                      <TableHead>{t("issues.columns.published")}</TableHead>
+                      <TableHead>{t("issues.columns.created")}</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {issuesQuery.isLoading ? (
+                      Array.from({length: 4}).map((_, idx) => (
+                        <TableRow key={idx}>
+                          <TableCell colSpan={7}>
+                            <Skeleton className="h-5 w-full" />
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : issuesQuery.data?.items?.length ? (
+                      issuesQuery.data.items.map((issue) => (
+                        <TableRow key={issue.id}>
+                          <TableCell>{issue.year ?? "—"}</TableCell>
+                          <TableCell>{issue.number ?? "—"}</TableCell>
+                          <TableCell>{issue.volume ?? "—"}</TableCell>
+                          <TableCell className="max-w-[200px] truncate">{issue.title || "—"}</TableCell>
+                          <TableCell className="text-right font-medium">{issue.articles_count}</TableCell>
+                          <TableCell>{issue.published_at ? new Date(issue.published_at).toLocaleDateString() : "—"}</TableCell>
+                          <TableCell>{issue.created_at ? new Date(issue.created_at).toLocaleDateString() : "—"}</TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={7} className="py-8 text-center text-sm text-muted-foreground">
+                          {issuesQuery.error ? (
+                            <div className="flex flex-col items-center gap-2">
+                              <span>{t("issues.error")}</span>
+                              <Button variant="outline" size="sm" onClick={() => issuesQuery.refetch()}>
+                                {t("actions.retry", {defaultMessage: "Retry"})}
+                              </Button>
+                            </div>
+                          ) : (
+                            t("issues.empty")
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+
+              <div className="flex items-center justify-between">
+                <div className="text-sm text-muted-foreground">
+                  {t("pagination.summary", {
+                    page: issuesQuery.data?.page ?? issuesParams.page,
+                    total: issuesQuery.data?.total ?? 0,
+                  })}
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                      setIssuesParams((prev) => ({...prev, page: Math.max(1, (prev.page || 1) - 1)}))
+                    }
+                    disabled={issuesQuery.isFetching || (issuesQuery.data?.page ?? 1) <= 1}
+                  >
+                    {t("pagination.prev")}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() =>
+                      setIssuesParams((prev) => ({...prev, page: (prev.page || 1) + 1}))
+                    }
+                    disabled={issuesQuery.isFetching || !(issuesQuery.data?.hasNext ?? false)}
+                  >
+                    {t("pagination.next")}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </SheetContent>
+        </Sheet>
       </div>
     </AdminGuard>
   );

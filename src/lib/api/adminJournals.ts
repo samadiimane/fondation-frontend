@@ -124,6 +124,86 @@ const mapToJournalError = (error: any): AdminJournalApiError => {
   return new AdminJournalApiError({userMessage, code, status});
 };
 
+export type AdminIssueListItem = {
+  id: number;
+  journal_id: number;
+  volume: number | null;
+  number: number | null;
+  year: number | null;
+  title: string | null;
+  cover_image_url: string | null;
+  published_at: string | null;
+  articles_count: number;
+  created_at: string;
+};
+
+export type AdminIssueListResponse = {
+  items: AdminIssueListItem[];
+  total: number;
+  page: number;
+  pageSize: number;
+  hasNext: boolean;
+};
+
+export const qkJournalIssues = (journalId: number, params: Record<string, unknown>) =>
+  ["admin:journals:issues", journalId, params] as const;
+
+export type ListJournalIssuesParams = {
+  page?: number;
+  pageSize?: number;
+  q?: string;
+  year?: number;
+  sort?: "year_desc" | "year_asc" | "number_desc" | "number_asc" | "created_desc" | "created_asc";
+  signal?: AbortSignal;
+};
+
+export const listJournalIssues = async (
+  journalId: number,
+  {
+    page = 1,
+    pageSize = 20,
+    q,
+    year,
+    sort = "year_desc",
+    signal,
+  }: ListJournalIssuesParams = {},
+): Promise<AdminIssueListResponse> => {
+  try {
+    const payload: any = await apiFetch(`/v1/admin/journals/${journalId}/issues`, {
+      signal,
+      params: {
+        page,
+        page_size: pageSize,
+        q: q?.trim() || undefined,
+        year,
+        sort,
+      },
+    });
+    return {
+      items: Array.isArray(payload?.items)
+        ? payload.items.map((item: any) => ({
+            id: Number(item?.id ?? 0),
+            journal_id: Number(item?.journal_id ?? journalId),
+            volume: item?.volume ?? null,
+            number: item?.number ?? null,
+            year: item?.year ?? null,
+            title: item?.title ?? null,
+            cover_image_url: item?.cover_image_url ?? null,
+            published_at: item?.published_at ?? null,
+            articles_count: Number(item?.articles_count ?? 0),
+            created_at: String(item?.created_at ?? ""),
+          }))
+        : [],
+      total: Number(payload?.total ?? 0),
+      page: Number(payload?.page ?? 1),
+      pageSize: Number(payload?.page_size ?? payload?.pageSize ?? pageSize),
+      hasNext: Boolean(payload?.has_next ?? payload?.hasNext ?? false),
+    };
+  } catch (error) {
+    throw mapToJournalError(error);
+  }
+};
+
 export const presignUpload = async (contentType: string): Promise<PresignUploadResponse> => {
   try {
     const payload: any = await apiFetch("/v1/uploads/presign", {

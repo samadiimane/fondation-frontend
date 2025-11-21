@@ -434,6 +434,33 @@
       },
       "validation": {
         "nameRequired": "Name is required."
+      },
+      "issues": {
+        "title": "Issues",
+        "searchPlaceholder": "Search issues",
+        "yearPlaceholder": "Year",
+        "sort": {
+          "placeholder": "Sort",
+          "yearDesc": "Year desc",
+          "yearAsc": "Year asc",
+          "numberDesc": "Number desc",
+          "numberAsc": "Number asc",
+          "createdDesc": "Created desc",
+          "createdAsc": "Created asc"
+        },
+        "empty": "No issues found.",
+        "error": "Unable to load issues.",
+        "columns": {
+          "year": "Year",
+          "number": "Number",
+          "volume": "Volume",
+          "title": "Title",
+          "articles": "Articles",
+          "published": "Published",
+          "created": "Created"
+        },
+        "open": "View issues",
+        "close": "Close issues"
       }
     }
   },
