@@ -58,6 +58,13 @@ const NAV_ITEMS = [
     disabled: false,
     requires: (caps) => caps?.journals?.list !== false,
   },
+  {
+    key: "documents",
+    icon: FileText,
+    href: "/admin/documents",
+    disabled: false,
+    requires: (caps) => caps?.documents?.list !== false,
+  },
   {key: "categories", icon: FolderTree, href: "/admin/categories", disabled: false},
   {key: "content", icon: FileText, href: "/admin/content", disabled: true},
   {key: "settings", icon: Settings, href: "/admin/settings", disabled: true},

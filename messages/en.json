@@ -322,6 +322,7 @@
       "users": "Users",
       "authors": "Authors",
       "journals": "Journals",
+      "documents": "Documents",
       "categories": "Categories",
       "content": "Content",
       "settings": "Settings",
@@ -484,6 +485,11 @@
         "open": "View issues",
         "close": "Close"
       }
+    },
+    "documents": {
+      "title": "Documents",
+      "description": "Search, create, and edit documents.",
+      "create": "New document"
     }
   },
   "auth": {

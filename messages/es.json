@@ -321,6 +321,8 @@
       "dashboard": "Panel",
       "users": "Usuarios",
       "authors": "Authors",
+      "journals": "Revistas",
+      "documents": "Documentos",
       "content": "Contenido",
       "settings": "Configuración",
       "openMenu": "Menú",
@@ -483,6 +485,11 @@
         "open": "Ver números",
         "close": "Cerrar"
       }
+    },
+    "documents": {
+      "title": "Documents",
+      "description": "Search, create, and edit documents.",
+      "create": "New document"
     }
   },
   "auth": {

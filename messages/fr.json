@@ -321,6 +321,8 @@
       "dashboard": "Tableau de bord",
       "users": "Utilisateurs",
       "authors": "Authors",
+      "journals": "Revues",
+      "documents": "Documents",
       "content": "Contenu",
       "settings": "Paramètres",
       "openMenu": "Menu",
@@ -483,6 +485,11 @@
         "open": "Voir les numéros",
         "close": "Fermer"
       }
+    },
+    "documents": {
+      "title": "Documents",
+      "description": "Search, create, and edit documents.",
+      "create": "New document"
     }
   },
   "auth": {

@@ -321,6 +321,8 @@
       "dashboard": "لوحة التحكم",
       "users": "المستخدمون",
       "authors": "Authors",
+      "journals": "Journals",
+      "documents": "Documents",
       "content": "المحتوى",
       "settings": "الإعدادات",
       "openMenu": "القائمة",
@@ -483,6 +485,11 @@
         "open": "View issues",
         "close": "Close"
       }
+    },
+    "documents": {
+      "title": "Documents",
+      "description": "Search, create, and edit documents.",
+      "create": "New document"
     }
   },
   "auth": {

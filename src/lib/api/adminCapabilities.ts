@@ -21,7 +21,7 @@ export type AdminCapabilities = {
     create: boolean;
     update: boolean;
     delete: boolean;
-    status: boolean;
+    restore: boolean;
     presign: boolean;
   };
   categories: {
