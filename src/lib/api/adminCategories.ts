@@ -10,6 +10,15 @@ export const CATEGORY_LIST_QUERY_KEY = ["admin:categories:list"] as const;
 
 export type CategoryKind = "section" | "journal" | "archive_collection" | "topic";
 
+export type AdminCategoryItem = {
+  id: number;
+  name: string;
+  slug: string;
+  kind: CategoryKind;
+  parent_id: number | null;
+  journal_id?: number | null;
+};
+
 export type CategoryNode = {
   id: number;
   name: string;
@@ -146,6 +155,15 @@ const normalizeNode = (payload: any): CategoryNode => ({
   children: Array.isArray(payload.children) ? payload.children.map(normalizeNode) : undefined,
 });
 
+const normalizeCategory = (p: any): AdminCategoryItem => ({
+  id: Number(p?.id ?? 0),
+  name: p?.name ?? "",
+  slug: p?.slug ?? "",
+  kind: p?.kind ?? "topic",
+  parent_id: p?.parent_id ?? null,
+  journal_id: p?.journal_id ?? null,
+});
+
 const normalizeListItem = (payload: any): CategoryListItem => ({
   id: Number(payload.id),
   name: payload.name ?? "",
@@ -204,10 +222,15 @@ export const getCategoryChildren = async ({
 }: {
   parentId: number;
   signal?: AbortSignal;
-}): Promise<CategoryNode[]> => {
+}): Promise<AdminCategoryItem[]> => {
   try {
-    const payload = await apiFetch(`${BASE_PATH}/children/${parentId}`, {signal});
-    return Array.isArray(payload) ? payload.map(normalizeNode) : [];
+    const payload: any = await apiFetch(`${BASE_PATH}/children/${parentId}`, {signal});
+    const raw = Array.isArray(payload?.items)
+      ? payload.items
+      : Array.isArray(payload)
+        ? payload
+        : [];
+    return raw.map(normalizeCategory);
   } catch (error) {
     throw mapToCategoryError(error);
   }
@@ -218,32 +241,35 @@ export const listCategories = async ({
   kind,
   parentId,
   page = 1,
-  pageSize = 20,
+  pageSize = 50,
   sort = "name",
   signal,
 }: {
   q?: string;
-  kind?: CategoryKind | null;
+  kind?: string;
   parentId?: number | null;
   page?: number;
   pageSize?: number;
-  sort?: "name" | "created_at";
+  sort?: string;
   signal?: AbortSignal;
-}): Promise<Paginated<CategoryListItem>> => {
+}): Promise<{items: AdminCategoryItem[]; [key: string]: any}> => {
   try {
-    const normalizedQuery = typeof q === "string" ? q.trim() : undefined;
-    const payload = await apiFetch(`${BASE_PATH}/list`, {
+    const payload: any = await apiFetch(`${BASE_PATH}/list`, {
       signal,
       params: {
-        q: normalizedQuery ? normalizedQuery : undefined,
-        kind: kind ?? undefined,
+        q: q?.trim() || undefined,
+        kind,
         parent_id: parentId ?? undefined,
         page,
         page_size: pageSize,
         sort,
       },
     });
-    return normalizePaginated(payload, normalizeListItem);
+    const items = Array.isArray(payload?.items) ? payload.items : [];
+    return {
+      ...payload,
+      items: items.map(normalizeCategory),
+    };
   } catch (error) {
     throw mapToCategoryError(error);
   }

@@ -62,6 +62,7 @@ export type AdminDocumentListItem = {
   created_at: string;
   updated_at: string;
   status: string | null;
+  file_key?: string | null;
 };
 
 export type AdminDocumentDetail = AdminDocumentListItem & {
@@ -96,12 +97,11 @@ export class AdminDocumentApiError extends Error implements AdminDocumentApiErro
 }
 
 const BASE_PATH = "/v1/admin/documents";
-const LIST_KEY = "admin:documents:list" as const;
-const DETAIL_KEY = "admin:documents:detail" as const;
 
 export const qkAdminDocs = {
-  list: (params: Record<string, unknown> = {}) => [LIST_KEY, params] as const,
-  detail: (id: number | string) => [DETAIL_KEY, Number(id)] as const,
+  root: ["admin:documents"] as const,
+  list: (params: Record<string, unknown> = {}) => [...qkAdminDocs.root, "list", params] as const,
+  detail: (id: number) => [...qkAdminDocs.root, "detail", id] as const,
 };
 
 const mapToDocumentError = (error: any): AdminDocumentApiError => {

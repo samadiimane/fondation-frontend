@@ -32,7 +32,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/app/[locale]/admin/documents/DocumentDialog.jsx"  ],
   "exclude": [
     "node_modules"
   ]
