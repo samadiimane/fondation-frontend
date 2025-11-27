@@ -126,7 +126,25 @@ const DocumentDialog = ({
     staleTime: 5 * 60 * 1000,
     select: (rows) => (Array.isArray(rows) ? rows : []),
   });
-  const subCategoryOptions = subCategoriesQuery.data || [];
+  const subCategoryOptions = useMemo(() => {
+    const options = subCategoriesQuery.data || [];
+    if (mode === "edit" && initialData?.primary_category) {
+      const exists = options.some((c) => c.id === initialData.primary_category.id);
+      if (!exists) {
+        return [
+          ...options,
+          {
+            id: initialData.primary_category.id,
+            name: initialData.primary_category.name,
+            kind: initialData.primary_category.kind || "section",
+            journal_id: initialData.primary_category.journal_id ?? null,
+            journal: initialData.primary_category.journal ?? null,
+          },
+        ];
+      }
+    }
+    return options;
+  }, [subCategoriesQuery.data, initialData, mode]);
   const selectedCategory = useMemo(
     () => subCategoryOptions.find((c) => c.id === Number(primaryCategoryId)) || null,
     [subCategoryOptions, primaryCategoryId],
@@ -148,9 +166,14 @@ const DocumentDialog = ({
 
   useEffect(() => {
     if (!open) return;
-    if (mode === "edit" && initialData) {
+    if (mode === "edit") {
+      if (!initialData) return;
       const d = initialData;
-      const nextSectionId = d?.primary_category?.parent_id ?? null;
+      const nextSectionId =
+        d?.primary_category?.parent_id ??
+        d?.primary_category?.parent?.id ??
+        d?.primary_category?.section_id ??
+        (d?.primary_category?.kind === "section" ? d?.primary_category?.id ?? null : null);
       form.reset({
         title: d?.title || "",
         abstract: d?.abstract || "",
@@ -225,6 +248,7 @@ const DocumentDialog = ({
   }, [lockedType, typeValue, form]);
 
   useEffect(() => {
+    if (categoryKind === null) return;
     if (categoryKind !== "journal") {
       form.setValue("journal_id", null);
       form.setValue("issue_id", null);

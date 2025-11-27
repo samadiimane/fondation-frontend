@@ -184,9 +184,18 @@ const AdminDocumentsPage = () => {
     setDialogOpen(true);
   };
 
-  const handleOpenEdit = (id) => {
+  const handleOpenEdit = async (id) => {
     setDialogMode("edit");
     setEditingId(id);
+    try {
+      await queryClient.prefetchQuery({
+        queryKey: qkAdminDocs.detail(id),
+        queryFn: ({signal}) => getAdminDocument(Number(id), {signal}),
+      });
+    } catch (error) {
+      notify.handleError(error, "Unable to load document.");
+      return;
+    }
     setDialogOpen(true);
   };
 
@@ -303,10 +312,14 @@ const AdminDocumentsPage = () => {
           items: old.items.map((item) => (item.id === doc.id ? doc : item)),
         };
       });
+      queryClient.refetchQueries({queryKey: listQueryKey});
       notify.success("Document updated.");
     },
     onSettled: () => {
-      queryClient.invalidateQueries({queryKey: qkAdminDocs.root});
+      queryClient.invalidateQueries({
+        predicate: ({queryKey}) =>
+          Array.isArray(queryKey) && String(queryKey[0]).includes("admin:documents"),
+      });
     },
   });
 

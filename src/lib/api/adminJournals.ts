@@ -266,36 +266,73 @@ const normalizeIssueResponse = (payload: any, fallbackJournalId?: number): Admin
 });
 
 export const presignUpload = async (contentType: string): Promise<PresignUploadResponse> => {
-  try {
-    const payload: any = await apiFetch("/v1/uploads/presign", {
-      method: "POST",
-      body: {content_type: contentType},
+  const payloadBody = contentType ? { content_type: contentType } : {};
+  const token =
+    typeof window !== "undefined"
+      ? window.localStorage.getItem("akt.auth.token") ||
+        document.cookie
+          .split(";")
+          .map((c) => c.trim())
+          .map((c) => c.split("="))
+          .reduce<string | null>((acc, [key, value]) => {
+            if (acc) return acc;
+            if (/^(access_token|token|auth|akt\.auth\.token)$/i.test(key)) {
+              return decodeURIComponent(value || "");
+            }
+            return null;
+          }, null)
+      : null;
+
+  const res = await fetch("/api/uploads/presign", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+    body: JSON.stringify(payloadBody),
+  });
+
+  if (!res.ok) {
+    const errorPayload = await res.json().catch(() => null);
+    const message =
+      errorPayload?.userMessage ||
+      errorPayload?.detail ||
+      errorPayload?.message ||
+      `Upload presign failed (${res.status})`;
+    throw new AdminJournalApiError({
+      userMessage: message,
+      code: "PRESIGN_FAILED",
+      status: res.status,
     });
-
-    const uploadUrl: string =
-      payload?.upload_url || payload?.url || payload?.put_url || payload?.signed_url || "";
-    if (!uploadUrl) {
-      throw new AdminJournalApiError({
-        userMessage: "Upload URL missing.",
-        code: "PRESIGN_INVALID",
-        status: 500,
-      });
-    }
-    const publicUrl: string =
-      payload?.public_url ||
-      (payload?.cdn_base && payload?.key ? `${payload.cdn_base}/${payload.key}` : undefined) ||
-      uploadUrl.split("?")[0];
-
-    return {
-      uploadUrl,
-      publicUrl,
-      key: payload?.key,
-      headers: payload?.headers,
-    };
-  } catch (error) {
-    throw mapToJournalError(error);
   }
+
+  const payload: any = await res.json();
+
+  const uploadUrl: string =
+    payload?.upload_url || payload?.url || payload?.put_url || payload?.signed_url || "";
+  if (!uploadUrl) {
+    throw new AdminJournalApiError({
+      userMessage: "Upload URL missing.",
+      code: "PRESIGN_INVALID",
+      status: 500,
+    });
+  }
+
+  const publicUrl: string =
+    payload?.public_url ||
+    (payload?.cdn_base && payload?.key ? `${payload.cdn_base}/${payload.key}` : undefined) ||
+    uploadUrl.split("?")[0];
+
+  return {
+    uploadUrl,
+    publicUrl,
+    key: payload?.key,
+    headers: payload?.headers,
+  };
 };
+
 
 export type ListJournalsParams = {
   q?: string;
