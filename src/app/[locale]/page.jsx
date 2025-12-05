@@ -1,5 +1,5 @@
 import AwardOne from '@/components/AwardOne';
-import BannerThree from '@/components/BannerThree';
+import Banner from '@/components/Banner';
 import BlogOne from '@/components/BlogOne';
 import CounterOne from '@/components/CounterOne';
 import DifferenceOne from '@/components/DifferenceOne';
@@ -30,7 +30,7 @@ export default function HomePage() {
         <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
-        <BannerThree />
+        <Banner />
         <DifferenceTwo />
         <DifferenceOne />
         <CounterOne />

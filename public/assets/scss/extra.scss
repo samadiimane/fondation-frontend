@@ -37,72 +37,6 @@
   transition-delay: 1200ms;
 }
 
-.banner-two .slick-slide.slick-active {
-  .banner-two__slider-content {
-    h1 {
-      opacity: 1;
-      -webkit-transform: translateX(0);
-      -ms-transform: translateX(0);
-      transform: translateX(0);
-      -webkit-transition-delay: 1000ms;
-      transition-delay: 1000ms;
-    }
-    .sub-title {
-      opacity: 1;
-      -webkit-transform: translateX(0);
-      -ms-transform: translateX(0);
-      transform: translateX(0);
-      -webkit-transition-delay: 600ms;
-      transition-delay: 600ms;
-    }
-    .banner__content-cta {
-      opacity: 1;
-      -webkit-transform: translateX(0);
-      -ms-transform: translateX(0);
-      transform: translateX(0);
-      -webkit-transition-delay: 1400ms;
-      transition-delay: 1400ms;
-    }
-  }
-}
-
-.banner .slick-slide.slick-active {
-  .banner__content {
-    h1 {
-      opacity: 1;
-      -webkit-transform: translateX(0);
-      -ms-transform: translateX(0);
-      transform: translateX(0);
-      -webkit-transition-delay: 1000ms;
-      transition-delay: 1000ms;
-    }
-    h1 > span {
-      opacity: 1;
-      -webkit-transform: translateX(0);
-      -ms-transform: translateX(0);
-      transform: translateX(0);
-      -webkit-transition-delay: 600ms;
-      transition-delay: 600ms;
-    }
-    .sub-title {
-      opacity: 1;
-      -webkit-transform: translateX(0);
-      -ms-transform: translateX(0);
-      transform: translateX(0);
-      -webkit-transition-delay: 600ms;
-      transition-delay: 600ms;
-    }
-    .banner__content-cta {
-      opacity: 1;
-      -webkit-transform: translateX(0);
-      -ms-transform: translateX(0);
-      transform: translateX(0);
-      -webkit-transition-delay: 1400ms;
-      transition-delay: 1400ms;
-    }
-  }
-}
-
 .testimonial-two__inner .slick-slide.slick-active {
   .testimonial-two__single .author-info {
     opacity: 1;
@@ -111,18 +45,6 @@
   .testimonial-two__single-content {
     h5,
     .review {
-      opacity: 1;
-      transform: translateX(0px);
-    }
-  }
-}
-.banner-three .slick-slide.slick-active {
-  .banner-three__content {
-    .sub-title,
-    .title-animation_inner,
-    .banner__content-cta,
-    .bottom-line,
-    p {
       opacity: 1;
       transform: translateX(0px);
     }

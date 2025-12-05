@@ -52,6 +52,33 @@
     "logout": "Cerrar sesión",
     "searchPlaceholder": "Buscar..."
   },
+  "Banner": {
+    "title": "Impulsar el conocimiento científico para un futuro mejor",
+    "subtitle": "Conectamos a investigadores, preservamos el conocimiento y apoyamos la innovación para que los descubrimientos sigan beneficiando a las generaciones futuras.",
+    "ctaPrimary": "Publica tu trabajo",
+    "ctaSecondary": "Explorar la biblioteca",
+    "ctaPrimaryAria": "Sobre nosotros",
+    "ctaSecondaryAria": "Abrir la biblioteca",
+    "altKasbah": "Kasbah de Tánger",
+    "altGrotto": "Cuevas de Hércules",
+    "altPort": "Puerto de Tánger",
+    "altLighthouse": "Faro del Cabo Espartel",
+    "altAtlas": "Cordilleras del Rif y del Atlas",
+    "slides": [
+      {
+        "title": "Impulsar el conocimiento científico para un futuro mejor",
+        "subtitle": "Conectamos a investigadores, preservamos el conocimiento y apoyamos la innovación para que los descubrimientos sigan beneficiando a las generaciones futuras."
+      },
+      {
+        "title": "Preservar el patrimonio de Tánger para investigadores de todo el mundo",
+        "subtitle": "Acceso abierto a archivos, sitios y colecciones para explorar la historia de Marruecos."
+      },
+      {
+        "title": "Apoyamos a los investigadores en cada etapa",
+        "subtitle": "Guías de publicación y recursos de biblioteca para compartir tus hallazgos con el mundo."
+      }
+    ]
+  },
   "admin": {
     "dashboardTitle": "Panel de administración",
     "dashboardDescription": "Desde aquí podrás revisar próximas funciones administrativas y herramientas restringidas.",
