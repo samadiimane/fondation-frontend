@@ -3,7 +3,7 @@ import Banner from '@/components/Banner';
 import BlogOne from '@/components/BlogOne';
 import CounterOne from '@/components/CounterOne';
 import DifferenceOne from '@/components/DifferenceOne';
-import DifferenceTwo from '@/components/DifferenceTwo';
+import FoundationIntro from '@/components/foundation/FoundationIntro';
 import FooterOne from '@/components/FooterOne';
 import HeaderFour from '@/components/HeaderFour';
 import PartnerFive from '@/components/PartnerFive';
@@ -31,7 +31,7 @@ export default function HomePage() {
         <TopBarTwo />
         <HeaderFour />
         <Banner />
-        <DifferenceTwo />
+        <FoundationIntro />
         <DifferenceOne />
         <CounterOne />
         <BlogOne />

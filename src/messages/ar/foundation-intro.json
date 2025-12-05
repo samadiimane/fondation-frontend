@@ -1,0 +1,17 @@
+{
+  "titleShort": "مرحباً بكم في المؤسسة",
+  "tabs": {
+    "mission": "مهمتنا",
+    "vision": "رؤيتنا",
+    "excellence": "التميز"
+  },
+  "cta": {
+    "foundation": "اكتشف المؤسسة",
+    "founder": "عن الدكتور تمسماني"
+  },
+  "aria": {
+    "openVideo": "فتح فيديو التعريف",
+    "primaryImage": "مبنى المؤسسة",
+    "secondaryImage": "صورة للدكتور عبد العزيز خلوف تمسماني"
+  }
+}

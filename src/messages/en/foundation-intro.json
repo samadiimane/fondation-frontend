@@ -1,0 +1,17 @@
+{
+  "titleShort": "Welcome to the Foundation",
+  "tabs": {
+    "mission": "Our Mission",
+    "vision": "Our Vision",
+    "excellence": "Excellence"
+  },
+  "cta": {
+    "foundation": "Discover the Foundation",
+    "founder": "About Dr. Temsamani"
+  },
+  "aria": {
+    "openVideo": "Open presentation video",
+    "primaryImage": "Foundation building",
+    "secondaryImage": "Portrait of Dr. Abdelaziz Khallouk Temsamani"
+  }
+}

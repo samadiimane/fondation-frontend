@@ -991,22 +991,5 @@
       "ariaLabel": "Fil d'Ariane"
     },
     "error": "Impossible de charger les événements. Veuillez réessayer plus tard."
-  },
-  "foundation-intro": {
-    "titleShort": "Bienvenue à la Fondation",
-    "tabs": {
-      "mission": "Notre mission",
-      "vision": "Notre vision",
-      "excellence": "Excellence"
-    },
-    "cta": {
-      "foundation": "Découvrir la Fondation",
-      "founder": "À propos du Dr Temsamani"
-    },
-    "aria": {
-      "openVideo": "Ouvrir la vidéo de présentation",
-      "primaryImage": "Bâtiment de la fondation",
-      "secondaryImage": "Portrait du Dr Abdelaziz Khallouk Temsamani"
-    }
   }
 }
