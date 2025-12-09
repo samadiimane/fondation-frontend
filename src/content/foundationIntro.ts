@@ -25,7 +25,7 @@ export const foundationIntroContent: Record<Locale, FoundationIntroContent> = {
     ],
     tabs: {
       mission: [
-        "Safeguard and promote scientific and historical collections from Morocco and the wider Mediterranean.",
+        "Safeguard scientific and historical collections from Morocco and the wider Mediterranean.",
         "Expand open access to digital archives, journals, and educational resources.",
         "Support researchers with tools, guidance, and publication pathways."
       ],
@@ -54,7 +54,7 @@ export const foundationIntroContent: Record<Locale, FoundationIntroContent> = {
     ],
     tabs: {
       mission: [
-        "Sauvegarder et promouvoir les collections scientifiques et historiques du Maroc et de la Méditerranée.",
+        "Sauvegarder les collections scientifiques et historiques du Maroc et de la Méditerranée.",
         "Étendre l’accès ouvert aux archives numériques, aux revues et aux ressources pédagogiques.",
         "Accompagner les chercheurs avec des outils, des conseils et des parcours de publication."
       ],
@@ -83,7 +83,7 @@ export const foundationIntroContent: Record<Locale, FoundationIntroContent> = {
     ],
     tabs: {
       mission: [
-        "Proteger y promover colecciones científicas e históricas de Marruecos y del Mediterráneo.",
+        "Proteger colecciones científicas e históricas de Marruecos y del Mediterráneo.",
         "Ampliar el acceso abierto a archivos digitales, revistas y recursos educativos.",
         "Acompañar a los investigadores con herramientas, orientación y vías de publicación."
       ],

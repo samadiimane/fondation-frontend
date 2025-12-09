@@ -2,7 +2,7 @@ import AwardOne from '@/components/AwardOne';
 import Banner from '@/components/Banner';
 import BlogOne from '@/components/BlogOne';
 import CounterOne from '@/components/CounterOne';
-import DifferenceOne from '@/components/DifferenceOne';
+import ServicesHome from '@/components/ServicesHome';
 import FoundationIntro from '@/components/foundation/FoundationIntro';
 import FooterOne from '@/components/FooterOne';
 import HeaderFour from '@/components/HeaderFour';
@@ -32,7 +32,7 @@ export default function HomePage() {
         <HeaderFour />
         <Banner />
         <FoundationIntro />
-        <DifferenceOne />
+        <ServicesHome />
         <CounterOne />
         <BlogOne />
         <PartnerFive />

@@ -102,7 +102,12 @@ const FoundationIntro = () => {
                   </div>
 
                   <div className='difference-two__cta d-flex gap-3 flex-wrap mt-4'>
-                    <Link href='/foundation' className='btn--primary' aria-label={t("cta.foundation")}>
+                    <Link
+                      href='/foundation'
+                      className='btn--primary'
+                      aria-label={t("cta.foundation")}
+                      style={{borderRadius: "999px"}}
+                    >
                       {t("cta.foundation")} <i className='fa-solid fa-arrow-right' />
                     </Link>
                     <Link href='/dr-temsamani' className='btn--secondary' aria-label={t("cta.founder")}>

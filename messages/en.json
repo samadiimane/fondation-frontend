@@ -918,13 +918,20 @@
     }
   },
   "services": {
+    "sectionTitle": "Our services",
+    "sectionIntro": "Guidance, tools, and publishing pathways designed to help researchers move from idea to impact.",
+    "readMore": "Read more",
     "title": "Services",
+    "fallback": "Service details will be published soon.",
+    "heroAlt": "Service illustration",
     "breadcrumbs": {
       "home": "Home",
       "services": "Services",
-      "ariaLabel": "Breadcrumb"
+      "ariaLabel": "Services breadcrumb"
     },
-    "fallback": "Content will be available soon."
+    "aria": {
+      "readMore": "Read more about {title}"
+    }
   },
   "support": {
     "title": "Support & Help",

@@ -7,6 +7,7 @@ import CustomCursor from "@/helper/CustomCursor";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getServiceContent, SERVICE_SLUGS } from "@/content/services";
 import { locales } from "@/i18n/config";
+import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 
 const FALLBACK_IMAGE_ALT = "Service illustration";
@@ -16,7 +17,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const { locale, slug } = params;
+  const { locale, slug } = await params;
   const t = await getTranslations({ locale, namespace: "services" });
   const service = getServiceContent(locale, slug);
 
@@ -30,20 +31,23 @@ export async function generateMetadata({ params }) {
 }
 
 const ServiceDetailPage = async ({ params }) => {
-  const { locale, slug } = params;
+  const { slug, locale } = await params;
   const t = await getTranslations({ locale, namespace: "services" });
 
   const service = getServiceContent(locale, slug);
+  if (!service) {
+    notFound();
+  }
   const title = service?.title ?? t("title");
   const intro = service?.intro;
   const heroImage = service?.heroImage;
   const bodySections = Array.isArray(service?.bodySections) ? service.bodySections : [];
   const hasBody = bodySections.length > 0;
+  const isRtl = locale === "ar";
 
   const breadcrumbs = [
     { label: t("breadcrumbs.home"), href: "/" },
-    { label: t("breadcrumbs.services") },
-    { label: title, current: true },
+    { label: title, current: true }
   ];
 
   const fallbackMessage = t("fallback");
@@ -56,7 +60,11 @@ const ServiceDetailPage = async ({ params }) => {
         <TopBarTwo />
         <HeaderFour />
 
-        <section className='service-detail pt-3' style={{ backgroundColor: "#f7f8fc" }}>
+        <section
+          className='service-detail pt-3'
+          style={{ backgroundColor: "#f7f8fc" }}
+          dir={isRtl ? "rtl" : "ltr"}
+        >
           <div className='container' style={{ maxWidth: "80%" }}>
             <Breadcrumbs items={breadcrumbs} ariaLabel={t("breadcrumbs.ariaLabel")} />
             <div
@@ -73,7 +81,7 @@ const ServiceDetailPage = async ({ params }) => {
 
               {heroImage ? (
                 <figure className='article-detail__cover service-detail__cover'>
-                  <img src={heroImage.src} alt={heroImage.alt ?? FALLBACK_IMAGE_ALT} />
+                  <img src={heroImage.src} alt={heroImage.alt ?? t("heroAlt")} />
                   {heroImage.caption ? <figcaption>{heroImage.caption}</figcaption> : null}
                 </figure>
               ) : null}
@@ -107,4 +115,3 @@ const ServiceDetailPage = async ({ params }) => {
 };
 
 export default ServiceDetailPage;
-

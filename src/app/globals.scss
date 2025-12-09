@@ -1,10 +1,8 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 @import "/public/assets/scss/main.scss";
-
-
 
 @layer base {
   :root {
@@ -114,10 +112,12 @@
 
 
 @layer base {
+  /* stylelint-disable at-rule-no-unknown */
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
   }
+  /* stylelint-enable at-rule-no-unknown */
 }

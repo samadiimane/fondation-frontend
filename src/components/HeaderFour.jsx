@@ -4,6 +4,8 @@ import {useLocale, useTranslations} from "next-intl";
 import {Link, usePathname} from "@/i18n/navigation";
 import useNavigationTaxonomy from "@/hooks/useNavigationTaxonomy";
 import useAuth from "@/hooks/useAuth";
+import {isRtlLocale} from "@/i18n/config";
+import {getServiceContent, SERVICE_SLUGS} from "@/content/services";
 
 const KNOWN_SECTION_CONFIG = {
   archives: {
@@ -31,12 +33,6 @@ const toTitleFromSlug = (slug = "") =>
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
 
-const SERVICE_LINKS = [
-  {href: "/services/academic-consultations", labelKey: "consultations"},
-  {href: "/services/researcher-support", labelKey: "support"},
-  {href: "/services/personal-platform", labelKey: "platform"},
-];
-
 const EVENT_LINKS = [
   {href: "/events", labelKey: "events"},
   {href: "/events?type=seminar", labelKey: "seminars"},
@@ -53,6 +49,7 @@ const SUPPORT_LINKS = [
 const HeaderFour = () => {
   const t = useTranslations("nav");
   const locale = useLocale();
+  const isRtl = isRtlLocale(locale);
   const pathname = usePathname();
   const [search, setSearch] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -230,6 +227,17 @@ const HeaderFour = () => {
     [journalActiveTargets, librarySectionLinks]
   );
 
+  const serviceLinks = useMemo(() => {
+    return SERVICE_SLUGS.map((slug) => {
+      const content = getServiceContent(locale, slug);
+      const fallbackLabel = toTitleFromSlug(slug);
+      return {
+        href: `/services/${slug}`,
+        label: content?.title?.trim() || fallbackLabel
+      };
+    });
+  }, [locale]);
+
   const extractPath = (href) => (href || "").split("?")[0];
 
   const handleLogout = () => {
@@ -284,7 +292,13 @@ const HeaderFour = () => {
                   </div>
 
                   <div className='navbar__menu d-none d-xl-block'>
-                    <ul className='navbar__list'>
+                    <ul
+                      className='navbar__list'
+                      style={{
+                        direction: isRtl ? "rtl" : "ltr",
+                        fontSize: isRtl ? "1.05em" : undefined
+                      }}
+                    >
                       <li
                         className={`navbar__item navbar__item--has-children nav-fade ${
                           isActive(["/foundation", "/dr-temsamani", "/structure"]) ? "active" : ""
@@ -403,7 +417,7 @@ const HeaderFour = () => {
 
                       <li
                         className={`navbar__item navbar__item--has-children nav-fade ${
-                          isActive(SERVICE_LINKS.map(({href}) => href)) ? "active" : ""
+                          isActive(serviceLinks.map(({href}) => href)) ? "active" : ""
                         }`}
                       >
                         <Link
@@ -414,9 +428,9 @@ const HeaderFour = () => {
                           {t("services")}
                         </Link>
                         <ul className='navbar__sub-menu'>
-                          {SERVICE_LINKS.map(({href, labelKey}) => (
+                          {serviceLinks.map(({href, label}) => (
                             <li key={href}>
-                              <Link href={href}>{t(labelKey)}</Link>
+                              <Link href={href}>{label}</Link>
                             </li>
                           ))}
                         </ul>

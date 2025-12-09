@@ -918,13 +918,20 @@
     }
   },
   "services": {
+    "sectionTitle": "Nuestros servicios",
+    "sectionIntro": "Orientación, herramientas y vías de publicación para que tu investigación llegue más lejos.",
+    "readMore": "Leer más",
     "title": "Servicios",
+    "fallback": "Los detalles de este servicio se publicarán pronto.",
+    "heroAlt": "Ilustración del servicio",
     "breadcrumbs": {
       "home": "Inicio",
       "services": "Servicios",
-      "ariaLabel": "Ruta de navegacion"
+      "ariaLabel": "Miga de pan de servicios"
     },
-    "fallback": "El contenido estara disponible pronto."
+    "aria": {
+      "readMore": "Leer más sobre {title}"
+    }
   },
   "support": {
     "title": "Soporte y ayuda",

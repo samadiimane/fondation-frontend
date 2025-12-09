@@ -1,0 +1,16 @@
+{
+  "sectionTitle": "Nos services",
+  "sectionIntro": "Accompagnement, outils et parcours de publication pour faire avancer vos recherches.",
+  "readMore": "En savoir plus",
+  "title": "Services",
+  "fallback": "Les détails de ce service seront publiés bientôt.",
+  "heroAlt": "Illustration du service",
+  "breadcrumbs": {
+    "home": "Accueil",
+    "services": "Services",
+    "ariaLabel": "Fil d’Ariane des services"
+  },
+  "aria": {
+    "readMore": "En savoir plus sur {title}"
+  }
+}
