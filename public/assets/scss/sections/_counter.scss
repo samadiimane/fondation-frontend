@@ -21,7 +21,7 @@
     gap: 40px;
     flex-wrap: wrap;
     row-gap: 60px;
-    justify-content: center;
+    justify-content: space-between;
   }
 
   .divider {
@@ -31,7 +31,8 @@
 
   .counter__single {
     text-align: center;
-    width: 100%;
+    flex: 1 1 220px;
+    max-width: 260px;
     &:hover {
       .thumb {
         border-color: var(--base-color);

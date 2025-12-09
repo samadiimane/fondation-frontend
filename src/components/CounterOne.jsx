@@ -1,115 +1,52 @@
 "use client";
 import TrackVisibility from "react-on-screen";
 import CountUp from "react-countup";
+import {useTranslations} from "next-intl";
+
+const COUNTERS = [
+  {icon: "icon-support-hand", end: 100, suffix: "+", labelKey: "activeResearchers"},
+  {icon: "icon-review", end: 80, suffix: "K+", labelKey: "fundingDistributed"},
+  {icon: "icon-documents", end: 100, suffix: "K+", labelKey: "papersPublished"},
+  {icon: "icon-award", end: 40, suffix: "K+", labelKey: "awardsWon"}
+];
+
 const CounterOne = () => {
+  const t = useTranslations("counter");
+
   return (
     <section className='counter'>
       <div className='container'>
         <div className='row'>
           <div className='col-12'>
             <div className='counter__inner'>
-              <div
-                className='counter__single'
-                data-aos='fade-up'
-                data-aos-duration={1000}
-              >
-                <div className='thumb'>
-                  <i className='icon-support-hand' />
+              {COUNTERS.map((item, idx) => (
+                <div
+                  key={item.labelKey}
+                  className='counter__single'
+                  data-aos='fade-up'
+                  data-aos-duration={1000}
+                  data-aos-delay={idx * 300}
+                >
+                  <div className='thumb'>
+                    <i className={item.icon} />
+                  </div>
+                  <div className='counter__content'>
+                    <h2>
+                      <TrackVisibility once>
+                        {({isVisible}) =>
+                          isVisible && (
+                            <span className='odometer'>
+                              <CountUp delay={0} start={0} end={item.end} />
+                              {item.suffix}
+                            </span>
+                          )
+                        }
+                      </TrackVisibility>
+                    </h2>
+                    <h5>{t(item.labelKey)}</h5>
+                  </div>
                 </div>
-                <div className='counter__content'>
-                  <h2>
-                    <TrackVisibility once>
-                      {({ isVisible }) =>
-                        isVisible && (
-                          <span className='odometer'>
-                            <CountUp delay={0} start={0} end={100} />
-                          </span>
-                        )
-                      }
-                    </TrackVisibility>
-                    <span className='prefix'>+</span>
-                  </h2>
-                  <h5>Active Researchers</h5>
-                </div>
-              </div>
-              <div className='divider' />
-              <div
-                className='counter__single'
-                data-aos='fade-up'
-                data-aos-duration={1000}
-                data-aos-delay={300}
-              >
-                <div className='thumb'>
-                  <i className='icon-review' />
-                </div>
-                <div className='counter__content'>
-                  <h2>
-                    <TrackVisibility once>
-                      {({ isVisible }) =>
-                        isVisible && (
-                          <span className='odometer'>
-                            <CountUp delay={0} start={0} end={80} />K
-                          </span>
-                        )
-                      }
-                    </TrackVisibility>
-                    <span className='prefix'>+</span>
-                  </h2>
-                  <h5>Research Funding Distributed</h5>
-                </div>
-              </div>
-              <div className='divider' />
-              <div
-                className='counter__single'
-                data-aos='fade-up'
-                data-aos-duration={1000}
-                data-aos-delay={600}
-              >
-                <div className='thumb'>
-                  <i className='icon-documents' />
-                </div>
-                <div className='counter__content'>
-                  <h2>
-                    <TrackVisibility once>
-                      {({ isVisible }) =>
-                        isVisible && (
-                          <span className='odometer'>
-                            <CountUp delay={0} start={0} end={100} />K
-                          </span>
-                        )
-                      }
-                    </TrackVisibility>
-                    <span className='prefix'>+</span>
-                  </h2>
-                  <h5>Research Papers Published</h5>
-                </div>
-              </div>
-              <div className='divider' />
-              <div
-                className='counter__single'
-                data-aos='fade-up'
-                data-aos-duration={1000}
-                data-aos-delay={900}
-              >
-                <div className='thumb'>
-                  <i className='icon-award' />
-                </div>
-                <div className='counter__content'>
-                  <h2>
-                    <TrackVisibility once>
-                      {({ isVisible }) =>
-                        isVisible && (
-                          <span className='odometer'>
-                            <CountUp delay={0} start={0} end={40} />K
-                          </span>
-                        )
-                      }
-                    </TrackVisibility>
-                    <span className='prefix'>+</span>
-                  </h2>
-                  <h5>Winning award</h5>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </div>
@@ -117,7 +54,7 @@ const CounterOne = () => {
       <div className='poor'>
         <img
           src='/assets/images/counter/old.png'
-          alt='Image_inner'
+          alt='Background pattern'
           className='parallax-image'
         />
       </div>

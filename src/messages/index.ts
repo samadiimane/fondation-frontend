@@ -16,6 +16,11 @@ import enServices from "./en/services.json";
 import esServices from "./es/services.json";
 import frServices from "./fr/services.json";
 
+import arCounter from "./ar/counter.json";
+import enCounter from "./en/counter.json";
+import esCounter from "./es/counter.json";
+import frCounter from "./fr/counter.json";
+
 const COMMON: Record<Locale, Record<string, unknown>> = {
   ar: arCommon,
   en: enCommon,
@@ -37,6 +42,13 @@ const SERVICES: Record<Locale, Record<string, unknown>> = {
   fr: frServices
 };
 
+const COUNTER: Record<Locale, Record<string, unknown>> = {
+  ar: arCounter,
+  en: enCounter,
+  es: esCounter,
+  fr: frCounter
+};
+
 const localeSet = new Set(locales as Locale[]);
 
 export function getMessagesForLocale(localeInput: string) {
@@ -46,6 +58,7 @@ export function getMessagesForLocale(localeInput: string) {
   return {
     ...COMMON[resolvedLocale],
     "foundation-intro": FOUNDATION_INTRO[resolvedLocale],
-    services: SERVICES[resolvedLocale]
+    services: SERVICES[resolvedLocale],
+    counter: COUNTER[resolvedLocale]
   };
 }

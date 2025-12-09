@@ -1015,5 +1015,11 @@
       "primaryImage": "مبنى المؤسسة",
       "secondaryImage": "صورة للدكتور عبد العزيز خلوف تمسماني"
     }
+  },
+  "counter": {
+    "activeResearchers": "باحثون نشطون",
+    "fundingDistributed": "تمويل بحثي موزع",
+    "papersPublished": "أوراق بحثية منشورة",
+    "awardsWon": "جوائز محققة"
   }
 }

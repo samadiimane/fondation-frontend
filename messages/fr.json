@@ -1015,5 +1015,11 @@
       "primaryImage": "Bâtiment de la fondation",
       "secondaryImage": "Portrait du Dr Abdelaziz Khallouk Temsamani"
     }
+  },
+  "counter": {
+    "activeResearchers": "Chercheurs actifs",
+    "fundingDistributed": "Financement de recherche distribué",
+    "papersPublished": "Articles de recherche publiés",
+    "awardsWon": "Prix remportés"
   }
 }
