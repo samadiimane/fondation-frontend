@@ -1,5 +1,5 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
-import FooterOne from "@/components/FooterOne";
+import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import TopBarTwo from "@/components/TopBarTwo";
 import Preloader from "@/components/Preloader";
@@ -41,7 +41,7 @@ const HistoricalSitesPage = async () => {
           <HistoricalSitesClient category={category} />
         </main>
 
-        <FooterOne />
+        <Footer />
       </section>
     </AOSWrap>
   );

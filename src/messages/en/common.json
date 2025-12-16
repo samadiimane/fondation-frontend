@@ -998,17 +998,37 @@
       "subtitle": "Freshly added documents from our digital library.",
       "readMore": "Read More",
       "exploreLibrary": "Explore the Library",
-    "unknownAuthor": "Unknown author",
-    "unknownTag": "General",
-    "imageAltFallback": "Document",
-    "empty": "No documents available yet.",
-    "error": "Unable to load latest documents.",
-    "retry": "Retry"
+      "unknownAuthor": "Unknown author",
+      "unknownTag": "General",
+      "imageAltFallback": "Document",
+      "empty": "No documents available yet.",
+      "error": "Unable to load latest documents.",
+      "retry": "Retry"
+    },
+    "partners": {
+      "headingPrefix": "Over",
+      "headingSuffix": "Academic Institutions Whose Scholars Have Contributed",
+      "logoAlt": "Partner logo"
+    }
   },
-  "partners": {
-    "headingPrefix": "Over",
-    "headingSuffix": "Academic Institutions Whose Scholars Have Contributed",
-    "logoAlt": "Partner logo"
-  }
+  "footer": {
+    "logoAlt": "AKT Research Foundation logo",
+    "description": "AKT Research Foundation is an internationally recognized, multidisciplinary research and development association.",
+    "headings": {
+      "quickLinks": "Quick Links",
+      "services": "Our Services",
+      "contact": "Get in touch"
+    },
+    "contact": {
+      "address": "Tangier, Morocco",
+      "phone": "+212 (246) 642-27-10",
+      "email": "AKT_Research_Foundation@gmail.com"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "twitter": "Twitter / X",
+      "linkedin": "LinkedIn"
+    },
+    "copyright": "Copyright © {year} Abdelaziz Khallouk Temsamani Foundation. All rights reserved."
   }
 }

@@ -1,4 +1,4 @@
-import FooterOne from "@/components/FooterOne";
+import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
@@ -26,8 +26,8 @@ const page = () => {
         {/* HeaderFour */}
         <HeaderFour />
 
-        {/* FooterOne */}
-        <FooterOne />
+        {/* Footer */}
+        <Footer />
       </section>
     </AOSWrap>
   );

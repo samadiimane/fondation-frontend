@@ -4,7 +4,7 @@ import LatestDocuments from '@/components/LatestDocuments';
 import CounterOne from '@/components/CounterOne';
 import ServicesHome from '@/components/ServicesHome';
 import FoundationIntro from '@/components/foundation/FoundationIntro';
-import FooterOne from '@/components/FooterOne';
+import Footer from '@/components/Footer';
 import HeaderFour from '@/components/HeaderFour';
 import Partner from '@/components/Partner';
 import Preloader from '@/components/Preloader';
@@ -37,7 +37,7 @@ export default function HomePage() {
         <LatestDocuments />
         <Partner />
         <AwardOne />
-        <FooterOne />
+        <Footer />
       </section>
     </AOSWrap>
   );

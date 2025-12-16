@@ -1010,5 +1010,25 @@
     "headingPrefix": "Plus de",
     "headingSuffix": "institutions académiques dont les chercheurs ont contribué",
     "logoAlt": "Logo partenaire"
+  },
+  "footer": {
+    "logoAlt": "Logo de la Fondation de recherche AKT",
+    "description": "La Fondation de recherche AKT est une association internationale et pluridisciplinaire de recherche et de développement.",
+    "headings": {
+      "quickLinks": "Liens rapides",
+      "services": "Nos services",
+      "contact": "Contactez-nous"
+    },
+    "contact": {
+      "address": "Tanger, Maroc",
+      "phone": "+212 (246) 642-27-10",
+      "email": "AKT_Research_Foundation@gmail.com"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "twitter": "X (Twitter)",
+      "linkedin": "LinkedIn"
+    },
+    "copyright": "Copyright © {year} Fondation Abdelaziz Khallouk Temsamani. Tous droits réservés."
   }
 }

@@ -1,5 +1,5 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
-import FooterOne from "@/components/FooterOne";
+import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import TopBarTwo from "@/components/TopBarTwo";
 import Preloader from "@/components/Preloader";
@@ -47,7 +47,7 @@ const ArchiveCollectionPage = async ({ params }) => {
           <CollectionClient category={category} slug={slug} />
         </main>
 
-        <FooterOne />
+        <Footer />
       </section>
     </AOSWrap>
   );

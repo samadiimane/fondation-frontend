@@ -1,6 +1,6 @@
 import AboutDoctor from "@/components/AboutDoctor";
 import DifferenceTwo from "@/components/DifferenceTwo";
-import FooterOne from "@/components/FooterOne";
+import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
@@ -31,8 +31,8 @@ const page = () => {
         {/* AboutDoctor */}
         <AboutDoctor />
 
-        {/* FooterOne */}
-        <FooterOne />
+        {/* Footer */}
+        <Footer />
       </section>
     </AOSWrap>
   );

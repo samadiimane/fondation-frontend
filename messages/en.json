@@ -52,6 +52,26 @@
     "logout": "Log out",
     "searchPlaceholder": "Search..."
   },
+  "footer": {
+    "logoAlt": "AKT Research Foundation logo",
+    "description": "AKT Research Foundation is an internationally recognized, multidisciplinary research and development association.",
+    "headings": {
+      "quickLinks": "Quick Links",
+      "services": "Our Services",
+      "contact": "Get in touch"
+    },
+    "contact": {
+      "address": "Tangier, Morocco",
+      "phone": "+212 (246) 642-27-10",
+      "email": "AKT_Research_Foundation@gmail.com"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "twitter": "Twitter / X",
+      "linkedin": "LinkedIn"
+    },
+    "copyright": "Copyright \u00a9 {year} Abdelaziz Khallouk Temsamani Foundation. All rights reserved."
+  },
   "Banner": {
     "title": "Advancing Scientific Knowledge for a Better Tomorrow",
     "subtitle": "We connect researchers, preserve knowledge, and support innovation, ensuring that discoveries continue to benefit future generations.",

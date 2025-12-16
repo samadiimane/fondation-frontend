@@ -1,4 +1,4 @@
-import FooterOne from "@/components/FooterOne";
+import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { Link } from "@/i18n/navigation";
@@ -420,7 +420,7 @@ export default async function DocumentDetailPage(context) {
           </section>
         </main>
 
-        <FooterOne />
+        <Footer />
       </section>
     </AOSWrap>
   );

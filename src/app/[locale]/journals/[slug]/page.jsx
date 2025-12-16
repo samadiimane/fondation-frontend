@@ -1,4 +1,4 @@
-import FooterOne from "@/components/FooterOne";
+import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import JournalHeader from "@/components/journals/JournalHeader";
 import JournalIssuesExplorer from "@/components/journals/JournalIssuesExplorer";
@@ -206,7 +206,7 @@ export default async function JournalDetailPage({params}) {
           <JournalIssuesExplorer slug={slug} locale={locale} strings={issuesStrings} />
         </main>
 
-        <FooterOne />
+        <Footer />
       </section>
     </AOSWrap>
   );

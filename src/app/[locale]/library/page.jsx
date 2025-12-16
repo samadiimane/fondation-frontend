@@ -1,4 +1,4 @@
-import FooterOne from "@/components/FooterOne";
+import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import LibrarySearch from "@/components/LibrarySearch";
 import Preloader from "@/components/Preloader";
@@ -30,8 +30,8 @@ const page = () => {
         {/* LibrarySearch */}
         <LibrarySearch />
 
-        {/* FooterOne */}
-        <FooterOne />
+        {/* Footer */}
+        <Footer />
       </section>
     </AOSWrap>
   );

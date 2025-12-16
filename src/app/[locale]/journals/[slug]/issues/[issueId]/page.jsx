@@ -1,4 +1,4 @@
-import FooterOne from "@/components/FooterOne";
+import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import IssueArticlesExplorer from "@/components/journals/IssueArticlesExplorer";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -190,7 +190,7 @@ export default async function IssueArticlesPage(context) {
           />
         </main>
 
-        <FooterOne />
+        <Footer />
       </section>
     </AOSWrap>
   );

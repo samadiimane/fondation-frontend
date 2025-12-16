@@ -1,4 +1,4 @@
-import FooterOne from "@/components/FooterOne";
+import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import JournalsExplorer from "@/components/journals/JournalsExplorer";
 import Preloader from "@/components/Preloader";
@@ -89,7 +89,7 @@ export default async function JournalsPage() {
           <JournalsExplorer locale={locale} strings={strings} />
         </main>
 
-        <FooterOne />
+        <Footer />
       </section>
     </AOSWrap>
   );

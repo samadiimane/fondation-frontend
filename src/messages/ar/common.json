@@ -1010,5 +1010,25 @@
     "headingPrefix": "أكثر من",
     "headingSuffix": "مؤسسة أكاديمية ساهم باحثوها",
     "logoAlt": "شعار شريك"
+  },
+  "footer": {
+    "logoAlt": "شعار مؤسسة أبحاث AKT",
+    "description": "مؤسسة أبحاث AKT هي جمعية دولية متعددة التخصصات للبحث والتطوير.",
+    "headings": {
+      "quickLinks": "روابط سريعة",
+      "services": "خدماتنا",
+      "contact": "تواصل معنا"
+    },
+    "contact": {
+      "address": "طنجة، المغرب",
+      "phone": "+212 (246) 642-27-10",
+      "email": "AKT_Research_Foundation@gmail.com"
+    },
+    "social": {
+      "facebook": "فيسبوك",
+      "twitter": "إكس (تويتر)",
+      "linkedin": "لينكدإن"
+    },
+    "copyright": "حقوق النشر © {year} مؤسسة عبد العزيز خلوق التمسماني. جميع الحقوق محفوظة"
   }
 }

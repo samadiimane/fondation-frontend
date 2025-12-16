@@ -44,13 +44,33 @@
     "supportHelp": "Soporte y ayuda",
     "faq": "FAQ",
     "contactUs": "Contáctanos",
-    "policies": "Términos y políticas",
+    "policies": "Condiciones y políticas",
     "joinUs": "Únete",
     "adminLink": "Panel administrativo",
     "committeeLink": "Espacio del comité",
     "login": "Iniciar sesión",
     "logout": "Cerrar sesión",
     "searchPlaceholder": "Buscar..."
+  },
+  "footer": {
+    "logoAlt": "Logotipo de la Fundación de Investigación AKT",
+    "description": "La Fundación de Investigación AKT es una asociación profesional multidisciplinaria de investigación y desarrollo reconocida internacionalmente.",
+    "headings": {
+      "quickLinks": "Enlaces rápidos",
+      "services": "Nuestros servicios",
+      "contact": "Contáctanos"
+    },
+    "contact": {
+      "address": "Tánger, Marruecos",
+      "phone": "+212 (246) 642-27-10",
+      "email": "AKT_Research_Foundation@gmail.com"
+    },
+    "social": {
+      "facebook": "Facebook",
+      "twitter": "X (Twitter)",
+      "linkedin": "LinkedIn"
+    },
+    "copyright": "Derechos de autor © {year} Fundación Abdelaziz Khallouk Temsamani. Todos los derechos reservados."
   },
   "Banner": {
     "title": "Impulsar el conocimiento científico para un futuro mejor",
