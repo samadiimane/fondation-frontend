@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import PartnerFive from "./PartnerFive";
+import Partner from "./Partner";
 import CounterOne from "./CounterOne";
 
 const AboutFoundation = () => {
@@ -236,8 +236,8 @@ const AboutFoundation = () => {
             <CounterOne />
 
 
-            {/* PartnerFive */}
-            <PartnerFive />
+            {/* Partner */}
+            <Partner />
 
 
         </>

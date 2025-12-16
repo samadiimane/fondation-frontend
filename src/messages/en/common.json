@@ -998,12 +998,17 @@
       "subtitle": "Freshly added documents from our digital library.",
       "readMore": "Read More",
       "exploreLibrary": "Explore the Library",
-      "unknownAuthor": "Unknown author",
-      "unknownTag": "General",
-      "imageAltFallback": "Document",
-      "empty": "No documents available yet.",
-      "error": "Unable to load latest documents.",
-      "retry": "Retry"
-    }
+    "unknownAuthor": "Unknown author",
+    "unknownTag": "General",
+    "imageAltFallback": "Document",
+    "empty": "No documents available yet.",
+    "error": "Unable to load latest documents.",
+    "retry": "Retry"
+  },
+  "partners": {
+    "headingPrefix": "Over",
+    "headingSuffix": "Academic Institutions Whose Scholars Have Contributed",
+    "logoAlt": "Partner logo"
+  }
   }
 }

@@ -6,7 +6,7 @@ import ServicesHome from '@/components/ServicesHome';
 import FoundationIntro from '@/components/foundation/FoundationIntro';
 import FooterOne from '@/components/FooterOne';
 import HeaderFour from '@/components/HeaderFour';
-import PartnerFive from '@/components/PartnerFive';
+import Partner from '@/components/Partner';
 import Preloader from '@/components/Preloader';
 import TopBarTwo from '@/components/TopBarTwo';
 import AOSWrap from '@/helper/AOSWrap';
@@ -35,7 +35,7 @@ export default function HomePage() {
         <ServicesHome />
         <CounterOne />
         <LatestDocuments />
-        <PartnerFive />
+        <Partner />
         <AwardOne />
         <FooterOne />
       </section>

@@ -1005,5 +1005,10 @@
       "error": "No se pudieron cargar los últimos documentos.",
       "retry": "Reintentar"
     }
+  },
+  "partners": {
+    "headingPrefix": "Más de",
+    "headingSuffix": "instituciones académicas cuyos investigadores han contribuido",
+    "logoAlt": "Logotipo de socio"
   }
 }

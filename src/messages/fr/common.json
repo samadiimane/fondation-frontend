@@ -1005,5 +1005,10 @@
       "error": "Impossible de charger les derniers documents.",
       "retry": "Réessayer"
     }
+  },
+  "partners": {
+    "headingPrefix": "Plus de",
+    "headingSuffix": "institutions académiques dont les chercheurs ont contribué",
+    "logoAlt": "Logo partenaire"
   }
 }
