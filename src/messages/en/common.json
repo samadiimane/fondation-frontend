@@ -991,5 +991,19 @@
       "ariaLabel": "Breadcrumb"
     },
     "error": "We couldn't load events. Please try again later."
+  },
+  "home": {
+    "latest": {
+      "heading": "Our Latest Articles & Research",
+      "subtitle": "Freshly added documents from our digital library.",
+      "readMore": "Read More",
+      "exploreLibrary": "Explore the Library",
+      "unknownAuthor": "Unknown author",
+      "unknownTag": "General",
+      "imageAltFallback": "Document",
+      "empty": "No documents available yet.",
+      "error": "Unable to load latest documents.",
+      "retry": "Retry"
+    }
   }
 }

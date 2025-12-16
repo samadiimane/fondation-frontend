@@ -991,5 +991,19 @@
       "ariaLabel": "Ruta de navegación"
     },
     "error": "No pudimos cargar los eventos. Inténtalo de nuevo más tarde."
+  },
+  "home": {
+    "latest": {
+      "heading": "Nuestros últimos artículos e investigaciones",
+      "subtitle": "Documentos añadidos recientemente a nuestra biblioteca digital.",
+      "readMore": "Leer más",
+      "exploreLibrary": "Explorar la biblioteca",
+      "unknownAuthor": "Autor desconocido",
+      "unknownTag": "General",
+      "imageAltFallback": "Documento",
+      "empty": "Aún no hay documentos disponibles.",
+      "error": "No se pudieron cargar los últimos documentos.",
+      "retry": "Reintentar"
+    }
   }
 }

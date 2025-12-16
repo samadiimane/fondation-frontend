@@ -1,6 +1,6 @@
 import AwardOne from '@/components/AwardOne';
 import Banner from '@/components/Banner';
-import BlogOne from '@/components/BlogOne';
+import LatestDocuments from '@/components/LatestDocuments';
 import CounterOne from '@/components/CounterOne';
 import ServicesHome from '@/components/ServicesHome';
 import FoundationIntro from '@/components/foundation/FoundationIntro';
@@ -34,7 +34,7 @@ export default function HomePage() {
         <FoundationIntro />
         <ServicesHome />
         <CounterOne />
-        <BlogOne />
+        <LatestDocuments />
         <PartnerFive />
         <AwardOne />
         <FooterOne />

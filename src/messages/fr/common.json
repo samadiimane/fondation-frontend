@@ -991,5 +991,19 @@
       "ariaLabel": "Fil d'Ariane"
     },
     "error": "Impossible de charger les événements. Veuillez réessayer plus tard."
+  },
+  "home": {
+    "latest": {
+      "heading": "Nos derniers articles & recherches",
+      "subtitle": "Documents récemment ajoutés à notre bibliothèque numérique.",
+      "readMore": "En savoir plus",
+      "exploreLibrary": "Explorer la bibliothèque",
+      "unknownAuthor": "Auteur inconnu",
+      "unknownTag": "Général",
+      "imageAltFallback": "Document",
+      "empty": "Aucun document disponible pour le moment.",
+      "error": "Impossible de charger les derniers documents.",
+      "retry": "Réessayer"
+    }
   }
 }
