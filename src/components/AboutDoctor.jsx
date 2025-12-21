@@ -1,90 +1,32 @@
 "use client";
-import { useState } from "react";
-import Link from "next/link";
+import {useState} from "react";
+import {useLocale} from "next-intl";
+
+import {getAboutDoctorContent} from "@/content/aboutDoctor";
+import {isRtlLocale} from "@/i18n/config";
+import {Link} from "@/i18n/navigation";
 
 const AboutDoctor = () => {
   const [activeSection, setActiveSection] = useState("biography");
-
-  const books = [
-    {
-      title: "Tetouan: Urban Development and Social Transformations (1850-1950)",
-      publisher: "University of Abdelmalek Essaâdi Press",
-      year: "1995",
-      description: "A comprehensive study of urban evolution in Northern Morocco, examining the social and architectural transformations during a pivotal period in Moroccan history.",
-      citations: "450+",
-      downloads: "8,500+"
-    },
-    {
-      title: "The Jewish Community of Northern Morocco: Coexistence and Cultural Exchange",
-      publisher: "Moroccan Historical Society",
-      year: "2001",
-      description: "An in-depth exploration of Jewish-Muslim relations in pre-colonial Morocco, documenting centuries of cultural coexistence and mutual influence.",
-      citations: "320+",
-      downloads: "6,200+"
-    },
-    {
-      title: "Historical Documents of the Moroccan Rif: Preservation and Analysis",
-      publisher: "Center for Historical Studies",
-      year: "2005",
-      description: "Essential methodological approaches to preserving and analyzing historical documents from the Rif region, establishing new standards for archival work.",
-      citations: "280+",
-      downloads: "4,800+"
-    }
-  ];
-
-  const testimonials = [
-    {
-      name: "Prof. Hassan El-Ouazzani",
-      title: "Director, Institute of Maghreb Studies, University of Rabat",
-      quote: "Dr. Temsamani's meticulous approach to archival research and his innovative methodologies have fundamentally changed how we study North African urban history. His work bridges the gap between academic research and community heritage preservation."
-    },
-    {
-      name: "Dr. Fatima Benali",
-      title: "Professor of Mediterranean Studies, University of Tunis",
-      quote: "Working with Dr. Temsamani on the Jewish-Muslim coexistence project was transformative. His ability to uncover forgotten narratives and present them with scholarly rigor while maintaining cultural sensitivity is unparalleled."
-    },
-    {
-      name: "Prof. Ahmed Tazi",
-      title: "Former Student, now Director of Moroccan National Archives",
-      quote: "Dr. Temsamani taught me that history is not just about dates and events, but about understanding the human stories that shape our present. His mentorship shaped my entire approach to historical preservation."
-    }
-  ];
-
-  const researchAreas = [
-    {
-      title: "Urban History of Northern Morocco",
-      description: "Comprehensive studies of urban development and social transformations in Tetouan and surrounding regions.",
-      icon: "fa-solid fa-building"
-    },
-    {
-      title: "Jewish-Muslim Relations in Pre-colonial Morocco",
-      description: "Groundbreaking research on cultural coexistence and exchange between communities.",
-      icon: "fa-solid fa-users"
-    },
-    {
-      title: "Oral History Preservation Techniques",
-      description: "Innovative methodologies for collecting, preserving, and analyzing oral historical narratives.",
-      icon: "fa-solid fa-quote-left"
-    },
-    {
-      title: "Archival Documentation Methodologies",
-      description: "Development of systematic approaches to historical document preservation and analysis.",
-      icon: "fa-solid fa-book"
-    }
-  ];
+  const locale = useLocale();
+  const content = getAboutDoctorContent(locale);
+  const isRtl = isRtlLocale(locale);
+  const textAlignClass = isRtl ? "text-end" : "text-start";
+  const timelineClass = `timeline${isRtl ? " timeline-rtl" : ""}`;
+  const badgeClass = `timeline-badge${isRtl ? " timeline-badge-rtl" : ""}`;
 
   const scrollToSection = (sectionId) => {
     setActiveSection(sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({behavior: "smooth"});
     }
   };
 
   return (
     <>
       {/* Main Hero Section */}
-      <section className='difference-two'>
+      <section className='difference-two' dir={isRtl ? "rtl" : "ltr"}>
         <div className='container'>
           <div className='row gutter-40 align-items-center'>
             <div className='col-12 col-lg-4 col-xxl-4'>
@@ -92,25 +34,30 @@ const AboutDoctor = () => {
                 <div
                   className='thumb-lg'
                   data-aos='fade-right'
-                  data-aos-duration={1000}
+                  data-aos-duration={600}
                 >
                   <img
-                    src='assets/images/difference/temsamani.png'
-                    alt='Dr. Abdelaziz Khallouk Temsamani'
+                    src='/assets/images/difference/temsamani.png'
+                    alt={content.hero.name}
                   />
                 </div>
-                <div className='doctor-info-card' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={300}>
+                <div
+                  className={`doctor-info-card ${isRtl ? "doctor-info-rtl" : "doctor-info-ltr"}`}
+                  data-aos='fade-up'
+                  data-aos-duration={600}
+                  data-aos-delay={100}
+                >
                   <div className='info-item'>
                     <i className='fa-solid fa-clock'></i>
-                    <span>1945 - 2010</span>
+                    <span>{content.hero.lifespan}</span>
                   </div>
                   <div className='info-item'>
                     <i className='fa-solid fa-map-marker-alt'></i>
-                    <span>Born in Tetouan, Morocco</span>
+                    <span>{content.hero.birthplace}</span>
                   </div>
                   <div className='info-item'>
                     <i className='fa-solid fa-graduation-cap'></i>
-                    <span>PhD in History</span>
+                    <span>{content.hero.degree}</span>
                   </div>
                 </div>
               </div>
@@ -119,41 +66,50 @@ const AboutDoctor = () => {
               <div className='difference-two__tab'>
                 <div className='difference-two__content'>
                   <h2 className='title-animation_inner'>
-                    <span>Dr.</span> Abdelaziz Khallouk Temsamani
+                    <span>{content.hero.title}</span> {content.hero.name}
                   </h2>
-                  <p className='doctor-subtitle'>Distinguished Moroccan Historian and Cultural Heritage Researcher</p>
-                  <p className='mb-4'>
-                    Dr. Abdelaziz Khallouk Temsamani (1945-2010) was a distinguished Moroccan historian and researcher whose work fundamentally shaped contemporary understanding of North African history and cultural heritage. Born in Tetouan, Morocco, Dr. Temsamani demonstrated exceptional academic promise from an early age.
-                  </p>
-                  <p className='mb-5'>
-                    He pursued his higher education at the University of Mohammed V in Rabat, where he earned his doctorate in History with highest honors. His doctoral thesis on "Commercial and Cultural Relations Between Morocco and Andalusia" established the foundation for his lifelong research interests.
-                  </p>
+                  <p className={`doctor-subtitle ${textAlignClass}`}>{content.hero.subtitle}</p>
+                  {content.hero.intro.map((paragraph, index) => (
+                    <p key={`hero-intro-${index}`} className={`mb-4 ${textAlignClass}`}>
+                      {paragraph}
+                    </p>
+                  ))}
+                  <div className={`mt-3 ${isRtl ? "text-start" : "text-start"}`}>
+                    <a
+                      href='/assets/docs/biographie-temsamani.pdf'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                      className='btn--secondary'
+                    >
+                      {content.hero.ctaLabel}
+                    </a>
+                  </div>
 
                   {/* Navigation Buttons */}
                   <div className='doctor-navigation'>
                     <button
-                      className={`nav-btn ${activeSection === 'biography' ? 'active' : ''}`}
-                      onClick={() => scrollToSection('biography')}
+                      className={`nav-btn ${activeSection === "biography" ? "active" : ""}`}
+                      onClick={() => scrollToSection("biography")}
                     >
-                      Biography
+                      {content.nav.biography}
                     </button>
                     <button
-                      className={`nav-btn ${activeSection === 'research' ? 'active' : ''}`}
-                      onClick={() => scrollToSection('research')}
+                      className={`nav-btn ${activeSection === "research" ? "active" : ""}`}
+                      onClick={() => scrollToSection("research")}
                     >
-                      Research
+                      {content.nav.research}
                     </button>
                     <button
-                      className={`nav-btn ${activeSection === 'publications' ? 'active' : ''}`}
-                      onClick={() => scrollToSection('publications')}
+                      className={`nav-btn ${activeSection === "publications" ? "active" : ""}`}
+                      onClick={() => scrollToSection("publications")}
                     >
-                      Publications
+                      {content.nav.publications}
                     </button>
                     <button
-                      className={`nav-btn ${activeSection === 'testimonials' ? 'active' : ''}`}
-                      onClick={() => scrollToSection('testimonials')}
+                      className={`nav-btn ${activeSection === "testimonials" ? "active" : ""}`}
+                      onClick={() => scrollToSection("testimonials")}
                     >
-                      Testimonials
+                      {content.nav.testimonials}
                     </button>
                   </div>
                 </div>
@@ -164,12 +120,12 @@ const AboutDoctor = () => {
       </section>
 
       {/* Biography Section */}
-      <section id="biography" className='team' style={{ paddingTop: '60px' }}>
+      <section id="biography" className='team' style={{paddingTop: "60px"}} dir={isRtl ? "rtl" : "ltr"}>
         <div className='container'>
           <div className='row justify-content-center'>
             <div className='col-12 col-lg-10'>
               <div className='section__header text-center' data-aos='fade-up' data-aos-duration={1000}>
-                <h2 className='title-animation_inner'>Academic <span>Biography</span></h2>
+                <h2 className='title-animation_inner'>{content.biography.title}</h2>
               </div>
             </div>
           </div>
@@ -179,24 +135,19 @@ const AboutDoctor = () => {
             <div className='col-12'>
               <div className='education-timeline' data-aos='fade-up' data-aos-duration={1000}>
                 <h3 className='section-subtitle mb-4'>
-                  Education
+                  {content.biography.educationTitle}
                 </h3>
-                <div className='timeline'>
-                  <div className='timeline-item'>
-                    <div className='timeline-badge'>1975</div>
-                    <div className='timeline-content'>
-                      <h4>Ph.D. in History</h4>
-                      <p className='institution'>University of Mohammed V, Rabat</p>
-                      <p className='thesis'>Thesis: "Commercial and Cultural Relations Between Morocco and Andalusia"</p>
+                <div className={timelineClass}>
+                  {content.biography.education.map((item, index) => (
+                    <div className='timeline-item' key={`education-${index}`}>
+                      <div className={badgeClass}>{item.year}</div>
+                      <div className='timeline-content'>
+                        <h4>{item.degree}</h4>
+                        <p className='institution'>{item.institution}</p>
+                        {item.thesis ? <p className={`thesis ${textAlignClass}`}>{item.thesis}</p> : null}
+                      </div>
                     </div>
-                  </div>
-                  <div className='timeline-item'>
-                    <div className='timeline-badge'>1968</div>
-                    <div className='timeline-content'>
-                      <h4>Licence in History</h4>
-                      <p className='institution'>University of Mohammed V, Rabat</p>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -207,35 +158,16 @@ const AboutDoctor = () => {
             <div className='col-12'>
               <div className='career-timeline' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={300}>
                 <h3 className='section-subtitle mb-4'>
-                  Academic Career
+                  {content.biography.careerTitle}
                 </h3>
-                <div className='timeline'>
-                  {[
-                    {
-                      period: "1985-2010",
-                      title: "Professor of Modern History",
-                      institution: "University of Abdelmalek Essaâdi",
-                      description: "Led groundbreaking research in North African urban history and cultural heritage preservation."
-                    },
-                    {
-                      period: "1990-2005",
-                      title: "Director",
-                      institution: "Center for Historical and Social Studies, Tetouan",
-                      description: "Established innovative methodologies for archival research and community engagement."
-                    },
-                    {
-                      period: "1995-2010",
-                      title: "Advisor to the Ministry of Culture",
-                      institution: "Kingdom of Morocco",
-                      description: "Provided expertise on heritage preservation and cultural documentation policies."
-                    }
-                  ].map((position, index) => (
-                    <div key={index} className='timeline-item'>
-                      <div className='timeline-badge'>{position.period}</div>
+                <div className={timelineClass}>
+                  {content.biography.career.map((position, index) => (
+                    <div key={`career-${index}`} className='timeline-item'>
+                      <div className={badgeClass}>{position.period}</div>
                       <div className='timeline-content'>
                         <h4>{position.title}</h4>
                         <p className='institution'>{position.institution}</p>
-                        <p>{position.description}</p>
+                        <p className={textAlignClass}>{position.description}</p>
                       </div>
                     </div>
                   ))}
@@ -247,27 +179,27 @@ const AboutDoctor = () => {
       </section>
 
       {/* Research Areas Section */}
-      <section id="research" className='difference' style={{ background: '#f8f9fa' }}>
+      <section id="research" className='difference' style={{background: "#f8f9fa"}} dir={isRtl ? "rtl" : "ltr"}>
         <div className='container mb-4'>
           <div className='row justify-content-center p-2'>
             <div className='col-12 col-lg-10 col-xl-8'>
               <div className='section__header text-center' data-aos='fade-up' data-aos-duration={1000}>
-                <h2 className='title-animation_inner'>Research Areas & <span>Contributions</span></h2>
-                <p>Dr. Temsamani's research methodology combined rigorous archival work with innovative interdisciplinary approaches, bridging history, sociology, and cultural anthropology.</p>
+                <h2 className='title-animation_inner'>{content.research.title}</h2>
+                <p className={textAlignClass}>{content.research.description}</p>
               </div>
             </div>
           </div>
 
           <div className='row g-4'>
-            {researchAreas.map((area, index) => (
-              <div key={index} className='col-lg-6' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={index * 200}>
+            {content.research.areas.map((area, index) => (
+              <div key={`area-${index}`} className='col-lg-6' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={index * 200}>
                 <div className='research-area-card'>
                   <div className='research-icon'>
                     <i className={area.icon}></i>
                   </div>
                   <div className='research-content'>
                     <h4>{area.title}</h4>
-                    <p>{area.description}</p>
+                    <p className={textAlignClass}>{area.description}</p>
                   </div>
                 </div>
               </div>
@@ -277,12 +209,12 @@ const AboutDoctor = () => {
       </section>
 
       {/* Publications Section */}
-      <section id="publications" className='blog'>
+      <section id="publications" className='blog' dir={isRtl ? "rtl" : "ltr"}>
         <div className='container'>
           <div className='row justify-content-center'>
             <div className='col-12 col-md-8 col-xl-8'>
               <div className='section__header text-center' data-aos='fade-up' data-aos-duration={1000}>
-                <h2 className='title-animation_inner'>Publications & <span>Notable Works</span></h2>
+                <h2 className='title-animation_inner'>{content.publications.title}</h2>
               </div>
             </div>
           </div>
@@ -290,11 +222,11 @@ const AboutDoctor = () => {
           <div className='row'>
             <div className='col-12'>
               <h3 className='section-subtitle mb-4'>
-                Landmark Publications
+                {content.publications.landmarkTitle}
               </h3>
               <div className='publications-grid'>
-                {books.map((book, index) => (
-                  <div key={index} className='publication-card' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={index * 200}>
+                {content.publications.books.map((book, index) => (
+                  <div key={`book-${index}`} className='publication-card' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={index * 200}>
                     <div className='publication-header'>
                       <h4>{book.title}</h4>
                       <div className='publication-meta'>
@@ -302,20 +234,20 @@ const AboutDoctor = () => {
                         <span className='year'>{book.year}</span>
                       </div>
                     </div>
-                    <p className='publication-description'>{book.description}</p>
+                    <p className={`publication-description ${textAlignClass}`}>{book.description}</p>
                     <div className='publication-stats'>
                       <div className='stats-left'>
                         <div className='stat'>
                           <i className='fa-solid fa-quote-left'></i>
-                          <span>{book.citations} citations</span>
+                          <span>{book.citations}</span>
                         </div>
                         <div className='stat'>
                           <i className='fa-solid fa-download'></i>
-                          <span>{book.downloads} downloads</span>
+                          <span>{book.downloads}</span>
                         </div>
                       </div>
-                      <Link href='/' className='view-more-btn'>
-                        View More <i className="fa-solid fa-book-open"></i>
+                      <Link href='/library' className='view-more-btn'>
+                        {content.publications.viewMoreLabel} <i className="fa-solid fa-book-open"></i>
                       </Link>
                     </div>
                   </div>
@@ -325,16 +257,11 @@ const AboutDoctor = () => {
               {/* Awards Section */}
               <div className='awards-section mt-5' data-aos='fade-up' data-aos-duration={1000}>
                 <h3 className='section-subtitle mb-4'>
-                  <i className='fa-solid fa-award'></i> Awards & Recognition
+                  <i className='fa-solid fa-award'></i> {content.publications.awardsTitle}
                 </h3>
                 <div className='awards-grid'>
-                  {[
-                    { year: "2008", award: "Moroccan Cultural Heritage Preservation Award" },
-                    { year: "2005", award: "Excellence in Maghreb Studies Award" },
-                    { year: "2000", award: "Outstanding Historical Research Award" },
-                    { year: "1995", award: "Archival Preservation Innovation Award" }
-                  ].map((award, index) => (
-                    <div key={index} className='award-item'>
+                  {content.publications.awards.map((award, index) => (
+                    <div key={`award-${index}`} className='award-item'>
                       <div className='award-year'>{award.year}</div>
                       <div className='award-title'>{award.award}</div>
                     </div>
@@ -347,27 +274,27 @@ const AboutDoctor = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className='team' style={{ background: '#f8f9fa' }}>
+      <section id="testimonials" className='team' style={{background: "#f8f9fa"}} dir={isRtl ? "rtl" : "ltr"}>
         <div className='container'>
           <div className='row justify-content-center'>
             <div className='col-12 col-lg-10'>
               <div className='section__header text-center' data-aos='fade-up' data-aos-duration={1000}>
-                <h2 className='title-animation_inner'>Testimonials & <span>Appreciation</span></h2>
+                <h2 className='title-animation_inner'>{content.testimonials.title}</h2>
               </div>
             </div>
           </div>
 
           <div className='row g-4'>
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className='col-lg-4' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={index * 200}>
+            {content.testimonials.items.map((testimonial, index) => (
+              <div key={`testimonial-${index}`} className='col-lg-4' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={index * 200}>
                 <div className='testimonial-card'>
                   <div className='quote-icon'>
                     <i className='fa-solid fa-quote-left'></i>
                   </div>
                   <blockquote>"{testimonial.quote}"</blockquote>
                   <div className='testimonial-author'>
-                    <h5>{testimonial.name}</h5>
-                    <p>{testimonial.title}</p>
+                    <h5 className={textAlignClass}>{testimonial.name}</h5>
+                    <p className={textAlignClass}>{testimonial.title}</p>
                   </div>
                 </div>
               </div>
@@ -377,31 +304,31 @@ const AboutDoctor = () => {
       </section>
 
       {/* Legacy Section */}
-      <section className='difference-two'>
+      <section className='difference-two' dir={isRtl ? "rtl" : "ltr"}>
         <div className='container'>
           <div className='row align-items-center'>
             <div className='col-12'>
               <div className='difference-two__content text-center'>
                 <h2 className='title-animation_inner mb-4'>
-                  <span>Legacy &</span> Philosophy
+                  {content.legacy.title}
                 </h2>
                 <blockquote className='doctor-quote'>
-                  "History is not just about studying the past, but about understanding the present to shape the future."
+                  "{content.legacy.quote}"
                 </blockquote>
 
                 <div className='philosophy-grid'>
-                  <div className='philosophy-item' data-aos='fade-up' data-aos-duration={1000}>
-                    <h4>Critical Analysis</h4>
-                    <p>Emphasis on rigorous examination of primary sources and historical evidence.</p>
-                  </div>
-                  <div className='philosophy-item' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={200}>
-                    <h4>Interdisciplinary Approach</h4>
-                    <p>Integration of history, sociology, and cultural anthropology in research.</p>
-                  </div>
-                  <div className='philosophy-item' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={400}>
-                    <h4>Community Engagement</h4>
-                    <p>Active involvement of local communities in historical preservation efforts.</p>
-                  </div>
+                  {content.legacy.principles.map((principle, index) => (
+                    <div
+                      key={`principle-${index}`}
+                      className='philosophy-item'
+                      data-aos='fade-up'
+                      data-aos-duration={1000}
+                      data-aos-delay={index * 200}
+                    >
+                      <h4>{principle.title}</h4>
+                      <p className={textAlignClass}>{principle.description}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>

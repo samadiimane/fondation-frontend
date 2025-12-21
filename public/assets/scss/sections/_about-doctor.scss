@@ -13,6 +13,16 @@
     margin-top: 10px;
 }
 
+.doctor-info-ltr {
+    direction: ltr;
+    text-align: left;
+}
+
+.doctor-info-rtl {
+    direction: rtl;
+    text-align: right;
+}
+
 .info-item {
     display: flex;
     align-items: center;
@@ -92,8 +102,33 @@
     line-height: 1.2;
 }
 
+.timeline-badge-rtl {
+    order: 2;
+    margin-right: 0;
+    margin-left: 20px;
+}
+
 .timeline-content {
     flex: 1;
+    text-align: left;
+}
+
+.timeline.timeline-rtl {
+    padding-left: 0;
+    padding-right: 30px;
+}
+
+.timeline.timeline-rtl::before {
+    left: auto;
+    right: 15px;
+}
+
+.timeline.timeline-rtl .timeline-item {
+    flex-direction: row-reverse;
+}
+
+.timeline.timeline-rtl .timeline-content {
+    text-align: right;
 }
 
 .timeline-content h4 {

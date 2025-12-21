@@ -69,6 +69,16 @@ h5 {
     color: #0ea5e9;
 }
 
+[dir='rtl'] .af-list-check li {
+    padding-left: 0;
+    padding-right: 28px;
+}
+
+[dir='rtl'] .af-list-check li::before {
+    left: auto;
+    right: 0;
+}
+
 .af-list-bullet li {
     position: relative;
     padding-left: 16px;
