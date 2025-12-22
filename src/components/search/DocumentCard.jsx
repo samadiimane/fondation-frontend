@@ -1,13 +1,13 @@
 "use client";
 
-import { memo } from "react";
-import { Link } from "@/i18n/navigation";
-import { useLocale } from "next-intl";
-import { getFirstAuthor } from "@/lib/authors";
+import {memo} from "react";
+import {Link} from "@/i18n/navigation";
+import {useLocale} from "next-intl";
+import {getFirstAuthor} from "@/lib/authors";
 
 const formatTypeClass = (type = "") => type.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
-const DocumentCard = ({ document, viewMode }) => {
+const DocumentCard = ({document, viewMode, content}) => {
   const locale = useLocale();
 
   const formatIcon = (() => {
@@ -27,7 +27,7 @@ const DocumentCard = ({ document, viewMode }) => {
   const firstAuthor = getFirstAuthor(document.authors, locale);
   const fallbackAuthor =
     !firstAuthor && document.author
-      ? { name: document.author, affiliation: document.affiliation ?? null }
+      ? {name: document.author, affiliation: document.affiliation ?? null}
       : null;
   const authorLine = firstAuthor ?? fallbackAuthor;
 
@@ -51,7 +51,7 @@ const DocumentCard = ({ document, viewMode }) => {
             </p>
           )}
         </div>
-        <div className="document-card__badges" aria-label="Document metadata">
+        <div className="document-card__badges" aria-label={content.card.metaAria}>
           <div className="document-card__meta">
             {language && (
               <span className="document-card__language">
@@ -61,7 +61,7 @@ const DocumentCard = ({ document, viewMode }) => {
             )}
             {document.pages && (
               <span className="document-card__pages">
-                {document.pages} pages
+                {document.pages} {content.card.pagesSuffix}
               </span>
             )}
           </div>
@@ -91,15 +91,15 @@ const DocumentCard = ({ document, viewMode }) => {
       <footer className="document-card__actions">
         <button type="button" className="document-card__action" disabled>
           <i className="fa-solid fa-eye" aria-hidden="true"></i>
-          Preview
+          {content.card.preview}
         </button>
         <button type="button" className="document-card__action" disabled>
           <i className="fa-solid fa-download" aria-hidden="true"></i>
-          Download
+          {content.card.download}
         </button>
         <Link href={`/library/${document.id}`} className="document-card__action document-card__action--link">
           <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
-          Details
+          {content.card.details}
         </Link>
       </footer>
     </article>
@@ -107,4 +107,3 @@ const DocumentCard = ({ document, viewMode }) => {
 };
 
 export default memo(DocumentCard);
-

@@ -13,6 +13,7 @@ const FiltersRow = ({
   advancedOpen,
   onToggleAdvanced,
   loading,
+  content,
 }) => {
   const typeOptions = facets.type ?? [];
   const langOptions = facets.lang ?? [];
@@ -42,15 +43,15 @@ const FiltersRow = ({
   );
 
   return (
-    <section className="filters-row" aria-label="Primary filters">
+    <section className="filters-row" aria-label={content.filters.aria}>
       <label className="filters-row__item">
-        <span className="filters-row__label">Type</span>
+        <span className="filters-row__label">{content.filters.typeLabel}</span>
         <select
           value={typeSelected[0] || ""}
           onChange={handleTypeChange}
           disabled={loading}
         >
-          <option value="">All types</option>
+          <option value="">{content.filters.allTypes}</option>
           {typeOptions.map(({ value, count }) => (
             <option key={value} value={value}>
               {value} ({count})
@@ -60,13 +61,13 @@ const FiltersRow = ({
       </label>
 
       <label className="filters-row__item">
-        <span className="filters-row__label">Language</span>
+        <span className="filters-row__label">{content.filters.langLabel}</span>
         <select
           value={langSelected[0] || ""}
           onChange={handleLangChange}
           disabled={loading}
         >
-          <option value="">All languages</option>
+          <option value="">{content.filters.allLanguages}</option>
           {langOptions.map(({ value, count }) => (
             <option key={value} value={value}>
               {value.toUpperCase()} ({count})
@@ -76,13 +77,13 @@ const FiltersRow = ({
       </label>
 
       <label className="filters-row__item">
-        <span className="filters-row__label">Category</span>
+        <span className="filters-row__label">{content.filters.categoryLabel}</span>
         <select
           value={categorySlug || ""}
           onChange={handleCategoryChange}
           disabled={loading}
         >
-          <option value="">All categories</option>
+          <option value="">{content.filters.allCategories}</option>
           {categoryOptions.map(({ slug, name, count }) => {
             const label =
               count === undefined || count === null
@@ -99,11 +100,11 @@ const FiltersRow = ({
 
       <button
         type="button"
-        className={`filters-row__advanced ${advancedOpen ? "is-active" : ""}`}
-        onClick={onToggleAdvanced}
-        aria-expanded={advancedOpen}
-      >
-        {advancedOpen ? "Hide advanced" : "Advanced search"}
+          className={`filters-row__advanced ${advancedOpen ? "is-active" : ""}`}
+          onClick={onToggleAdvanced}
+          aria-expanded={advancedOpen}
+        >
+        {advancedOpen ? content.filters.advancedClose : content.filters.advancedOpen}
       </button>
     </section>
   );

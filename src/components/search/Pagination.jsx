@@ -3,7 +3,7 @@
 import { memo, useCallback } from "react";
 import BasePagination from "@/components/Pagination";
 
-const Pagination = ({ page, hasNext, setPage, loading }) => {
+const Pagination = ({ page, hasNext, setPage, loading, content }) => {
   const handleChange = useCallback(
     (nextPage) => {
       setPage?.(nextPage);
@@ -12,7 +12,13 @@ const Pagination = ({ page, hasNext, setPage, loading }) => {
   );
 
   return (
-    <BasePagination page={page} hasNext={hasNext} onPageChange={handleChange} isLoading={loading} />
+    <BasePagination
+      page={page}
+      hasNext={hasNext}
+      onPageChange={handleChange}
+      isLoading={loading}
+      labels={content.pagination}
+    />
   );
 };
 

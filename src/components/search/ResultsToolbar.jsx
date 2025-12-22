@@ -1,15 +1,6 @@
 "use client";
 
-import { memo, useCallback } from "react";
-
-const SORT_OPTIONS = [
-  { value: "created_desc", label: "Newest first" },
-  { value: "created_asc", label: "Oldest first" },
-  { value: "year_desc", label: "Year (desc)" },
-  { value: "year_asc", label: "Year (asc)" },
-  { value: "title_asc", label: "Title A-Z" },
-  { value: "title_desc", label: "Title Z-A" },
-];
+import {memo, useCallback} from "react";
 
 const ResultsToolbar = ({
   loading,
@@ -23,6 +14,8 @@ const ResultsToolbar = ({
   viewMode,
   onViewModeChange,
   activeFiltersSummary,
+  content,
+  textAlign
 }) => {
   const handleSortChange = useCallback(
     (event) => {
@@ -43,34 +36,30 @@ const ResultsToolbar = ({
   return (
     <header className="results-toolbar">
       <div className="results-toolbar__meta">
-        <h2 className="results-toolbar__title">Results</h2>
-        <p className="results-toolbar__summary" aria-live="polite">
-          {loading && !hasLoadedOnce && "Searching the collection..."}
-          {loading && hasLoadedOnce && "Refreshing results..."}
-          {!loading && hasLoadedOnce && total > 0 && (
-            <>
-              {total} document{total === 1 ? "" : "s"} - Page {page} of {totalPages}
-              {activeFiltersSummary ? ` — ${activeFiltersSummary}` : ""}
-            </>
-          )}
-          {!loading && hasLoadedOnce && total === 0 && "No documents found for this search."}
-          {!loading && !hasLoadedOnce && "Start exploring the library by running a search."}
+        <h2 className="results-toolbar__title">{content.toolbar.title}</h2>
+        <p className={`results-toolbar__summary ${textAlign}`} aria-live="polite">
+          {loading && !hasLoadedOnce && content.toolbar.searching}
+          {loading && hasLoadedOnce && content.toolbar.refreshing}
+          {!loading && hasLoadedOnce && total > 0 && content.toolbar.results(total, page, totalPages)}
+          {!loading && hasLoadedOnce && total === 0 && content.toolbar.noResults}
+          {!loading && !hasLoadedOnce && content.toolbar.start}
+          {activeFiltersSummary ? ` — ${activeFiltersSummary}` : ""}
         </p>
       </div>
       <div className="results-toolbar__actions">
         {onOpenFilters && (
           <button type="button" className="results-toolbar__filters" onClick={onOpenFilters}>
             <i className="fa-solid fa-sliders" aria-hidden="true"></i>
-            Filters
+            {content.toolbar.filtersButton}
           </button>
         )}
-        <div className="results-toolbar__view" role="group" aria-label="Change view mode">
+        <div className="results-toolbar__view" role="group" aria-label={content.toolbar.viewGroupAria}>
           <button
             type="button"
             className={`results-toolbar__view-btn ${viewMode === "detailed" ? "is-active" : ""}`}
             onClick={handleSetView("detailed")}
           >
-            <span className="sr-only">Detailed view</span>
+            <span className="sr-only">{content.toolbar.viewDetailed}</span>
             <i className="fa-solid fa-list" aria-hidden="true"></i>
           </button>
           <button
@@ -78,14 +67,14 @@ const ResultsToolbar = ({
             className={`results-toolbar__view-btn ${viewMode === "compact" ? "is-active" : ""}`}
             onClick={handleSetView("compact")}
           >
-            <span className="sr-only">Compact view</span>
+            <span className="sr-only">{content.toolbar.viewCompact}</span>
             <i className="fa-solid fa-bars" aria-hidden="true"></i>
           </button>
         </div>
         <label className="results-toolbar__sort">
-          <span className="sr-only">Sort results</span>
-          <select value={sort} onChange={handleSortChange} aria-label="Sort results">
-            {SORT_OPTIONS.map((option) => (
+          <span className="sr-only">{content.toolbar.sortAria}</span>
+          <select value={sort} onChange={handleSortChange} aria-label={content.toolbar.sortAria}>
+            {content.toolbar.sortOptions.map((option) => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>

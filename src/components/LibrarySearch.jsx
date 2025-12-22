@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import useDocumentsSearch from "@/hooks/useDocumentsSearch";
 import SearchHero from "@/components/search/SearchHero";
 import FiltersRow from "@/components/search/FiltersRow";
@@ -9,9 +9,15 @@ import AdvancedFilters from "@/components/search/AdvancedFilters";
 import ResultsToolbar from "@/components/search/ResultsToolbar";
 import ResultsList from "@/components/search/ResultsList";
 import SearchPagination from "@/components/search/Pagination";
+import {getLibrarySearchContent} from "@/content/librarySearch";
+import {isRtlLocale} from "@/i18n/config";
 
 const LibrarySearch = () => {
-  const tSearch = useTranslations("library.search");
+  const locale = useLocale();
+  const tSearch = getLibrarySearchContent(locale);
+  const isRtl = isRtlLocale(locale);
+  const textAlign = isRtl ? "text-end" : "text-start";
+  const dir = isRtl ? "rtl" : "ltr";
   const {
     items,
     facets,
@@ -49,11 +55,18 @@ const LibrarySearch = () => {
   const toggleAdvanced = useCallback(() => setAdvancedOpen((prev) => !prev), []);
   const authorFilter = (author || "").trim();
   const authorSummary =
-    authorSupported && authorFilter ? tSearch("summaryAuthor", { author: authorFilter }) : null;
+    authorSupported && authorFilter ? authorFilter : null;
 
   return (
-    <section className="library-search">
-      <SearchHero query={q} setQuery={setQ} loading={loading && !hasLoadedOnce} />
+    <section className="library-search" dir={dir}>
+      <SearchHero
+        query={q}
+        setQuery={setQ}
+        loading={loading && !hasLoadedOnce}
+        content={tSearch}
+        textAlign={textAlign}
+        isRtl={isRtl}
+      />
 
       <div className="library-search__shell">
         <FiltersRow
@@ -67,6 +80,7 @@ const LibrarySearch = () => {
           advancedOpen={advancedOpen}
           onToggleAdvanced={toggleAdvanced}
           loading={loading}
+          content={tSearch}
         />
 
         {advancedOpen && (
@@ -81,6 +95,7 @@ const LibrarySearch = () => {
             authorSupported={authorSupported}
             resetFilters={resetFilters}
             onClose={() => setAdvancedOpen(false)}
+            content={tSearch}
           />
         )}
 
@@ -95,6 +110,8 @@ const LibrarySearch = () => {
           activeFiltersSummary={authorSummary}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
+          content={tSearch}
+          textAlign={textAlign}
         />
 
         <ResultsList
@@ -103,11 +120,13 @@ const LibrarySearch = () => {
           error={error}
           hasLoadedOnce={hasLoadedOnce}
           viewMode={viewMode}
+          content={tSearch}
+          textAlign={textAlign}
         />
 
         {(hasNext || page > 1) && (
           <div className="library-search__pagination">
-            <SearchPagination page={page} hasNext={hasNext} setPage={setPage} loading={loading} />
+            <SearchPagination page={page} hasNext={hasNext} setPage={setPage} loading={loading} content={tSearch} />
           </div>
         )}
       </div>
