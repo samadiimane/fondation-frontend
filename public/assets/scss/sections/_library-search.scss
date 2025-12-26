@@ -395,10 +395,6 @@
 }
 
 .document-card__action {
-  border: 1px solid #d7deeb;
-  background: #fff;
-  color: #1f2a4a;
-  font-size: 0.85rem;
   font-weight: 600;
   border-radius: 999px;
   padding: 0.45rem 1rem;
@@ -408,8 +404,27 @@
 }
 
 .document-card__action--link {
-  border-color: #0f4c81;
-  color: #0f4c81;
+    border: 1px solid;
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+    text-decoration: none;
+    display: inline-flex;
+
+    &:hover {
+      border: 1px solid;
+      border-color: var(--primary-color);
+      background-color: var(--primary-color);
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    i {
+      transition: transform 0.2s ease;
+    }
+
+    &:hover i {
+      transform: translateX(2px);
+    }
 }
 
 .document-card__empty {

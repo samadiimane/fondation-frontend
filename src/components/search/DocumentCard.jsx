@@ -89,14 +89,6 @@ const DocumentCard = ({document, viewMode, content}) => {
       {trimmedAbstract && <p className="document-card__abstract">{trimmedAbstract}</p>}
 
       <footer className="document-card__actions">
-        <button type="button" className="document-card__action" disabled>
-          <i className="fa-solid fa-eye" aria-hidden="true"></i>
-          {content.card.preview}
-        </button>
-        <button type="button" className="document-card__action" disabled>
-          <i className="fa-solid fa-download" aria-hidden="true"></i>
-          {content.card.download}
-        </button>
         <Link href={`/library/${document.id}`} className="document-card__action document-card__action--link">
           <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
           {content.card.details}
