@@ -11,8 +11,9 @@ import AOSWrap from "@/helper/AOSWrap";
 import CustomCursor from "@/helper/CustomCursor";
 import { getDocument } from "@/lib/api";
 import { mapAuthors } from "@/lib/authors";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { defaultLocale, isRtlLocale } from "@/i18n/config";
 
 const buildStrings = (t) => ({
   breadcrumbs: {
@@ -96,7 +97,7 @@ const formatTypeLabel = (value, fallback) => {
 };
 
 export async function generateMetadata(context) {
-  const locale = await getLocale();
+  const locale = context?.params?.locale || defaultLocale;
   const params = await context?.params;
   const id = params?.id;
   if (!id) return {};
@@ -104,7 +105,7 @@ export async function generateMetadata(context) {
   const metaT = await getTranslations({ locale, namespace: "library.articleDetail.meta" });
 
   try {
-    const doc = await getDocument(id);
+    const doc = await getDocument(id, { locale });
     return {
       title: metaT("title", { title: doc.title }),
       description: doc.abstract?.slice(0, 140) || metaT("descriptionFallback"),
@@ -118,7 +119,7 @@ export async function generateMetadata(context) {
 }
 
 export default async function DocumentDetailPage(context) {
-  const locale = await getLocale();
+  const locale = context?.params?.locale || defaultLocale;
   const params = await context?.params;
   const id = params?.id;
   if (!id) {
@@ -127,7 +128,7 @@ export default async function DocumentDetailPage(context) {
 
   let document;
   try {
-    document = await getDocument(id);
+    document = await getDocument(id, { locale });
   } catch (error) {
     if (error?.message?.includes("404")) {
       notFound();
@@ -150,17 +151,17 @@ export default async function DocumentDetailPage(context) {
   const authorsDetailValue =
     authorEntries.length > 0
       ? (
-          <ul className="article-detail__author-list">
-            {authorEntries.map((entry) => (
-              <li key={entry.key} className="article-detail__author-list-item">
-                <span className="article-detail__author-name">{entry.name}</span>
-                {entry.affiliation && (
-                  <span className="article-detail__author-affiliation"> — {entry.affiliation}</span>
-                )}
-              </li>
-            ))}
-          </ul>
-        )
+        <ul className="article-detail__author-list">
+          {authorEntries.map((entry) => (
+            <li key={entry.key} className="article-detail__author-list-item">
+              <span className="article-detail__author-name">{entry.name}</span>
+              {entry.affiliation && (
+                <span className="article-detail__author-affiliation"> — {entry.affiliation}</span>
+              )}
+            </li>
+          ))}
+        </ul>
+      )
       : strings.header.authorsFallback;
   const year = document.year ?? strings.header.yearFallback;
   const typeLabel = formatTypeLabel(document.type, strings.header.typeFallback);
@@ -213,8 +214,8 @@ export default async function DocumentDetailPage(context) {
   const keywords = Array.isArray(document.keywords) ? document.keywords.filter(Boolean) : [];
   const createdAt = document.createdAt
     ? new Intl.DateTimeFormat(locale || undefined, { dateStyle: "medium" }).format(
-        new Date(document.createdAt)
-      )
+      new Date(document.createdAt)
+    )
     : null;
   const detailEntries = [
     { key: "authors", label: strings.header.labels.authors, value: authorsDetailValue },
@@ -304,6 +305,7 @@ export default async function DocumentDetailPage(context) {
 
   const breadcrumbItems = [
     strings.breadcrumbs.home,
+    strings.breadcrumbs.library,
     strings.breadcrumbs.journals,
   ];
 
@@ -329,35 +331,19 @@ export default async function DocumentDetailPage(context) {
         <TopBarTwo />
         <HeaderFour />
 
-        <main className={detailClassName}>
-          <Breadcrumbs items={breadcrumbItems} ariaLabel={strings.a11y.breadcrumbs} />
+        <main className={detailClassName} lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
+          <Breadcrumbs items={breadcrumbItems} ariaLabel={strings.a11y.breadcrumbs} locale={locale} />
 
           <section className="article-detail__section">
-      <header className="article-detail__header">
-        <div
-          className='section__header'
-          data-aos='fade-up'
-          data-aos-duration={900}
-        >
-          <h5 className="title-animation_inner mt-0"><span>{typeLabel} :</span> {documentTitle}</h5>
-        </div>
-        <div className="article-detail__authors-inline" aria-label={strings.header.labels.authors}>
-          <span className="article-detail__authors-label">{strings.header.labels.authors}:</span>{" "}
-          {authorEntries.length > 0 ? (
-            authorEntries.map((entry, index) => (
-              <span key={entry.key} className="article-detail__author-inline">
-                {entry.name}
-                {entry.affiliation && (
-                  <span className="article-detail__author-inline-affiliation"> — {entry.affiliation}</span>
-                )}
-                {index < authorEntries.length - 1 && <span className="article-detail__authors-separator">; </span>}
-              </span>
-            ))
-          ) : (
-            <span className="article-detail__authors-fallback">{strings.header.authorsFallback}</span>
-          )}
-        </div>
-      </header>
+            <header className="article-detail__header">
+              <div
+                className='section__header'
+                data-aos='fade-up'
+                data-aos-duration={900}
+              >
+                <h5 className="title-animation_inner mt-0"><span>{typeLabel} :</span> {documentTitle}</h5>
+              </div>
+            </header>
 
             <div className="article-detail__grid">
               <article className="article-detail__card article-detail__card--primary">

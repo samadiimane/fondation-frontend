@@ -625,7 +625,7 @@
           "href": "/"
         },
         "journals": {
-          "label": "المجلات",
+          "label": "???????",
           "href": "/journals"
         }
       },
@@ -724,7 +724,7 @@
           "href": "/library"
         },
         "journals": {
-          "label": "الدوريات",
+          "label": "المجلات",
           "href": "/journals"
         },
         "issue": "عدد المجلد {volume} رقم {number} ({year})"
@@ -807,7 +807,7 @@
           "href": "/library"
         },
         "journals": {
-          "label": "الدوريات",
+          "label": "???????",
           "href": "/journals"
         },
         "issue": "عدد المجلد {volume} رقم {number} ({year})"
