@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getJournals } from "@/lib/api";
 import { buildQuery } from "@/lib/api";
+import { useLocale } from "next-intl";
 
 const PAGE_SIZE = 20;
 const DEBOUNCE_DELAY = 300;
@@ -49,6 +50,23 @@ const useJournalsSearch = ({ locale } = {}) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const appLocale = useLocale();
+
+  const pathLocale = useMemo(() => {
+    const segments = (pathname || "").split("/").filter(Boolean);
+    return segments.length ? segments[0] : null;
+  }, [pathname]);
+
+  const effectiveLocale = useMemo(() => {
+    const candidate = locale || pathLocale || appLocale || "en";
+    return (candidate || "en").toLowerCase();
+  }, [locale, appLocale, pathLocale]);
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      console.debug("JournalsSearch effectiveLocale", effectiveLocale);
+    }
+  }, [effectiveLocale]);
 
   const initial = useMemo(() => parseInitialParams(searchParams), [searchParams]);
 
@@ -75,9 +93,9 @@ const useJournalsSearch = ({ locale } = {}) => {
       JSON.stringify({
         q: debouncedQ.trim(),
         page,
-        locale,
+        locale: effectiveLocale,
       }),
-    [debouncedQ, page, locale]
+    [debouncedQ, page, effectiveLocale]
   );
 
   const syncUrl = useCallback(
@@ -107,6 +125,7 @@ const useJournalsSearch = ({ locale } = {}) => {
           q: debouncedQ.trim() || undefined,
           page,
           pageSize: PAGE_SIZE,
+          locale: effectiveLocale,
           signal: controller.signal,
         });
         if (controller.signal.aborted) return;
@@ -129,8 +148,7 @@ const useJournalsSearch = ({ locale } = {}) => {
         }
 
         const sortedItems = [...filteredItems];
-        const localeToUse = locale || (typeof window !== "undefined" ? navigator.language : "en");
-        const collator = new Intl.Collator(localeToUse, { sensitivity: "base" });
+        const collator = new Intl.Collator(effectiveLocale, { sensitivity: "base" });
 
         if (sort === "name_desc") {
           sortedItems.sort((a, b) => collator.compare(b.name || "", a.name || ""));
@@ -156,7 +174,7 @@ const useJournalsSearch = ({ locale } = {}) => {
         setHasNext(Boolean(response.hasNext) && !normalizedIssn);
         setHasLoadedOnce(true);
 
-        const formatter = new Intl.NumberFormat(localeToUse);
+        const formatter = new Intl.NumberFormat(effectiveLocale);
         setAnnouncement(formatter.format(totalCount));
       } catch (err) {
         if (controller.signal.aborted) return;
@@ -175,7 +193,7 @@ const useJournalsSearch = ({ locale } = {}) => {
     fetchData();
 
     return () => controller.abort();
-  }, [requestKey, debouncedIssn, sort, page, locale]);
+  }, [requestKey, debouncedIssn, sort, page, effectiveLocale]);
 
   const setPageSafe = useCallback((value) => {
     const next = Math.max(Number(value) || 1, 1);

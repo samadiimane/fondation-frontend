@@ -1,21 +1,19 @@
 import { Link } from "@/i18n/navigation";
 
-const JournalCard = ({ journal, strings, formatNumber }) => {
+const JournalCard = ({ journal, strings, formatNumber, locale }) => {
+  const isRtl = typeof locale === "string" && locale.toLowerCase().startsWith("ar");
   const issuesCount = formatNumber(journal.counts?.issues ?? 0);
   const documentsCount = formatNumber(journal.counts?.documents ?? 0);
   const issnLabel = journal.issn
     ? `${strings.badges.issn} ${journal.issn}`
     : strings.badges.fallback;
-  const publisherDisplay = journal.publisher?.trim()
-    ? journal.publisher.trim()
-    : strings.publisherUnknown;
+  const publisherDisplay = journal.publisher?.trim() ?? "";
 
-  const baseDescription = journal.description?.trim();
-  const description = baseDescription
-    ? baseDescription.length > 200
+  const baseDescription = journal.description?.trim() ?? "";
+  const description =
+    baseDescription.length > 200
       ? `${baseDescription.slice(0, 197).trimEnd()}...`
-      : baseDescription
-    : strings.descriptionFallback;
+      : baseDescription;
 
   const metaLineTemplate = strings.metaLineTemplate || "{issues} / {documents}";
   const metaLine = metaLineTemplate
@@ -23,7 +21,7 @@ const JournalCard = ({ journal, strings, formatNumber }) => {
     .replace("{documents}", documentsCount);
 
   return (
-    <article className="journal-card">
+    <article className="journal-card" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
       <header className="journal-card__header">
         <span className="journal-card__badge">{issnLabel}</span>
         <h2 className="journal-card__title">
@@ -34,7 +32,7 @@ const JournalCard = ({ journal, strings, formatNumber }) => {
 
       <p
         className="journal-card__publisher"
-        title={journal.publisher?.trim() ? journal.publisher.trim() : undefined}
+        title={publisherDisplay || undefined}
       >
         <span>
           <strong>{strings.publisherLabel} :</strong> {publisherDisplay}

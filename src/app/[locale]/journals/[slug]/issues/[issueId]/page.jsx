@@ -7,13 +7,14 @@ import TopBarTwo from "@/components/TopBarTwo";
 import AOSWrap from "@/helper/AOSWrap";
 import CustomCursor from "@/helper/CustomCursor";
 import { getJournal, getJournalIssues } from "@/lib/api";
-import { getLocale, getTranslations } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { defaultLocale, isRtlLocale } from "@/i18n/config";
 
 const ISSUE_PAGE_SIZE = 100;
 const MAX_LOOKUP_ITERATIONS = 20;
 
-const findIssueById = async (slug, issueId) => {
+const findIssueById = async (slug, issueId, locale) => {
   let page = 1;
   let iterations = 0;
 
@@ -21,6 +22,7 @@ const findIssueById = async (slug, issueId) => {
     const response = await getJournalIssues(slug, {
       page,
       pageSize: ISSUE_PAGE_SIZE,
+      locale,
     });
 
     const issues = Array.isArray(response.issues) ? response.issues : [];
@@ -41,7 +43,7 @@ const findIssueById = async (slug, issueId) => {
 };
 
 export async function generateMetadata(context) {
-  const locale = await getLocale();
+  const locale = context?.params?.locale || defaultLocale;
   const params = await context?.params;
   const slug = params?.slug;
   const issueId = Number(params?.issueId);
@@ -52,7 +54,7 @@ export async function generateMetadata(context) {
   const t = await getTranslations({ locale, namespace: "library.issueArticles.meta" });
 
   try {
-    const journal = await getJournal(slug);
+    const journal = await getJournal(slug, { locale });
     return {
       title: t("title", { journal: journal.name }),
       description: t("description", { journal: journal.name }),
@@ -66,7 +68,7 @@ export async function generateMetadata(context) {
 }
 
 export default async function IssueArticlesPage(context) {
-  const locale = await getLocale();
+  const locale = context?.params?.locale || defaultLocale;
   const params = await context?.params;
   const slug = params?.slug;
   const issueIdParam = params?.issueId;
@@ -78,7 +80,7 @@ export default async function IssueArticlesPage(context) {
 
   let journal;
   try {
-    journal = await getJournal(slug);
+    journal = await getJournal(slug, { locale });
   } catch (error) {
     if (error?.message?.includes("404")) {
       notFound();
@@ -86,7 +88,7 @@ export default async function IssueArticlesPage(context) {
     throw error;
   }
 
-  const issue = await findIssueById(slug, issueId);
+  const issue = await findIssueById(slug, issueId, locale);
   if (!issue) {
     notFound();
   }
@@ -162,12 +164,12 @@ export default async function IssueArticlesPage(context) {
     number: formatIssueValue(issue.number),
     year: formatIssueValue(issue.year),
   });
+  const isRtl = isRtlLocale(locale);
 
   const breadcrumbsItems = [
     { label: t("breadcrumbs.home.label"), href: t("breadcrumbs.home.href") },
     { label: t("breadcrumbs.journals.label"), href: t("breadcrumbs.journals.href") },
     { label: journalDisplayName, href: `/journals/${slug}` },
-    { label: issueBreadcrumbLabel, current: true },
   ];
 
   return (
@@ -178,8 +180,8 @@ export default async function IssueArticlesPage(context) {
         <TopBarTwo />
         <HeaderFour />
 
-        <main className="issue-articles-page">
-          <Breadcrumbs items={breadcrumbsItems} ariaLabel={t("a11y.breadcrumbs")} />
+        <main className="issue-articles-page" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
+          <Breadcrumbs items={breadcrumbsItems} ariaLabel={t("a11y.breadcrumbs")} locale={locale} />
           <IssueArticlesExplorer
             slug={slug}
             issueId={issueId}

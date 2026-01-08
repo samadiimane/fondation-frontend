@@ -6,6 +6,7 @@ import useNavigationTaxonomy from "@/hooks/useNavigationTaxonomy";
 import useAuth from "@/hooks/useAuth";
 import {isRtlLocale} from "@/i18n/config";
 import {getServiceContent, SERVICE_SLUGS} from "@/content/services";
+import { getJournals } from "@/lib/api";
 
 const KNOWN_SECTION_CONFIG = {
   archives: {
@@ -54,8 +55,10 @@ const HeaderFour = () => {
   const [search, setSearch] = useState(false);
   const [mobileMenu, setMobileMenu] = useState(false);
   const [scroll, setScroll] = useState(false);
-  const {categories, loading: categoriesLoading} = useNavigationTaxonomy();
+  const {categories, loading: categoriesLoading} = useNavigationTaxonomy({ locale });
   const {isAuthenticated, roles, logout, initializing: authLoading} = useAuth();
+  const [navJournals, setNavJournals] = useState([]);
+  const [navJournalsLoading, setNavJournalsLoading] = useState(false);
   const mobileMenuListRef = useRef(null);
   const safeRoles = Array.isArray(roles) ? roles : [];
   const hasAdminRole = safeRoles.includes("admin");
@@ -172,21 +175,63 @@ const HeaderFour = () => {
     }
   }, [locale]);
 
+  useEffect(() => {
+    const controller = new AbortController();
+    let isCurrent = true;
+    const load = async () => {
+      try {
+        setNavJournalsLoading(true);
+        const response = await getJournals({
+          page: 1,
+          pageSize: 100,
+          locale,
+          signal: controller.signal,
+        });
+        if (!isCurrent) return;
+        const items = Array.isArray(response?.journals) ? response.journals : [];
+        setNavJournals(items);
+      } catch (error) {
+        if (!isCurrent || controller.signal.aborted) return;
+        console.error(error);
+        setNavJournals([]);
+      } finally {
+        if (isCurrent) {
+          setNavJournalsLoading(false);
+        }
+      }
+    };
+    load();
+    return () => {
+      isCurrent = false;
+      controller.abort();
+    };
+  }, [locale]);
+
   const journalLinks = useMemo(() => {
+    if (navJournals.length) {
+      const mapped = navJournals.map((journal) => ({
+        slug: journal.slug,
+        label: (journal.name ?? "").trim(),
+        href: `/journals/${journal.slug}`,
+      }));
+      mapped.sort((a, b) => collator.compare(a.label, b.label));
+      return mapped;
+    }
     const journals = (categories || []).filter((category) => category.kind === "journal");
     const mapped = journals.map((category) => {
-      const fallbackLabel = toTitleFromSlug(category.slug);
+      const linked = category.linkedJournal;
+      const label = (linked?.name ?? category.name ?? "").trim();
       return {
         slug: category.slug,
-        label: category.name?.trim() || fallbackLabel,
-        href: category.linkedJournal
-          ? `/journals/${category.linkedJournal.slug}`
+        label,
+        href: linked
+          ? `/journals/${linked.slug}`
           : `/journals/${category.slug}`,
       };
     });
     mapped.sort((a, b) => collator.compare(a.label, b.label));
     return mapped;
-  }, [categories, collator]);
+  }, [categories, collator, navJournals]);
 
   const librarySectionLinks = useMemo(() => {
     const sections = (categories || []).filter(
@@ -226,6 +271,8 @@ const HeaderFour = () => {
     () => ["/library", ...journalActiveTargets, ...librarySectionLinks.map((item) => item.href.split("?")[0])],
     [journalActiveTargets, librarySectionLinks]
   );
+
+  const isJournalsLoading = navJournalsLoading || categoriesLoading;
 
   const serviceLinks = useMemo(() => {
     return SERVICE_SLUGS.map((slug) => {
@@ -295,9 +342,10 @@ const HeaderFour = () => {
                     <ul
                       className='navbar__list'
                       style={{
-                        direction: isRtl ? "rtl" : "ltr",
-                        fontSize: isRtl ? "1.05em" : undefined
+                        direction: isRtl ? "rtl" : "ltr"
                       }}
+                      lang={locale}
+                      dir={isRtl ? "rtl" : "ltr"}
                     >
                       <li
                         className={`navbar__item navbar__item--has-children nav-fade ${
@@ -348,7 +396,7 @@ const HeaderFour = () => {
                               {t("journals")}
                             </Link>
                             <ul className='navbar__sub-menu navbar__sub-menu__nested'>
-                              {categoriesLoading ? (
+                              {isJournalsLoading ? (
                                 <li>
                                   <span>{t("journalsLoading")}</span>
                                 </li>

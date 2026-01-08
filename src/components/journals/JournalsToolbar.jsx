@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback } from "react";
+import { isRtlLocale } from "@/i18n/config";
 
 const JournalsToolbar = ({
   strings,
@@ -12,13 +13,23 @@ const JournalsToolbar = ({
   onSortChange,
   summary,
   loading,
+  locale,
+  subtitle,
 }) => {
   const handleSubmit = useCallback((event) => {
     event.preventDefault();
   }, []);
 
+  const isRtl = isRtlLocale(locale);
+
   return (
-    <form className="journals-toolbar mb-3" role="search" onSubmit={handleSubmit}>
+    <form
+      className="journals-toolbar mb-3"
+      role="search"
+      onSubmit={handleSubmit}
+      lang={locale}
+      dir={isRtl ? "rtl" : "ltr"}
+    >
       <div className="journals-toolbar__inputs">
         <div className="journals-toolbar__field">
           <label htmlFor="journals-search">{strings.searchLabel}</label>
@@ -61,8 +72,13 @@ const JournalsToolbar = ({
         </div>
       </div>
 
-      <div className="journals-toolbar__summary" role="status" aria-live="polite">
+      <div
+        className="journals-toolbar__summary d-flex align-items-center gap-2 flex-wrap"
+        role="status"
+        aria-live="polite"
+      >
         <span>{loading ? strings.loading : summary}</span>
+        {subtitle ? <span className="mb-0 journals-toolbar__subtitle">{subtitle}</span> : null}
       </div>
     </form>
   );

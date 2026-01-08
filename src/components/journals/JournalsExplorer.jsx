@@ -6,6 +6,7 @@ import useJournalsSearch from "@/hooks/useJournalsSearch";
 import JournalsToolbar from "@/components/journals/JournalsToolbar";
 import JournalCardList from "@/components/journals/JournalCardList";
 import JournalsPagination from "@/components/journals/JournalsPagination";
+import { isRtlLocale } from "@/i18n/config";
 
 const JournalsExplorer = ({ locale, strings }) => {
   const {
@@ -57,19 +58,18 @@ const JournalsExplorer = ({ locale, strings }) => {
 
   const canShowPagination = total > pageSize || page > 1 || hasNext;
 
+  const isRtl = isRtlLocale(locale);
+
   return (
-    <section className="journals-explorer">
-      <Breadcrumbs items={breadcrumbItems} ariaLabel={strings.a11y.breadcrumbs} />
+    <section className="journals-explorer" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
+      <Breadcrumbs items={breadcrumbItems} ariaLabel={strings.a11y.breadcrumbs} locale={locale} />
       <div
         className='section__header'
         data-aos='fade-up'
         data-aos-duration={900}
       >
         <h2 className="title-animation_inner mt-0">{strings.title}</h2>
-
       </div>
-      <p className="mb-3">{strings.subtitle}</p>
-
 
       <JournalsToolbar
         strings={strings.toolbar}
@@ -81,6 +81,8 @@ const JournalsExplorer = ({ locale, strings }) => {
         onSortChange={setSort}
         summary={summaryText}
         loading={loading}
+        locale={locale}
+        subtitle={strings.subtitle}
       />
 
       <div className="journals-explorer__results" aria-live="polite">
@@ -99,6 +101,7 @@ const JournalsExplorer = ({ locale, strings }) => {
             loading={loading && !hasLoadedOnce}
             empty={!loading && hasLoadedOnce && items.length === 0}
             formatNumber={(value) => numberFormatter.format(value ?? 0)}
+            locale={locale}
           />
         )}
       </div>

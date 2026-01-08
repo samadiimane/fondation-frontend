@@ -9,7 +9,7 @@ const DEFAULT_STATE = {
   error: null,
 };
 
-const useNavigationTaxonomy = () => {
+const useNavigationTaxonomy = ({ locale } = {}) => {
   const [state, setState] = useState(DEFAULT_STATE);
 
   useEffect(() => {
@@ -18,8 +18,10 @@ const useNavigationTaxonomy = () => {
 
     const load = async () => {
       try {
+        setState((prev) => ({ ...prev, loading: true, error: null }));
         const result = await getCategories({
           pageSize: 100,
+          locale,
           signal: controller.signal,
         });
         if (!isCurrent) return;
@@ -47,7 +49,7 @@ const useNavigationTaxonomy = () => {
       isCurrent = false;
       controller.abort();
     };
-  }, []);
+  }, [locale]);
 
   const categories = state.categories;
   const indexedBySlug = useMemo(() => {

@@ -14,8 +14,8 @@
     "structure": "الهيكل الإداري واللجنة العلمية",
     "libraryResources": "المحتوى العلمي والموارد البحثية",
     "digitalLibrary": "المكتبة الرقمية",
-    "documents": "???????",
-    "collections": "?????????",
+    "documents": "??????",
+    "collections": "????????",
     "journals": "المجلات",
     "darAlNiaba": "دار النيابة",
     "lesTangerois": "الطنجيون",
@@ -244,7 +244,7 @@
       "kinds": {
         "all": "كل الأنواع",
         "section": "الأقسام",
-        "journal": "المجلات",
+        "journal": "??????",
         "archive_collection": "مجموعات الأرشيف",
         "topic": "المواضيع"
       },
@@ -544,19 +544,19 @@
       "description": "تصفّح الدوريات العلمية الرقمية التابعة للمؤسسة مع تفاصيل على مستوى الأعداد، لفائدة الباحثين والمؤرخين."
     },
     "journalDetail": {
-      "title": "{name} | دورية تابعة لمؤسسة AKT",
-      "description": "السجل العلمي وتاريخ الأعداد لـ {name}، محفوظ في المؤسسة.",
-      "descriptionFallback": "اطلع على السجل المنسق لهذه الدورية."
+      "title": "{name} | ???? ????? ?????? AKT",
+      "description": "??? ???? ??????? ?????? {name}? ????? ??? ???????.",
+      "descriptionFallback": "???? ??? ????? ?????? ???? ??????."
     }
   },
   "library": {
     "journals": {
       "meta": {
-        "title": "فهرس الدوريات | مؤسسة AKT",
-        "description": "تصفّح الدوريات العلمية الرقمية التابعة للمؤسسة مع تفاصيل على مستوى الأعداد، لفائدة الباحثين والمؤرخين."
+        "title": "فهرس المجلات | مؤسسة AKT",
+        "description": "استكشف المجلات العلمية الرقمية بتفاصيل الأعداد المحفوظة ضمن مقتنيات مؤسسة AKT."
       },
-      "title": "الدوريات",
-      "subtitle": "دوريات وسلاسل مُحكَّمة محفوظة ضمن مجموعة AKT.",
+      "title": "المجلات",
+      "subtitle": "مجلات محكّمة ضمن مقتنيات مؤسسة AKT.",
       "a11y": {
         "breadcrumbs": "مسار التصفح"
       },
@@ -566,45 +566,45 @@
           "href": "/"
         },
         "journals": {
-          "label": "الدوريات",
+          "label": "المجلات",
           "href": "/journals"
         },
-        "issue": "عدد المجلد {volume} رقم {number} ({year})"
+        "issue": "العدد مجلد {volume} رقم {number} ({year})"
       },
       "toolbar": {
-        "searchLabel": "البحث في الدوريات",
-        "searchPlaceholder": "ابحث بالعنوان أو الناشر",
+        "searchLabel": "البحث في المجلات",
+        "searchPlaceholder": "بحث بعنوان المجلة أو الناشر",
         "issnLabel": "ISSN",
         "issnPlaceholder": "مثال: 1234-567X",
-        "sortLabel": "ترتيب",
+        "sortLabel": "الترتيب",
         "sortOptions": {
-          "nameAsc": "الاسم A–Z",
-          "nameDesc": "الاسم Z–A",
-          "createdDesc": "الأحدث إضافة"
+          "nameAsc": "الاسم (أ-ي)",
+          "nameDesc": "الاسم (ي-أ)",
+          "createdDesc": "أحدث إضافة"
         },
-        "summary": "{count} دوريات",
-        "loading": "جاري تحميل الدوريات...",
-        "announce": "تم العثور على {count} دوريات"
+        "summary": "{count}",
+        "loading": "جاري تحميل المجلات...",
+        "announce": "تم العثور على {count} مجلة"
       },
       "cards": {
-        "loading": "جاري تحميل الدوريات...",
-        "emptyTitle": "لا توجد دوريات",
-        "emptyDescription": "حاول تعديل معايير البحث أو التصفية.",
+        "loading": "جاري تحميل المجلات...",
+        "emptyTitle": "لا توجد مجلات",
+        "emptyDescription": "جرّب تعديل البحث أو عوامل التصفية.",
         "badges": {
           "issn": "ISSN",
-          "fallback": "دورية أكاديمية"
+          "fallback": "مجلة أكاديمية"
         },
         "publisherLabel": "الناشر",
-        "publisherUnknown": "الناشر غير متوفر",
-        "descriptionFallback": "سيُنشر لاحقًا ملخص وصفي لهذه الدورية.",
+        "publisherUnknown": "الناشر غير متوفّر",
+        "descriptionFallback": "سيتم نشر وصف لهذه المجلة قريباً.",
         "metaLine": "{issues} أعداد / {documents} وثائق",
-        "cta": "فتح سجل الدورية"
+        "cta": "عرض أعداد المجلة"
       },
       "error": {
-        "message": "يتعذّر تحميل الدوريات حاليًا."
+        "message": "تعذر تحميل المجلات حالياً."
       },
       "pagination": {
-        "ariaLabel": "ترقيم صفحات الدوريات",
+        "ariaLabel": "ترقيم صفحات المجلات",
         "previous": "السابق",
         "next": "التالي",
         "pageIndicator": "الصفحة {page}"
@@ -612,9 +612,9 @@
     },
     "journalDetail": {
       "meta": {
-        "title": "{name} | دورية تابعة لمؤسسة AKT",
-        "description": "السجل العلمي وتاريخ الأعداد لـ {name}، محفوظ في المؤسسة.",
-        "descriptionFallback": "اطلع على السجل المنسق لهذه الدورية."
+        "title": "{name} | مجلة تابعة لمؤسسة AKT",
+        "description": "سجل علمي وتاريخي لأعداد {name}، محفوظ لدى المؤسسة.",
+        "descriptionFallback": "اطلع على السجل المنسق لهذه المجلة."
       },
       "a11y": {
         "breadcrumbs": "مسار التصفح"
@@ -625,16 +625,16 @@
           "href": "/"
         },
         "journals": {
-          "label": "الدوريات",
+          "label": "المجلات",
           "href": "/journals"
         }
       },
       "header": {
-        "eyebrow": "دورية",
-        "descriptionFallback": "سيُنشر قريبًا عرض تفصيلي لهذه الدورية.",
+        "eyebrow": "مجلة",
+        "descriptionFallback": "سيُنشر قريباً عرض تفصيلي لهذه المجلة.",
         "descriptionToggle": {
-          "more": "عرض المزيد",
-          "less": "عرض أقل"
+          "more": "المزيد",
+          "less": "أقل"
         },
         "meta": {
           "issn": "ISSN",
@@ -650,53 +650,53 @@
           "coverage": "التغطية",
           "coverageUnknown": "التغطية غير متوفرة",
           "coverageSingle": "التغطية",
-          "holdings": "ملاحظة عن المقتنيات"
+          "holdings": "ملاحظة المقتنيات"
         },
-        "statsCardLabel": "مؤشرات الدورية"
+        "statsCardLabel": "مؤشرات المجلة"
       },
       "nav": {
-        "ariaLabel": "أقسام الدورية",
+        "ariaLabel": "أقسام المجلة",
         "overview": "نظرة عامة",
         "issues": "الأعداد"
       },
       "issues": {
         "title": "الأعداد والمجلدات",
-        "subtitle": "يُستكمل الوصف البيبلوغرافي لكل عدد بعد انتهاء أعمال الحفظ والصيانة.",
-        "summary": "{count} أعداد",
-        "loading": "جاري تحميل الأعداد...",
-        "error": "يتعذّر تحميل الأعداد حاليًا.",
+        "subtitle": "يُدرج كل عدد مع بياناته البيبليوغرافية.",
+        "summary": "{count} عدد",
+        "loading": "جارٍ تحميل الأعداد...",
+        "error": "تعذر تحميل الأعداد حالياً.",
         "sort": {
-          "label": "ترتيب",
+          "label": "الترتيب",
           "options": {
-            "yearDesc": "السنة (الأحدث)",
-            "yearAsc": "السنة (الأقدم)"
+            "yearDesc": "السنة (أحدث)",
+            "yearAsc": "السنة (أقدم)"
           }
         },
         "filters": {
           "ariaLabel": "مرشحات الأعداد",
           "title": "تصفية الأعداد",
-          "yearMin": "من سنة",
-          "yearMax": "إلى سنة",
+          "yearMin": "السنة من",
+          "yearMax": "السنة إلى",
           "volume": "المجلد",
           "number": "العدد",
-          "reset": "إعادة التعيين"
+          "reset": "إعادة تعيين"
         },
         "empty": {
           "title": "أعداد قيد الإعداد",
-          "description": "يجري فهرسة هذه الدورية. يُرجى العودة لاحقًا للاطلاع على الأعداد المنشورة."
+          "description": "يجري فهرسة هذه المجلة. يُرجى العودة لاحقاً للاطلاع على الأعداد المنشورة."
         },
         "table": {
           "year": "السنة",
           "volume": "المجلد",
           "number": "العدد",
           "title": "العنوان",
-          "date": "تاريخ الإصدار",
-          "dateUnknown": "التاريخ غير متوفر",
+          "date": "تاريخ العدد",
+          "dateUnknown": "تاريخ غير متوفر",
           "documents": "الوثائق",
-          "actions": "الإجراءات",
+          "actions": "إجراءات",
           "browseIssue": "عرض المقالات",
           "valueUnknown": "-",
-          "untitled": "عدد بلا عنوان"
+          "untitled": "عدد بدون عنوان"
         },
         "pagination": {
           "ariaLabel": "ترقيم صفحات الأعداد",
@@ -705,7 +705,7 @@
           "page": "الصفحة {page}"
         },
         "a11y": {
-          "results": "{count} أعداد"
+          "results": "{count} من الأعداد"
         }
       }
     },
@@ -738,7 +738,7 @@
         "yearFallback": "سنة غير معروفة",
         "typeFallback": "وثيقة",
         "languageFallback": "--",
-        "journalContext": "الدورية:",
+        "journalContext": "??????:",
         "issueContext": "المجلد {volume}، العدد {number}، {year}",
         "pages": "الصفحات {pages}",
         "badges": {
@@ -783,7 +783,7 @@
         "createdAt": "تاريخ إنشاء السجل",
         "keywords": "الكلمات المفتاحية",
         "noKeywords": "لا توجد كلمات مفتاحية مسجلة",
-        "journal": "الدورية",
+        "journal": "??????",
         "issue": "العدد"
       }
     },
@@ -817,17 +817,19 @@
         "results": "{count} مقالات"
       },
       "header": {
-        "journalLabel": "الدورية",
+        "journalLabel": "المجلة",
+        "journalContext": "المجلة:",
+        "journal": "المجلة",
         "title": "{journal}",
-        "subtitle": "العدد {issue}",
-        "issueLabel": "المجلد {volume} • العدد {number} • {year}",
+        "subtitle": "{journal}",
+        "issueLabel": "العدد {number} المجلد {volume} {year}",
         "documentsCount": "{count} مقالات",
-        "unknown": "—",
+        "unknown": "غير متوفر",
         "meta": {
           "volume": "المجلد",
           "number": "العدد",
           "year": "السنة",
-          "documents": "المقالات"
+          "documents": "الوثائق"
         }
       },
       "resultsLabel": "مقالات",

@@ -52,8 +52,10 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
 
   const canShowPagination = total > pageSize || page > 1 || hasNext;
 
+  const isRtl = typeof locale === "string" && locale.toLowerCase().startsWith("ar");
+
   return (
-    <section className="journal-issues-section" id="issues">
+    <section className="journal-issues-section" id="issues" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
       <div className="journal-issues__header">
         <div>
           <h5>{strings.title}</h5>
@@ -166,6 +168,8 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                           const formattedDate = issue.issueDate
                             ? dateFormatter.format(new Date(issue.issueDate))
                             : strings.table.dateUnknown;
+                          const titleDisplay = issue.title ?? "";
+                          const descriptionDisplay = issue.description ?? "";
 
                           return (
                             <tr key={issue.id}>
@@ -173,7 +177,10 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                                 {issue.year ?? strings.table.valueUnknown}
                               </td>
                               <td data-title={strings.table.title}>
-                                {issue.title || strings.table.untitled}
+                                <div>{titleDisplay}</div>
+                                {descriptionDisplay ? (
+                                  <div className="journal-issues__description">{descriptionDisplay}</div>
+                                ) : null}
                               </td>
                               <td data-title={strings.table.volume}>
                                 {issue.volume ?? strings.table.valueUnknown}
@@ -204,14 +211,19 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                         const formattedDate = issue.issueDate
                           ? dateFormatter.format(new Date(issue.issueDate))
                           : strings.table.dateUnknown;
+                        const titleDisplay = issue.title ?? "";
+                        const descriptionDisplay = issue.description ?? "";
                         return (
                           <article key={`card-${issue.id}`} className="journal-issues__card">
                             <header>
                               <span className="journal-issues__card-year">
                                 {issue.year ?? strings.table.valueUnknown}
                               </span>
-                              <h3>{issue.title || strings.table.untitled}</h3>
+                              <h3>{titleDisplay}</h3>
                             </header>
+                            {descriptionDisplay ? (
+                              <p className="journal-issues__card-description">{descriptionDisplay}</p>
+                            ) : null}
                             <ul className="journal-issues__card-meta">
                               <li>
                                 <strong>{strings.table.volume}</strong>{" "}

@@ -689,7 +689,7 @@ const normalizeJournal = (payload = {}) => {
     return {
       id: null,
       slug: "",
-      name: "Untitled journal",
+      name: "",
       issn: null,
       publisher: "",
       description: "",
@@ -710,10 +710,10 @@ const normalizeJournal = (payload = {}) => {
   return {
     id: base.id ?? null,
     slug: base.slug ?? "",
-    name: clampString(base.name) || "Untitled journal",
+    name: clampString(base.name) || "",
     issn: clampString(base.issn) || null,
-    publisher: clampString(base.publisher) || "",
-    description: clampString(base.description) || "",
+    publisher: clampString(base.publisher),
+    description: clampString(base.description),
     foundedYear: toNumber(base.founded_year ?? base.foundedYear),
     country: base.country ?? null,
     language: base.language ?? base.lang ?? null,
@@ -764,7 +764,7 @@ const normalizeIssue = (issue = {}) => ({
   id: issue.id ?? null,
   slug: issue.slug ?? issue.identifier ?? null,
   journalId: issue.journal_id ?? issue.journalId ?? null,
-  title: clampString(issue.title) || `Issue ${issue.number ?? ""}`.trim(),
+  title: clampString(issue.title) || "",
   year: toNumber(issue.year),
   volume: toNumber(issue.volume),
   number: toNumber(issue.number),
@@ -776,7 +776,7 @@ const normalizeIssue = (issue = {}) => ({
   counts: {
     documents: toNumber(issue.documents_count ?? issue.document_count ?? issue.documents) ?? 0,
   },
-  description: issue.description ?? "",
+  description: clampString(issue.description),
   raw: issue,
 });
 
@@ -812,6 +812,7 @@ export const getJournals = async ({
   page = 1,
   pageSize = 20,
   q,
+  locale,
   signal,
 } = {}) => {
   const payload = await apiFetch("/v1/journals", {
@@ -819,17 +820,21 @@ export const getJournals = async ({
       page,
       page_size: pageSize,
       q,
+      locale,
     },
     signal,
   });
   return resolvePaginatedJournals(payload);
 };
 
-export const getJournal = async (slug, { signal } = {}) => {
+export const getJournal = async (slug, { signal, locale } = {}) => {
   if (!slug) {
     throw new Error("Journal slug is required");
   }
-  const payload = await apiFetch(`/v1/journals/${slug}`, { signal });
+  const payload = await apiFetch(`/v1/journals/${slug}`, {
+    signal,
+    params: { locale },
+  });
   return normalizeJournal(payload);
 };
 
@@ -838,6 +843,7 @@ export const getJournalIssues = async (
   {
     page = 1,
     pageSize = 20,
+    locale,
     signal,
   } = {}
 ) => {
@@ -848,6 +854,7 @@ export const getJournalIssues = async (
     params: {
       page,
       page_size: pageSize,
+      locale,
     },
     signal,
   });
@@ -855,10 +862,10 @@ export const getJournalIssues = async (
 };
 
 export const getJournalWithIssues = async (slug, options = {}) => {
-  const { page, pageSize, signal } = options;
+  const { page, pageSize, locale, signal } = options;
   const [journal, issues] = await Promise.all([
-    getJournal(slug, { signal }),
-    getJournalIssues(slug, { page, pageSize, signal }),
+    getJournal(slug, { signal, locale }),
+    getJournalIssues(slug, { page, pageSize, signal, locale }),
   ]);
   return { journal, issues };
 };
@@ -1001,6 +1008,7 @@ export const getCategories = async ({
   parentSlug,
   page = 1,
   pageSize = 50,
+  locale,
   signal,
 } = {}) => {
   const payload = await apiFetch("/v1/categories", {
@@ -1009,6 +1017,7 @@ export const getCategories = async ({
       parent_slug: parentSlug,
       page,
       page_size: pageSize,
+      locale,
     },
     signal,
   });

@@ -66,9 +66,9 @@ const IssueArticlesExplorer = ({
         <div
           className='section__header'
           data-aos='fade-up'
-          data-aos-duration={900}
-        >
-          <h2 className="title-animation_inner mt-0"><span>{strings.header.journalLabel} :</span> {strings.header.title.replace("{journal}", journalName)} </h2>
+        data-aos-duration={900}
+      >
+          <h2 className="title-animation_inner mt-0"><span>{strings.header.journalLabel || "مجلة"} :</span> {strings.header.title.replace("{journal}", journalName)} </h2>
 
         </div>
         <dl className="issue-articles__meta">

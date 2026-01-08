@@ -94,6 +94,7 @@ const useJournalIssues = ({ slug, locale }) => {
           const response = await getJournalIssues(slug, {
             page: currentPage,
             pageSize: PAGE_SIZE,
+            locale,
             signal: controller.signal,
           });
           if (controller.signal.aborted) return;

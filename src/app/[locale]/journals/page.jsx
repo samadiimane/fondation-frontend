@@ -5,10 +5,11 @@ import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
 import AOSWrap from "@/helper/AOSWrap";
 import CustomCursor from "@/helper/CustomCursor";
-import {getLocale, getTranslations} from "next-intl/server";
+import {getTranslations} from "next-intl/server";
+import {defaultLocale} from "@/i18n/config";
 
-export async function generateMetadata() {
-  const locale = await getLocale();
+export async function generateMetadata({params}) {
+  const locale = params?.locale || defaultLocale;
   const t = await getTranslations({locale, namespace: "library.journals.meta"});
   return {
     title: t("title"),
@@ -30,6 +31,7 @@ const buildStrings = (t) => ({
     journals: {
       label: t("breadcrumbs.journals.label"),
       href: t("breadcrumbs.journals.href"),
+      current: true,
     },
   },
   toolbar: {
@@ -72,8 +74,8 @@ const buildStrings = (t) => ({
   },
 });
 
-export default async function JournalsPage() {
-  const locale = await getLocale();
+export default async function JournalsPage({params}) {
+  const locale = params?.locale || defaultLocale;
   const t = await getTranslations({locale, namespace: "library.journals"});
   const strings = buildStrings(t);
 
@@ -86,7 +88,7 @@ export default async function JournalsPage() {
         <HeaderFour />
 
         <main className="library-journals">
-          <JournalsExplorer locale={locale} strings={strings} />
+          <JournalsExplorer key={locale} locale={locale} strings={strings} />
         </main>
 
         <Footer />

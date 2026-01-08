@@ -8,8 +8,9 @@ import TopBarTwo from "@/components/TopBarTwo";
 import AOSWrap from "@/helper/AOSWrap";
 import CustomCursor from "@/helper/CustomCursor";
 import {getJournal} from "@/lib/api";
-import {getLocale, getTranslations} from "next-intl/server";
+import {getTranslations} from "next-intl/server";
 import {notFound} from "next/navigation";
+import {defaultLocale, isRtlLocale} from "@/i18n/config";
 
 const extractCoverage = (journal, t) => {
   const rawCoverage = journal?.raw?.coverage ?? journal?.raw?.years ?? {};
@@ -127,7 +128,7 @@ const buildNavStrings = (t) => ({
 });
 
 export async function generateMetadata({params}) {
-  const locale = await getLocale();
+  const locale = params?.locale || defaultLocale;
   const slug = params?.slug;
   if (!slug) {
     return {};
@@ -136,7 +137,7 @@ export async function generateMetadata({params}) {
   const metaT = await getTranslations({locale, namespace: "library.journalDetail.meta"});
 
   try {
-    const journal = await getJournal(slug);
+    const journal = await getJournal(slug, { locale });
     return {
       title: metaT("title", {name: journal.name}),
       description:
@@ -151,7 +152,7 @@ export async function generateMetadata({params}) {
 }
 
 export default async function JournalDetailPage({params}) {
-  const locale = await getLocale();
+  const locale = params?.locale || defaultLocale;
   const slug = params?.slug;
 
   if (!slug) {
@@ -160,7 +161,7 @@ export default async function JournalDetailPage({params}) {
 
   let journal;
   try {
-    journal = await getJournal(slug);
+    journal = await getJournal(slug, { locale });
   } catch (error) {
     if (error?.message?.includes("404")) {
       notFound();
@@ -177,6 +178,7 @@ export default async function JournalDetailPage({params}) {
   const issuesStrings = buildIssuesStrings(t);
   const navStrings = buildNavStrings(t);
   const breadcrumbsItems = buildBreadcrumbs(t, journal.name);
+  const isRtl = isRtlLocale(locale);
 
   const coverage = extractCoverage(journal, t);
   const holdings =
@@ -190,8 +192,8 @@ export default async function JournalDetailPage({params}) {
         <TopBarTwo />
         <HeaderFour />
 
-        <main className="journal-detail-page">
-          <Breadcrumbs items={breadcrumbsItems} ariaLabel={t("a11y.breadcrumbs")} />
+        <main className="journal-detail-page" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
+          <Breadcrumbs items={breadcrumbsItems} ariaLabel={t("a11y.breadcrumbs")} locale={locale} />
 
           <JournalHeader
             journal={journal}

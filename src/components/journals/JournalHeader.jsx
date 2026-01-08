@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { isRtlLocale } from "@/i18n/config";
 
 const JournalHeader = ({ journal, strings, stats, locale }) => {
   const [expanded, setExpanded] = useState(false);
@@ -15,9 +16,10 @@ const JournalHeader = ({ journal, strings, stats, locale }) => {
 
   const issuesCount = numberFormatter.format(journal.counts?.issues ?? 0);
   const documentsCount = numberFormatter.format(journal.counts?.documents ?? 0);
+  const descriptionText = journal.description?.trim() ?? "";
 
   return (
-    <header className="journal-header" id="overview">
+    <header className="journal-header" id="overview" lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
       <div>
         <div
           className='section__header'
@@ -35,7 +37,7 @@ const JournalHeader = ({ journal, strings, stats, locale }) => {
           </li>
           <li title={journal.publisher || undefined}>
             <span className="label">{strings.meta.publisher} :</span>
-            <span>{journal.publisher || strings.meta.publisherUnknown}</span>
+            <span>{journal.publisher || ""}</span>
           </li>
           {journal.language && (
             <li>
@@ -52,8 +54,8 @@ const JournalHeader = ({ journal, strings, stats, locale }) => {
         </ul>
 
         <div className={`journal-header__description mb-2 ${expanded ? "is-expanded" : ""}`}>
-          <p>{journal.description || strings.descriptionFallback}</p>
-          {journal.description && journal.description.length > 320 && (
+          <p>{descriptionText}</p>
+          {descriptionText.length > 320 && (
             <button
               type="button"
               className="journal-header__toggle"
