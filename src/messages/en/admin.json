@@ -1,0 +1,430 @@
+{
+  "admin": {
+    "dashboardTitle": "Admin dashboard",
+    "dashboardDescription": "Review upcoming admin features and manage restricted tools from here.",
+    "dashboardEmptyState": "This space will soon host analytics, approval queues, and shortcuts for committee tasks.",
+    "notAuthorizedTitle": "Admin access required",
+    "notAuthorizedDescription": "You need an administrator role to view this area. Please contact the foundation team if you believe this is an error.",
+    "backToHome": "Back to home",
+    "loading": "Loading admin tools…",
+    "stats": {
+      "documents": {
+        "title": "Total documents",
+        "description": "Published in the digital library"
+      },
+      "journals": {
+        "title": "Journals",
+        "description": "Curated titles available"
+      },
+      "users": {
+        "title": "Users",
+        "description": "Active accounts with access"
+      },
+      "pending": {
+        "title": "Pending items",
+        "description": "Awaiting moderation or review"
+      },
+      "noData": "No data yet"
+    },
+    "activity": {
+      "title": "Recent activity",
+      "description": "Latest changes from admins and editors",
+      "empty": "No activity yet"
+    },
+    "users": {
+      "title": "Users",
+      "description": "Manage admin-only access, permissions, and account status.",
+      "searchPlaceholder": "Search by email…",
+      "filterRoleLabel": "Role filter",
+      "role": {
+        "all": "All roles",
+        "admin": "Admin",
+        "committee": "Committee",
+        "researcher": "Researcher"
+      },
+      "addUser": "Add user",
+      "email": "Email",
+      "password": "Password",
+      "rolesLabel": "Roles",
+      "addUserDescription": "Create a password-based account and assign baseline roles.",
+      "manageRolesDescription": "Select which roles should remain active for this account.",
+      "create": "Create",
+      "cancel": "Cancel",
+      "manageRoles": "Manage roles",
+      "activate": "Activate",
+      "deactivate": "Deactivate",
+      "status": {
+        "active": "Active",
+        "inactive": "Inactive"
+      },
+      "columns": {
+        "email": "Email",
+        "roles": "Roles",
+        "status": "Status",
+        "created": "Created",
+        "actions": "Actions"
+      },
+      "empty": "No users matched the current filters.",
+      "errorLoading": "We couldn't load the users list.",
+      "resultCount": "{count, plural, one {# user} other {# users}}",
+      "refreshing": "Refreshing…",
+      "working": "Working…",
+      "copyEmail": "Copy email",
+      "pagination": {
+        "summary": "{start}–{end} of {total} users"
+      },
+      "confirmActivate": "Activate {email}?",
+      "confirmDeactivate": "Deactivate {email}?",
+      "retry": "Try again",
+      "toast": {
+        "created": "User added successfully.",
+        "rolesUpdated": "Roles updated.",
+        "activated": "User activated.",
+        "deactivated": "User deactivated.",
+        "error": "Something went wrong. Please try again."
+      }
+    },
+    "categories": {
+      "title": "Categories",
+      "subtitle": "Organize hierarchical taxonomies for journals, archives, and research topics.",
+      "description": "Browse the tree, search for specific entries, and manage ordering or parent relationships.",
+      "toolbar": {
+        "searchLabel": "Search",
+        "searchPlaceholder": "Search by name or slug…",
+        "kindLabel": "Kind",
+        "addCategory": "Add category"
+      },
+      "create": {
+        "title": "Create category",
+        "description": "Define the category name, slug, and hierarchy."
+      },
+      "fields": {
+        "name": "Name",
+        "slug": "Slug",
+        "optional": "optional",
+        "kind": "Kind",
+        "parent": "Parent",
+        "order": "Order",
+        "documents": "Documents"
+      },
+      "actions": {
+        "save": "Save",
+        "cancel": "Cancel",
+        "delete": "Delete",
+        "move": "Move…",
+        "working": "Working…"
+      },
+      "parent": {
+        "searchPlaceholder": "Filter parent options…",
+        "placeholder": "Select a parent (optional)",
+        "none": "No parent",
+        "empty": "No categories found.",
+        "clearSearch": "Clear search"
+      },
+      "inspector": {
+        "title": "Inspector",
+        "metaTitle": "Current metadata",
+        "empty": "Select a category to edit its details."
+      },
+      "delete": {
+        "confirmTitle": "Delete category?",
+        "confirmMessage": "Are you sure you want to delete {name}? This cannot be undone.",
+        "description": "Deleting a category removes it from the tree permanently.",
+        "disabledHint": "You can’t delete a category that has documents or children."
+      },
+      "moveDialog": {
+        "title": "Move category",
+        "description": "Select a new parent and optional position for this category.",
+        "parentLabel": "Parent",
+        "orderLabel": "Order",
+        "orderPlaceholder": "Leave blank to append at the end",
+        "submit": "Move category",
+        "cancel": "Cancel"
+      },
+      "toast": {
+        "created": "Category created.",
+        "updated": "Category updated.",
+        "reordered": "Order updated.",
+        "deleted": "Category deleted."
+      },
+      "errors": {
+        "generic": "Something went wrong.",
+        "create": "Unable to create category.",
+        "update": "Unable to update category.",
+        "reorder": "Unable to reorder categories.",
+        "delete": "Unable to delete category.",
+        "loadChildren": "Unable to load children.",
+        "sessionExpired": "Session expired.",
+        "forbidden": "Not authorized for this action.",
+        "network": "Network issue, please retry.",
+        "noAccess": "You do not have permission to view categories."
+      },
+      "kinds": {
+        "all": "All kinds",
+        "section": "Sections",
+        "journal": "Journals",
+        "archive_collection": "Archive collections",
+        "topic": "Topics"
+      },
+      "tree": {
+        "title": "Category tree"
+      },
+      "searchResults": {
+        "title": "Search results",
+        "summary": "{total, plural, one {{total} match} other {{total} matches}} (page {page})",
+        "empty": "No categories matched your search."
+      }
+    },
+    "authors": {
+      "title": "Authors",
+      "subtitle": "Author registry",
+      "description": "Search, paginate, and add author records for documents.",
+      "capabilityDisabled": "Author management is not enabled for your account.",
+      "toolbar": {
+        "search": {
+          "label": "Search",
+          "placeholder": "Search authors..."
+        },
+        "sort": {
+          "label": "Sort by",
+          "name": "Name (A-Z)",
+          "created": "Newest"
+        },
+        "status": {
+          "label": "Status",
+          "active": "Active",
+          "deleted": "Deleted",
+          "all": "All"
+        },
+        "add": "Add author",
+        "resultsSummary": "Page {page} · {total, plural, one {{total} author} other {{total} authors}}"
+      },
+      "dialog": {
+        "add": {
+          "title": "Add author",
+          "description": "Provide at least the latin name to create a new author record."
+        }
+      },
+      "fields": {
+        "nameLatin": "Latin name",
+        "nameArabic": "Arabic name",
+        "affiliation": "Affiliation"
+      },
+      "table": {
+        "headers": {
+          "nameLatin": "Latin name",
+          "nameArabic": "Arabic name",
+          "affiliation": "Affiliation",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "actions": {
+          "placeholder": "Coming soon",
+          "softDelete": "Soft delete",
+          "restore": "Restore",
+          "softDeleting": "Soft deleting...",
+          "restoring": "Restoring...",
+          "confirmTitle": "Soft delete author?",
+          "confirmDescription": "This will hide {name} without removing document links."
+        },
+        "badge": {
+          "deleted": "Deleted"
+        },
+        "empty": "No authors found."
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create author",
+        "creating": "Creating..."
+      },
+      "toast": {
+        "created": {
+          "success": "Author created.",
+          "error": "Unable to create author."
+        },
+        "deleted": {
+          "success": "Author removed from listings.",
+          "error": "Unable to remove author."
+        },
+        "restored": {
+          "success": "Author restored.",
+          "error": "Unable to restore author."
+        }
+      }
+    },
+    "nav": {
+      "title": "Admin",
+      "label": "Control center",
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "authors": "Authors",
+      "journals": "Journals",
+      "documents": "Documents",
+      "categories": "Categories",
+      "content": "Content",
+      "settings": "Settings",
+      "openMenu": "Menu",
+      "closeMenu": "Close",
+      "collapse": "Collapse sidebar",
+      "expand": "Expand sidebar",
+      "searchPlaceholder": "Search in admin...",
+      "logout": "Logout"
+    },
+    "journals": {
+      "title": "Journals",
+      "description": "Manage journals, covers, and issues.",
+      "toolbar": {
+        "search": "Search journals",
+        "status": {
+          "placeholder": "Status",
+          "active": "Active",
+          "deleted": "Deleted",
+          "all": "All",
+          "uploading": "Uploading"
+        },
+        "sort": {
+          "placeholder": "Sort by",
+          "name": "Name",
+          "created_at": "Created"
+        }
+      },
+      "fields": {
+        "name": "Name",
+        "issn": "ISSN",
+        "description": "Description",
+        "cover": "Cover URL",
+        "advanced": "Advanced",
+        "show": "Show",
+        "hide": "Hide",
+        "slug": "Slug",
+        "publisher": "Publisher",
+        "publisherPlaceholder": "Publisher name"
+      },
+      "preview": {
+        "title": "Preview"
+      },
+      "status": {
+        "active": "Active",
+        "deleted": "Deleted",
+        "uploading": "Uploading"
+      },
+      "columns": {
+        "name": "Name",
+        "issn": "ISSN",
+        "issues": "Issues",
+        "articles": "Articles",
+        "created": "Created",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "actions": {
+        "add": "Add journal",
+        "upload": "Upload cover",
+        "remove": "Remove",
+        "more": "More actions",
+        "title": "Actions",
+        "edit": "Edit",
+        "restore": "Restore",
+        "softDelete": "Soft delete",
+        "confirmDelete": "Confirm delete",
+        "cancel": "Cancel",
+        "save": "Save",
+        "saving": "Saving..."
+      },
+      "dialog": {
+        "add": {
+          "title": "Add journal",
+          "description": "Create a new journal."
+        },
+        "edit": {
+          "title": "Edit journal",
+          "description": "Update journal details."
+        },
+        "delete": {
+          "title": "Soft delete?",
+          "description": "This journal can be restored later."
+        }
+      },
+      "table": {
+        "title": "Journals",
+        "description": "All journals",
+        "loading": "Loading...",
+        "empty": "No journals found."
+      },
+      "pagination": {
+        "summary": "Page {page} - Total {total}"
+      },
+      "toast": {
+        "error": "Unable to load journals.",
+        "forbidden": "Not authorized.",
+        "created": "Journal created.",
+        "updated": "Journal updated.",
+        "deleted": "Journal archived.",
+        "restored": "Journal restored.",
+        "uploaded": "Cover uploaded.",
+        "uploadError": "Upload failed.",
+        "createError": "Create failed.",
+        "updateError": "Update failed.",
+        "deleteError": "Delete failed.",
+        "restoreError": "Restore failed."
+      },
+      "validation": {
+        "nameRequired": "Name is required."
+      },
+      "issues": {
+        "title": "Issues",
+        "searchPlaceholder": "Search issues",
+        "yearPlaceholder": "Year",
+        "new": "New issue",
+        "edit": "Edit issue",
+        "delete": "Delete issue",
+        "dialogCreateDescription": "Add a new issue to this journal.",
+        "dialogEditDescription": "Update issue details.",
+        "sort": {
+          "placeholder": "Sort",
+          "yearDesc": "Year desc",
+          "yearAsc": "Year asc",
+          "numberDesc": "Number desc",
+          "numberAsc": "Number asc",
+          "createdDesc": "Created desc",
+          "createdAsc": "Created asc"
+        },
+        "empty": "No issues found.",
+        "error": "Unable to load issues.",
+        "toast": {
+          "created": "Issue created.",
+          "updated": "Issue updated.",
+          "deleted": "Issue deleted.",
+          "error": "Unable to save issue."
+        },
+        "form": {
+          "title": "Title",
+          "titlePlaceholder": "Issue title",
+          "year": "Year",
+          "number": "Number",
+          "volume": "Volume",
+          "publishedAt": "Published at"
+        },
+        "confirmDeleteTitle": "Delete issue?",
+        "confirmDeleteDesc": "This action cannot be undone.",
+        "columns": {
+          "year": "Year",
+          "number": "Number",
+          "volume": "Volume",
+          "title": "Title",
+          "articles": "Articles",
+          "published": "Published",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "open": "View issues",
+        "close": "Close"
+      }
+    },
+    "documents": {
+      "title": "Documents",
+      "description": "Search, create, and edit documents.",
+      "create": "New document"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "events": {
+    "title": "Events & Activities",
+    "intro": "Discover seminars, awards, and exhibitions curated by the Foundation.",
+    "tabs": {
+      "ariaLabel": "Filter events by type",
+      "all": "All",
+      "seminar": "Seminars & Lectures",
+      "award": "Research Awards",
+      "exhibition": "Exhibitions & Documentary Media"
+    },
+    "labels": {
+      "date": "Date",
+      "location": "Location",
+      "type": "Type"
+    },
+    "loading": "Loading events…",
+    "empty": "No events are available yet.",
+    "detailsSoon": "Details will be published soon.",
+    "dateTba": "Date to be announced",
+    "locationTba": "Location to be announced",
+    "speakers": "Speakers",
+    "agenda": "Agenda",
+    "winners": "Award Recipients",
+    "gallery": "Gallery",
+    "galleryItemAlt": "Event gallery image",
+    "awardYear": "Award year",
+    "discipline": "Discipline",
+    "rankLabel": "{rank} place",
+    "honorableMention": "Honourable mention",
+    "venue": "Venue",
+    "curator": "Curator",
+    "overviewHeading": "Overview",
+    "backToList": "Back to events",
+    "breadcrumbs": {
+      "home": "Home",
+      "events": "Events & Activities",
+      "ariaLabel": "Breadcrumb"
+    },
+    "error": "We couldn't load events. Please try again later."
+  }
+}

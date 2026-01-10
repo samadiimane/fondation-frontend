@@ -65,7 +65,7 @@ const buildHeaderStrings = (t) => ({
   statsCardLabel: t("header.statsCardLabel"),
 });
 
-const buildIssuesStrings = (t) => ({
+const buildIssuesStrings = (t, tPagination) => ({
   title: t("issues.title"),
   subtitle: t("issues.subtitle"),
   summaryTemplate: t("issues.summary", {count: "{count}"}),
@@ -106,9 +106,9 @@ const buildIssuesStrings = (t) => ({
   },
   pagination: {
     ariaLabel: t("issues.pagination.ariaLabel"),
-    previous: t("issues.pagination.previous"),
-    next: t("issues.pagination.next"),
-    pageTemplate: t("issues.pagination.page", {page: "{page}"}),
+    previous: tPagination("previous"),
+    next: tPagination("next"),
+    pageTemplate: tPagination("page", {page: "{page}"}),
   },
   a11y: {
     resultsTemplate: t("issues.a11y.results", {count: "{count}"}),
@@ -174,8 +174,9 @@ export default async function JournalDetailPage({params}) {
   }
 
   const t = await getTranslations({locale, namespace: "library.journalDetail"});
+  const tPagination = await getTranslations({locale, namespace: "shared.pagination"});
   const headerStrings = buildHeaderStrings(t);
-  const issuesStrings = buildIssuesStrings(t);
+  const issuesStrings = buildIssuesStrings(t, tPagination);
   const navStrings = buildNavStrings(t);
   const breadcrumbsItems = buildBreadcrumbs(t, journal.name);
   const isRtl = isRtlLocale(locale);

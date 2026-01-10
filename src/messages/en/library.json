@@ -1,0 +1,443 @@
+{
+  "library": {
+    "journals": {
+      "meta": {
+        "title": "Journal Catalogue | AKT Research Foundation",
+        "description": "Browse the foundation's digitised scholarly journals with issue-level detail for researchers and historians."
+      },
+      "title": "Journals",
+      "subtitle": "Peer-reviewed periodicals and serials held in the AKT collection.",
+      "a11y": {
+        "breadcrumbs": "Breadcrumb"
+      },
+      "breadcrumbs": {
+        "home": {
+          "label": "Home",
+          "href": "/"
+        },
+        "journals": {
+          "label": "Journals",
+          "href": "/journals"
+        },
+        "issue": "Issue Vol {volume} No {number} ({year})"
+      },
+      "toolbar": {
+        "searchLabel": "Search journals",
+        "searchPlaceholder": "Search by title or publisher",
+        "issnLabel": "ISSN",
+        "issnPlaceholder": "e.g. 1234-567X",
+        "sortLabel": "Sort",
+        "sortOptions": {
+          "nameAsc": "Name A-Z",
+          "nameDesc": "Name Z-A",
+          "createdDesc": "Newest added"
+        },
+        "summary": "{count} journals",
+        "loading": "Loading journals...",
+        "announce": "{count} journals found"
+      },
+      "cards": {
+        "loading": "Loading journals...",
+        "emptyTitle": "No journals found",
+        "emptyDescription": "Try adjusting the search or filter criteria.",
+        "badges": {
+          "issn": "ISSN",
+          "fallback": "Academic periodical"
+        },
+        "publisherLabel": "Publisher",
+        "publisherUnknown": "Publisher unavailable",
+        "descriptionFallback": "A descriptive abstract for this journal will be published soon.",
+        "metaLine": "{issues} issues / {documents} documents",
+        "cta": "Open journal record"
+      },
+      "error": {
+        "message": "Unable to load journals right now."
+      },
+      "pagination": {
+        "ariaLabel": "Journals pagination"
+      }
+    },
+    "journalDetail": {
+      "meta": {
+        "title": "{name} | AKT Research Foundation Journal",
+        "description": "Scholarly record and issue history for {name}, preserved by the foundation.",
+        "descriptionFallback": "Access the curated record for this foundation journal."
+      },
+      "a11y": {
+        "breadcrumbs": "Breadcrumb"
+      },
+      "breadcrumbs": {
+        "home": {
+          "label": "Home",
+          "href": "/"
+        },
+        "journals": {
+          "label": "Journals",
+          "href": "/journals"
+        }
+      },
+      "header": {
+        "eyebrow": "Journal",
+        "descriptionFallback": "A detailed overview for this journal will be published soon.",
+        "descriptionToggle": {
+          "more": "Show more",
+          "less": "Show less"
+        },
+        "meta": {
+          "issn": "ISSN",
+          "issnUnknown": "ISSN unavailable",
+          "publisher": "Publisher",
+          "publisherUnknown": "Publisher unavailable",
+          "language": "Language",
+          "country": "Country"
+        },
+        "stats": {
+          "issues": "Issues",
+          "documents": "Documents",
+          "coverage": "Coverage",
+          "coverageUnknown": "Coverage unavailable",
+          "coverageSingle": "Coverage",
+          "holdings": "Holdings note"
+        },
+        "statsCardLabel": "Journal metrics"
+      },
+      "nav": {
+        "ariaLabel": "Journal sections",
+        "overview": "Overview",
+        "issues": "Issues"
+      },
+      "issues": {
+        "title": "Issues & volumes",
+        "subtitle": "Each issue is described with bibliographic data once it completes conservation.",
+        "summary": "{count} issues",
+        "loading": "Loading issues...",
+        "error": "Unable to load issues right now.",
+        "sort": {
+          "label": "Sort",
+          "options": {
+            "yearDesc": "Year (newest)",
+            "yearAsc": "Year (oldest)"
+          }
+        },
+        "filters": {
+          "ariaLabel": "Issue filters",
+          "title": "Filter issues",
+          "yearMin": "Year from",
+          "yearMax": "Year to",
+          "volume": "Volume",
+          "number": "Number",
+          "reset": "Reset filters"
+        },
+        "empty": {
+          "title": "Issues in preparation",
+          "description": "Cataloguing for this journal is ongoing. Please check back for newly published issues."
+        },
+        "table": {
+          "year": "Year",
+          "volume": "Volume",
+          "number": "Issue",
+          "title": "Title",
+          "date": "Issue date",
+          "dateUnknown": "Date unavailable",
+          "documents": "Documents",
+          "actions": "Actions",
+          "browseIssue": "See articles",
+          "valueUnknown": "-",
+          "untitled": "Untitled issue"
+        },
+        "pagination": {
+          "ariaLabel": "Issue pagination"
+        },
+        "a11y": {
+          "results": "{count} issues"
+        }
+      }
+    },
+    "articleDetail": {
+      "meta": {
+        "title": "{title} | AKT Research Foundation Article",
+        "descriptionFallback": "Research output from the AKT digital library."
+      },
+      "breadcrumbs": {
+        "home": {
+          "label": "Home",
+          "href": "/"
+        },
+        "library": {
+          "label": "Library",
+          "href": "/library"
+        },
+        "journals": {
+          "label": "Journals",
+          "href": "/journals"
+        },
+        "issue": "Issue Vol {volume} No {number} ({year})"
+      },
+      "a11y": {
+        "breadcrumbs": "Breadcrumb"
+      },
+      "header": {
+        "metaSeparator": " | ",
+        "authorsFallback": "Unknown authors",
+        "yearFallback": "Year unknown",
+        "typeFallback": "Document",
+        "languageFallback": "--",
+        "journalContext": "Journal:",
+        "issueContext": "Vol {volume}, No {number}, {year}",
+        "pages": "Pages {pages}",
+        "badges": {
+          "doi": "DOI",
+          "isbn": "ISBN",
+          "issn": "ISSN"
+        },
+        "valueUnknown": "—",
+        "labels": {
+          "authors": "Authors",
+          "year": "Year",
+          "type": "Type",
+          "language": "Language",
+          "pages": "Pages"
+        },
+        "imageAlt": "Cover image for {title}"
+      },
+      "download": {
+        "cta": "Download",
+        "loading": "Preparing download...",
+        "error": "Download unavailable right now."
+      },
+      "preview": {
+        "loading": "Loading preview...",
+        "unavailable": "Preview unavailable in this browser.",
+        "hint": "Use the download button to open the article in a new tab.",
+        "ariaLabel": "Article preview"
+      },
+      "abstract": {
+        "title": "Abstract",
+        "more": "Show more",
+        "less": "Show less",
+        "empty": "No abstract is available for this document."
+      },
+      "details": {
+        "title": "Details",
+        "doi": "DOI",
+        "isbn": "ISBN",
+        "issn": "ISSN",
+        "category": "Category",
+        "primaryCategory": "Primary category",
+        "createdAt": "Record created",
+        "keywords": "Keywords",
+        "noKeywords": "No keywords recorded",
+        "journal": "Journal",
+        "issue": "Issue"
+      }
+    },
+    "search": {
+      "authorLabel": "Author",
+      "authorPlaceholder": "Search by author name",
+      "summaryAuthor": "author: {author}"
+    },
+    "issueArticles": {
+      "meta": {
+        "title": "{journal} issue articles | AKT Research Foundation",
+        "description": "Browse digitised articles from {journal}."
+      },
+      "breadcrumbs": {
+        "home": {
+          "label": "Home",
+          "href": "/"
+        },
+        "library": {
+          "label": "Library",
+          "href": "/library"
+        },
+        "journals": {
+          "label": "Journals",
+          "href": "/journals"
+        },
+        "issue": "Issue Vol {volume} No {number} ({year})"
+      },
+      "a11y": {
+        "breadcrumbs": "Breadcrumb",
+        "results": "{count} articles"
+      },
+      "header": {
+        "journalLabel": "Journal",
+        "title": "{journal}",
+        "subtitle": "Issue {issue}",
+        "issueLabel": "Vol {volume} • No {number} • {year}",
+        "documentsCount": "{count} articles",
+        "unknown": "—",
+        "meta": {
+          "volume": "Volume",
+          "number": "Issue",
+          "year": "Year",
+          "documents": "Articles"
+        }
+      },
+      "resultsLabel": "articles",
+      "error": {
+        "message": "Unable to load articles for this issue."
+      },
+      "empty": {
+        "title": "No articles catalogued yet",
+        "description": "Cataloguing for this issue is still in progress. Please check back soon."
+      },
+      "table": {
+        "ariaLabel": "Issue articles",
+        "title": "Title",
+        "authors": "Authors",
+        "authorsFallback": "Unknown authors",
+        "year": "Year",
+        "noYear": "—",
+        "typeLang": "Type • Language",
+        "noType": "—",
+        "langOnly": "Language",
+        "languageFallback": "—",
+        "pages": "Pages",
+        "noPages": "—",
+        "actions": "Actions",
+        "seeDetails": "See details"
+      },
+      "pagination": {
+        "ariaLabel": "Issue articles pagination"
+      }
+    },
+    "category": {
+      "meta": {
+        "title": "Library collections | AKT Research Foundation",
+        "description": "Discover archival collections, research themes, sites, and publications curated by the foundation."
+      },
+      "breadcrumbs": {
+        "home": "Home",
+        "library": "Library",
+        "archives": "Archives",
+        "researchThemes": "Research Themes",
+        "historicalSites": "Historical Sites & Landmarks",
+        "publications": "Publications",
+        "collection": "Collection",
+        "topic": "Topic"
+      },
+      "a11y": {
+        "breadcrumbs": "Breadcrumb"
+      },
+      "header": {
+        "descriptionFallback": "Explore curated resources and scholarly materials connected to this category."
+      },
+      "toolbar": {
+        "searchLabel": "Search within this category",
+        "searchPlaceholder": "Search documents...",
+        "authorLabel": "Author",
+        "authorPlaceholder": "Filter by author name",
+        "sortLabel": "Sort",
+        "sortOptions": {
+          "titleAsc": "Title (A-Z)",
+          "titleDesc": "Title (Z-A)",
+          "yearDesc": "Year (newest first)",
+          "yearAsc": "Year (oldest first)"
+        },
+        "typeLabel": "Document type",
+        "typeOptions": {
+          "all": "All types",
+          "book": "Books",
+          "article": "Articles",
+          "thesis": "Theses",
+          "report": "Reports"
+        },
+        "summary": "{count} results",
+        "summaryAuthor": "author: {author}",
+        "reset": "Clear",
+        "loading": "Loading documents…",
+        "refreshing": "Refreshing results…",
+        "empty": "No documents matched the current filters.",
+        "default": "Browse documents connected to this category."
+      },
+      "grid": {
+        "collectionsTitle": "Archival collections",
+        "topicsTitle": "Research themes",
+        "loading": "Loading entries…",
+        "emptyTitle": "Nothing to display yet",
+        "emptyDescription": "Additional collections will be published soon.",
+        "error": "We couldn’t load these items. Please try again."
+      }
+    },
+    "categories": {
+      "heading": "Archives & Documentary Heritage",
+      "meta": {
+        "title": "Archives & Documentary Heritage | AKT Research Foundation",
+        "description": "Explore the foundation's archival collections and documentary heritage."
+      },
+      "header": {
+        "titleFallback": "Collections",
+        "descriptionFallback": "Explore curated resources and scholarly materials connected to this category.",
+        "toggle": {
+          "more": "Show more",
+          "less": "Show less",
+          "suffix": "about this category"
+        }
+      },
+      "toolbar": {
+        "ariaLabel": "Category search controls",
+        "searchLabel": "Search within this category",
+        "searchPlaceholder": "Search documents...",
+        "authorLabel": "Author",
+        "authorPlaceholder": "Filter by author name",
+        "sortLabel": "Sort",
+        "sortOptions": {
+          "titleAsc": "Title (A-Z)",
+          "titleDesc": "Title (Z-A)",
+          "yearDesc": "Year (newest first)",
+          "yearAsc": "Year (oldest first)"
+        },
+        "typeLabel": "Document type",
+        "typeOptions": {
+          "all": "All types",
+          "book": "Books",
+          "article": "Articles",
+          "thesis": "Theses",
+          "report": "Reports"
+        },
+        "resultsSummary": "{count} results",
+        "summaryAuthor": "author: {author}",
+        "clearFilters": "Clear",
+        "loading": "Loading documents...",
+        "refreshing": "Refreshing results...",
+        "empty": "No documents matched the current filters.",
+        "default": "Browse documents connected to this category."
+      },
+      "grid": {
+        "collectionsTitle": "Archival collections",
+        "topicsTitle": "Research themes",
+        "loading": "Loading entries...",
+        "emptyTitle": "Nothing to display yet",
+        "emptyDescription": "Additional collections will be published soon.",
+        "error": "We couldn't load these items. Please try again."
+      },
+      "cards": {
+        "titleFallback": "Collection",
+        "descriptionFallback": "Description for this collection will be added soon."
+      },
+      "collection": {
+        "meta": "{count, plural, one {# document catalogued} other {# documents catalogued}}",
+        "summary": {
+          "loading": "Loading documents for this collection...",
+          "refreshing": "Refreshing documents...",
+          "empty": "No documents matched the current filters.",
+          "available": "{count, plural, one {# document available} other {# documents available}} - page {page}",
+          "default": "Browse documents associated with this collection."
+        },
+        "errorTitle": "We could not load archival documents for this collection.",
+        "emptyTitle": "No documents match your current filters.",
+        "emptyDescription": "Try adjusting your search term or clearing the filters.",
+        "documentTitleFallback": "Untitled document",
+        "documentDescriptionFallback": "Description for this document will be added soon.",
+        "imageAlt": "Cover image for {title}",
+        "pages": "{count, plural, one {# page} other {# pages}}",
+        "readMore": "Read more",
+        "unavailable": "Unavailable",
+        "pagination": {
+          "ariaLabel": "Collection pagination"
+        }
+      }
+    }
+  }
+}

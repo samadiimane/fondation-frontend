@@ -1,0 +1,23 @@
+{
+  "support": {
+    "title": "Support & Aide",
+    "faq": "Questions fréquentes",
+    "faqIntro": "Retrouvez des réponses rapides aux questions les plus courantes des chercheurs.",
+    "contact": "Contactez-nous",
+    "contactTagline": "Rejoignez le service d’assistance de la Fondation AKT.",
+    "terms": "Conditions et politiques",
+    "termsTocLabel": "Sections des conditions",
+    "termsSectionFallback": "Section {number}",
+    "empty": "Le contenu sera bientôt disponible.",
+    "breadcrumbs": {
+      "home": "Accueil",
+      "ariaLabel": "Fil d'Ariane"
+    },
+    "contactFields": {
+      "address": "Adresse",
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "note": "Notes"
+    }
+  }
+}

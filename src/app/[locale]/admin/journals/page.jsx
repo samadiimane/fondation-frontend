@@ -279,6 +279,7 @@ const JournalForm = ({
 
 const AdminJournalsPage = () => {
   const t = useTranslations("admin.journals");
+  const tPagination = useTranslations("shared.pagination");
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -1216,7 +1217,7 @@ const handleOpenIssues = (journal) => {
                 }}
                 disabled={isLoading || page <= 1}
               >
-                {t("pagination.prev")}
+                {tPagination("previous")}
               </Button>
               <Button
                 variant="outline"
@@ -1228,7 +1229,7 @@ const handleOpenIssues = (journal) => {
                 }}
                 disabled={isLoading || !hasNext}
               >
-                {t("pagination.next")}
+                {tPagination("next")}
               </Button>
             </div>
           </CardFooter>
@@ -1449,7 +1450,7 @@ const handleOpenIssues = (journal) => {
                     }
                     disabled={issuesQuery.isFetching || (issuesQuery.data?.page ?? 1) <= 1}
                   >
-                    {t("pagination.prev")}
+                    {tPagination("previous")}
                   </Button>
                   <Button
                     variant="outline"
@@ -1459,7 +1460,7 @@ const handleOpenIssues = (journal) => {
                     }
                     disabled={issuesQuery.isFetching || !(issuesQuery.data?.hasNext ?? false)}
                   >
-                    {t("pagination.next")}
+                    {tPagination("next")}
                   </Button>
                 </div>
               </div>

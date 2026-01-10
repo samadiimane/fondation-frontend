@@ -56,6 +56,7 @@ const CollectionClient = ({ category, slug }) => {
   const locale = useLocale();
   const isRtl = isRtlLocale(locale);
   const t = useTranslations("library.categories");
+  const tPagination = useTranslations("shared.pagination");
 
   const {
     items,
@@ -87,11 +88,11 @@ const CollectionClient = ({ category, slug }) => {
   const paginationLabels = useMemo(
     () => ({
       aria: t("collection.pagination.ariaLabel"),
-      prev: t("collection.pagination.previous"),
-      next: t("collection.pagination.next"),
-      page: (pageNumber) => t("collection.pagination.page", { page: pageNumber }),
+      prev: tPagination("previous"),
+      next: tPagination("next"),
+      page: (pageNumber) => tPagination("page", { page: pageNumber }),
     }),
-    [t]
+    [t, tPagination]
   );
 
   return (

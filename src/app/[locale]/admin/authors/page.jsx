@@ -56,6 +56,7 @@ const statusOptions = [
 
 const AdminAuthorsPage = () => {
   const t = useTranslations("admin.authors");
+  const tPagination = useTranslations("shared.pagination");
   const locale = useLocale();
   const notify = useNotify();
   const queryClient = useQueryClient();
@@ -408,7 +409,7 @@ const AdminAuthorsPage = () => {
                 onClick={() => setPage((prev) => Math.max(1, prev - 1))}
                 disabled={page <= 1 || isLoading}
               >
-                {t("pagination.previous")}
+                {tPagination("previous")}
               </Button>
               <Button
                 type="button"
@@ -417,7 +418,7 @@ const AdminAuthorsPage = () => {
                 onClick={() => setPage((prev) => prev + 1)}
                 disabled={isLoading || !hasNext}
               >
-                {t("pagination.next")}
+                {tPagination("next")}
               </Button>
             </div>
           </div>

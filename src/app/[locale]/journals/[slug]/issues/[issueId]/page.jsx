@@ -94,6 +94,7 @@ export default async function IssueArticlesPage(context) {
   }
 
   const t = await getTranslations({ locale, namespace: "library.issueArticles" });
+  const tPagination = await getTranslations({ locale, namespace: "shared.pagination" });
   const detailT = await getTranslations({ locale, namespace: "library.articleDetail" });
 
   const unknownLabel = t("header.unknown");
@@ -151,9 +152,9 @@ export default async function IssueArticlesPage(context) {
     },
     pagination: {
       ariaLabel: t("pagination.ariaLabel"),
-      previous: t("pagination.previous"),
-      next: t("pagination.next"),
-      pageTemplate: t("pagination.pageIndicator", { page: "{page}" }),
+      previous: tPagination("previous"),
+      next: tPagination("next"),
+      pageTemplate: tPagination("page", { page: "{page}" }),
     },
   };
 

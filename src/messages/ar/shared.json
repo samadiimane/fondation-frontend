@@ -1,0 +1,10 @@
+{
+  "shared": {
+    "pagination": {
+      "previous": "السابق",
+      "next": "التالي",
+      "page": "الصفحة {page}",
+      "pageOf": "الصفحة {page} من {total}"
+    }
+  }
+}

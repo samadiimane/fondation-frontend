@@ -1,0 +1,90 @@
+{
+  "library": {
+    "researchThemes": {
+      "title": "قضايا وإشكاليات البحث",
+      "subtitle": "أسئلة عابرة للتخصصات توجه البحث في المغرب الكبير.",
+      "meta": {
+        "title": "قضايا وإشكاليات البحث | مؤسسة AKT",
+        "description": "استكشف قضايا وإشكاليات البحث في المغرب الكبير."
+      },
+      "a11y": {
+        "breadcrumbs": "مسار التنقل"
+      },
+      "breadcrumbs": {
+        "home": "الرئيسية",
+        "library": "المكتبة",
+        "themes": "قضايا وإشكاليات البحث"
+      },
+      "toolbar": {
+        "ariaLabel": "عناصر البحث في موضوعات البحث",
+        "searchLabel": "ابحث في الموضوعات",
+        "searchPlaceholder": "ابحث عن موضوعات أو كلمات مفتاحية...",
+        "authorLabel": "المؤلف",
+        "authorPlaceholder": "تصفية حسب اسم المؤلف",
+        "sortLabel": "ترتيب",
+        "sortOptions": {
+          "titleAsc": "العنوان (أ-ي)",
+          "titleDesc": "العنوان (ي-أ)",
+          "yearDesc": "السنة (الأحدث)",
+          "yearAsc": "السنة (الأقدم)"
+        },
+        "typeLabel": "نوع المستند",
+        "typeOptions": {
+          "all": "كل الأنواع",
+          "book": "كتب",
+          "article": "مقالات",
+          "thesis": "أطروحات",
+          "report": "تقارير"
+        },
+        "resultsSummary": "{count} نتيجة",
+        "summary": "{count} نتيجة",
+        "announce": "تم العثور على {count} موضوع",
+        "summaryAuthor": "المؤلف: {author}",
+        "clearFilters": "مسح",
+        "clear": "مسح",
+        "loading": "جار تحميل الموضوعات...",
+        "refreshing": "جار تحديث النتائج...",
+        "empty": "لا توجد موضوعات تطابق عوامل التصفية الحالية.",
+        "default": "استعرض موضوعات البحث المتاحة."
+      },
+      "cards": {
+        "loading": "جار تحميل موضوعات البحث...",
+        "emptyTitle": "لا توجد موضوعات بحث",
+        "emptyDescription": "جرّب تعديل البحث.",
+        "descriptionFallback": "سيتم إضافة الوصف قريبًا.",
+        "badges": {
+          "countLabel": "{count, plural, one {# وثيقة} other {# وثائق}}"
+        }
+      },
+      "error": {
+        "message": "يتعذر تحميل موضوعات البحث الآن."
+      },
+      "pagination": {
+        "ariaLabel": "ترقيم صفحات موضوعات البحث"
+      },
+      "documents": {
+        "toolbar": {
+          "title": "النتائج",
+          "searching": "جار البحث عن المستندات...",
+          "refreshing": "جار تحديث النتائج...",
+          "results": "{count, plural, one {# وثيقة} other {# وثائق}} - الصفحة {page} من {totalPages}",
+          "noResults": "لا توجد مستندات لهذا الموضوع.",
+          "start": "ابدأ باستكشاف المستندات المرتبطة بهذا الموضوع.",
+          "viewGroupAria": "تغيير وضع العرض",
+          "viewDetailed": "عرض مفصل",
+          "viewCompact": "عرض مختصر"
+        },
+        "list": {
+          "emptyTitle": "لا توجد مستندات تطابق عوامل التصفية الحالية.",
+          "emptyDescription": "جرّب تعديل البحث أو مسح عوامل التصفية.",
+          "errorTitle": "تعذر تحميل المستندات."
+        },
+        "card": {
+          "metaAria": "بيانات المستند",
+          "pagesSuffix": "صفحات",
+          "details": "التفاصيل"
+        }
+      }
+    }
+  }
+}

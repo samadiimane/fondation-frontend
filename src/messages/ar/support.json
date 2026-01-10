@@ -1,0 +1,23 @@
+{
+  "support": {
+    "title": "الدعم والمساعدة",
+    "faq": "أسئلة متكررة",
+    "faqIntro": "اطلع على إجابات سريعة لأكثر الأسئلة طرحًا من الباحثين.",
+    "contact": "اتصل بنا",
+    "contactTagline": "اتصل بفريق دعم مؤسسة AKT.",
+    "terms": "الشروط والسياسات",
+    "termsTocLabel": "الأقسام",
+    "termsSectionFallback": "القسم {number}",
+    "empty": "سيتم إتاحة المحتوى قريبًا.",
+    "breadcrumbs": {
+      "home": "الرئيسية",
+      "ariaLabel": "مسار التنقل"
+    },
+    "contactFields": {
+      "address": "العنوان",
+      "phone": "الهاتف",
+      "email": "البريد الإلكتروني",
+      "note": "ملاحظات"
+    }
+  }
+}

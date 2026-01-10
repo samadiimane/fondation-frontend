@@ -17,7 +17,7 @@ export async function generateMetadata({params}) {
   };
 }
 
-const buildStrings = (t) => ({
+const buildStrings = (t, tPagination) => ({
   title: t("title"),
   subtitle: t("subtitle"),
   a11y: {
@@ -68,16 +68,17 @@ const buildStrings = (t) => ({
   },
   pagination: {
     ariaLabel: t("pagination.ariaLabel"),
-    previous: t("pagination.previous"),
-    next: t("pagination.next"),
-    pageTemplate: t("pagination.pageIndicator", {page: "{page}"}),
+    previous: tPagination("previous"),
+    next: tPagination("next"),
+    pageTemplate: tPagination("page", {page: "{page}"}),
   },
 });
 
 export default async function JournalsPage({params}) {
   const locale = params?.locale || defaultLocale;
   const t = await getTranslations({locale, namespace: "library.journals"});
-  const strings = buildStrings(t);
+  const tPagination = await getTranslations({locale, namespace: "shared.pagination"});
+  const strings = buildStrings(t, tPagination);
 
   return (
     <AOSWrap>

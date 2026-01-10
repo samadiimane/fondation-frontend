@@ -1,0 +1,430 @@
+{
+  "admin": {
+    "dashboardTitle": "Panel de administración",
+    "dashboardDescription": "Desde aquí podrás revisar próximas funciones administrativas y herramientas restringidas.",
+    "dashboardEmptyState": "Pronto encontrarás en este espacio analíticas, colas de aprobación y accesos directos para los comités.",
+    "notAuthorizedTitle": "Se requiere acceso de administrador",
+    "notAuthorizedDescription": "Necesitas un rol de administrador para ver esta área. Ponte en contacto con la fundación si crees que se trata de un error.",
+    "backToHome": "Volver al inicio",
+    "loading": "Cargando herramientas de administración…",
+    "stats": {
+      "documents": {
+        "title": "Documentos",
+        "description": "Publicados en la biblioteca digital"
+      },
+      "journals": {
+        "title": "Revistas",
+        "description": "Títulos curados disponibles"
+      },
+      "users": {
+        "title": "Usuarios",
+        "description": "Cuentas activas con acceso"
+      },
+      "pending": {
+        "title": "Pendientes",
+        "description": "Esperando moderación o revisión"
+      },
+      "noData": "Sin datos aún"
+    },
+    "activity": {
+      "title": "Actividad reciente",
+      "description": "Últimos cambios de administradores y editores",
+      "empty": "Aún no hay actividad"
+    },
+    "users": {
+      "title": "Usuarios",
+      "description": "Administra el acceso restringido, los permisos y el estado de las cuentas.",
+      "searchPlaceholder": "Buscar por correo…",
+      "filterRoleLabel": "Filtrar por rol",
+      "role": {
+        "all": "Todos los roles",
+        "admin": "Administrador",
+        "committee": "Comité",
+        "researcher": "Investigador"
+      },
+      "addUser": "Agregar usuario",
+      "email": "Correo electrónico",
+      "password": "Contraseña",
+      "rolesLabel": "Roles",
+      "addUserDescription": "Crea una cuenta con contraseña y asigna los roles base.",
+      "manageRolesDescription": "Selecciona qué roles deben permanecer activos para esta cuenta.",
+      "create": "Crear",
+      "cancel": "Cancelar",
+      "manageRoles": "Gestionar roles",
+      "activate": "Activar",
+      "deactivate": "Desactivar",
+      "status": {
+        "active": "Activo",
+        "inactive": "Inactivo"
+      },
+      "columns": {
+        "email": "Correo",
+        "roles": "Roles",
+        "status": "Estado",
+        "created": "Creado",
+        "actions": "Acciones"
+      },
+      "empty": "Ningún usuario coincide con los filtros.",
+      "errorLoading": "No pudimos cargar la lista de usuarios.",
+      "resultCount": "{count, plural, one {# usuario} other {# usuarios}}",
+      "refreshing": "Actualizando…",
+      "working": "Procesando…",
+      "copyEmail": "Copiar correo",
+      "pagination": {
+        "summary": "{start}-{end} de {total} usuarios"
+      },
+      "confirmActivate": "¿Activar {email}?",
+      "confirmDeactivate": "¿Desactivar {email}?",
+      "retry": "Intentar nuevamente",
+      "toast": {
+        "created": "Usuario agregado correctamente.",
+        "rolesUpdated": "Roles actualizados.",
+        "activated": "Usuario activado.",
+        "deactivated": "Usuario desactivado.",
+        "error": "Ocurrió un error. Inténtalo otra vez."
+      }
+    },
+    "categories": {
+      "title": "Categorías",
+      "subtitle": "Organiza taxonomías jerárquicas para revistas, archivos y temas de investigación.",
+      "description": "Explora el árbol, busca entradas específicas y gestiona el orden o los padres.",
+      "toolbar": {
+        "searchLabel": "Buscar",
+        "searchPlaceholder": "Busca por nombre o slug…",
+        "kindLabel": "Tipo",
+        "addCategory": "Agregar categoría"
+      },
+      "create": {
+        "title": "Crear categoría",
+        "description": "Define el nombre, el slug y la jerarquía de la categoría."
+      },
+      "fields": {
+        "name": "Nombre",
+        "slug": "Slug",
+        "optional": "opcional",
+        "kind": "Tipo",
+        "parent": "Padre",
+        "order": "Orden",
+        "documents": "Documentos"
+      },
+      "actions": {
+        "save": "Guardar",
+        "cancel": "Cancelar",
+        "delete": "Eliminar",
+        "move": "Mover…",
+        "working": "Procesando…"
+      },
+      "parent": {
+        "searchPlaceholder": "Filtra opciones de padre…",
+        "placeholder": "Selecciona un padre (opcional)",
+        "none": "Sin padre",
+        "empty": "No se encontraron categorías.",
+        "clearSearch": "Borrar búsqueda"
+      },
+      "inspector": {
+        "title": "Inspector",
+        "metaTitle": "Metadatos actuales",
+        "empty": "Selecciona una categoría para editarla."
+      },
+      "delete": {
+        "confirmTitle": "¿Eliminar categoría?",
+        "confirmMessage": "¿Seguro que quieres eliminar {name}? Esta acción no se puede deshacer.",
+        "description": "Eliminar una categoría la quita definitivamente del árbol.",
+        "disabledHint": "No puedes eliminar una categoría que tiene documentos o categorías hijas."
+      },
+      "moveDialog": {
+        "title": "Mover categoría",
+        "description": "Selecciona un nuevo padre y, si lo deseas, una posición exacta.",
+        "parentLabel": "Padre",
+        "orderLabel": "Orden",
+        "orderPlaceholder": "Déjalo vacío para mover al final",
+        "submit": "Mover categoría",
+        "cancel": "Cancelar"
+      },
+      "toast": {
+        "created": "Categoría creada.",
+        "updated": "Categoría actualizada.",
+        "reordered": "Orden actualizado.",
+        "deleted": "Categoría eliminada."
+      },
+      "errors": {
+        "generic": "Ha ocurrido un error.",
+        "create": "No se pudo crear la categoría.",
+        "update": "No se pudo actualizar la categoría.",
+        "reorder": "No se pudo reordenar.",
+        "delete": "No se pudo eliminar la categoría.",
+        "loadChildren": "No se pudieron cargar los hijos.",
+        "sessionExpired": "Sesión expirada.",
+        "forbidden": "No estás autorizado para esta acción.",
+        "network": "Problema de red. Intenta nuevamente.",
+        "noAccess": "No tienes permiso para ver las categorías."
+      },
+      "kinds": {
+        "all": "Todos los tipos",
+        "section": "Secciones",
+        "journal": "Revistas",
+        "archive_collection": "Colecciones de archivo",
+        "topic": "Temas"
+      },
+      "tree": {
+        "title": "Árbol de categorías"
+      },
+      "searchResults": {
+        "title": "Resultados",
+        "summary": "{total, plural, one {{total} resultado} other {{total} resultados}} (página {page})",
+        "empty": "Ninguna categoría coincide con tu búsqueda."
+      }
+    },
+    "authors": {
+      "title": "Authors",
+      "subtitle": "Author registry",
+      "description": "Search, paginate, and add author records for documents.",
+      "capabilityDisabled": "Author management is not enabled for your account.",
+      "toolbar": {
+        "search": {
+          "label": "Search",
+          "placeholder": "Search authors..."
+        },
+        "sort": {
+          "label": "Sort by",
+          "name": "Name (A-Z)",
+          "created": "Newest"
+        },
+        "status": {
+          "label": "Status",
+          "active": "Active",
+          "deleted": "Deleted",
+          "all": "All"
+        },
+        "add": "Add author",
+        "resultsSummary": "Page {page} · {total, plural, one {{total} author} other {{total} authors}}"
+      },
+      "dialog": {
+        "add": {
+          "title": "Add author",
+          "description": "Provide at least the latin name to create a new author record."
+        }
+      },
+      "fields": {
+        "nameLatin": "Latin name",
+        "nameArabic": "Arabic name",
+        "affiliation": "Affiliation"
+      },
+      "table": {
+        "headers": {
+          "nameLatin": "Latin name",
+          "nameArabic": "Arabic name",
+          "affiliation": "Affiliation",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "actions": {
+          "placeholder": "Coming soon",
+          "softDelete": "Soft delete",
+          "restore": "Restore",
+          "softDeleting": "Soft deleting...",
+          "restoring": "Restoring...",
+          "confirmTitle": "Soft delete author?",
+          "confirmDescription": "This will hide {name} without removing document links."
+        },
+        "badge": {
+          "deleted": "Deleted"
+        },
+        "empty": "No authors found."
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create author",
+        "creating": "Creating..."
+      },
+      "toast": {
+        "created": {
+          "success": "Author created.",
+          "error": "Unable to create author."
+        },
+        "deleted": {
+          "success": "Author removed from listings.",
+          "error": "Unable to remove author."
+        },
+        "restored": {
+          "success": "Author restored.",
+          "error": "Unable to restore author."
+        }
+      }
+    },
+    "nav": {
+      "title": "Admin",
+      "label": "Centro de control",
+      "dashboard": "Panel",
+      "users": "Usuarios",
+      "authors": "Authors",
+      "journals": "Revistas",
+      "documents": "Documentos",
+      "content": "Contenido",
+      "settings": "Configuración",
+      "openMenu": "Menú",
+      "closeMenu": "Cerrar",
+      "collapse": "Contraer barra",
+      "expand": "Expandir barra",
+      "searchPlaceholder": "Buscar en administracion...",
+      "logout": "Cerrar sesión",
+      "categories": "Categorías"
+    },
+    "journals": {
+      "title": "Journals",
+      "description": "Manage journals, covers, and issues.",
+      "toolbar": {
+        "search": "Search journals",
+        "status": {
+          "placeholder": "Status",
+          "active": "Active",
+          "deleted": "Deleted",
+          "all": "All",
+          "uploading": "Uploading"
+        },
+        "sort": {
+          "placeholder": "Sort by",
+          "name": "Name",
+          "created_at": "Created"
+        }
+      },
+      "fields": {
+        "name": "Name",
+        "issn": "ISSN",
+        "description": "Description",
+        "cover": "Cover URL",
+        "advanced": "Advanced",
+        "show": "Show",
+        "hide": "Hide",
+        "slug": "Slug",
+        "publisher": "Publisher",
+        "publisherPlaceholder": "Publisher name"
+      },
+      "preview": {
+        "title": "Preview"
+      },
+      "status": {
+        "active": "Active",
+        "deleted": "Deleted",
+        "uploading": "Uploading"
+      },
+      "columns": {
+        "name": "Name",
+        "issn": "ISSN",
+        "issues": "Issues",
+        "articles": "Articles",
+        "created": "Created",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "actions": {
+        "add": "Add journal",
+        "upload": "Upload cover",
+        "remove": "Remove",
+        "more": "More actions",
+        "title": "Actions",
+        "edit": "Edit",
+        "restore": "Restore",
+        "softDelete": "Soft delete",
+        "confirmDelete": "Confirm delete",
+        "cancel": "Cancel",
+        "save": "Save",
+        "saving": "Saving..."
+      },
+      "dialog": {
+        "add": {
+          "title": "Add journal",
+          "description": "Create a new journal."
+        },
+        "edit": {
+          "title": "Edit journal",
+          "description": "Update journal details."
+        },
+        "delete": {
+          "title": "Soft delete?",
+          "description": "This journal can be restored later."
+        }
+      },
+      "table": {
+        "title": "Journals",
+        "description": "All journals",
+        "loading": "Loading...",
+        "empty": "No journals found."
+      },
+      "pagination": {
+        "summary": "Page {page} - Total {total}"
+      },
+      "toast": {
+        "error": "Unable to load journals.",
+        "forbidden": "Not authorized.",
+        "created": "Journal created.",
+        "updated": "Journal updated.",
+        "deleted": "Journal archived.",
+        "restored": "Journal restored.",
+        "uploaded": "Cover uploaded.",
+        "uploadError": "Upload failed.",
+        "createError": "Create failed.",
+        "updateError": "Update failed.",
+        "deleteError": "Delete failed.",
+        "restoreError": "Restore failed."
+      },
+      "validation": {
+        "nameRequired": "Name is required."
+      },
+      "issues": {
+        "title": "Números",
+        "searchPlaceholder": "Buscar números",
+        "yearPlaceholder": "Año",
+        "new": "Nuevo número",
+        "edit": "Editar número",
+        "delete": "Eliminar número",
+        "dialogCreateDescription": "Agregar un nuevo número a esta revista.",
+        "dialogEditDescription": "Actualizar los detalles del número.",
+        "sort": {
+          "placeholder": "Ordenar",
+          "yearDesc": "Año desc",
+          "yearAsc": "Año asc",
+          "numberDesc": "Número desc",
+          "numberAsc": "Número asc",
+          "createdDesc": "Creado desc",
+          "createdAsc": "Creado asc"
+        },
+        "empty": "No se encontraron números.",
+        "error": "No se pueden cargar los números.",
+        "toast": {
+          "created": "Número creado.",
+          "updated": "Número actualizado.",
+          "deleted": "Número eliminado.",
+          "error": "No se pudo guardar el número."
+        },
+        "form": {
+          "title": "Título",
+          "titlePlaceholder": "Título del número",
+          "year": "Año",
+          "number": "Número",
+          "volume": "Volumen",
+          "publishedAt": "Fecha de publicación"
+        },
+        "confirmDeleteTitle": "¿Eliminar número?",
+        "confirmDeleteDesc": "Esta acción no se puede deshacer.",
+        "columns": {
+          "year": "Año",
+          "number": "Número",
+          "volume": "Volumen",
+          "title": "Título",
+          "articles": "Artículos",
+          "published": "Publicado",
+          "created": "Creado",
+          "actions": "Acciones"
+        },
+        "open": "Ver números",
+        "close": "Cerrar"
+      }
+    },
+    "documents": {
+      "title": "Documents",
+      "description": "Search, create, and edit documents.",
+      "create": "New document"
+    }
+  }
+}

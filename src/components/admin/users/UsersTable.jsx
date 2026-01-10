@@ -66,6 +66,7 @@ const UsersTable = ({
   canManageRoles = true,
 }) => {
   const t = useTranslations("admin.users");
+  const tPagination = useTranslations("shared.pagination");
   const locale = useLocale();
   const [rolesDialogUser, setRolesDialogUser] = useState(null);
   const [confirmDialog, setConfirmDialog] = useState(null);
@@ -303,7 +304,7 @@ const UsersTable = ({
                 onClick={() => handlePageChange(page - 1)}
                 disabled={page <= 1}
               >
-                {t("pagination.previous")}
+                {tPagination("previous")}
               </Button>
               <Button
                 type="button"
@@ -312,7 +313,7 @@ const UsersTable = ({
                 onClick={() => handlePageChange(page + 1)}
                 disabled={page >= totalPages}
               >
-                {t("pagination.next")}
+                {tPagination("next")}
               </Button>
             </div>
           </div>

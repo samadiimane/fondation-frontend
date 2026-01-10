@@ -1,0 +1,10 @@
+{
+  "shared": {
+    "pagination": {
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página {page}",
+      "pageOf": "Página {page} de {total}"
+    }
+  }
+}

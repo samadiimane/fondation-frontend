@@ -1,64 +1,103 @@
 import {defaultLocale, locales} from "@/i18n/config";
 import {Locale} from "@/types/i18n";
 
-import arCommon from "./ar/common.json";
-import enCommon from "./en/common.json";
-import esCommon from "./es/common.json";
-import frCommon from "./fr/common.json";
-
-import arFoundationIntro from "./ar/foundation-intro.json";
-import enFoundationIntro from "./en/foundation-intro.json";
-import esFoundationIntro from "./es/foundation-intro.json";
-import frFoundationIntro from "./fr/foundation-intro.json";
-
-import arServices from "./ar/services.json";
-import enServices from "./en/services.json";
-import esServices from "./es/services.json";
-import frServices from "./fr/services.json";
-
-import arCounter from "./ar/counter.json";
-import enCounter from "./en/counter.json";
-import esCounter from "./es/counter.json";
-import frCounter from "./fr/counter.json";
-
-const COMMON: Record<Locale, Record<string, unknown>> = {
-  ar: arCommon,
-  en: enCommon,
-  es: esCommon,
-  fr: frCommon
-};
-
-const FOUNDATION_INTRO: Record<Locale, Record<string, unknown>> = {
-  ar: arFoundationIntro,
-  en: enFoundationIntro,
-  es: esFoundationIntro,
-  fr: frFoundationIntro
-};
-
-const SERVICES: Record<Locale, Record<string, unknown>> = {
-  ar: arServices,
-  en: enServices,
-  es: esServices,
-  fr: frServices
-};
-
-const COUNTER: Record<Locale, Record<string, unknown>> = {
-  ar: arCounter,
-  en: enCounter,
-  es: esCounter,
-  fr: frCounter
-};
-
 const localeSet = new Set(locales as Locale[]);
+const shouldCache = process.env.NODE_ENV === "production";
+const messagesCache = new Map<Locale, Record<string, unknown>>();
 
-export function getMessagesForLocale(localeInput: string) {
+const wrapKey =
+  (key: string) =>
+  (module: {default: Record<string, unknown>}) => ({
+    [key]: module.default,
+  });
+
+const LOCALE_LOADERS: Record<Locale, () => Promise<Array<Record<string, unknown>>>> = {
+  ar: () =>
+    Promise.all([
+      import("./ar/common.json").then((module) => module.default),
+      import("./ar/admin.json").then((module) => module.default),
+      import("./ar/auth.json").then((module) => module.default),
+      import("./ar/library.json").then((module) => module.default),
+      import("./ar/library-research-themes.json").then((module) => module.default),
+      import("./ar/events.json").then((module) => module.default),
+      import("./ar/support.json").then((module) => module.default),
+      import("./ar/shared.json").then((module) => module.default),
+      import("./ar/services.json").then(wrapKey("services")),
+      import("./ar/foundation-intro.json").then(wrapKey("foundation-intro")),
+      import("./ar/counter.json").then(wrapKey("counter")),
+    ]),
+  en: () =>
+    Promise.all([
+      import("./en/common.json").then((module) => module.default),
+      import("./en/admin.json").then((module) => module.default),
+      import("./en/auth.json").then((module) => module.default),
+      import("./en/library.json").then((module) => module.default),
+      import("./en/library-research-themes.json").then((module) => module.default),
+      import("./en/events.json").then((module) => module.default),
+      import("./en/support.json").then((module) => module.default),
+      import("./en/shared.json").then((module) => module.default),
+      import("./en/services.json").then(wrapKey("services")),
+      import("./en/foundation-intro.json").then(wrapKey("foundation-intro")),
+      import("./en/counter.json").then(wrapKey("counter")),
+    ]),
+  es: () =>
+    Promise.all([
+      import("./es/common.json").then((module) => module.default),
+      import("./es/admin.json").then((module) => module.default),
+      import("./es/auth.json").then((module) => module.default),
+      import("./es/library.json").then((module) => module.default),
+      import("./es/library-research-themes.json").then((module) => module.default),
+      import("./es/events.json").then((module) => module.default),
+      import("./es/support.json").then((module) => module.default),
+      import("./es/shared.json").then((module) => module.default),
+      import("./es/services.json").then(wrapKey("services")),
+      import("./es/foundation-intro.json").then(wrapKey("foundation-intro")),
+      import("./es/counter.json").then(wrapKey("counter")),
+    ]),
+  fr: () =>
+    Promise.all([
+      import("./fr/common.json").then((module) => module.default),
+      import("./fr/admin.json").then((module) => module.default),
+      import("./fr/auth.json").then((module) => module.default),
+      import("./fr/library.json").then((module) => module.default),
+      import("./fr/library-research-themes.json").then((module) => module.default),
+      import("./fr/events.json").then((module) => module.default),
+      import("./fr/support.json").then((module) => module.default),
+      import("./fr/shared.json").then((module) => module.default),
+      import("./fr/services.json").then(wrapKey("services")),
+      import("./fr/foundation-intro.json").then(wrapKey("foundation-intro")),
+      import("./fr/counter.json").then(wrapKey("counter")),
+    ]),
+};
+
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  Boolean(value) && typeof value === "object" && !Array.isArray(value);
+
+const mergeDeep = (target: Record<string, unknown>, source: Record<string, unknown>) => {
+  const output = {...target};
+  for (const [key, value] of Object.entries(source)) {
+    if (isObject(value) && isObject(output[key])) {
+      output[key] = mergeDeep(output[key] as Record<string, unknown>, value);
+    } else {
+      output[key] = value;
+    }
+  }
+  return output;
+};
+
+export async function getMessagesForLocale(localeInput: string) {
   const resolvedLocale: Locale = localeSet.has(localeInput as Locale)
     ? (localeInput as Locale)
     : (defaultLocale as Locale);
-  return {
-    ...COMMON[resolvedLocale],
-    "foundation-intro": FOUNDATION_INTRO[resolvedLocale],
-    services: SERVICES[resolvedLocale],
-    counter: COUNTER[resolvedLocale]
-  };
+  if (shouldCache) {
+    const cached = messagesCache.get(resolvedLocale);
+    if (cached) return cached;
+  }
+  const loader = LOCALE_LOADERS[resolvedLocale] ?? LOCALE_LOADERS[defaultLocale as Locale];
+  const parts = await loader();
+  const merged = parts.reduce((acc, part) => mergeDeep(acc, part), {});
+  if (shouldCache) {
+    messagesCache.set(resolvedLocale, merged);
+  }
+  return merged;
 }

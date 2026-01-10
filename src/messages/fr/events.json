@@ -1,0 +1,42 @@
+{
+  "events": {
+    "title": "Événements et activités",
+    "intro": "Découvrez les séminaires, prix et expositions proposés par la Fondation.",
+    "tabs": {
+      "ariaLabel": "Filtrer les événements par type",
+      "all": "Tous",
+      "seminar": "Séminaires et conférences",
+      "award": "Prix de recherche",
+      "exhibition": "Expositions et médias documentaires"
+    },
+    "labels": {
+      "date": "Date",
+      "location": "Lieu",
+      "type": "Type"
+    },
+    "loading": "Chargement des événements…",
+    "empty": "Aucun événement n’est disponible pour le moment.",
+    "detailsSoon": "Les détails seront publiés prochainement.",
+    "dateTba": "Date à annoncer",
+    "locationTba": "Lieu à annoncer",
+    "speakers": "Intervenants",
+    "agenda": "Programme",
+    "winners": "Lauréats",
+    "gallery": "Galerie",
+    "galleryItemAlt": "Image de l'exposition",
+    "awardYear": "Année",
+    "discipline": "Discipline",
+    "rankLabel": "{rank}e place",
+    "honorableMention": "Mention honorable",
+    "venue": "Lieu",
+    "curator": "Commissaire",
+    "overviewHeading": "Présentation",
+    "backToList": "Retour aux événements",
+    "breadcrumbs": {
+      "home": "Accueil",
+      "events": "Événements et activités",
+      "ariaLabel": "Fil d'Ariane"
+    },
+    "error": "Impossible de charger les événements. Veuillez réessayer plus tard."
+  }
+}

@@ -1,0 +1,430 @@
+{
+  "admin": {
+    "dashboardTitle": "لوحة تحكم الإدارة",
+    "dashboardDescription": "يمكنك من هنا الاطلاع على ميزات الإدارة القادمة والأدوات المخصصة للأعضاء المصرح لهم.",
+    "dashboardEmptyState": "سيضم هذا القسم قريباً التحليلات وصفوف الموافقات والاختصارات الخاصة باللجنة.",
+    "notAuthorizedTitle": "يتطلب صلاحيات مدير",
+    "notAuthorizedDescription": "تحتاج إلى دور مدير لعرض هذه المنطقة. يرجى التواصل مع فريق المؤسسة إذا كنت ترى أن هذا خطأ.",
+    "backToHome": "العودة إلى الصفحة الرئيسية",
+    "loading": "جارٍ تحميل أدوات الإدارة…",
+    "stats": {
+      "documents": {
+        "title": "إجمالي الوثائق",
+        "description": "المنشورة في المكتبة الرقمية"
+      },
+      "journals": {
+        "title": "المجلات",
+        "description": "العناوين المتاحة حاليًا"
+      },
+      "users": {
+        "title": "المستخدمون",
+        "description": "الحسابات النشطة التي تمتلك صلاحيات"
+      },
+      "pending": {
+        "title": "المهام المعلقة",
+        "description": "بانتظار المراجعة أو الإشراف"
+      },
+      "noData": "لا توجد بيانات بعد"
+    },
+    "activity": {
+      "title": "النشاط الأخير",
+      "description": "آخر التغييرات من المدراء والمحررين",
+      "empty": "لا توجد نشاطات بعد"
+    },
+    "users": {
+      "title": "المستخدمون",
+      "description": "إدارة وصول المشرفين والصلاحيات وحالة الحسابات.",
+      "searchPlaceholder": "ابحث بالبريد الإلكتروني…",
+      "filterRoleLabel": "تصفية حسب الدور",
+      "role": {
+        "all": "جميع الأدوار",
+        "admin": "مسؤول",
+        "committee": "لجنة",
+        "researcher": "باحث"
+      },
+      "addUser": "إضافة مستخدم",
+      "email": "البريد الإلكتروني",
+      "password": "كلمة المرور",
+      "rolesLabel": "الأدوار",
+      "addUserDescription": "أنشئ حسابًا محميًا بكلمة مرور وعيّن الأدوار الأساسية.",
+      "manageRolesDescription": "حدد الأدوار التي يجب أن تبقى مفعّلة لهذا الحساب.",
+      "create": "إنشاء",
+      "cancel": "إلغاء",
+      "manageRoles": "إدارة الأدوار",
+      "activate": "تفعيل",
+      "deactivate": "تعطيل",
+      "status": {
+        "active": "مفعل",
+        "inactive": "معطل"
+      },
+      "columns": {
+        "email": "البريد الإلكتروني",
+        "roles": "الأدوار",
+        "status": "الحالة",
+        "created": "تاريخ الإنشاء",
+        "actions": "إجراءات"
+      },
+      "empty": "لا توجد حسابات مطابقة للمرشحات.",
+      "errorLoading": "تعذر تحميل قائمة المستخدمين.",
+      "resultCount": "{count, plural, zero {لا مستخدمين} one {مستخدم واحد} two {مستخدمان} few {# مستخدمين} many {# مستخدمًا} other {# مستخدم}}",
+      "refreshing": "جاري التحديث…",
+      "working": "جاري التنفيذ…",
+      "copyEmail": "نسخ البريد الإلكتروني",
+      "pagination": {
+        "summary": "{start}–{end} من {total} مستخدم"
+      },
+      "confirmActivate": "هل تريد تفعيل {email}؟",
+      "confirmDeactivate": "هل تريد تعطيل {email}؟",
+      "retry": "إعادة المحاولة",
+      "toast": {
+        "created": "تمت إضافة المستخدم بنجاح.",
+        "rolesUpdated": "تم تحديث الأدوار.",
+        "activated": "تم تفعيل المستخدم.",
+        "deactivated": "تم تعطيل المستخدم.",
+        "error": "حدث خطأ ما، يرجى المحاولة مرة أخرى."
+      }
+    },
+    "categories": {
+      "title": "التصنيفات",
+      "subtitle": "نظّم البنى الهرمية للمجلات والأرشيفات والمواضيع البحثية.",
+      "description": "استعرض الشجرة، وابحث عن العناصر، وأدر ترتيبها أو تبعيتها.",
+      "toolbar": {
+        "searchLabel": "بحث",
+        "searchPlaceholder": "ابحث بالاسم أو بالـ slug…",
+        "kindLabel": "النوع",
+        "addCategory": "إضافة تصنيف"
+      },
+      "create": {
+        "title": "إنشاء تصنيف",
+        "description": "حدد اسم التصنيف، المعرّف، وهيكل الارتباط."
+      },
+      "fields": {
+        "name": "الاسم",
+        "slug": "المعرّف",
+        "optional": "اختياري",
+        "kind": "النوع",
+        "parent": "التصنيف الأب",
+        "order": "الترتيب",
+        "documents": "عدد المستندات"
+      },
+      "actions": {
+        "save": "حفظ",
+        "cancel": "إلغاء",
+        "delete": "حذف",
+        "move": "نقل…",
+        "working": "جارٍ التنفيذ…"
+      },
+      "parent": {
+        "searchPlaceholder": "فلترة التصنيفات الأب…",
+        "placeholder": "اختر التصنيف الأب (اختياري)",
+        "none": "بدون أب",
+        "empty": "لا توجد تصنيفات مطابقة.",
+        "clearSearch": "مسح البحث"
+      },
+      "inspector": {
+        "title": "لوحة التفاصيل",
+        "metaTitle": "البيانات الحالية",
+        "empty": "اختر تصنيفًا لتحريره."
+      },
+      "delete": {
+        "confirmTitle": "حذف التصنيف؟",
+        "confirmMessage": "هل أنت متأكد من حذف {name}؟ لا يمكن التراجع عن ذلك.",
+        "description": "حذف التصنيف يزيله نهائيًا من الشجرة.",
+        "disabledHint": "لا يمكنك حذف تصنيف يحتوي على مستندات أو أبناء."
+      },
+      "moveDialog": {
+        "title": "نقل التصنيف",
+        "description": "اختر أبًا جديدًا وموقعًا اختياريًا داخل القائمة.",
+        "parentLabel": "التصنيف الأب",
+        "orderLabel": "الترتيب",
+        "orderPlaceholder": "اتركه فارغًا للإضافة في النهاية",
+        "submit": "نقل",
+        "cancel": "إلغاء"
+      },
+      "toast": {
+        "created": "تم إنشاء التصنيف.",
+        "updated": "تم تحديث التصنيف.",
+        "reordered": "تم تحديث الترتيب.",
+        "deleted": "تم حذف التصنيف."
+      },
+      "errors": {
+        "generic": "حدث خطأ ما.",
+        "create": "تعذر إنشاء التصنيف.",
+        "update": "تعذر تحديث التصنيف.",
+        "reorder": "تعذر إعادة الترتيب.",
+        "delete": "تعذر حذف التصنيف.",
+        "loadChildren": "تعذر تحميل الأبناء.",
+        "sessionExpired": "انتهت الجلسة.",
+        "forbidden": "غير مصرح لك بهذه العملية.",
+        "network": "مشكلة في الشبكة، حاول مجددًا.",
+        "noAccess": "ليست لديك صلاحية لعرض التصنيفات."
+      },
+      "kinds": {
+        "all": "كل الأنواع",
+        "section": "الأقسام",
+        "journal": "??????",
+        "archive_collection": "مجموعات الأرشيف",
+        "topic": "المواضيع"
+      },
+      "tree": {
+        "title": "شجرة التصنيفات"
+      },
+      "searchResults": {
+        "title": "نتائج البحث",
+        "summary": "{total, plural, one {{total} نتيجة} other {{total} نتائج}} (الصفحة {page})",
+        "empty": "لا توجد تصنيفات مطابقة."
+      }
+    },
+    "authors": {
+      "title": "Authors",
+      "subtitle": "Author registry",
+      "description": "Search, paginate, and add author records for documents.",
+      "capabilityDisabled": "Author management is not enabled for your account.",
+      "toolbar": {
+        "search": {
+          "label": "Search",
+          "placeholder": "Search authors..."
+        },
+        "sort": {
+          "label": "Sort by",
+          "name": "Name (A-Z)",
+          "created": "Newest"
+        },
+        "status": {
+          "label": "Status",
+          "active": "Active",
+          "deleted": "Deleted",
+          "all": "All"
+        },
+        "add": "Add author",
+        "resultsSummary": "Page {page} · {total, plural, one {{total} author} other {{total} authors}}"
+      },
+      "dialog": {
+        "add": {
+          "title": "Add author",
+          "description": "Provide at least the latin name to create a new author record."
+        }
+      },
+      "fields": {
+        "nameLatin": "Latin name",
+        "nameArabic": "Arabic name",
+        "affiliation": "Affiliation"
+      },
+      "table": {
+        "headers": {
+          "nameLatin": "Latin name",
+          "nameArabic": "Arabic name",
+          "affiliation": "Affiliation",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "actions": {
+          "placeholder": "Coming soon",
+          "softDelete": "Soft delete",
+          "restore": "Restore",
+          "softDeleting": "Soft deleting...",
+          "restoring": "Restoring...",
+          "confirmTitle": "Soft delete author?",
+          "confirmDescription": "This will hide {name} without removing document links."
+        },
+        "badge": {
+          "deleted": "Deleted"
+        },
+        "empty": "No authors found."
+      },
+      "actions": {
+        "cancel": "Cancel",
+        "create": "Create author",
+        "creating": "Creating..."
+      },
+      "toast": {
+        "created": {
+          "success": "Author created.",
+          "error": "Unable to create author."
+        },
+        "deleted": {
+          "success": "Author removed from listings.",
+          "error": "Unable to remove author."
+        },
+        "restored": {
+          "success": "Author restored.",
+          "error": "Unable to restore author."
+        }
+      }
+    },
+    "nav": {
+      "title": "الإدارة",
+      "label": "مركز التحكم",
+      "dashboard": "لوحة التحكم",
+      "users": "المستخدمون",
+      "authors": "Authors",
+      "journals": "Journals",
+      "documents": "Documents",
+      "content": "المحتوى",
+      "settings": "الإعدادات",
+      "openMenu": "القائمة",
+      "closeMenu": "إغلاق",
+      "collapse": "طي الشريط الجانبي",
+      "expand": "توسيع الشريط الجانبي",
+      "searchPlaceholder": "ابحث في لوحة الإدارة...",
+      "logout": "تسجيل الخروج",
+      "categories": "التصنيفات"
+    },
+    "journals": {
+      "title": "Journals",
+      "description": "Manage journals, covers, and issues.",
+      "toolbar": {
+        "search": "Search journals",
+        "status": {
+          "placeholder": "Status",
+          "active": "Active",
+          "deleted": "Deleted",
+          "all": "All",
+          "uploading": "Uploading"
+        },
+        "sort": {
+          "placeholder": "Sort by",
+          "name": "Name",
+          "created_at": "Created"
+        }
+      },
+      "fields": {
+        "name": "Name",
+        "issn": "ISSN",
+        "description": "Description",
+        "cover": "Cover URL",
+        "advanced": "Advanced",
+        "show": "Show",
+        "hide": "Hide",
+        "slug": "Slug",
+        "publisher": "Publisher",
+        "publisherPlaceholder": "Publisher name"
+      },
+      "preview": {
+        "title": "Preview"
+      },
+      "status": {
+        "active": "Active",
+        "deleted": "Deleted",
+        "uploading": "Uploading"
+      },
+      "columns": {
+        "name": "Name",
+        "issn": "ISSN",
+        "issues": "Issues",
+        "articles": "Articles",
+        "created": "Created",
+        "status": "Status",
+        "actions": "Actions"
+      },
+      "actions": {
+        "add": "Add journal",
+        "upload": "Upload cover",
+        "remove": "Remove",
+        "more": "More actions",
+        "title": "Actions",
+        "edit": "Edit",
+        "restore": "Restore",
+        "softDelete": "Soft delete",
+        "confirmDelete": "Confirm delete",
+        "cancel": "Cancel",
+        "save": "Save",
+        "saving": "Saving..."
+      },
+      "dialog": {
+        "add": {
+          "title": "Add journal",
+          "description": "Create a new journal."
+        },
+        "edit": {
+          "title": "Edit journal",
+          "description": "Update journal details."
+        },
+        "delete": {
+          "title": "Soft delete?",
+          "description": "This journal can be restored later."
+        }
+      },
+      "table": {
+        "title": "Journals",
+        "description": "All journals",
+        "loading": "Loading...",
+        "empty": "No journals found."
+      },
+      "pagination": {
+        "summary": "Page {page} - Total {total}"
+      },
+      "toast": {
+        "error": "Unable to load journals.",
+        "forbidden": "Not authorized.",
+        "created": "Journal created.",
+        "updated": "Journal updated.",
+        "deleted": "Journal archived.",
+        "restored": "Journal restored.",
+        "uploaded": "Cover uploaded.",
+        "uploadError": "Upload failed.",
+        "createError": "Create failed.",
+        "updateError": "Update failed.",
+        "deleteError": "Delete failed.",
+        "restoreError": "Restore failed."
+      },
+      "validation": {
+        "nameRequired": "Name is required."
+      },
+      "issues": {
+        "title": "Issues",
+        "searchPlaceholder": "Search issues",
+        "yearPlaceholder": "Year",
+        "new": "New issue",
+        "edit": "Edit issue",
+        "delete": "Delete issue",
+        "dialogCreateDescription": "Add a new issue to this journal.",
+        "dialogEditDescription": "Update issue details.",
+        "sort": {
+          "placeholder": "Sort",
+          "yearDesc": "Year desc",
+          "yearAsc": "Year asc",
+          "numberDesc": "Number desc",
+          "numberAsc": "Number asc",
+          "createdDesc": "Created desc",
+          "createdAsc": "Created asc"
+        },
+        "empty": "No issues found.",
+        "error": "Unable to load issues.",
+        "toast": {
+          "created": "Issue created.",
+          "updated": "Issue updated.",
+          "deleted": "Issue deleted.",
+          "error": "Unable to save issue."
+        },
+        "form": {
+          "title": "Title",
+          "titlePlaceholder": "Issue title",
+          "year": "Year",
+          "number": "Number",
+          "volume": "Volume",
+          "publishedAt": "Published at"
+        },
+        "confirmDeleteTitle": "Delete issue?",
+        "confirmDeleteDesc": "This action cannot be undone.",
+        "columns": {
+          "year": "Year",
+          "number": "Number",
+          "volume": "Volume",
+          "title": "Title",
+          "articles": "Articles",
+          "published": "Published",
+          "created": "Created",
+          "actions": "Actions"
+        },
+        "open": "View issues",
+        "close": "Close"
+      }
+    },
+    "documents": {
+      "title": "Documents",
+      "description": "Search, create, and edit documents.",
+      "create": "New document"
+    }
+  }
+}

@@ -161,6 +161,7 @@ const applyReorderInTree = (nodes, parentId, orderItems) => {
 
 const AdminCategoriesPage = () => {
   const t = useTranslations("admin.categories");
+  const tPagination = useTranslations("shared.pagination");
   const notify = useNotify();
   const {logout} = useAuth();
   const queryClient = useQueryClient();
@@ -838,7 +839,7 @@ const AdminCategoriesPage = () => {
                   onClick={() => setListPage((prev) => Math.max(prev - 1, 1))}
                   disabled={listPage <= 1 || listQuery.isLoading}
                 >
-                  {t("pagination.previous")}
+                  {tPagination("previous")}
                 </Button>
                 <Button
                   type="button"
@@ -847,7 +848,7 @@ const AdminCategoriesPage = () => {
                   onClick={() => setListPage((prev) => prev + 1)}
                   disabled={listQuery.isLoading || !listQuery.data?.hasNext}
                 >
-                  {t("pagination.next")}
+                  {tPagination("next")}
                 </Button>
               </div>
             </Card>

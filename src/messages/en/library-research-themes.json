@@ -1,0 +1,90 @@
+{
+  "library": {
+    "researchThemes": {
+      "title": "Research Issues & Problematics",
+      "subtitle": "Cross-disciplinary questions shaping current research in the Maghreb.",
+      "meta": {
+        "title": "Research Issues & Problematics | AKT Research Foundation",
+        "description": "Explore research issues and thematic problematics across the Maghreb."
+      },
+      "a11y": {
+        "breadcrumbs": "Breadcrumb"
+      },
+      "breadcrumbs": {
+        "home": "Home",
+        "library": "Library",
+        "themes": "Research Issues & Problematics"
+      },
+      "toolbar": {
+        "ariaLabel": "Research themes search controls",
+        "searchLabel": "Search themes",
+        "searchPlaceholder": "Search themes or keywords...",
+        "authorLabel": "Author",
+        "authorPlaceholder": "Filter by author name",
+        "sortLabel": "Sort",
+        "sortOptions": {
+          "titleAsc": "Title (A-Z)",
+          "titleDesc": "Title (Z-A)",
+          "yearDesc": "Year (newest first)",
+          "yearAsc": "Year (oldest first)"
+        },
+        "typeLabel": "Document type",
+        "typeOptions": {
+          "all": "All types",
+          "book": "Books",
+          "article": "Articles",
+          "thesis": "Theses",
+          "report": "Reports"
+        },
+        "resultsSummary": "{count} results",
+        "summary": "{count} results",
+        "announce": "{count} themes found",
+        "summaryAuthor": "author: {author}",
+        "clearFilters": "Clear",
+        "clear": "Clear",
+        "loading": "Loading themes...",
+        "refreshing": "Refreshing results...",
+        "empty": "No themes matched the current filters.",
+        "default": "Browse the available research themes."
+      },
+      "cards": {
+        "loading": "Loading research themes...",
+        "emptyTitle": "No research themes found",
+        "emptyDescription": "Try adjusting your search.",
+        "descriptionFallback": "Description coming soon.",
+        "badges": {
+          "countLabel": "{count, plural, one {# document} other {# documents}}"
+        }
+      },
+      "error": {
+        "message": "Unable to load research themes right now."
+      },
+      "pagination": {
+        "ariaLabel": "Research themes pagination"
+      },
+      "documents": {
+        "toolbar": {
+          "title": "Results",
+          "searching": "Searching documents...",
+          "refreshing": "Refreshing results...",
+          "results": "{count, plural, one {# document} other {# documents}} - Page {page} of {totalPages}",
+          "noResults": "No documents found for this theme.",
+          "start": "Start exploring documents connected to this theme.",
+          "viewGroupAria": "Change view mode",
+          "viewDetailed": "Detailed view",
+          "viewCompact": "Compact view"
+        },
+        "list": {
+          "emptyTitle": "No documents match your current filters.",
+          "emptyDescription": "Try adjusting your search terms or clearing filters.",
+          "errorTitle": "We could not load documents."
+        },
+        "card": {
+          "metaAria": "Document metadata",
+          "pagesSuffix": "pages",
+          "details": "Details"
+        }
+      }
+    }
+  }
+}

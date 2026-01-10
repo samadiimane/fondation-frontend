@@ -12,6 +12,7 @@ const EVENT_TYPES = ["all", "seminar", "award", "exhibition"];
 const EventsHub = () => {
   const locale = useLocale();
   const t = useTranslations("events");
+  const tPagination = useTranslations("shared.pagination");
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -131,10 +132,10 @@ const EventsHub = () => {
               disabled={loading || page <= 1}
             >
               <i className='fa-solid fa-arrow-left' aria-hidden='true' />
-              <span>{t("pagination.previous")}</span>
+              <span>{tPagination("previous")}</span>
             </button>
             <p className='events-pagination__meta'>
-              {t("pagination.pageOf", { page, total: Math.max(Math.ceil(total / (pageSize || 1)), 1) })}
+              {tPagination("pageOf", { page, total: Math.max(Math.ceil(total / (pageSize || 1)), 1) })}
             </p>
             <button
               type='button'
@@ -142,7 +143,7 @@ const EventsHub = () => {
               onClick={handleNext}
               disabled={loading || !hasNext}
             >
-              <span>{t("pagination.next")}</span>
+              <span>{tPagination("next")}</span>
               <i className='fa-solid fa-arrow-right' aria-hidden='true' />
             </button>
           </div>

@@ -11,6 +11,7 @@ const ResearchThemeClient = ({ category, slug }) => {
   const isRtl = isRtlLocale(locale);
   const textAlign = isRtl ? "text-end" : "text-start";
   const t = useTranslations("library.researchThemes");
+  const tPagination = useTranslations("shared.pagination");
   const documentsCount = category?.counts?.documents ?? null;
   const headerTitle = category?.name || t("title");
   const headerDescription = category?.description || t("subtitle");
@@ -48,12 +49,12 @@ const ResearchThemeClient = ({ category, slug }) => {
       },
       pagination: {
         aria: t("pagination.ariaLabel"),
-        prev: t("pagination.previous"),
-        next: t("pagination.next"),
-        page: (page) => t("pagination.page", { page }),
+        prev: tPagination("previous"),
+        next: tPagination("next"),
+        page: (page) => tPagination("page", { page }),
       },
     }),
-    [t],
+    [t, tPagination],
   );
 
   return (
