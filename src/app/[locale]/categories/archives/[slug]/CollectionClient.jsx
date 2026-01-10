@@ -18,21 +18,21 @@ const FALLBACK_IMAGES = [
 ];
 
 const formatLanguage = (value) => {
-  if (!value) return "";
+  if (!value) return null;
   return value.toString().toUpperCase();
 };
 
-const formatPages = (value) => {
+const formatPages = (value, t) => {
   if (!value) return null;
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) return null;
-  return `${numeric} pages`;
+  return t("collection.pages", { count: numeric });
 };
 
 const truncate = (value, length = 220) => {
   if (!value) return null;
   if (value.length <= length) return value;
-  return `${value.slice(0, length - 1)}`;
+  return `${value.slice(0, Math.max(length - 3, 0))}...`;
 };
 
 const formatSummary = ({ loading, hasLoadedOnce, total, page, t }) => {
@@ -74,6 +74,8 @@ const CollectionClient = ({ category, slug }) => {
   } = useCategoryDocuments(slug, { includeDescendants: false });
 
   const summaryLabel = formatSummary({ loading, hasLoadedOnce, total, page, t });
+  const titleFallback = t("collection.documentTitleFallback");
+  const descriptionFallback = t("collection.documentDescriptionFallback");
 
   const handleReset = () => {
     setQ("");
@@ -82,6 +84,15 @@ const CollectionClient = ({ category, slug }) => {
   };
 
   const documents = useMemo(() => items ?? [], [items]);
+  const paginationLabels = useMemo(
+    () => ({
+      aria: t("collection.pagination.ariaLabel"),
+      prev: t("collection.pagination.previous"),
+      next: t("collection.pagination.next"),
+      page: (pageNumber) => t("collection.pagination.page", { page: pageNumber }),
+    }),
+    [t]
+  );
 
   return (
     <section dir={isRtl ? "rtl" : "ltr"} lang={locale}>
@@ -144,26 +155,28 @@ const CollectionClient = ({ category, slug }) => {
                 document.lead_image ||
                 document.thumbnail ||
                 FALLBACK_IMAGES[index % FALLBACK_IMAGES.length];
+              const title = document.title ?? titleFallback;
               const abstract = truncate(document.abstract);
               const language = formatLanguage(document.language ?? document.lang);
-              const pages = formatPages(document.pages);
+              const pages = formatPages(document.pages, t);
               const linkHref = document.id ? `/documents/${document.id}` : null;
               const firstAuthor = getFirstAuthor(document.authors, locale);
               const authorEntry =
                 firstAuthor ?? (document.author ? { name: document.author, affiliation: null } : null);
+              const imageAlt = t("collection.imageAlt", { title });
 
               return (
                 <article key={document.id ?? `${document.title}-${index}`} className="collection-card">
                   <div className="collection-card__image">
-                    <img src={imageUrl} alt={document.title ? `${document.title} cover` : "Archive item"} loading="lazy" />
+                    <img src={imageUrl} alt={imageAlt} loading="lazy" />
                   </div>
                   <div className="collection-card__body">
-                    <h6 className="collection-card__title">{document.title ?? "Untitled"}</h6>
+                    <h6 className="collection-card__title">{title}</h6>
                     {authorEntry && (
                       <p className="collection-card__author">
                         <span>{authorEntry.name}</span>
                         {authorEntry.affiliation && (
-                          <span className="collection-card__author-affiliation"> — {authorEntry.affiliation}</span>
+                          <span className="collection-card__author-affiliation"> - {authorEntry.affiliation}</span>
                         )}
                       </p>
                     )}
@@ -171,7 +184,7 @@ const CollectionClient = ({ category, slug }) => {
                       <p className="collection-card__excerpt">{abstract}</p>
                     ) : (
                       <p className="collection-card__excerpt collection-card__excerpt--muted">
-                        Description for this document will be added soon.
+                        {descriptionFallback}
                       </p>
                     )}
                     <ul className="collection-card__meta">
@@ -180,7 +193,7 @@ const CollectionClient = ({ category, slug }) => {
                           <i className="fa-regular fa-calendar" aria-hidden="true"></i> {document.year}
                         </li>
                       )}
-                      {language && language !== "" && (
+                      {language && (
                         <li>
                           <i className="fa-regular fa-message-lines" aria-hidden="true"></i> {language}
                         </li>
@@ -194,10 +207,12 @@ const CollectionClient = ({ category, slug }) => {
                     <div className="collection-card__actions">
                       {linkHref ? (
                         <Link href={linkHref} className="collection-card__action">
-                          Read more <i className="fa-solid fa-circle-arrow-right flip-x" />
+                          {t("collection.readMore")} <i className="fa-solid fa-circle-arrow-right flip-x" />
                         </Link>
                       ) : (
-                        <span className="collection-card__action collection-card__action--disabled">Unavailable</span>
+                        <span className="collection-card__action collection-card__action--disabled">
+                          {t("collection.unavailable")}
+                        </span>
                       )}
                     </div>
                   </div>
@@ -208,7 +223,13 @@ const CollectionClient = ({ category, slug }) => {
         )}
 
         {hasLoadedOnce && (documents.length > 0 || hasNext) && !error && (
-          <Pagination page={page} hasNext={hasNext} setPage={setPage} loading={loading} />
+          <Pagination
+            page={page}
+            hasNext={hasNext}
+            setPage={setPage}
+            loading={loading}
+            content={{ pagination: paginationLabels }}
+          />
         )}
       </section>
     </section>

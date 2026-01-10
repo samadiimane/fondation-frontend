@@ -988,7 +988,19 @@
         },
         "errorTitle": "تعذر تحميل مستندات الأرشيف لهذه المجموعة.",
         "emptyTitle": "لا توجد مستندات تطابق عوامل التصفية.",
-        "emptyDescription": "جرّب تعديل البحث أو مسح عوامل التصفية."
+        "emptyDescription": "جرّب تعديل البحث أو مسح عوامل التصفية.",
+        "documentTitleFallback": "مستند بلا عنوان",
+        "documentDescriptionFallback": "سيتم إضافة وصف لهذا المستند قريباً.",
+        "imageAlt": "صورة الغلاف لـ {title}",
+        "pages": "{count, plural, one {# صفحة} other {# صفحات}}",
+        "readMore": "اقرأ المزيد",
+        "unavailable": "غير متاح",
+        "pagination": {
+          "ariaLabel": "ترقيم صفحات المجموعة",
+          "previous": "السابق",
+          "next": "التالي",
+          "page": "صفحة {page}"
+        }
       }
     }
   },

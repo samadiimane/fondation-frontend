@@ -986,7 +986,19 @@
         },
         "errorTitle": "We could not load archival documents for this collection.",
         "emptyTitle": "No documents match your current filters.",
-        "emptyDescription": "Try adjusting your search term or clearing the filters."
+        "emptyDescription": "Try adjusting your search term or clearing the filters.",
+        "documentTitleFallback": "Untitled document",
+        "documentDescriptionFallback": "Description for this document will be added soon.",
+        "imageAlt": "Cover image for {title}",
+        "pages": "{count, plural, one {# page} other {# pages}}",
+        "readMore": "Read more",
+        "unavailable": "Unavailable",
+        "pagination": {
+          "ariaLabel": "Collection pagination",
+          "previous": "Previous",
+          "next": "Next",
+          "page": "Page {page}"
+        }
       }
     }
   },

@@ -986,7 +986,19 @@
         },
         "errorTitle": "Impossible de charger les documents d'archives pour cette collection.",
         "emptyTitle": "Aucun document ne correspond a vos filtres.",
-        "emptyDescription": "Essayez d'ajuster votre recherche ou d'effacer les filtres."
+        "emptyDescription": "Essayez d'ajuster votre recherche ou d'effacer les filtres.",
+        "documentTitleFallback": "Document sans titre",
+        "documentDescriptionFallback": "La description de ce document sera ajoutee prochainement.",
+        "imageAlt": "Image de couverture pour {title}",
+        "pages": "{count, plural, one {# page} other {# pages}}",
+        "readMore": "Lire la suite",
+        "unavailable": "Indisponible",
+        "pagination": {
+          "ariaLabel": "Pagination de la collection",
+          "previous": "Precedent",
+          "next": "Suivant",
+          "page": "Page {page}"
+        }
       }
     }
   },

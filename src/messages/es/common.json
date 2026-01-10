@@ -986,7 +986,19 @@
         },
         "errorTitle": "No se pudieron cargar los documentos de archivo de esta coleccion.",
         "emptyTitle": "No hay documentos que coincidan con tus filtros.",
-        "emptyDescription": "Intenta ajustar tu busqueda o limpiar los filtros."
+        "emptyDescription": "Intenta ajustar tu busqueda o limpiar los filtros.",
+        "documentTitleFallback": "Documento sin titulo",
+        "documentDescriptionFallback": "La descripcion de este documento se agregara pronto.",
+        "imageAlt": "Imagen de portada de {title}",
+        "pages": "{count, plural, one {# pagina} other {# paginas}}",
+        "readMore": "Leer mas",
+        "unavailable": "No disponible",
+        "pagination": {
+          "ariaLabel": "Paginacion de la coleccion",
+          "previous": "Anterior",
+          "next": "Siguiente",
+          "page": "Pagina {page}"
+        }
       }
     }
   },

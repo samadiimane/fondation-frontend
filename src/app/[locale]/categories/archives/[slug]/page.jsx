@@ -8,7 +8,8 @@ import AOSWrap from "@/helper/AOSWrap";
 import CollectionClient from "./CollectionClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
-import { getTranslations, getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
+import { defaultLocale } from "@/i18n/config";
 
 export const metadata = {
   title: "Archive Collection",
@@ -16,7 +17,7 @@ export const metadata = {
 };
 
 const ArchiveCollectionPage = async ({ params }) => {
-  const locale = await getLocale();
+  const locale = params?.locale || defaultLocale;
   const slug = params?.slug;
   if (!slug) {
     notFound();
@@ -26,7 +27,7 @@ const ArchiveCollectionPage = async ({ params }) => {
   if (!category) {
     notFound();
   }
-  const t = await getTranslations("library.category.breadcrumbs");
+  const t = await getTranslations({ locale, namespace: "library.category" });
 
   return (
     <AOSWrap>
@@ -39,11 +40,12 @@ const ArchiveCollectionPage = async ({ params }) => {
         <main className="category-section">
           <Breadcrumbs
             items={[
-              { label: t("home"), href: "/" },
-              { label: t("library"), href: "/library" },
-              { label: t("archives"), href: "/categories/archives" },
-              { label: category?.name ?? slug, current: true },
+              { label: t("breadcrumbs.home"), href: "/" },
+              { label: t("breadcrumbs.library"), href: "/library" },
+              { label: t("breadcrumbs.archives"), href: "/categories/archives" },
+              { label: category?.name ?? t("breadcrumbs.collection"), current: true },
             ]}
+            ariaLabel={t("a11y.breadcrumbs")}
             locale={locale}
           />
           <CollectionClient category={category} slug={slug} />
