@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import useCategoryDocuments from "@/hooks/useCategoryDocuments";
 import CategoryToolbar from "./CategoryToolbar";
-import { useTranslations } from "next-intl";
 import ResultsToolbar from "@/components/search/ResultsToolbar";
 import ResultsList from "@/components/search/ResultsList";
 import Pagination from "@/components/search/Pagination";
+import { getLibrarySearchContent } from "@/content/librarySearch";
 
 const DEFAULT_VIEW_MODE = "detailed";
 
@@ -36,13 +37,22 @@ const CategoryDocumentsExplorer = ({
   defaultFilters,
   includeDescendants = true,
   renderToolbar,
+  toolbarNamespace = "library.categories.toolbar",
+  content,
+  textAlign,
 }) => {
-  void locale;
+  const contextLocale = useLocale();
+  const resolvedLocale = locale || contextLocale;
+  const fallbackContent = useMemo(
+    () => getLibrarySearchContent(resolvedLocale),
+    [resolvedLocale],
+  );
+  const resolvedContent = content || fallbackContent;
 
   const defaultsAppliedRef = useRef(false);
   const lastDefaultsRef = useRef(null);
 
-  const tToolbar = useTranslations("library.categories.toolbar");
+  const tToolbar = useTranslations(toolbarNamespace);
   const defaultTypeFilter = defaultFilters?.typeFilter;
   const initialTypes = useMemo(
     () => normalizeTypeValues(defaultTypeFilter?.value ?? defaultFilters?.type),
@@ -122,7 +132,7 @@ const CategoryDocumentsExplorer = ({
   const authorFilter = (author || "").trim();
   const authorSummary =
     authorSupported && authorFilter ? tToolbar("summaryAuthor", { author: authorFilter }) : null;
-  const summaryWithFilters = authorSummary ? `${summaryLabel} — ${authorSummary}` : summaryLabel;
+  const summaryWithFilters = authorSummary ? `${summaryLabel} - ${authorSummary}` : summaryLabel;
 
   const setPageSafe = useCallback(
     (value) => {
@@ -229,6 +239,7 @@ const CategoryDocumentsExplorer = ({
       author={author}
       setAuthor={setAuthorSafe}
       authorSupported={authorSupported}
+      namespace={toolbarNamespace}
     />
   );
 
@@ -248,6 +259,8 @@ const CategoryDocumentsExplorer = ({
           activeFiltersSummary={authorSummary}
           viewMode={viewMode}
           onViewModeChange={setViewMode}
+          content={resolvedContent}
+          textAlign={textAlign}
         />
 
         <ResultsList
@@ -256,10 +269,18 @@ const CategoryDocumentsExplorer = ({
           error={error}
           hasLoadedOnce={hasLoadedOnce}
           viewMode={viewMode}
+          content={resolvedContent}
+          textAlign={textAlign}
         />
 
         {hasLoadedOnce && (
-          <Pagination page={page} hasNext={hasNext} setPage={setPageSafe} loading={loading} />
+          <Pagination
+            page={page}
+            hasNext={hasNext}
+            setPage={setPageSafe}
+            loading={loading}
+            content={resolvedContent}
+          />
         )}
       </div>
     </section>

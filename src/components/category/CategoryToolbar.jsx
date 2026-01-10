@@ -14,8 +14,9 @@ const CategoryToolbar = ({
   author = "",
   setAuthor,
   authorSupported = true,
+  namespace = "library.categories.toolbar",
 }) => {
-  const t = useTranslations("library.categories.toolbar");
+  const t = useTranslations(namespace);
   const [searchValue, setSearchValue] = useState(q ?? "");
   const [authorValue, setAuthorValue] = useState(author ?? "");
   const inputId = useId();

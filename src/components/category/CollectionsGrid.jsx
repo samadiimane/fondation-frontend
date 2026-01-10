@@ -1,8 +1,8 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const formatDescription = (value) => {
   if (typeof value !== "string") return "";
@@ -17,6 +17,14 @@ const formatCount = (count) => {
 };
 
 const CollectionsGrid = ({ items = [] }) => {
+  const locale = useLocale();
+  const numberFormatter = useMemo(() => {
+    try {
+      return new Intl.NumberFormat(locale || undefined);
+    } catch {
+      return new Intl.NumberFormat("en");
+    }
+  }, [locale]);
   const t = useTranslations("library.categories");
 
   if (!Array.isArray(items) || items.length === 0) {
@@ -35,6 +43,7 @@ const CollectionsGrid = ({ items = [] }) => {
         const slug = item?.slug ?? "";
         const description = formatDescription(item?.description);
         const count = formatCount(item?.counts?.documents ?? item?.documentsCount);
+        const formattedCount = count !== null ? numberFormatter.format(count) : null;
         const key = item?.id ?? slug ?? `collection-${index}`;
         const displayName = item?.name ?? t("cards.titleFallback");
 
@@ -45,7 +54,7 @@ const CollectionsGrid = ({ items = [] }) => {
               {count !== null && (
                 <span className="category-card__count" aria-label={t("toolbar.resultsSummary", { count })}>
                   <i className="fa-solid fa-layer-group" aria-hidden="true"></i>
-                  { count }
+                  {formattedCount}
                 </span>
               )}
             </header>

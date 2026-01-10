@@ -13,6 +13,31 @@ const EMPTY_FACETS = {
 
 const LEGACY_AUTHOR_ERROR_CODES = new Set([400, 422]);
 
+const pickText = (...values) => {
+  for (const value of values) {
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (trimmed) {
+        return trimmed;
+      }
+    }
+  }
+  return "";
+};
+
+const resolveCategoryName = (entry) =>
+  pickText(
+    entry?.name,
+    entry?.title,
+    entry?.base_name,
+    entry?.baseName,
+    entry?.default_name,
+    entry?.defaultName,
+    entry?.original_name,
+    entry?.originalName,
+    entry?.slug,
+  );
+
 const parseInitialParams = () => {
   if (typeof window === "undefined") {
     return {};
@@ -192,6 +217,7 @@ const useDocumentsSearch = () => {
       sort,
       page,
       page_size: pageSize,
+      locale: locale || undefined,
     };
     if (authorSupported && authorFilter) {
       params.author = authorFilter;
@@ -209,6 +235,7 @@ const useDocumentsSearch = () => {
     page,
     pageSize,
     authorSupported,
+    locale,
   ]);
 
   const requestKey = useMemo(() => JSON.stringify(requestParams), [requestParams]);
@@ -250,7 +277,10 @@ const useDocumentsSearch = () => {
 
       setItems(safeItems);
       const baseCategoryFacets = Array.isArray(safeFacets.category)
-        ? [...safeFacets.category]
+        ? safeFacets.category.map((entry) => ({
+            ...entry,
+            name: resolveCategoryName(entry),
+          }))
         : [];
       const seenCategorySlugs = new Set(
         baseCategoryFacets
@@ -263,7 +293,7 @@ const useDocumentsSearch = () => {
         }
         baseCategoryFacets.push({
           slug: category.slug,
-          name: category.name ?? category.slug,
+          name: resolveCategoryName(category),
           count: null,
         });
         seenCategorySlugs.add(category.slug);
@@ -325,7 +355,7 @@ const useDocumentsSearch = () => {
 
     return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [requestKey]);
+  }, [requestKey, locale]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -338,9 +368,9 @@ const useDocumentsSearch = () => {
       categorySlug,
       sort,
       page,
-      pageSize,
-      author,
-    });
+    pageSize,
+    author,
+  });
     const query = buildQuery(params);
     const newUrl = `${window.location.pathname}${query}`;
     window.history.replaceState(null, "", newUrl);

@@ -8,15 +8,20 @@ import AOSWrap from "@/helper/AOSWrap";
 import ResearchThemeClient from "./ResearchThemeClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
-import { getTranslations, getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
+import { defaultLocale } from "@/i18n/config";
 
-export const metadata = {
-  title: "Research Theme",
-  description: "Explore documents mapped to this research theme.",
-};
+export async function generateMetadata({ params }) {
+  const locale = params?.locale || defaultLocale;
+  const t = await getTranslations({ locale, namespace: "library.researchThemes.meta" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
 const ResearchThemePage = async ({ params }) => {
-  const locale = await getLocale();
+  const locale = params?.locale || defaultLocale;
   const slug = params?.slug;
   if (!slug) {
     notFound();
@@ -26,7 +31,7 @@ const ResearchThemePage = async ({ params }) => {
   if (!category) {
     notFound();
   }
-  const t = await getTranslations("library.category.breadcrumbs");
+  const t = await getTranslations({ locale, namespace: "library.researchThemes" });
 
   return (
     <AOSWrap>
@@ -39,11 +44,13 @@ const ResearchThemePage = async ({ params }) => {
         <main className="category-section">
           <Breadcrumbs
             items={[
-              { label: t("home"), href: "/" },
-              { label: t("library"), href: "/library" },
-              { label: t("researchThemes"), href: "/categories/research-themes" },
+              { label: t("breadcrumbs.home"), href: "/" },
+              { label: t("breadcrumbs.library"), href: "/library" },
+              { label: t("breadcrumbs.themes"), href: "/categories/research-themes" },
               { label: category?.name ?? slug, current: true },
             ]}
+            ariaLabel={t("a11y.breadcrumbs")}
+            locale={locale}
           />
           <ResearchThemeClient category={category} slug={slug} />
         </main>

@@ -1,6 +1,6 @@
 "use client";
 
-import {memo} from "react";
+import {memo, useMemo} from "react";
 import {Link} from "@/i18n/navigation";
 import {useLocale} from "next-intl";
 import {getFirstAuthor} from "@/lib/authors";
@@ -9,6 +9,13 @@ const formatTypeClass = (type = "") => type.toLowerCase().replace(/[^a-z0-9]+/g,
 
 const DocumentCard = ({document, viewMode, content}) => {
   const locale = useLocale();
+  const numberFormatter = useMemo(() => {
+    try {
+      return new Intl.NumberFormat(locale || undefined);
+    } catch {
+      return new Intl.NumberFormat("en");
+    }
+  }, [locale]);
 
   const formatIcon = (() => {
     const format = document.format ?? document.type;
@@ -36,6 +43,10 @@ const DocumentCard = ({document, viewMode, content}) => {
   const trimmedAbstract = abstract.length > 320 ? `${abstract.slice(0, 317)}...` : abstract;
   const categoryName = document.primary_category?.name ?? document.primaryCategory?.name ?? "";
   const language = (document.language || document.lang || "").toString();
+  const pagesValue = Number(document.pages);
+  const formattedPages = Number.isFinite(pagesValue) ? numberFormatter.format(pagesValue) : document.pages;
+  const yearValue = Number(document.year);
+  const formattedYear = Number.isFinite(yearValue) ? numberFormatter.format(yearValue) : document.year;
 
   return (
     <article className={`document-card ${viewMode === "compact" ? "document-card--compact" : ""}`}>
@@ -46,7 +57,7 @@ const DocumentCard = ({document, viewMode, content}) => {
             <p className="document-card__author">
               <span>{authorLine.name}</span>
               {authorLine.affiliation && (
-                <span className="document-card__author-affiliation"> — {authorLine.affiliation}</span>
+                <span className="document-card__author-affiliation"> - {authorLine.affiliation}</span>
               )}
             </p>
           )}
@@ -61,7 +72,7 @@ const DocumentCard = ({document, viewMode, content}) => {
             )}
             {document.pages && (
               <span className="document-card__pages">
-                {document.pages} {content.card.pagesSuffix}
+                {formattedPages} {content.card.pagesSuffix}
               </span>
             )}
           </div>
@@ -80,7 +91,7 @@ const DocumentCard = ({document, viewMode, content}) => {
           {document.year && (
             <span className="document-card__badge">
               <i className="fa-regular fa-calendar" aria-hidden="true"></i>
-              {document.year}
+              {formattedYear}
             </span>
           )}
         </div>
@@ -90,7 +101,7 @@ const DocumentCard = ({document, viewMode, content}) => {
 
       <footer className="document-card__actions">
         <Link href={`/library/${document.id}`} className="document-card__action document-card__action--link">
-          <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          <i className="fa-solid fa-arrow-right flip-x" aria-hidden="true"></i>
           {content.card.details}
         </Link>
       </footer>

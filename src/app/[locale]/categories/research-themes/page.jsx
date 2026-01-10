@@ -8,20 +8,25 @@ import AOSWrap from "@/helper/AOSWrap";
 import ResearchThemesClient from "./ResearchThemesClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
-import { getTranslations, getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
+import { defaultLocale } from "@/i18n/config";
 
-export const metadata = {
-  title: "Research Themes",
-  description: "Browse thematic clusters of scholarship and archival records.",
-};
+export async function generateMetadata({ params }) {
+  const locale = params?.locale || defaultLocale;
+  const t = await getTranslations({ locale, namespace: "library.researchThemes.meta" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
-const ResearchThemesPage = async () => {
-  const locale = await getLocale();
+const ResearchThemesPage = async ({ params }) => {
+  const locale = params?.locale || defaultLocale;
   const category = await getCategory("research-themes", { locale });
   if (!category) {
     notFound();
   }
-  const t = await getTranslations("library.category.breadcrumbs");
+  const t = await getTranslations({ locale, namespace: "library.researchThemes" });
 
   return (
     <AOSWrap>
@@ -34,10 +39,12 @@ const ResearchThemesPage = async () => {
         <main className="category-section">
           <Breadcrumbs
             items={[
-              { label: t("home"), href: "/" },
-              { label: t("library"), href: "/library" },
-              { label: t("researchThemes"), current: true },
+              { label: t("breadcrumbs.home"), href: "/" },
+              { label: t("breadcrumbs.library"), href: "/library" },
+              { label: t("breadcrumbs.themes"), current: true },
             ]}
+            ariaLabel={t("a11y.breadcrumbs")}
+            locale={locale}
           />
           <ResearchThemesClient category={category} />
         </main>

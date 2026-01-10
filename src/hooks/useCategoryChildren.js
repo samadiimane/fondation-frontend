@@ -4,6 +4,50 @@ import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 import { getCategoryChildren } from "@/lib/api";
 
+const pickText = (...values) => {
+  for (const value of values) {
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (trimmed) {
+        return trimmed;
+      }
+    }
+  }
+  return "";
+};
+
+const resolveName = (item) =>
+  pickText(
+    item?.name,
+    item?.title,
+    item?.base_name,
+    item?.baseName,
+    item?.default_name,
+    item?.defaultName,
+    item?.original_name,
+    item?.originalName,
+    item?.raw?.name,
+    item?.raw?.title,
+    item?.raw?.base_name,
+    item?.raw?.baseName,
+  );
+
+const resolveDescription = (item) =>
+  pickText(
+    item?.description,
+    item?.summary,
+    item?.base_description,
+    item?.baseDescription,
+    item?.default_description,
+    item?.defaultDescription,
+    item?.original_description,
+    item?.originalDescription,
+    item?.raw?.description,
+    item?.raw?.summary,
+    item?.raw?.base_description,
+    item?.raw?.baseDescription,
+  );
+
 const normalizeLinkedJournal = (value) => {
   if (!value || typeof value !== "object") {
     return null;
@@ -43,9 +87,9 @@ const mapChild = (item) => {
   return {
     id: item.id ?? null,
     slug: item.slug ?? "",
-    name: item.name ?? "",
+    name: resolveName(item),
     kind: item.kind ?? "",
-    description: item.description ?? "",
+    description: resolveDescription(item),
     linked_journal: normalizeLinkedJournal(linkedJournal),
     counts,
     raw: item,
@@ -62,6 +106,11 @@ const useCategoryChildren = (slug, { kind, withCounts = false } = {}) => {
     if (!kind) return undefined;
     return String(kind);
   }, [kind]);
+
+  const requestKey = useMemo(
+    () => JSON.stringify({ slug, kind: normalizedKind, withCounts, locale }),
+    [slug, normalizedKind, withCounts, locale],
+  );
 
   useEffect(() => {
     let active = true;
@@ -105,7 +154,7 @@ const useCategoryChildren = (slug, { kind, withCounts = false } = {}) => {
       active = false;
       controller.abort();
     };
-  }, [slug, normalizedKind, withCounts, locale]);
+  }, [requestKey, slug, normalizedKind, withCounts, locale]);
 
   return {
     items,

@@ -303,13 +303,50 @@ const clampString = (value) => {
   return value.trim();
 };
 
+const pickText = (...values) => {
+  for (const value of values) {
+    if (typeof value === "string") {
+      const trimmed = value.trim();
+      if (trimmed) {
+        return trimmed;
+      }
+    }
+  }
+  return "";
+};
+
+const resolveCategoryName = (category = {}) =>
+  pickText(
+    category.name,
+    category.title,
+    category.base_name,
+    category.baseName,
+    category.default_name,
+    category.defaultName,
+    category.original_name,
+    category.originalName,
+    category.slug,
+  );
+
+const resolveCategoryDescription = (category = {}) =>
+  pickText(
+    category.description,
+    category.summary,
+    category.base_description,
+    category.baseDescription,
+    category.default_description,
+    category.defaultDescription,
+    category.original_description,
+    category.originalDescription,
+  );
+
 const normalizeCategory = (category = {}) => ({
   id: category.id ?? null,
   slug: category.slug ?? "",
-  name: category.name ?? "",
+  name: resolveCategoryName(category),
   kind: category.kind ?? "",
   parentId: category.parent_id ?? null,
-  description: category.description ?? "",
+  description: resolveCategoryDescription(category),
   linkedJournal: category.linked_journal
     ? {
         id: category.linked_journal.id ?? null,

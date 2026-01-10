@@ -1000,6 +1000,95 @@
           "page": "Page {page}"
         }
       }
+    },
+    "researchThemes": {
+      "title": "Problématiques et axes de recherche",
+      "subtitle": "Questions transdisciplinaires qui structurent la recherche au Maghreb.",
+      "meta": {
+        "title": "Problématiques et axes de recherche | Fondation AKT",
+        "description": "Explorez les problématiques et axes de recherche au Maghreb."
+      },
+      "a11y": {
+        "breadcrumbs": "Fil d'Ariane"
+      },
+      "breadcrumbs": {
+        "home": "Accueil",
+        "library": "Bibliothèque",
+        "themes": "Problématiques et axes de recherche"
+      },
+      "toolbar": {
+        "ariaLabel": "Commandes de recherche des thèmes",
+        "searchLabel": "Rechercher des thèmes",
+        "searchPlaceholder": "Rechercher des thèmes ou mots-clés...",
+        "authorLabel": "Auteur",
+        "authorPlaceholder": "Filtrer par nom d'auteur",
+        "sortLabel": "Trier",
+        "sortOptions": {
+          "titleAsc": "Titre (A-Z)",
+          "titleDesc": "Titre (Z-A)",
+          "yearDesc": "Année (plus récent)",
+          "yearAsc": "Année (plus ancien)"
+        },
+        "typeLabel": "Type de document",
+        "typeOptions": {
+          "all": "Tous les types",
+          "book": "Livres",
+          "article": "Articles",
+          "thesis": "Thèses",
+          "report": "Rapports"
+        },
+        "resultsSummary": "{count} résultats",
+        "summary": "{count} résultats",
+        "announce": "{count} thèmes trouvés",
+        "summaryAuthor": "auteur : {author}",
+        "clearFilters": "Effacer",
+        "clear": "Effacer",
+        "loading": "Chargement des thèmes...",
+        "refreshing": "Actualisation des résultats...",
+        "empty": "Aucun thème ne correspond aux filtres actuels.",
+        "default": "Parcourez les thèmes de recherche disponibles."
+      },
+      "cards": {
+        "loading": "Chargement des thèmes de recherche...",
+        "emptyTitle": "Aucun thème de recherche trouvé",
+        "emptyDescription": "Essayez de modifier votre recherche.",
+        "descriptionFallback": "La description sera bientôt disponible.",
+        "badges": {
+          "countLabel": "{count, plural, one {# document} other {# documents}}"
+        }
+      },
+      "error": {
+        "message": "Impossible de charger les thèmes de recherche pour le moment."
+      },
+      "pagination": {
+        "ariaLabel": "Pagination des thèmes de recherche",
+        "previous": "Précédent",
+        "next": "Suivant",
+        "page": "Page {page}"
+      },
+      "documents": {
+        "toolbar": {
+          "title": "Résultats",
+          "searching": "Recherche des documents...",
+          "refreshing": "Actualisation des résultats...",
+          "results": "{count, plural, one {# document} other {# documents}} - Page {page} sur {totalPages}",
+          "noResults": "Aucun document trouvé pour ce thème.",
+          "start": "Commencez à explorer les documents liés à ce thème.",
+          "viewGroupAria": "Changer le mode d'affichage",
+          "viewDetailed": "Affichage détaillé",
+          "viewCompact": "Affichage compact"
+        },
+        "list": {
+          "emptyTitle": "Aucun document ne correspond à vos filtres.",
+          "emptyDescription": "Essayez d'ajuster votre recherche ou d'effacer les filtres.",
+          "errorTitle": "Impossible de charger les documents."
+        },
+        "card": {
+          "metaAria": "Métadonnées du document",
+          "pagesSuffix": "pages",
+          "details": "Détails"
+        }
+      }
     }
   },
   "services": {

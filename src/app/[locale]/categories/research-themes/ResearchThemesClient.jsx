@@ -6,6 +6,7 @@ import CategoryHeader from "@/components/category/CategoryHeader";
 import CategoryToolbar from "@/components/category/CategoryToolbar";
 import TopicsGrid from "@/components/category/TopicsGrid";
 import useCategoryChildren from "@/hooks/useCategoryChildren";
+import { isRtlLocale } from "@/i18n/config";
 
 const filterItems = (items, query) => {
   if (!query) return items;
@@ -53,7 +54,8 @@ const renderSkeleton = () => (
 
 const ResearchThemesClient = ({ category }) => {
   const locale = useLocale();
-  const t = useTranslations("library.category");
+  const isRtl = isRtlLocale(locale);
+  const t = useTranslations("library.researchThemes");
   const { items, loading, error } = useCategoryChildren("research-themes", { withCounts: true });
   const [q, setQ] = useState("");
   const [sort, setSort] = useState("title_asc");
@@ -76,15 +78,15 @@ const ResearchThemesClient = ({ category }) => {
       return t("toolbar.loading");
     }
     if (error) {
-      return t("grid.error");
+      return t("error.message");
     }
     if (processedItems.length === 0 && q) {
       return t("toolbar.empty");
     }
     if (processedItems.length === 0) {
-      return t("grid.emptyTitle");
+      return t("cards.emptyTitle");
     }
-    return t("toolbar.summary", { count: processedItems.length });
+    return t("toolbar.announce", { count: processedItems.length });
   }, [loading, items.length, processedItems.length, error, q, t]);
 
   const handleReset = () => {
@@ -94,17 +96,20 @@ const ResearchThemesClient = ({ category }) => {
 
   const meta = useMemo(() => {
     if (loading && items.length === 0) {
-      return <span>{t("grid.loading")}</span>;
+      return <span>{t("cards.loading")}</span>;
     }
     if (processedItems.length === 0) {
-      return <span>{t("grid.emptyTitle")}</span>;
+      return <span>{t("cards.emptyTitle")}</span>;
     }
     return <span>{t("toolbar.summary", { count: processedItems.length })}</span>;
   }, [loading, items.length, processedItems.length, t]);
 
+  const headerTitle = category?.name || t("title");
+  const headerDescription = category?.description || t("subtitle");
+
   return (
-    <>
-      <CategoryHeader title={category?.name} description={category?.description} meta={meta} />
+    <section dir={isRtl ? "rtl" : "ltr"} lang={locale}>
+      <CategoryHeader title={headerTitle} description={headerDescription} meta={meta} />
 
       <CategoryToolbar
         q={q}
@@ -113,6 +118,7 @@ const ResearchThemesClient = ({ category }) => {
         setSort={setSort}
         summaryLabel={summaryLabel}
         onReset={handleReset}
+        namespace="library.researchThemes.toolbar"
       />
 
       {loading && items.length === 0 && renderSkeleton()}
@@ -120,7 +126,7 @@ const ResearchThemesClient = ({ category }) => {
       {!loading && error && (
         <div className="category-grid category-grid--topics category-grid--empty" role="alert">
           <i className="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-          <p>{t("grid.error")}</p>
+          <p>{t("error.message")}</p>
           <p className="category-card__description--muted">{String(error)}</p>
         </div>
       )}
@@ -128,13 +134,13 @@ const ResearchThemesClient = ({ category }) => {
       {!loading && !error && processedItems.length === 0 && (
         <div className="category-grid category-grid--topics category-grid--empty">
           <i className="fa-solid fa-sitemap" aria-hidden="true"></i>
-          <p>{t("grid.emptyTitle")}</p>
-          <p className="category-card__description--muted">{t("grid.emptyDescription")}</p>
+          <p>{t("cards.emptyTitle")}</p>
+          <p className="category-card__description--muted">{t("cards.emptyDescription")}</p>
         </div>
       )}
 
       {!loading && !error && processedItems.length > 0 && <TopicsGrid items={processedItems} />}
-    </>
+    </section>
   );
 };
 

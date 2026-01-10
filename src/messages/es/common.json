@@ -1000,6 +1000,95 @@
           "page": "Pagina {page}"
         }
       }
+    },
+    "researchThemes": {
+      "title": "Tematicas y problematicas de investigacion",
+      "subtitle": "Preguntas transdisciplinares que orientan la investigacion en el Magreb.",
+      "meta": {
+        "title": "Tematicas y problematicas de investigacion | Fundacion AKT",
+        "description": "Explora las tematicas y problematicas de investigacion en el Magreb."
+      },
+      "a11y": {
+        "breadcrumbs": "Ruta de navegacion"
+      },
+      "breadcrumbs": {
+        "home": "Inicio",
+        "library": "Biblioteca",
+        "themes": "Tematicas y problematicas de investigacion"
+      },
+      "toolbar": {
+        "ariaLabel": "Controles de busqueda de temas",
+        "searchLabel": "Buscar temas",
+        "searchPlaceholder": "Buscar temas o palabras clave...",
+        "authorLabel": "Autor",
+        "authorPlaceholder": "Filtrar por nombre de autor",
+        "sortLabel": "Ordenar",
+        "sortOptions": {
+          "titleAsc": "Titulo (A-Z)",
+          "titleDesc": "Titulo (Z-A)",
+          "yearDesc": "Ano (mas reciente)",
+          "yearAsc": "Ano (mas antiguo)"
+        },
+        "typeLabel": "Tipo de documento",
+        "typeOptions": {
+          "all": "Todos los tipos",
+          "book": "Libros",
+          "article": "Articulos",
+          "thesis": "Tesis",
+          "report": "Informes"
+        },
+        "resultsSummary": "{count} resultados",
+        "summary": "{count} resultados",
+        "announce": "{count} temas encontrados",
+        "summaryAuthor": "autor: {author}",
+        "clearFilters": "Limpiar",
+        "clear": "Limpiar",
+        "loading": "Cargando temas...",
+        "refreshing": "Actualizando resultados...",
+        "empty": "No hay temas que coincidan con los filtros actuales.",
+        "default": "Explora los temas de investigacion disponibles."
+      },
+      "cards": {
+        "loading": "Cargando temas de investigacion...",
+        "emptyTitle": "No se encontraron temas de investigacion",
+        "emptyDescription": "Intenta ajustar tu busqueda.",
+        "descriptionFallback": "La descripcion estara disponible pronto.",
+        "badges": {
+          "countLabel": "{count, plural, one {# documento} other {# documentos}}"
+        }
+      },
+      "error": {
+        "message": "No se pudieron cargar los temas de investigacion en este momento."
+      },
+      "pagination": {
+        "ariaLabel": "Paginacion de temas de investigacion",
+        "previous": "Anterior",
+        "next": "Siguiente",
+        "page": "Pagina {page}"
+      },
+      "documents": {
+        "toolbar": {
+          "title": "Resultados",
+          "searching": "Buscando documentos...",
+          "refreshing": "Actualizando resultados...",
+          "results": "{count, plural, one {# documento} other {# documentos}} - Pagina {page} de {totalPages}",
+          "noResults": "No se encontraron documentos para este tema.",
+          "start": "Empieza a explorar los documentos vinculados a este tema.",
+          "viewGroupAria": "Cambiar modo de vista",
+          "viewDetailed": "Vista detallada",
+          "viewCompact": "Vista compacta"
+        },
+        "list": {
+          "emptyTitle": "No hay documentos que coincidan con tus filtros.",
+          "emptyDescription": "Intenta ajustar tu busqueda o limpiar los filtros.",
+          "errorTitle": "No pudimos cargar los documentos."
+        },
+        "card": {
+          "metaAria": "Metadatos del documento",
+          "pagesSuffix": "paginas",
+          "details": "Detalles"
+        }
+      }
     }
   },
   "services": {

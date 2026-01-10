@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLocale } from "next-intl";
 import { apiFetch } from "@/lib/api";
 import { buildCategoryQuery } from "@/lib/categoryQuery";
 
@@ -90,6 +91,7 @@ const useCategoryDocuments = (
     types: externalTypes,
   } = {},
 ) => {
+  const locale = useLocale();
   const initial = useMemo(() => parseInitialState(), []);
   const [q, setQ] = useState(initial.q);
   const [sort, setSort] = useState(initial.sort);
@@ -120,6 +122,7 @@ const useCategoryDocuments = (
       type: normalizeTypes(externalTypes),
       author: authorFilter,
       authorSupported,
+      locale,
     });
   }, [
     slug,
@@ -131,6 +134,7 @@ const useCategoryDocuments = (
     includeDescendants,
     externalTypes,
     authorSupported,
+    locale,
   ]);
 
   const previousSlugRef = useRef(slug);
@@ -219,7 +223,12 @@ const useCategoryDocuments = (
       if (includeAuthor && authorFilter) {
         queryArgs.author = authorFilter;
       }
-      return buildCategoryQuery(queryArgs);
+      const resource = buildCategoryQuery(queryArgs);
+      if (!locale) {
+        return resource;
+      }
+      const separator = resource.includes("?") ? "&" : "?";
+      return `${resource}${separator}locale=${encodeURIComponent(locale)}`;
     };
 
     const run = async () => {
@@ -284,6 +293,7 @@ const useCategoryDocuments = (
     includeDescendants,
     externalTypes,
     authorSupported,
+    locale,
   ]);
 
   const setPageSafe = useCallback((value) => {

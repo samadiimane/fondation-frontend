@@ -1,8 +1,8 @@
 "use client";
 
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import { Link } from "@/i18n/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const formatDescription = (value) => {
   if (typeof value !== "string") return "";
@@ -24,14 +24,22 @@ const toTitleFromSlug = (slug = "") =>
     .join(" ");
 
 const TopicsGrid = ({ items = [] }) => {
-  const t = useTranslations("library.category");
+  const locale = useLocale();
+  const numberFormatter = useMemo(() => {
+    try {
+      return new Intl.NumberFormat(locale || undefined);
+    } catch {
+      return new Intl.NumberFormat("en");
+    }
+  }, [locale]);
+  const t = useTranslations("library.researchThemes");
 
   if (!Array.isArray(items) || items.length === 0) {
     return (
       <div className="category-grid category-grid--topics category-grid--empty" role="status">
         <i className="fa-solid fa-sitemap" aria-hidden="true"></i>
-        <p>{t("grid.emptyTitle")}</p>
-        <p className="category-card__description--muted">{t("grid.emptyDescription")}</p>
+        <p>{t("cards.emptyTitle")}</p>
+        <p className="category-card__description--muted">{t("cards.emptyDescription")}</p>
       </div>
     );
   }
@@ -42,17 +50,18 @@ const TopicsGrid = ({ items = [] }) => {
         const slug = item?.slug ?? "";
         const description = formatDescription(item?.description);
         const count = formatCount(item?.counts?.documents ?? item?.documentsCount);
+        const formattedCount = count !== null ? numberFormatter.format(count) : null;
         const key = item?.id ?? slug ?? `topic-${index}`;
-        const displayName = item?.name ?? (slug ? toTitleFromSlug(slug) : t("grid.topicsTitle"));
+        const displayName = item?.name ?? (slug ? toTitleFromSlug(slug) : t("title"));
 
         const cardContent = (
           <>
             <header className="category-card__header">
               <span className="category-card__title">{displayName}</span>
               {count !== null && (
-                <span className="category-card__count" aria-label={t("toolbar.summary", { count })}>
+                <span className="category-card__count" aria-label={t("cards.badges.countLabel", { count })}>
                   <i className="fa-solid fa-layer-group" aria-hidden="true"></i>
-                  { count }
+                  {formattedCount}
                 </span>
               )}
             </header>
@@ -60,7 +69,7 @@ const TopicsGrid = ({ items = [] }) => {
               <p className="category-card__description">{description}</p>
             ) : (
               <p className="category-card__description category-card__description--muted">
-                {t("grid.emptyDescription")}
+                {t("cards.descriptionFallback")}
               </p>
             )}
           </>
