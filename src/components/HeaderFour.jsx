@@ -20,6 +20,7 @@ const KNOWN_SECTION_CONFIG = {
   "historical-sites": {
     href: "/categories/historical-sites",
     priority: 3,
+    labelKey: "sites",
   },
   publications: {
     href: "/categories/publications",
@@ -245,9 +246,11 @@ const HeaderFour = () => {
       if (!section?.slug || unique.has(section.slug)) return;
       const config = KNOWN_SECTION_CONFIG[section.slug];
       const fallbackLabel = toTitleFromSlug(section.slug);
+      const labelKey = config?.labelKey;
+      const translatedLabel = labelKey ? t(labelKey) : "";
       unique.set(section.slug, {
         slug: section.slug,
-        label: section.name?.trim() || fallbackLabel,
+        label: translatedLabel || section.name?.trim() || fallbackLabel,
         href: config?.href ?? `/library?category=${section.slug}`,
         priority: config?.priority ?? Number.MAX_SAFE_INTEGER,
       });
@@ -260,7 +263,7 @@ const HeaderFour = () => {
       return collator.compare(a.label, b.label);
     });
     return values;
-  }, [categories, collator]);
+  }, [categories, collator, t]);
 
   const journalActiveTargets = useMemo(
     () => ["/journals", ...journalLinks.map((item) => item.href.split("?")[0])],

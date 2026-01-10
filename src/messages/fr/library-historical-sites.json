@@ -1,0 +1,38 @@
+{
+  "library": {
+    "historicalSites": {
+      "title": "Sites historiques et patrimoine",
+      "subtitle": "Documentation, diagnostics d'état et récits autour des sites historiques.",
+      "meta": {
+        "title": "Sites historiques et patrimoine | Fondation AKT",
+        "description": "Documentation, diagnostics d'état et récits autour des sites historiques."
+      },
+      "a11y": {
+        "breadcrumbs": "Fil d’Ariane"
+      },
+      "breadcrumbs": {
+        "home": "Accueil",
+        "library": "Bibliothèque",
+        "historicalSites": "Sites historiques et patrimoine"
+      },
+      "error": {
+        "message": "Impossible de charger les fiches des sites historiques."
+      },
+      "empty": {
+        "title": "Aucun document ne correspond à vos filtres.",
+        "description": "Essayez d'ajuster votre recherche ou de réinitialiser les filtres."
+      },
+      "cards": {
+        "titleFallback": "Enregistrement sans titre",
+        "descriptionFallback": "La description de cet enregistrement sera bientôt disponible.",
+        "imageAlt": "Image de couverture pour {title}",
+        "pages": "{count, plural, one {# page} other {# pages}}",
+        "readMore": "Lire la suite",
+        "unavailable": "Indisponible"
+      },
+      "pagination": {
+        "ariaLabel": "Pagination des sites historiques"
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "library": {
+    "historicalSites": {
+      "title": "Sitios históricos y monumentos",
+      "subtitle": "Documentación, evaluaciones de estado y relatos sobre sitios históricos.",
+      "meta": {
+        "title": "Sitios históricos y monumentos | Fundación AKT",
+        "description": "Documentación, evaluaciones de estado y relatos sobre sitios históricos."
+      },
+      "a11y": {
+        "breadcrumbs": "Ruta de navegación"
+      },
+      "breadcrumbs": {
+        "home": "Inicio",
+        "library": "Biblioteca",
+        "historicalSites": "Sitios históricos y monumentos"
+      },
+      "error": {
+        "message": "No pudimos cargar los registros de sitios históricos."
+      },
+      "empty": {
+        "title": "Ningún documento coincide con tus filtros.",
+        "description": "Prueba ajustando tu búsqueda o restableciendo los filtros."
+      },
+      "cards": {
+        "titleFallback": "Registro sin título",
+        "descriptionFallback": "La descripción de este registro estará disponible pronto.",
+        "imageAlt": "Imagen de portada de {title}",
+        "pages": "{count, plural, one {# página} other {# páginas}}",
+        "readMore": "Leer más",
+        "unavailable": "No disponible"
+      },
+      "pagination": {
+        "ariaLabel": "Paginación de sitios históricos"
+      }
+    }
+  }
+}

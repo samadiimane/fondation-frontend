@@ -1,0 +1,38 @@
+{
+  "library": {
+    "historicalSites": {
+      "title": "Historical Sites & Landmarks",
+      "subtitle": "Documentation, condition assessments, and narratives for historical sites.",
+      "meta": {
+        "title": "Historical Sites & Landmarks | AKT Research Foundation",
+        "description": "Documentation, condition assessments, and narratives for historical sites."
+      },
+      "a11y": {
+        "breadcrumbs": "Breadcrumb"
+      },
+      "breadcrumbs": {
+        "home": "Home",
+        "library": "Library",
+        "historicalSites": "Historical Sites & Landmarks"
+      },
+      "error": {
+        "message": "We could not load historical site records."
+      },
+      "empty": {
+        "title": "No documents match your current filters.",
+        "description": "Try adjusting your search term or clearing the filters."
+      },
+      "cards": {
+        "titleFallback": "Untitled record",
+        "descriptionFallback": "Description for this record will be added soon.",
+        "imageAlt": "Cover image for {title}",
+        "pages": "{count, plural, one {# page} other {# pages}}",
+        "readMore": "Read more",
+        "unavailable": "Unavailable"
+      },
+      "pagination": {
+        "ariaLabel": "Historical sites pagination"
+      }
+    }
+  }
+}
