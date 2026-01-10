@@ -8,7 +8,7 @@ import AOSWrap from "@/helper/AOSWrap";
 import PublicationsClient from "./PublicationsClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 
 export const metadata = {
   title: "Publications",
@@ -16,7 +16,8 @@ export const metadata = {
 };
 
 const PublicationsPage = async () => {
-  const category = await getCategory("publications");
+  const locale = await getLocale();
+  const category = await getCategory("publications", { locale });
   if (!category) {
     notFound();
   }

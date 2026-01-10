@@ -16,15 +16,8 @@ const formatCount = (count) => {
   return numeric;
 };
 
-const toTitleFromSlug = (slug = "") =>
-  slug
-    .split(/[-_]/)
-    .filter(Boolean)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-
 const CollectionsGrid = ({ items = [] }) => {
-  const t = useTranslations("library.category");
+  const t = useTranslations("library.categories");
 
   if (!Array.isArray(items) || items.length === 0) {
     return (
@@ -43,14 +36,14 @@ const CollectionsGrid = ({ items = [] }) => {
         const description = formatDescription(item?.description);
         const count = formatCount(item?.counts?.documents ?? item?.documentsCount);
         const key = item?.id ?? slug ?? `collection-${index}`;
-        const displayName = item?.name ?? (slug ? toTitleFromSlug(slug) : t("grid.collectionsTitle"));
+        const displayName = item?.name ?? t("cards.titleFallback");
 
         const cardContent = (
           <>
             <header className="category-card__header">
               <span className="category-card__title">{displayName}</span>
               {count !== null && (
-                <span className="category-card__count" aria-label={t("toolbar.summary", { count })}>
+                <span className="category-card__count" aria-label={t("toolbar.resultsSummary", { count })}>
                   <i className="fa-solid fa-layer-group" aria-hidden="true"></i>
                   { count }
                 </span>
@@ -60,7 +53,7 @@ const CollectionsGrid = ({ items = [] }) => {
               <p className="category-card__description">{description}</p>
             ) : (
               <p className="category-card__description category-card__description--muted">
-                {t("grid.emptyDescription")}
+                {t("cards.descriptionFallback")}
               </p>
             )}
           </>

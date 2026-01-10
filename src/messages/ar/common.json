@@ -878,6 +878,9 @@
         "collection": "المجموعة",
         "topic": "المحور"
       },
+      "a11y": {
+        "breadcrumbs": "مسار التصفح"
+      },
       "header": {
         "descriptionFallback": "استكشف الموارد والمواد العلمية المرتبطة بهذه الفئة."
       },
@@ -916,6 +919,76 @@
         "emptyTitle": "لا يوجد محتوى بعد",
         "emptyDescription": "ستُضاف مجموعات جديدة قريباً.",
         "error": "تعذر تحميل هذه العناصر حالياً."
+      }
+    },
+    "categories": {
+      "heading": "الأرشيف والتراث الوثائقي",
+      "meta": {
+        "title": "الأرشيف والتراث الوثائقي | مؤسسة AKT",
+        "description": "استكشف مجموعات الأرشيف والتراث الوثائقي التي تجمعها المؤسسة."
+      },
+      "header": {
+        "titleFallback": "مجموعات",
+        "descriptionFallback": "استكشف الموارد والمواد العلمية المرتبطة بهذه الفئة.",
+        "toggle": {
+          "more": "عرض المزيد",
+          "less": "عرض أقل",
+          "suffix": "حول هذه الفئة"
+        }
+      },
+      "toolbar": {
+        "ariaLabel": "عناصر البحث حسب الفئة",
+        "searchLabel": "ابحث داخل هذه الفئة",
+        "searchPlaceholder": "ابحث عن مستندات...",
+        "authorLabel": "المؤلف",
+        "authorPlaceholder": "تصفية حسب اسم المؤلف",
+        "sortLabel": "ترتيب",
+        "sortOptions": {
+          "titleAsc": "العنوان (أ-ي)",
+          "titleDesc": "العنوان (ي-أ)",
+          "yearDesc": "السنة (الأحدث)",
+          "yearAsc": "السنة (الأقدم)"
+        },
+        "typeLabel": "نوع المستند",
+        "typeOptions": {
+          "all": "كل الأنواع",
+          "book": "كتب",
+          "article": "مقالات",
+          "thesis": "أطروحات",
+          "report": "تقارير"
+        },
+        "resultsSummary": "{count} نتيجة",
+        "summaryAuthor": "المؤلف: {author}",
+        "clearFilters": "مسح",
+        "loading": "جار تحميل المستندات...",
+        "refreshing": "جار تحديث النتائج...",
+        "empty": "لا توجد مستندات تطابق عوامل التصفية الحالية.",
+        "default": "تصفح المستندات المرتبطة بهذه الفئة."
+      },
+      "grid": {
+        "collectionsTitle": "مجموعات الأرشيف",
+        "topicsTitle": "موضوعات البحث",
+        "loading": "جار التحميل...",
+        "emptyTitle": "لا يوجد محتوى بعد",
+        "emptyDescription": "سيتم نشر مجموعات إضافية قريبًا.",
+        "error": "تعذر تحميل هذه العناصر. يرجى المحاولة مرة أخرى."
+      },
+      "cards": {
+        "titleFallback": "مجموعة",
+        "descriptionFallback": "سيتم إضافة وصف لهذه المجموعة قريبًا."
+      },
+      "collection": {
+        "meta": "{count, plural, one {# مستند مفهرس} other {# مستندات مفهرسة}}",
+        "summary": {
+          "loading": "جار تحميل مستندات هذه المجموعة...",
+          "refreshing": "جار تحديث المستندات...",
+          "empty": "لا توجد مستندات تطابق عوامل التصفية الحالية.",
+          "available": "{count, plural, one {# مستند متاح} other {# مستندات متاحة}} - الصفحة {page}",
+          "default": "تصفح المستندات المرتبطة بهذه المجموعة."
+        },
+        "errorTitle": "تعذر تحميل مستندات الأرشيف لهذه المجموعة.",
+        "emptyTitle": "لا توجد مستندات تطابق عوامل التصفية.",
+        "emptyDescription": "جرّب تعديل البحث أو مسح عوامل التصفية."
       }
     }
   },

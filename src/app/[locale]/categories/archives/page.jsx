@@ -9,18 +9,25 @@ import ArchivesClient from "./ArchivesClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import { defaultLocale } from "@/i18n/config";
 
-export const metadata = {
-  title: "Archives Collections",
-  description: "Explore archival collections curated by the foundation.",
-};
+export async function generateMetadata({ params }) {
+  const locale = params?.locale || defaultLocale;
+  const t = await getTranslations({ locale, namespace: "library.categories.meta" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
-const ArchivesPage = async () => {
-  const category = await getCategory("archives");
+const ArchivesPage = async ({ params }) => {
+  const locale = params?.locale || defaultLocale;
+  const category = await getCategory("archives", { locale });
   if (!category) {
     notFound();
   }
-  const t = await getTranslations("library.category.breadcrumbs");
+  const t = await getTranslations({ locale, namespace: "library.category" });
+  const tCategories = await getTranslations({ locale, namespace: "library.categories" });
 
   return (
     <AOSWrap>
@@ -33,10 +40,15 @@ const ArchivesPage = async () => {
         <main className="category-section">
           <Breadcrumbs
             items={[
-              { label: t("home"), href: "/" },
-              { label: t("library"), href: "/library" },
-              { label: t("archives"), current: true },
+              { label: t("breadcrumbs.home"), href: "/" },
+              { label: t("breadcrumbs.library"), href: "/library" },
+              {
+                label: tCategories("heading") || t("breadcrumbs.archives"),
+                current: true
+              },
             ]}
+            ariaLabel={t("a11y.breadcrumbs")}
+            locale={locale}
           />
           <ArchivesClient category={category} />
         </main>

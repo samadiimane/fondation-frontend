@@ -876,6 +876,9 @@
         "collection": "Collection",
         "topic": "Topic"
       },
+      "a11y": {
+        "breadcrumbs": "Breadcrumb"
+      },
       "header": {
         "descriptionFallback": "Explore curated resources and scholarly materials connected to this category."
       },
@@ -886,8 +889,8 @@
         "authorPlaceholder": "Filter by author name",
         "sortLabel": "Sort",
         "sortOptions": {
-          "titleAsc": "Title (A–Z)",
-          "titleDesc": "Title (Z–A)",
+          "titleAsc": "Title (A-Z)",
+          "titleDesc": "Title (Z-A)",
           "yearDesc": "Year (newest first)",
           "yearAsc": "Year (oldest first)"
         },
@@ -914,6 +917,76 @@
         "emptyTitle": "Nothing to display yet",
         "emptyDescription": "Additional collections will be published soon.",
         "error": "We couldn’t load these items. Please try again."
+      }
+    },
+    "categories": {
+      "heading": "Archives & Documentary Heritage",
+      "meta": {
+        "title": "Archives & Documentary Heritage | AKT Research Foundation",
+        "description": "Explore the foundation's archival collections and documentary heritage."
+      },
+      "header": {
+        "titleFallback": "Collections",
+        "descriptionFallback": "Explore curated resources and scholarly materials connected to this category.",
+        "toggle": {
+          "more": "Show more",
+          "less": "Show less",
+          "suffix": "about this category"
+        }
+      },
+      "toolbar": {
+        "ariaLabel": "Category search controls",
+        "searchLabel": "Search within this category",
+        "searchPlaceholder": "Search documents...",
+        "authorLabel": "Author",
+        "authorPlaceholder": "Filter by author name",
+        "sortLabel": "Sort",
+        "sortOptions": {
+          "titleAsc": "Title (A-Z)",
+          "titleDesc": "Title (Z-A)",
+          "yearDesc": "Year (newest first)",
+          "yearAsc": "Year (oldest first)"
+        },
+        "typeLabel": "Document type",
+        "typeOptions": {
+          "all": "All types",
+          "book": "Books",
+          "article": "Articles",
+          "thesis": "Theses",
+          "report": "Reports"
+        },
+        "resultsSummary": "{count} results",
+        "summaryAuthor": "author: {author}",
+        "clearFilters": "Clear",
+        "loading": "Loading documents...",
+        "refreshing": "Refreshing results...",
+        "empty": "No documents matched the current filters.",
+        "default": "Browse documents connected to this category."
+      },
+      "grid": {
+        "collectionsTitle": "Archival collections",
+        "topicsTitle": "Research themes",
+        "loading": "Loading entries...",
+        "emptyTitle": "Nothing to display yet",
+        "emptyDescription": "Additional collections will be published soon.",
+        "error": "We couldn't load these items. Please try again."
+      },
+      "cards": {
+        "titleFallback": "Collection",
+        "descriptionFallback": "Description for this collection will be added soon."
+      },
+      "collection": {
+        "meta": "{count, plural, one {# document catalogued} other {# documents catalogued}}",
+        "summary": {
+          "loading": "Loading documents for this collection...",
+          "refreshing": "Refreshing documents...",
+          "empty": "No documents matched the current filters.",
+          "available": "{count, plural, one {# document available} other {# documents available}} - page {page}",
+          "default": "Browse documents associated with this collection."
+        },
+        "errorTitle": "We could not load archival documents for this collection.",
+        "emptyTitle": "No documents match your current filters.",
+        "emptyDescription": "Try adjusting your search term or clearing the filters."
       }
     }
   },

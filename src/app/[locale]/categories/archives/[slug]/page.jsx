@@ -8,7 +8,7 @@ import AOSWrap from "@/helper/AOSWrap";
 import CollectionClient from "./CollectionClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 
 export const metadata = {
   title: "Archive Collection",
@@ -16,12 +16,13 @@ export const metadata = {
 };
 
 const ArchiveCollectionPage = async ({ params }) => {
+  const locale = await getLocale();
   const slug = params?.slug;
   if (!slug) {
     notFound();
   }
 
-  const category = await getCategory(slug);
+  const category = await getCategory(slug, { locale });
   if (!category) {
     notFound();
   }
@@ -43,6 +44,7 @@ const ArchiveCollectionPage = async ({ params }) => {
               { label: t("archives"), href: "/categories/archives" },
               { label: category?.name ?? slug, current: true },
             ]}
+            locale={locale}
           />
           <CollectionClient category={category} slug={slug} />
         </main>

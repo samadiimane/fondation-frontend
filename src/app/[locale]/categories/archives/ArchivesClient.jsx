@@ -6,6 +6,7 @@ import CategoryHeader from "@/components/category/CategoryHeader";
 import CategoryToolbar from "@/components/category/CategoryToolbar";
 import CollectionsGrid from "@/components/category/CollectionsGrid";
 import useCategoryChildren from "@/hooks/useCategoryChildren";
+import { isRtlLocale } from "@/i18n/config";
 
 const sortItems = (items, sort, collator) => {
   if (!Array.isArray(items)) return [];
@@ -53,7 +54,8 @@ const renderSkeleton = () => (
 
 const ArchivesClient = ({ category }) => {
   const locale = useLocale();
-  const t = useTranslations("library.category");
+  const isRtl = isRtlLocale(locale);
+  const t = useTranslations("library.categories");
   const { items, loading, error } = useCategoryChildren("archives", { withCounts: true });
   const [q, setQ] = useState("");
   const [sort, setSort] = useState("title_asc");
@@ -84,7 +86,7 @@ const ArchivesClient = ({ category }) => {
     if (processedItems.length === 0) {
       return t("grid.emptyTitle");
     }
-    return t("toolbar.summary", { count: processedItems.length });
+    return t("toolbar.resultsSummary", { count: processedItems.length });
   }, [loading, items.length, processedItems.length, error, q, t]);
 
   const handleReset = () => {
@@ -99,12 +101,12 @@ const ArchivesClient = ({ category }) => {
     if (processedItems.length === 0) {
       return <span>{t("grid.emptyTitle")}</span>;
     }
-    return <span>{t("toolbar.summary", { count: processedItems.length })}</span>;
+    return <span>{t("toolbar.resultsSummary", { count: processedItems.length })}</span>;
   }, [loading, items.length, processedItems.length, t]);
 
   return (
-    <>
-      <CategoryHeader title={category?.name} description={category?.description} meta={meta} />
+    <section dir={isRtl ? "rtl" : "ltr"} lang={locale}>
+      <CategoryHeader title={t("heading")} description={category?.description} meta={meta} />
 
       <CategoryToolbar
         q={q}
@@ -136,7 +138,7 @@ const ArchivesClient = ({ category }) => {
       {!loading && !error && processedItems.length > 0 && (
         <CollectionsGrid items={processedItems} />
       )}
-    </>
+    </section>
   );
 };
 

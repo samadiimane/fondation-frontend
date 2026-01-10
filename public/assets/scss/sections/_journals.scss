@@ -270,7 +270,7 @@
 
 .journal-header__meta .label {
   font-weight: 800;
-  margin-right: 0.4rem;
+  margin-inline-end: 0.4rem;
   color: #0f315f;
 }
 
@@ -435,7 +435,7 @@
 }
 
 .journal-issues__table th {
-  text-align: left;
+  text-align: start;
   font-size: 0.78rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -595,6 +595,11 @@
 
 .breadcrumb-nav__item:not(:last-child)::after {
   content: "\203A";
-  margin-left: 0.45rem;
+  margin-inline-start: 0.45rem;
   color: #8892a6;
+  display: inline-block;
+}
+
+[dir="rtl"] .breadcrumb-nav__item:not(:last-child)::after {
+  transform: scaleX(-1);
 }

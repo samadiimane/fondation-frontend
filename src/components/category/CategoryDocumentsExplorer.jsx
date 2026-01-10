@@ -42,7 +42,7 @@ const CategoryDocumentsExplorer = ({
   const defaultsAppliedRef = useRef(false);
   const lastDefaultsRef = useRef(null);
 
-  const tToolbar = useTranslations("library.category.toolbar");
+  const tToolbar = useTranslations("library.categories.toolbar");
   const defaultTypeFilter = defaultFilters?.typeFilter;
   const initialTypes = useMemo(
     () => normalizeTypeValues(defaultTypeFilter?.value ?? defaultFilters?.type),
@@ -115,7 +115,7 @@ const CategoryDocumentsExplorer = ({
       return tToolbar("empty");
     }
     if (!loading && total > 0) {
-      return tToolbar("summary", { count: total });
+      return tToolbar("resultsSummary", { count: total });
     }
     return tToolbar("default");
   }, [loading, hasLoadedOnce, total, tToolbar]);

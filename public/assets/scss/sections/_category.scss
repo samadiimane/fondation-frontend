@@ -341,7 +341,7 @@
 .category-table th,
 .category-table td {
   padding: 1rem 1.25rem;
-  text-align: left;
+  text-align: start;
   border-bottom: 1px solid #e6ebf5;
   vertical-align: top;
   font-size: 0.95rem;
@@ -376,7 +376,7 @@
 }
 
 .category-table__actions {
-  text-align: right;
+  text-align: end;
   white-space: nowrap;
 }
 
@@ -546,7 +546,7 @@
   }
 
   .category-table__actions {
-    text-align: left;
+    text-align: start;
   }
 
   .category-table__skeleton-row {
@@ -605,8 +605,8 @@
 
 .collection-card__image img {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset-block-start: 0;
+  inset-inline-start: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -661,7 +661,7 @@
 }
 
 .collection-card__meta i {
-  margin-right: 0.35rem;
+  margin-inline-end: 0.35rem;
   color: #0f315f;
 }
 

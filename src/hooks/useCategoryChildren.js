@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useLocale } from "next-intl";
 import { getCategoryChildren } from "@/lib/api";
 
 const normalizeLinkedJournal = (value) => {
@@ -52,6 +53,7 @@ const mapChild = (item) => {
 };
 
 const useCategoryChildren = (slug, { kind, withCounts = false } = {}) => {
+  const locale = useLocale();
   const [items, setItems] = useState(() => []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -80,6 +82,7 @@ const useCategoryChildren = (slug, { kind, withCounts = false } = {}) => {
     getCategoryChildren(slug, {
       kind: normalizedKind,
       withCounts,
+      locale,
       signal: controller.signal,
     })
       .then((result) => {
@@ -102,7 +105,7 @@ const useCategoryChildren = (slug, { kind, withCounts = false } = {}) => {
       active = false;
       controller.abort();
     };
-  }, [slug, normalizedKind, withCounts]);
+  }, [slug, normalizedKind, withCounts, locale]);
 
   return {
     items,

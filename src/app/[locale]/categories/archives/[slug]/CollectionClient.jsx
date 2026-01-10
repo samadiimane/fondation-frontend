@@ -1,13 +1,14 @@
 "use client";
 
 import { useMemo } from "react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import CategoryHeader from "@/components/category/CategoryHeader";
 import CategoryToolbar from "@/components/category/CategoryToolbar";
 import Pagination from "@/components/search/Pagination";
 import { Link } from "@/i18n/navigation";
 import useCategoryDocuments from "@/hooks/useCategoryDocuments";
 import { getFirstAuthor } from "@/lib/authors";
+import { isRtlLocale } from "@/i18n/config";
 
 const FALLBACK_IMAGES = [
   "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80",
@@ -34,24 +35,27 @@ const truncate = (value, length = 220) => {
   return `${value.slice(0, length - 1)}`;
 };
 
-const formatSummary = ({ loading, hasLoadedOnce, total, page }) => {
+const formatSummary = ({ loading, hasLoadedOnce, total, page, t }) => {
   if (loading && !hasLoadedOnce) {
-    return "Loading documents for this collection";
+    return t("collection.summary.loading");
   }
   if (loading && hasLoadedOnce) {
-    return "Refreshing documents";
+    return t("collection.summary.refreshing");
   }
   if (!loading && hasLoadedOnce && total === 0) {
-    return "No documents matched the current filters.";
+    return t("collection.summary.empty");
   }
   if (!loading && total > 0) {
-    return `${total} document${total === 1 ? "" : "s"} available  page ${page}`;
+    return t("collection.summary.available", { count: total, page });
   }
-  return "Browse documents associated with this collection.";
+  return t("collection.summary.default");
 };
+
 
 const CollectionClient = ({ category, slug }) => {
   const locale = useLocale();
+  const isRtl = isRtlLocale(locale);
+  const t = useTranslations("library.categories");
 
   const {
     items,
@@ -69,7 +73,7 @@ const CollectionClient = ({ category, slug }) => {
     hasLoadedOnce,
   } = useCategoryDocuments(slug, { includeDescendants: false });
 
-  const summaryLabel = formatSummary({ loading, hasLoadedOnce, total, page });
+  const summaryLabel = formatSummary({ loading, hasLoadedOnce, total, page, t });
 
   const handleReset = () => {
     setQ("");
@@ -80,13 +84,13 @@ const CollectionClient = ({ category, slug }) => {
   const documents = useMemo(() => items ?? [], [items]);
 
   return (
-    <>
+    <section dir={isRtl ? "rtl" : "ltr"} lang={locale}>
       <CategoryHeader
         title={category?.name}
         description={category?.description}
         meta={
           <span>
-            {total} document{total === 1 ? "" : "s"} catalogued
+            {t("collection.meta", { count: total })}
           </span>
         }
       />
@@ -119,7 +123,7 @@ const CollectionClient = ({ category, slug }) => {
         {!loading && error && (
           <div className="category-grid category-grid--collections category-grid--empty" role="alert">
             <i className="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
-            <p>We could not load archival documents for this collection.</p>
+            <p>{t("collection.errorTitle")}</p>
             <p className="category-card__description--muted">{String(error)}</p>
           </div>
         )}
@@ -127,8 +131,8 @@ const CollectionClient = ({ category, slug }) => {
         {!loading && !error && documents.length === 0 && hasLoadedOnce && (
           <div className="category-grid category-grid--collections category-grid--empty" role="status">
             <i className="fa-solid fa-folder-open" aria-hidden="true"></i>
-            <p>No documents match your current filters.</p>
-            <p className="category-card__description--muted">Try adjusting your search term or clearing the filters.</p>
+            <p>{t("collection.emptyTitle")}</p>
+            <p className="category-card__description--muted">{t("collection.emptyDescription")}</p>
           </div>
         )}
 
@@ -190,7 +194,7 @@ const CollectionClient = ({ category, slug }) => {
                     <div className="collection-card__actions">
                       {linkHref ? (
                         <Link href={linkHref} className="collection-card__action">
-                          Read more <i className='fa-solid fa-circle-arrow-right' />
+                          Read more <i className="fa-solid fa-circle-arrow-right flip-x" />
                         </Link>
                       ) : (
                         <span className="collection-card__action collection-card__action--disabled">Unavailable</span>
@@ -207,7 +211,7 @@ const CollectionClient = ({ category, slug }) => {
           <Pagination page={page} hasNext={hasNext} setPage={setPage} loading={loading} />
         )}
       </section>
-    </>
+    </section>
   );
 };
 

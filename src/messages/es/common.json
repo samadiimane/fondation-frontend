@@ -876,6 +876,9 @@
         "collection": "Colección",
         "topic": "Tema"
       },
+      "a11y": {
+        "breadcrumbs": "Ruta de navegación"
+      },
       "header": {
         "descriptionFallback": "Explora los recursos y materiales académicos vinculados a esta categoría."
       },
@@ -914,6 +917,76 @@
         "emptyTitle": "No hay contenido disponible aún",
         "emptyDescription": "Pronto se publicarán nuevas colecciones.",
         "error": "No se pudieron cargar estos elementos. Intenta nuevamente."
+      }
+    },
+    "categories": {
+      "heading": "Archivos y patrimonio documental",
+      "meta": {
+        "title": "Archivos y patrimonio documental | Fundacion AKT",
+        "description": "Explora las colecciones de archivo y el patrimonio documental de la fundacion."
+      },
+      "header": {
+        "titleFallback": "Colecciones",
+        "descriptionFallback": "Explora los recursos y materiales academicos vinculados a esta categoria.",
+        "toggle": {
+          "more": "Ver mas",
+          "less": "Ver menos",
+          "suffix": "sobre esta categoria"
+        }
+      },
+      "toolbar": {
+        "ariaLabel": "Controles de busqueda por categoria",
+        "searchLabel": "Buscar dentro de esta categoria",
+        "searchPlaceholder": "Buscar documentos...",
+        "authorLabel": "Autor",
+        "authorPlaceholder": "Filtrar por nombre de autor",
+        "sortLabel": "Ordenar",
+        "sortOptions": {
+          "titleAsc": "Titulo (A-Z)",
+          "titleDesc": "Titulo (Z-A)",
+          "yearDesc": "Ano (mas reciente)",
+          "yearAsc": "Ano (mas antiguo)"
+        },
+        "typeLabel": "Tipo de documento",
+        "typeOptions": {
+          "all": "Todos los tipos",
+          "book": "Libros",
+          "article": "Articulos",
+          "thesis": "Tesis",
+          "report": "Informes"
+        },
+        "resultsSummary": "{count} resultados",
+        "summaryAuthor": "autor: {author}",
+        "clearFilters": "Limpiar",
+        "loading": "Cargando documentos...",
+        "refreshing": "Actualizando resultados...",
+        "empty": "No hay documentos que coincidan con los filtros actuales.",
+        "default": "Explora los documentos asociados a esta categoria."
+      },
+      "grid": {
+        "collectionsTitle": "Colecciones de archivo",
+        "topicsTitle": "Temas de investigacion",
+        "loading": "Cargando...",
+        "emptyTitle": "No hay contenido disponible aun",
+        "emptyDescription": "Pronto se publicaran nuevas colecciones.",
+        "error": "No se pudieron cargar estos elementos. Intenta nuevamente."
+      },
+      "cards": {
+        "titleFallback": "Coleccion",
+        "descriptionFallback": "La descripcion de esta coleccion se agregara pronto."
+      },
+      "collection": {
+        "meta": "{count, plural, one {# documento catalogado} other {# documentos catalogados}}",
+        "summary": {
+          "loading": "Cargando documentos de esta coleccion...",
+          "refreshing": "Actualizando documentos...",
+          "empty": "No hay documentos que coincidan con los filtros actuales.",
+          "available": "{count, plural, one {# documento disponible} other {# documentos disponibles}} - pagina {page}",
+          "default": "Explora los documentos asociados a esta coleccion."
+        },
+        "errorTitle": "No se pudieron cargar los documentos de archivo de esta coleccion.",
+        "emptyTitle": "No hay documentos que coincidan con tus filtros.",
+        "emptyDescription": "Intenta ajustar tu busqueda o limpiar los filtros."
       }
     }
   },

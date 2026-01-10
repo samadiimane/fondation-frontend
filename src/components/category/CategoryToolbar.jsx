@@ -15,7 +15,7 @@ const CategoryToolbar = ({
   setAuthor,
   authorSupported = true,
 }) => {
-  const t = useTranslations("library.category.toolbar");
+  const t = useTranslations("library.categories.toolbar");
   const [searchValue, setSearchValue] = useState(q ?? "");
   const [authorValue, setAuthorValue] = useState(author ?? "");
   const inputId = useId();
@@ -81,7 +81,7 @@ const CategoryToolbar = ({
   );
 
   return (
-    <section className="category-toolbar" aria-label="Category search controls">
+    <section className="category-toolbar" aria-label={t("ariaLabel")}>
       <div className="category-toolbar__controls" role="search">
         <div className="category-toolbar__field">
           <label htmlFor={inputId}>{t("searchLabel")}</label>
@@ -192,7 +192,7 @@ const CategoryToolbar = ({
         {onReset && (
           <div className="category-toolbar__field category-toolbar__field--reset">
             <button type="button" onClick={onReset} className="category-toolbar__reset">
-              {t("reset")}
+              {t("clearFilters")}
             </button>
           </div>
         )}

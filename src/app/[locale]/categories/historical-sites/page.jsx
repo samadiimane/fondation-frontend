@@ -8,7 +8,7 @@ import AOSWrap from "@/helper/AOSWrap";
 import HistoricalSitesClient from "./HistoricalSitesClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 
 export const metadata = {
   title: "Historical Sites & Landmarks",
@@ -16,7 +16,8 @@ export const metadata = {
 };
 
 const HistoricalSitesPage = async () => {
-  const category = await getCategory("historical-sites");
+  const locale = await getLocale();
+  const category = await getCategory("historical-sites", { locale });
   if (!category) {
     notFound();
   }

@@ -918,12 +918,15 @@ export const getIssueArticles = async (
  * @param {{ signal?: AbortSignal }} [options]
  * @returns {Promise<object|null>}
  */
-export const getCategory = async (slug, { signal } = {}) => {
+export const getCategory = async (slug, { signal, locale } = {}) => {
   if (!slug) {
     return null;
   }
   try {
-    const payload = await apiFetch(`/v1/categories/${slug}`, { signal });
+    const payload = await apiFetch(`/v1/categories/${slug}`, {
+      params: { locale },
+      signal,
+    });
     const normalized = normalizeCategory(payload?.category ?? payload ?? {});
     const counts =
       payload?.counts && typeof payload.counts === "object"
@@ -960,7 +963,7 @@ const fetchCategoryChildrenLegacy = async (slug, { kind, signal } = {}) => {
  */
 export const getCategoryChildren = async (
   slug,
-  { kind, withCounts = false, signal } = {},
+  { kind, withCounts = false, signal, locale } = {},
 ) => {
   if (!slug) {
     return [];
@@ -970,6 +973,7 @@ export const getCategoryChildren = async (
       params: {
         kind,
         with_counts: withCounts ? "true" : undefined,
+        locale,
       },
       signal,
     });

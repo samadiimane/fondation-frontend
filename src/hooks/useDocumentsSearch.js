@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLocale } from "next-intl";
 import { apiFetch, buildQuery, getCategories } from "@/lib/api";
 
 const EMPTY_FACETS = {
@@ -80,6 +81,7 @@ const normalizeFacetYear = (facets = {}) => {
 };
 
 const useDocumentsSearch = () => {
+  const locale = useLocale();
   const initial = useMemo(() => parseInitialParams(), []);
 
   const [q, setQ] = useState(initial.q || "");
@@ -111,6 +113,7 @@ const useDocumentsSearch = () => {
     getCategories({
       kind: "journal",
       pageSize: 100,
+      locale,
       signal: controller.signal,
     })
       .then((result) => {
@@ -130,7 +133,7 @@ const useDocumentsSearch = () => {
       active = false;
       controller.abort();
     };
-  }, []);
+  }, [locale]);
 
   useEffect(() => {
     if (!journalCategories.length) {

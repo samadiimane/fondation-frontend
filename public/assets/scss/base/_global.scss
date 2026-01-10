@@ -20,6 +20,10 @@ span {
   display: inline-block;
 }
 
+[dir="rtl"] .flip-x {
+  transform: scaleX(-1);
+}
+
 // spacing
 .gutter-12 {
   row-gap: 12px;

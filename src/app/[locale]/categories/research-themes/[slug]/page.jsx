@@ -8,7 +8,7 @@ import AOSWrap from "@/helper/AOSWrap";
 import ResearchThemeClient from "./ResearchThemeClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
+import { getTranslations, getLocale } from "next-intl/server";
 
 export const metadata = {
   title: "Research Theme",
@@ -16,12 +16,13 @@ export const metadata = {
 };
 
 const ResearchThemePage = async ({ params }) => {
+  const locale = await getLocale();
   const slug = params?.slug;
   if (!slug) {
     notFound();
   }
 
-  const category = await getCategory(slug);
+  const category = await getCategory(slug, { locale });
   if (!category) {
     notFound();
   }
