@@ -1,0 +1,20 @@
+{
+  "library": {
+    "publications": {
+      "title": "Publications",
+      "subtitle": "Foundation publications, translations, and research outputs.",
+      "meta": {
+        "title": "Publications | AKT Research Foundation",
+        "description": "Foundation publications, translations, and research outputs."
+      },
+      "a11y": {
+        "breadcrumbs": "Breadcrumb"
+      },
+      "breadcrumbs": {
+        "home": "Home",
+        "library": "Library",
+        "publications": "Publications"
+      }
+    }
+  }
+}

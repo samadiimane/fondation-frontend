@@ -25,6 +25,7 @@ const KNOWN_SECTION_CONFIG = {
   publications: {
     href: "/categories/publications",
     priority: 4,
+    labelKey: "publications",
   },
 };
 

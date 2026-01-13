@@ -1,0 +1,20 @@
+{
+  "library": {
+    "publications": {
+      "title": "Publications",
+      "subtitle": "Publications, traductions et productions de recherche de la fondation.",
+      "meta": {
+        "title": "Publications | Fondation AKT",
+        "description": "Publications, traductions et productions de recherche de la fondation."
+      },
+      "a11y": {
+        "breadcrumbs": "Fil d’Ariane"
+      },
+      "breadcrumbs": {
+        "home": "Accueil",
+        "library": "Bibliothèque",
+        "publications": "Publications"
+      }
+    }
+  }
+}

@@ -8,20 +8,25 @@ import AOSWrap from "@/helper/AOSWrap";
 import PublicationsClient from "./PublicationsClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
-import { getTranslations, getLocale } from "next-intl/server";
+import { getTranslations } from "next-intl/server";
+import { defaultLocale } from "@/i18n/config";
 
-export const metadata = {
-  title: "Publications",
-  description: "Foundation publications, translations, and research outputs.",
-};
+export async function generateMetadata({ params }) {
+  const locale = params?.locale || defaultLocale;
+  const t = await getTranslations({ locale, namespace: "library.publications.meta" });
+  return {
+    title: t("title"),
+    description: t("description"),
+  };
+}
 
-const PublicationsPage = async () => {
-  const locale = await getLocale();
+const PublicationsPage = async ({ params }) => {
+  const locale = params?.locale || defaultLocale;
   const category = await getCategory("publications", { locale });
   if (!category) {
     notFound();
   }
-  const t = await getTranslations("library.category.breadcrumbs");
+  const t = await getTranslations({ locale, namespace: "library.publications" });
 
   return (
     <AOSWrap>
@@ -34,10 +39,12 @@ const PublicationsPage = async () => {
         <main className="category-section">
           <Breadcrumbs
             items={[
-              { label: t("home"), href: "/" },
-              { label: t("library"), href: "/library" },
-              { label: t("publications"), current: true },
+              { label: t("breadcrumbs.home"), href: "/" },
+              { label: t("breadcrumbs.library"), href: "/library" },
+              { label: t("breadcrumbs.publications"), current: true },
             ]}
+            ariaLabel={t("a11y.breadcrumbs")}
+            locale={locale}
           />
           <PublicationsClient category={category} />
         </main>

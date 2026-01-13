@@ -1,0 +1,20 @@
+{
+  "library": {
+    "publications": {
+      "title": "Publicaciones",
+      "subtitle": "Publicaciones, traducciones y producciones de investigación de la fundación.",
+      "meta": {
+        "title": "Publicaciones | Fundación AKT",
+        "description": "Publicaciones, traducciones y producciones de investigación de la fundación."
+      },
+      "a11y": {
+        "breadcrumbs": "Ruta de navegación"
+      },
+      "breadcrumbs": {
+        "home": "Inicio",
+        "library": "Biblioteca",
+        "publications": "Publicaciones"
+      }
+    }
+  }
+}
