@@ -5,6 +5,16 @@
       "next": "التالي",
       "page": "الصفحة {page}",
       "pageOf": "الصفحة {page} من {total}"
+    },
+    "documentTypes": {
+      "book": "كتاب",
+      "article": "مقال",
+      "thesis": "أطروحة",
+      "report": "تقرير",
+      "manuscript": "مخطوط",
+      "archive_item": "وثيقة أرشيفية",
+      "site_record": "سجل موقع",
+      "other": "أخرى"
     }
   }
 }

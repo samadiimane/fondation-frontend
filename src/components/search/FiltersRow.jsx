@@ -1,6 +1,8 @@
 "use client";
 
 import { memo, useCallback } from "react";
+import { useTranslations } from "next-intl";
+import { getDocumentTypeLabel } from "@/lib/documentTypes";
 
 const FiltersRow = ({
   facets,
@@ -15,6 +17,7 @@ const FiltersRow = ({
   loading,
   content,
 }) => {
+  const tTypes = useTranslations("shared.documentTypes");
   const typeOptions = facets.type ?? [];
   const langOptions = facets.lang ?? [];
   const categoryOptions = facets.category ?? [];
@@ -52,11 +55,15 @@ const FiltersRow = ({
           disabled={loading}
         >
           <option value="">{content.filters.allTypes}</option>
-          {typeOptions.map(({ value, count }) => (
-            <option key={value} value={value}>
-              {value} ({count})
-            </option>
-          ))}
+          {typeOptions.map(({ value, count }) => {
+            const rawValue = value ?? "";
+            const label = getDocumentTypeLabel(rawValue, tTypes) || rawValue;
+            return (
+              <option key={rawValue} value={rawValue}>
+                {label} ({count})
+              </option>
+            );
+          })}
         </select>
       </label>
 

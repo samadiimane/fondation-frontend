@@ -2,13 +2,15 @@
 
 import {memo, useMemo} from "react";
 import {Link} from "@/i18n/navigation";
-import {useLocale} from "next-intl";
+import {useLocale, useTranslations} from "next-intl";
 import {getFirstAuthor} from "@/lib/authors";
+import {getDocumentTypeLabel} from "@/lib/documentTypes";
 
 const formatTypeClass = (type = "") => type.toLowerCase().replace(/[^a-z0-9]+/g, "-");
 
 const DocumentCard = ({document, viewMode, content}) => {
   const locale = useLocale();
+  const tTypes = useTranslations("shared.documentTypes");
   const numberFormatter = useMemo(() => {
     try {
       return new Intl.NumberFormat(locale || undefined);
@@ -39,6 +41,7 @@ const DocumentCard = ({document, viewMode, content}) => {
   const authorLine = firstAuthor ?? fallbackAuthor;
 
   const typeClass = formatTypeClass(document.type);
+  const typeLabel = document.type ? getDocumentTypeLabel(document.type, tTypes) : "";
   const abstract = document.abstract || "";
   const trimmedAbstract = abstract.length > 320 ? `${abstract.slice(0, 317)}...` : abstract;
   const categoryName = document.primary_category?.name ?? document.primaryCategory?.name ?? "";
@@ -79,7 +82,7 @@ const DocumentCard = ({document, viewMode, content}) => {
           {document.type && (
             <span className={`document-card__badge ${typeClass}`}>
               <i className={formatIcon} aria-hidden="true"></i>
-              {document.type}
+              {typeLabel || document.type}
             </span>
           )}
           {categoryName && (

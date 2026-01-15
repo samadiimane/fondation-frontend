@@ -1,6 +1,8 @@
 'use client';
 import { Link } from '@/i18n/navigation';
+import { useTranslations } from 'next-intl';
 import styles from './DocumentCard.module.scss';
+import { getDocumentTypeLabel } from '@/lib/documentTypes';
 
 // Compact representation of a single document used across listings.
 const DocumentCard = ({ document }) => {
@@ -8,6 +10,7 @@ const DocumentCard = ({ document }) => {
     return null;
   }
 
+  const tTypes = useTranslations('shared.documentTypes');
   const {
     id,
     title,
@@ -18,6 +21,7 @@ const DocumentCard = ({ document }) => {
     language,
     fullTextAvailable,
   } = document;
+  const typeLabel = type ? getDocumentTypeLabel(type, tTypes) : '';
 
   return (
     <article className={styles.card}>
@@ -37,7 +41,7 @@ const DocumentCard = ({ document }) => {
             )}
             {type && (
               <span className={styles.metaSeparator}>
-                <span aria-hidden='true'>{'\u2022'}</span> {type}
+                <span aria-hidden='true'>{'\u2022'}</span> {typeLabel || type}
               </span>
             )}
             {language && (

@@ -5,6 +5,16 @@
       "next": "Next",
       "page": "Page {page}",
       "pageOf": "Page {page} of {total}"
+    },
+    "documentTypes": {
+      "book": "Book",
+      "article": "Article",
+      "thesis": "Thesis",
+      "report": "Report",
+      "manuscript": "Manuscript",
+      "archive_item": "Archive item",
+      "site_record": "Site record",
+      "other": "Other"
     }
   }
 }

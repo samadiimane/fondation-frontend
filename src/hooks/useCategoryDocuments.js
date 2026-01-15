@@ -212,6 +212,7 @@ const useCategoryDocuments = (
     };
 
     const buildResource = (includeAuthor) => {
+      const typeValues = normalizeTypes(externalTypes);
       const queryArgs = {
         slug,
         q: debouncedQ,
@@ -219,6 +220,7 @@ const useCategoryDocuments = (
         pageSize,
         sort,
         includeDescendants,
+        type: typeValues,
       };
       if (includeAuthor && authorFilter) {
         queryArgs.author = authorFilter;

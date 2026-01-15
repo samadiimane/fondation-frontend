@@ -11,6 +11,7 @@ import AOSWrap from "@/helper/AOSWrap";
 import CustomCursor from "@/helper/CustomCursor";
 import { getDocument } from "@/lib/api";
 import { mapAuthors } from "@/lib/authors";
+import { getDocumentTypeLabel } from "@/lib/documentTypes";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { defaultLocale, isRtlLocale } from "@/i18n/config";
@@ -89,13 +90,6 @@ const buildStrings = (t) => ({
   },
 });
 
-const formatTypeLabel = (value, fallback) => {
-  if (!value) return fallback;
-  const formatted = value.replace(/_/g, " ").trim();
-  if (!formatted) return fallback;
-  return formatted.replace(/\b\w/g, (char) => char.toUpperCase());
-};
-
 export async function generateMetadata(context) {
   const locale = context?.params?.locale || defaultLocale;
   const params = await context?.params;
@@ -137,6 +131,7 @@ export default async function DocumentDetailPage(context) {
   }
 
   const t = await getTranslations({ locale, namespace: "library.articleDetail" });
+  const tTypes = await getTranslations({ locale, namespace: "shared.documentTypes" });
   const strings = buildStrings(t);
 
   const documentTitle = document.title?.trim() || strings.header.valueUnknown;
@@ -164,7 +159,7 @@ export default async function DocumentDetailPage(context) {
       )
       : strings.header.authorsFallback;
   const year = document.year ?? strings.header.yearFallback;
-  const typeLabel = formatTypeLabel(document.type, strings.header.typeFallback);
+  const typeLabel = getDocumentTypeLabel(document.type, tTypes, strings.header.typeFallback);
   const languageRaw = document.language ?? strings.header.languageFallback;
   const language = String(languageRaw).toUpperCase();
   const pages =
