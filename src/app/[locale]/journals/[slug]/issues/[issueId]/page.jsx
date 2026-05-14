@@ -43,10 +43,10 @@ const findIssueById = async (slug, issueId, locale) => {
 };
 
 export async function generateMetadata(context) {
-  const locale = context?.params?.locale || defaultLocale;
-  const params = await context?.params;
-  const slug = params?.slug;
-  const issueId = Number(params?.issueId);
+  const resolvedParams = await context?.params;
+  const locale = resolvedParams?.locale || defaultLocale;
+  const slug = resolvedParams?.slug;
+  const issueId = Number(resolvedParams?.issueId);
   if (!slug || Number.isNaN(issueId)) {
     return {};
   }
@@ -68,10 +68,10 @@ export async function generateMetadata(context) {
 }
 
 export default async function IssueArticlesPage(context) {
-  const locale = context?.params?.locale || defaultLocale;
-  const params = await context?.params;
-  const slug = params?.slug;
-  const issueIdParam = params?.issueId;
+  const resolvedParams = await context?.params;
+  const locale = resolvedParams?.locale || defaultLocale;
+  const slug = resolvedParams?.slug;
+  const issueIdParam = resolvedParams?.issueId;
   const issueId = Number(issueIdParam);
 
   if (!slug || Number.isNaN(issueId)) {

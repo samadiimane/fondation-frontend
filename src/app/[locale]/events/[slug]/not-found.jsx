@@ -8,7 +8,7 @@ import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 
 const EventNotFound = async ({ params }) => {
-  const { locale } = params;
+  const { locale } = (await params) || {};
   const t = await getTranslations({ locale, namespace: "events" });
 
   return (

@@ -9,7 +9,7 @@ import EventsHub from "@/components/events/EventsHub";
 import { getTranslations } from "next-intl/server";
 
 export async function generateMetadata({ params }) {
-  const { locale } = params;
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "events" });
   return {
     title: t("title"),
@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
 }
 
 const EventsPage = async ({ params }) => {
-  const { locale } = params;
+  const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "events" });
 
   const breadcrumbs = [

@@ -12,7 +12,8 @@ import { getTranslations } from "next-intl/server";
 import { defaultLocale } from "@/i18n/config";
 
 export async function generateMetadata({ params }) {
-  const locale = params?.locale || defaultLocale;
+  const resolvedParams = await params;
+  const locale = resolvedParams?.locale || defaultLocale;
   const t = await getTranslations({ locale, namespace: "library.researchThemes.meta" });
   return {
     title: t("title"),
@@ -21,7 +22,8 @@ export async function generateMetadata({ params }) {
 }
 
 const ResearchThemesPage = async ({ params }) => {
-  const locale = params?.locale || defaultLocale;
+  const resolvedParams = await params;
+  const locale = resolvedParams?.locale || defaultLocale;
   const category = await getCategory("research-themes", { locale });
   if (!category) {
     notFound();

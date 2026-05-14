@@ -17,8 +17,9 @@ export const metadata = {
 };
 
 const ArchiveCollectionPage = async ({ params }) => {
-  const locale = params?.locale || defaultLocale;
-  const slug = params?.slug;
+  const resolvedParams = await params;
+  const locale = resolvedParams?.locale || defaultLocale;
+  const slug = resolvedParams?.slug;
   if (!slug) {
     notFound();
   }

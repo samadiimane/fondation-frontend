@@ -9,7 +9,8 @@ import {getTranslations} from "next-intl/server";
 import {defaultLocale} from "@/i18n/config";
 
 export async function generateMetadata({params}) {
-  const locale = params?.locale || defaultLocale;
+  const resolvedParams = await params;
+  const locale = resolvedParams?.locale || defaultLocale;
   const t = await getTranslations({locale, namespace: "library.journals.meta"});
   return {
     title: t("title"),
@@ -75,7 +76,8 @@ const buildStrings = (t, tPagination) => ({
 });
 
 export default async function JournalsPage({params}) {
-  const locale = params?.locale || defaultLocale;
+  const resolvedParams = await params;
+  const locale = resolvedParams?.locale || defaultLocale;
   const t = await getTranslations({locale, namespace: "library.journals"});
   const tPagination = await getTranslations({locale, namespace: "shared.pagination"});
   const strings = buildStrings(t, tPagination);

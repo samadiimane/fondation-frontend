@@ -11,7 +11,7 @@ import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 
 export async function generateMetadata({ params }) {
-  const { locale, slug } = params;
+  const { locale, slug } = await params;
   const [t, event] = await Promise.all([
     getTranslations({ locale, namespace: "events" }),
     getEvent(slug).catch(() => null),
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }) {
 }
 
 const EventDetailPage = async ({ params }) => {
-  const { locale, slug } = params;
+  const { locale, slug } = await params;
   const event = await getEvent(slug);
   if (!event) {
     notFound();

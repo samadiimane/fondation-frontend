@@ -5,8 +5,9 @@ export const metadata = {
   description: 'Browse and search documents from the Abdelaziz Khallouk Temsamani eLibrary.',
 };
 
-const DocumentsPage = ({ params }) => {
-  const locale = params?.locale ?? 'en';
+const DocumentsPage = async ({ params }) => {
+  const resolvedParams = await params;
+  const locale = resolvedParams?.locale ?? 'en';
   redirect(`/${locale}/library`);
 };
 

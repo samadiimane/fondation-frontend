@@ -91,9 +91,9 @@ const buildStrings = (t) => ({
 });
 
 export async function generateMetadata(context) {
-  const locale = context?.params?.locale || defaultLocale;
-  const params = await context?.params;
-  const id = params?.id;
+  const resolvedParams = await context?.params;
+  const locale = resolvedParams?.locale || defaultLocale;
+  const id = resolvedParams?.id;
   if (!id) return {};
 
   const metaT = await getTranslations({ locale, namespace: "library.articleDetail.meta" });
@@ -113,9 +113,9 @@ export async function generateMetadata(context) {
 }
 
 export default async function DocumentDetailPage(context) {
-  const locale = context?.params?.locale || defaultLocale;
-  const params = await context?.params;
-  const id = params?.id;
+  const resolvedParams = await context?.params;
+  const locale = resolvedParams?.locale || defaultLocale;
+  const id = resolvedParams?.id;
   if (!id) {
     notFound();
   }

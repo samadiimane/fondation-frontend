@@ -12,6 +12,8 @@ export const metadata = {
   description: 'Explore curated research collections from the Abdelaziz Khallouk Temsamani foundation.',
 };
 
+export const dynamic = 'force-dynamic';
+
 const CollectionsPage = async () => {
   let collections = [];
   let loadError = null;

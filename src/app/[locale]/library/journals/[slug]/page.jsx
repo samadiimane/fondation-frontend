@@ -1,8 +1,9 @@
 import {redirect} from "next/navigation";
 
 const LibraryJournalRedirect = async ({params}) => {
-  const locale = params?.locale;
-  const slug = params?.slug ?? "";
+  const resolvedParams = await params;
+  const locale = resolvedParams?.locale;
+  const slug = resolvedParams?.slug ?? "";
   const prefix = locale ? `/${locale}` : "";
   redirect(`${prefix}/journals/${slug}`);
 };

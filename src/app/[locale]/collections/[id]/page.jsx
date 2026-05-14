@@ -16,7 +16,7 @@ const getFriendlyError = (message) => {
 };
 
 const CollectionDetailPage = async ({ params }) => {
-  const { id } = params;
+  const { id } = await params;
 
   let collectionName = `Collection #${id}`;
 
