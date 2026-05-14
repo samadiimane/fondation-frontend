@@ -448,21 +448,18 @@ const HeaderFour = () => {
 
                       <li
                         className={`navbar__item navbar__item--has-children nav-fade ${
-                          isActive(["/advanced-search", "/submit", "/guide"]) ? "active" : ""
+                          isActive(["/advanced-search", "/publishing"]) ? "active" : ""
                         }`}
                       >
                         <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
                           {t("researchPublishing")}
                          </Link>
                         <ul className='navbar__sub-menu'>
-                          <li>
-                            <span>{t("advancedSearch")}</span>
+                          <li className={isActive("/advanced-search") ? "active" : ""}>
+                            <Link href='/advanced-search'>{t("advancedSearch")}</Link>
                           </li>
-                          <li>
-                            <span>{t("submitResearch")}</span>
-                          </li>
-                          <li>
-                            <span>{t("publishingGuide")}</span>
+                          <li className={isActive("/publishing") ? "active" : ""}>
+                            <Link href='/publishing'>{t("publishingGuide")}</Link>
                           </li>
                         </ul>
                       </li>

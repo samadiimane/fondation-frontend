@@ -1,0 +1,60 @@
+{
+  "assistant": {
+    "meta": {
+      "title": "البحث المتقدم | مؤسسة AKT للأبحاث",
+      "description": "تحاور مع مساعد الذكاء الاصطناعي حول وثائق المؤسسة."
+    },
+    "header": {
+      "title": "البحث المتقدم: مساعدك بالذكاء الاصطناعي"
+    },
+    "toolbar": {
+      "scope": {
+        "label": "النطاق",
+        "options": {
+          "all": "الكل",
+          "section": "قسم",
+          "category": "فئة",
+          "journal": "مجلة",
+          "collection": "مجموعة"
+        }
+      },
+      "language": "اللغة",
+      "yearFrom": "السنة (من)",
+      "yearTo": "السنة (إلى)",
+      "type": "النوع",
+      "typeOptions": {
+        "all": "كل الأنواع",
+        "article": "مقال",
+        "manuscript": "مخطوط",
+        "issue": "عدد",
+        "collection": "مجموعة"
+      },
+      "strictCitations": "الاقتباسات الصارمة فقط"
+    },
+    "chat": {
+      "placeholder": "اطرح سؤالا حول المجموعة...",
+      "send": "إرسال"
+    },
+    "empty": {
+      "examplesTitle": "جرّب أحد هذه الأسئلة"
+    },
+    "actions": {
+      "copy": "نسخ",
+      "copied": "تم النسخ",
+      "exportBib": "تصدير المراجع",
+      "newChat": "بدء محادثة جديدة",
+      "close": "إغلاق المعاينة"
+    },
+    "sources": {
+      "title": "المصادر",
+      "empty": "لا توجد مصادر بعد."
+    },
+    "error": {
+      "title": "حدث خطأ ما.",
+      "retry": "أعد المحاولة"
+    },
+    "citation": {
+      "preview": "معاينة المصدر"
+    }
+  }
+}

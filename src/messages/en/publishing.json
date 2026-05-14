@@ -1,0 +1,113 @@
+{
+  "publishing": {
+    "meta": {
+      "title": "Publishing Guide | AKT Research Foundation",
+      "description": "Submit research and follow the foundation's publishing guidance."
+    },
+    "header": {
+      "title": "Submit Research & Publishing Guide",
+      "subtitle": "A concise academic guide to preparing, submitting, and publishing with the foundation."
+    },
+    "toc": {
+      "title": "On this page"
+    },
+    "sections": {
+      "overview": {
+        "title": "Overview",
+        "body": "The AKT Research Foundation publishes scholarship that advances historical, cultural, and interdisciplinary research. We welcome rigorous work grounded in primary sources and transparent methodology."
+      },
+      "eligibility": {
+        "title": "Eligibility & Scopes",
+        "items": [
+          "Open to journal articles, critical editions, and curated collections.",
+          "Accepted languages include Arabic, English, French, and Spanish.",
+          "We consider archival research, documentary heritage, and cross-disciplinary studies."
+        ]
+      },
+      "guidelines": {
+        "title": "Author Guidelines",
+        "items": [
+          "Provide an abstract, keywords, and a clear research question.",
+          "Follow consistent citation style and include a complete bibliography.",
+          "Ensure figures and images include captions, sources, and permissions."
+        ]
+      },
+      "policies": {
+        "title": "Policies",
+        "items": [
+          "Submissions must be original and not under review elsewhere.",
+          "Disclose conflicts of interest and funding sources.",
+          "Data and sources should be accessible when possible; licensing follows CC BY-NC."
+        ]
+      },
+      "templates": {
+        "title": "Templates & Downloads",
+        "downloadAll": "Download all templates (.zip)",
+        "items": [
+          {
+            "label": "Manuscript Template",
+            "description": "Use this structured template for articles and reports."
+          },
+          {
+            "label": "Cover Letter",
+            "description": "Briefly describe the contribution and relevance of your work."
+          },
+          {
+            "label": "Declarations",
+            "description": "Ethics, originality, and copyright statements."
+          }
+        ]
+      },
+      "submission": {
+        "title": "Submission",
+        "cta": "Start submission"
+      },
+      "timeline": {
+        "title": "Process & Timeline",
+        "steps": [
+          {
+            "label": "Screening",
+            "duration": "1–2 weeks"
+          },
+          {
+            "label": "Peer Review",
+            "duration": "4–8 weeks"
+          },
+          {
+            "label": "Decision",
+            "duration": "2 weeks"
+          },
+          {
+            "label": "Editing",
+            "duration": "2–4 weeks"
+          },
+          {
+            "label": "Publication",
+            "duration": "Rolling"
+          }
+        ]
+      },
+      "faq": {
+        "title": "FAQs & Contact",
+        "items": [
+          {
+            "q": "Do you accept previously published work?",
+            "a": "We consider substantially revised versions with clear added value."
+          },
+          {
+            "q": "Can I submit in multiple languages?",
+            "a": "Yes, but each submission should focus on one primary language."
+          },
+          {
+            "q": "What happens after acceptance?",
+            "a": "Accepted manuscripts move to editing, copyediting, and final proof."
+          }
+        ]
+      }
+    },
+    "contact": {
+      "title": "Contact the publishing office",
+      "emailLabel": "Email"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "assistant": {
+    "meta": {
+      "title": "Recherche avancée | Fondation de recherche AKT",
+      "description": "Discutez avec l'assistant IA des documents de la fondation."
+    },
+    "header": {
+      "title": "Recherche avancée : votre assistant IA"
+    },
+    "toolbar": {
+      "scope": {
+        "label": "Périmètre",
+        "options": {
+          "all": "Tout",
+          "section": "Section",
+          "category": "Catégorie",
+          "journal": "Revue",
+          "collection": "Collection"
+        }
+      },
+      "language": "Langue",
+      "yearFrom": "Année (de)",
+      "yearTo": "Année (à)",
+      "type": "Type",
+      "typeOptions": {
+        "all": "Tous les types",
+        "article": "Article",
+        "manuscript": "Manuscrit",
+        "issue": "Numéro",
+        "collection": "Collection"
+      },
+      "strictCitations": "Citations strictes uniquement"
+    },
+    "chat": {
+      "placeholder": "Posez une question sur la collection...",
+      "send": "Envoyer"
+    },
+    "empty": {
+      "examplesTitle": "Essayez l'une de ces questions"
+    },
+    "actions": {
+      "copy": "Copier",
+      "copied": "Copié",
+      "exportBib": "Exporter les références",
+      "newChat": "Nouvelle discussion",
+      "close": "Fermer l'aperçu"
+    },
+    "sources": {
+      "title": "Sources",
+      "empty": "Aucune source pour l'instant."
+    },
+    "error": {
+      "title": "Une erreur s'est produite.",
+      "retry": "Réessayer"
+    },
+    "citation": {
+      "preview": "Aperçu de la source"
+    }
+  }
+}

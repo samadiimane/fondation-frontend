@@ -1,0 +1,60 @@
+{
+  "assistant": {
+    "meta": {
+      "title": "Advanced Search | AKT Research Foundation",
+      "description": "Chat with the AI assistant about the foundation's documents."
+    },
+    "header": {
+      "title": "Advanced Search : Your AI Assistant"
+    },
+    "toolbar": {
+      "scope": {
+        "label": "Scope",
+        "options": {
+          "all": "All",
+          "section": "Section",
+          "category": "Category",
+          "journal": "Journal",
+          "collection": "Collection"
+        }
+      },
+      "language": "Language",
+      "yearFrom": "Year (from)",
+      "yearTo": "Year (to)",
+      "type": "Type",
+      "typeOptions": {
+        "all": "All types",
+        "article": "Article",
+        "manuscript": "Manuscript",
+        "issue": "Issue",
+        "collection": "Collection"
+      },
+      "strictCitations": "Strict citations only"
+    },
+    "chat": {
+      "placeholder": "Ask a question about the collection...",
+      "send": "Send"
+    },
+    "empty": {
+      "examplesTitle": "Try one of these questions"
+    },
+    "actions": {
+      "copy": "Copy",
+      "copied": "Copied",
+      "exportBib": "Export references",
+      "newChat": "Start new chat",
+      "close": "Close preview"
+    },
+    "sources": {
+      "title": "Sources",
+      "empty": "No sources yet."
+    },
+    "error": {
+      "title": "Something went wrong.",
+      "retry": "Try again"
+    },
+    "citation": {
+      "preview": "Preview source"
+    }
+  }
+}

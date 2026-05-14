@@ -1,0 +1,113 @@
+{
+  "publishing": {
+    "meta": {
+      "title": "Guía de publicación | Fundación de Investigación AKT",
+      "description": "Enviar investigación y seguir las directrices de publicación de la fundación."
+    },
+    "header": {
+      "title": "Enviar investigación y guía de publicación",
+      "subtitle": "Guía académica concisa para preparar, enviar y publicar con la fundación."
+    },
+    "toc": {
+      "title": "En esta página"
+    },
+    "sections": {
+      "overview": {
+        "title": "Panorama",
+        "body": "La Fundación de Investigación AKT publica estudios que avanzan la investigación histórica, cultural e interdisciplinaria. Buscamos trabajos rigurosos con fuentes primarias y metodología transparente."
+      },
+      "eligibility": {
+        "title": "Elegibilidad y alcance",
+        "items": [
+          "Abierto a artículos de revista, ediciones críticas y colecciones curadas.",
+          "Idiomas aceptados: árabe, inglés, francés y español.",
+          "Consideramos investigación de archivos, patrimonio documental y estudios transdisciplinarios."
+        ]
+      },
+      "guidelines": {
+        "title": "Guías para autores",
+        "items": [
+          "Incluya resumen, palabras clave y una pregunta de investigación clara.",
+          "Use un estilo de citas coherente y una bibliografía completa.",
+          "Asegure leyendas, fuentes y permisos para imágenes."
+        ]
+      },
+      "policies": {
+        "title": "Políticas",
+        "items": [
+          "Los envíos deben ser originales y no estar en revisión en otro lugar.",
+          "Declare conflictos de interés y fuentes de financiamiento.",
+          "Datos y fuentes accesibles cuando sea posible; licencia CC BY-NC."
+        ]
+      },
+      "templates": {
+        "title": "Plantillas y descargas",
+        "downloadAll": "Descargar todas las plantillas (.zip)",
+        "items": [
+          {
+            "label": "Plantilla de manuscrito",
+            "description": "Use esta plantilla estructurada para artículos e informes."
+          },
+          {
+            "label": "Carta de presentación",
+            "description": "Describa brevemente el aporte y la relevancia del trabajo."
+          },
+          {
+            "label": "Declaraciones",
+            "description": "Ética, originalidad y derechos de autor."
+          }
+        ]
+      },
+      "submission": {
+        "title": "Envío",
+        "cta": "Iniciar envío"
+      },
+      "timeline": {
+        "title": "Proceso y cronograma",
+        "steps": [
+          {
+            "label": "Revisión inicial",
+            "duration": "1–2 semanas"
+          },
+          {
+            "label": "Revisión por pares",
+            "duration": "4–8 semanas"
+          },
+          {
+            "label": "Decisión",
+            "duration": "2 semanas"
+          },
+          {
+            "label": "Edición",
+            "duration": "2–4 semanas"
+          },
+          {
+            "label": "Publicación",
+            "duration": "Continua"
+          }
+        ]
+      },
+      "faq": {
+        "title": "Preguntas frecuentes y contacto",
+        "items": [
+          {
+            "q": "¿Aceptan trabajos ya publicados?",
+            "a": "Consideramos versiones sustancialmente revisadas con valor añadido."
+          },
+          {
+            "q": "¿Puedo enviar en varios idiomas?",
+            "a": "Sí, pero cada envío debe centrarse en un idioma principal."
+          },
+          {
+            "q": "¿Qué ocurre después de la aceptación?",
+            "a": "Los manuscritos pasan a edición, corrección y prueba final."
+          }
+        ]
+      }
+    },
+    "contact": {
+      "title": "Contacto editorial",
+      "emailLabel": "Correo"
+    }
+  }
+}

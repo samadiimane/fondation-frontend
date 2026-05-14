@@ -1,0 +1,60 @@
+{
+  "assistant": {
+    "meta": {
+      "title": "Búsqueda avanzada | Fundación de Investigación AKT",
+      "description": "Conversa con el asistente de IA sobre los documentos de la fundación."
+    },
+    "header": {
+      "title": "Búsqueda avanzada: tu asistente de IA"
+    },
+    "toolbar": {
+      "scope": {
+        "label": "Alcance",
+        "options": {
+          "all": "Todo",
+          "section": "Sección",
+          "category": "Categoría",
+          "journal": "Revista",
+          "collection": "Colección"
+        }
+      },
+      "language": "Idioma",
+      "yearFrom": "Año (desde)",
+      "yearTo": "Año (hasta)",
+      "type": "Tipo",
+      "typeOptions": {
+        "all": "Todos los tipos",
+        "article": "Artículo",
+        "manuscript": "Manuscrito",
+        "issue": "Número",
+        "collection": "Colección"
+      },
+      "strictCitations": "Solo citas estrictas"
+    },
+    "chat": {
+      "placeholder": "Haz una pregunta sobre la colección...",
+      "send": "Enviar"
+    },
+    "empty": {
+      "examplesTitle": "Prueba una de estas preguntas"
+    },
+    "actions": {
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "exportBib": "Exportar referencias",
+      "newChat": "Iniciar nuevo chat",
+      "close": "Cerrar vista previa"
+    },
+    "sources": {
+      "title": "Fuentes",
+      "empty": "Aún no hay fuentes."
+    },
+    "error": {
+      "title": "Algo salió mal.",
+      "retry": "Intentar de nuevo"
+    },
+    "citation": {
+      "preview": "Vista previa de la fuente"
+    }
+  }
+}

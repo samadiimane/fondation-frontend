@@ -1,0 +1,113 @@
+{
+  "publishing": {
+    "meta": {
+      "title": "Guide de publication | Fondation de recherche AKT",
+      "description": "Soumettre une recherche et suivre les directives de publication de la fondation."
+    },
+    "header": {
+      "title": "Soumettre une recherche & guide de publication",
+      "subtitle": "Un guide académique concis pour préparer, soumettre et publier avec la fondation."
+    },
+    "toc": {
+      "title": "Sur cette page"
+    },
+    "sections": {
+      "overview": {
+        "title": "Vue d'ensemble",
+        "body": "La Fondation de recherche AKT publie des travaux qui font progresser la recherche historique, culturelle et interdisciplinaire. Nous accueillons des recherches rigoureuses appuyées sur des sources primaires."
+      },
+      "eligibility": {
+        "title": "Éligibilité & périmètres",
+        "items": [
+          "Ouvert aux articles de revue, éditions critiques et collections dirigées.",
+          "Langues acceptées : arabe, anglais, français et espagnol.",
+          "Nous étudions les recherches d'archives, le patrimoine documentaire et les études transdisciplinaires."
+        ]
+      },
+      "guidelines": {
+        "title": "Consignes aux auteurs",
+        "items": [
+          "Fournir un résumé, des mots-clés et une problématique claire.",
+          "Utiliser un style de citation cohérent et une bibliographie complète.",
+          "Inclure des légendes, sources et autorisations pour les images."
+        ]
+      },
+      "policies": {
+        "title": "Politiques",
+        "items": [
+          "Les soumissions doivent être originales et non évaluées ailleurs.",
+          "Déclarer les conflits d'intérêts et les sources de financement.",
+          "Les données et sources doivent être accessibles quand possible ; licence CC BY-NC."
+        ]
+      },
+      "templates": {
+        "title": "Modèles & téléchargements",
+        "downloadAll": "Télécharger tous les modèles (.zip)",
+        "items": [
+          {
+            "label": "Modèle de manuscrit",
+            "description": "Utilisez ce modèle structuré pour les articles et rapports."
+          },
+          {
+            "label": "Lettre d'accompagnement",
+            "description": "Présentez brièvement l'apport et la pertinence du travail."
+          },
+          {
+            "label": "Déclarations",
+            "description": "Éthique, originalité et droits d'auteur."
+          }
+        ]
+      },
+      "submission": {
+        "title": "Soumission",
+        "cta": "Commencer la soumission"
+      },
+      "timeline": {
+        "title": "Processus & calendrier",
+        "steps": [
+          {
+            "label": "Pré-sélection",
+            "duration": "1–2 semaines"
+          },
+          {
+            "label": "Évaluation par les pairs",
+            "duration": "4–8 semaines"
+          },
+          {
+            "label": "Décision",
+            "duration": "2 semaines"
+          },
+          {
+            "label": "Édition",
+            "duration": "2–4 semaines"
+          },
+          {
+            "label": "Publication",
+            "duration": "Au fil de l'eau"
+          }
+        ]
+      },
+      "faq": {
+        "title": "FAQ & contact",
+        "items": [
+          {
+            "q": "Acceptez-vous des travaux déjà publiés ?",
+            "a": "Nous considérons des versions substantiellement révisées avec valeur ajoutée."
+          },
+          {
+            "q": "Puis-je soumettre dans plusieurs langues ?",
+            "a": "Oui, mais chaque soumission doit privilégier une langue principale."
+          },
+          {
+            "q": "Que se passe-t-il après l'acceptation ?",
+            "a": "Les manuscrits passent à l'édition, la relecture et la validation finale."
+          }
+        ]
+      }
+    },
+    "contact": {
+      "title": "Contacter le service éditorial",
+      "emailLabel": "E-mail"
+    }
+  }
+}
