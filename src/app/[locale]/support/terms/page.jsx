@@ -4,9 +4,8 @@ import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
 import AOSWrap from "@/helper/AOSWrap";
 import CustomCursor from "@/helper/CustomCursor";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import { getTermsContent } from "@/content/support";
-import { locales } from "@/i18n/config";
+import { isRtlLocale, locales, normalizeLocale } from "@/i18n/config";
 import { getTranslations } from "next-intl/server";
 
 export function generateStaticParams() {
@@ -14,40 +13,44 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const { locale } = params;
-  const t = await getTranslations({ locale, namespace: "support" });
+  const { locale } = await params;
+  const normalizedLocale = normalizeLocale(locale);
+  const t = await getTranslations({ locale: normalizedLocale, namespace: "support" });
+  const terms = getTermsContent(normalizedLocale);
   return {
-    title: `${t("title")} · ${t("terms")}`,
-    description: t("empty"),
+    title: `${t("title")} - ${t("terms")}`,
+    description: terms?.intro ?? t("empty"),
   };
 }
 
-const slugify = (value, fallback) => {
-  if (!value) return fallback;
-  const candidate = value
-    .toString()
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]+/gi, "")
-    .trim()
-    .replace(/\s+/g, "-");
-  return candidate || fallback;
+const splitHeading = (value) => {
+  const title = typeof value === "string" ? value.trim() : "";
+  const splitIndex = title.indexOf(" ");
+
+  if (splitIndex <= 0) {
+    return {
+      lead: title,
+      rest: "",
+    };
+  }
+
+  return {
+    lead: title.slice(0, splitIndex),
+    rest: title.slice(splitIndex + 1),
+  };
 };
 
 const TermsPage = async ({ params }) => {
-  const { locale } = params;
-  const t = await getTranslations({ locale, namespace: "support" });
+  const { locale } = await params;
+  const normalizedLocale = normalizeLocale(locale);
+  const isRtl = isRtlLocale(normalizedLocale);
+  const t = await getTranslations({ locale: normalizedLocale, namespace: "support" });
 
-  const terms = getTermsContent(locale);
+  const terms = getTermsContent(normalizedLocale);
   const title = terms?.heading ?? t("terms");
-  const intro = terms?.intro;
+  const intro = terms?.intro ?? "";
   const sections = Array.isArray(terms?.sections) ? terms.sections : [];
-  const hasSections = sections.length > 0;
-
-  const breadcrumbs = [
-    { label: t("breadcrumbs.home"), href: "/" },
-    { label: t("title"), href: "/support/faq" },
-    { label: t("terms"), current: true },
-  ];
+  const heading = splitHeading(title);
 
   return (
     <AOSWrap>
@@ -57,55 +60,47 @@ const TermsPage = async ({ params }) => {
         <TopBarTwo />
         <HeaderFour />
 
-        <section className='support-detail pt-120 pb-120'>
-          <div className='container'>
-            <Breadcrumbs items={breadcrumbs} ariaLabel={t("breadcrumbs.ariaLabel")} />
+        <main className='support-page' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>
+          <section className='support-detail'>
+            <div className='container'>
+              <div className='support-detail__inner support-detail__inner--terms'>
+                <header className='support-detail__header support-detail__header--publishing'>
+                  <h3 className='title-animation_inner'>
+                    <span>{heading.lead || title}</span>
+                    {heading.rest ? ` ${heading.rest}` : ""}
+                  </h3>
+                  {intro ? <p>{intro}</p> : null}
+                </header>
 
-            <div className='article-detail support-detail__inner'>
-              <header className='support-detail__header'>
-                <h1>{title}</h1>
-                {intro ? <p>{intro}</p> : null}
-              </header>
+                <article className='article-detail__card article-detail__card--primary support-detail__card support-terms'>
+                  {sections.length > 0 ? (
+                    sections.map((section, index) => {
+                      const headingLabel = section.title || t("termsSectionFallback", { number: index + 1 });
+                      const paragraphs = Array.isArray(section.paragraphs) ? section.paragraphs : [];
 
-              {hasSections ? (
-                <nav className='support-detail__toc' aria-label={t("termsTocLabel") ?? "Table of contents"}>
-                  <ul>
-                    {sections.map((section, index) => {
-                      const sectionId = slugify(section.title, `section-${index + 1}`);
                       return (
-                        <li key={sectionId}>
-                          <a href={`#${sectionId}`}>{section.title || t("termsSectionFallback", { number: index + 1 })}</a>
-                        </li>
+                        <section key={`terms-${index + 1}`} className='support-terms__section'>
+                          <h2 dir='auto'>{headingLabel}</h2>
+                          {paragraphs.length > 0 ? (
+                            paragraphs.map((paragraph, paragraphIndex) => (
+                              <p key={`terms-${index + 1}-paragraph-${paragraphIndex}`} dir='auto'>
+                                {paragraph}
+                              </p>
+                            ))
+                          ) : (
+                            <p dir='auto'>{t("empty")}</p>
+                          )}
+                        </section>
                       );
-                    })}
-                  </ul>
-                </nav>
-              ) : null}
-
-              <article className='article-detail__card article-detail__card--primary support-detail__card'>
-                {hasSections ? (
-                  sections.map((section, index) => {
-                    const sectionId = slugify(section.title, `section-${index + 1}`);
-                    const heading = section.title || t("termsSectionFallback", { number: index + 1 });
-                    const paragraphs = Array.isArray(section.paragraphs) ? section.paragraphs : [];
-                    return (
-                      <section key={sectionId} id={sectionId} className='support-detail__terms-section'>
-                        <h2>{heading}</h2>
-                        {paragraphs.length > 0 ? (
-                          paragraphs.map((paragraph, idx) => <p key={`${sectionId}-p-${idx}`}>{paragraph}</p>)
-                        ) : (
-                          <p>{t("empty")}</p>
-                        )}
-                      </section>
-                    );
-                  })
-                ) : (
-                  <p>{t("empty")}</p>
-                )}
-              </article>
+                    })
+                  ) : (
+                    <p className='support-faq__empty'>{t("empty")}</p>
+                  )}
+                </article>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+        </main>
 
         <Footer />
       </section>

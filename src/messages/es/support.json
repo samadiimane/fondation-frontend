@@ -2,22 +2,29 @@
   "support": {
     "title": "Soporte y ayuda",
     "faq": "Preguntas frecuentes",
-    "faqIntro": "Encuentra respuestas rápidas a las dudas habituales de los investigadores.",
-    "contact": "Contáctanos",
-    "contactTagline": "Contacta con el equipo de soporte de la Fundación AKT.",
-    "terms": "Condiciones y políticas",
+    "faqIntro": "Encuentra respuestas rapidas a las dudas habituales de los investigadores.",
+    "contact": "Contactanos",
+    "contactTagline": "Contacta con el equipo de soporte de la Fundacion AKT.",
+    "terms": "Condiciones y politicas",
     "termsTocLabel": "Secciones de las condiciones",
-    "termsSectionFallback": "Sección {number}",
-    "empty": "El contenido estará disponible pronto.",
+    "termsSectionFallback": "Seccion {number}",
+    "empty": "El contenido estara disponible pronto.",
     "breadcrumbs": {
       "home": "Inicio",
-      "ariaLabel": "Ruta de navegación"
+      "ariaLabel": "Ruta de navegacion"
     },
     "contactFields": {
-      "address": "Dirección",
-      "phone": "Teléfono",
-      "email": "Correo electrónico",
-      "note": "Notas"
+      "address": "Direccion",
+      "phone": "Telefono",
+      "email": "Correo electronico",
+      "note": "Notas",
+      "hours": "Horario",
+      "focus": "Temas de soporte",
+      "responseTime": "Tiempo de respuesta"
+    },
+    "contactAside": {
+      "title": "Antes de contactarnos",
+      "cta": "Enviar correo"
     }
   }
 }

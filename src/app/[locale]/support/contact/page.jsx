@@ -4,10 +4,9 @@ import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
 import AOSWrap from "@/helper/AOSWrap";
 import CustomCursor from "@/helper/CustomCursor";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import ContactUsInner from "@/components/ContactUsInner";
 import { getContactContent } from "@/content/support";
-import { locales } from "@/i18n/config";
+import { isRtlLocale, locales, normalizeLocale } from "@/i18n/config";
 import { getTranslations } from "next-intl/server";
 
 export function generateStaticParams() {
@@ -15,10 +14,11 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const { locale } = params;
-  const t = await getTranslations({ locale, namespace: "support" });
+  const { locale } = await params;
+  const normalizedLocale = normalizeLocale(locale);
+  const t = await getTranslations({ locale: normalizedLocale, namespace: "support" });
   return {
-    title: `${t("title")} · ${t("contact")}`,
+    title: `${t("title")} - ${t("contact")}`,
     description: t("contactTagline") ?? t("empty"),
   };
 }
@@ -36,21 +36,25 @@ const normalizeToArray = (value) => {
 };
 
 const ContactPage = async ({ params }) => {
-  const { locale } = params;
-  const t = await getTranslations({ locale, namespace: "support" });
+  const { locale } = await params;
+  const normalizedLocale = normalizeLocale(locale);
+  const isRtl = isRtlLocale(normalizedLocale);
+  const t = await getTranslations({ locale: normalizedLocale, namespace: "support" });
 
-  const contact = getContactContent(locale);
+  const contact = getContactContent(normalizedLocale);
   const title = contact?.heading ?? t("contact");
   const address = contact?.address ?? "";
+  const mapLink = contact?.mapLink ?? "";
   const phoneNumbers = normalizeToArray(contact?.phone);
   const emailAddresses = normalizeToArray(contact?.email ?? "support@aktfoundation.org");
+  const officeHours = normalizeToArray(contact?.hours);
+  const focusAreas = normalizeToArray(contact?.focus);
+  const responseTime = contact?.responseTime ?? "";
   const note = contact?.note ?? "";
-
-  const breadcrumbs = [
-    { label: t("breadcrumbs.home"), href: "/" },
-    { label: t("title"), href: "/support/faq" },
-    { label: t("contact"), current: true },
-  ];
+  const description = note || t("contactTagline") || "";
+  const titleSplitIndex = title.indexOf(" ");
+  const titleLead = titleSplitIndex > 0 ? title.slice(0, titleSplitIndex) : title;
+  const titleRest = titleSplitIndex > 0 ? title.slice(titleSplitIndex + 1) : "";
 
   return (
     <AOSWrap>
@@ -60,25 +64,44 @@ const ContactPage = async ({ params }) => {
         <TopBarTwo />
         <HeaderFour />
 
-        <section className='support-detail pt-120 pb-60'>
-          <div className='container'>
-            <Breadcrumbs items={breadcrumbs} ariaLabel={t("breadcrumbs.ariaLabel")} />
-            <header className='support-detail__header'>
-              <h1>{title}</h1>
-              <p>{t("contactTagline") ?? ""}</p>
-            </header>
-          </div>
-        </section>
+        <main className='support-page' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>
+          <section className='support-detail'>
+            <div className='container'>
+              <div className='support-detail__inner support-detail__inner--contact'>
+                <header className='support-detail__header support-detail__header--publishing'>
+                  <h3 className='title-animation_inner'>
+                    <span>{titleLead}</span>
+                    {titleRest ? ` ${titleRest}` : ""}
+                  </h3>
+                  <p>{t("contactTagline")}</p>
+                </header>
 
-        <ContactUsInner
-          subTitle={t("contact")}
-          title={title}
-          description={note || t("contactTagline") || ""}
-          address={address}
-          phoneNumbers={phoneNumbers}
-          emailAddresses={emailAddresses}
-          emptyMessage={t("empty")}
-        />
+                <ContactUsInner
+                  title={title}
+                  description={description}
+                  address={address}
+                  mapLink={mapLink}
+                  phoneNumbers={phoneNumbers}
+                  emailAddresses={emailAddresses}
+                  officeHours={officeHours}
+                  focusAreas={focusAreas}
+                  responseTime={responseTime}
+                  labels={{
+                    address: t("contactFields.address"),
+                    phone: t("contactFields.phone"),
+                    email: t("contactFields.email"),
+                    focus: t("contactFields.focus"),
+                    hours: t("contactFields.hours"),
+                    responseTime: t("contactFields.responseTime"),
+                  }}
+                  asideTitle={t("contactAside.title")}
+                  ctaLabel={t("contactAside.cta")}
+                  emptyMessage={t("empty")}
+                />
+              </div>
+            </div>
+          </section>
+        </main>
 
         <Footer />
       </section>
@@ -87,4 +110,3 @@ const ContactPage = async ({ params }) => {
 };
 
 export default ContactPage;
-

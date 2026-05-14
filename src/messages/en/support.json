@@ -17,7 +17,14 @@
       "address": "Address",
       "phone": "Phone",
       "email": "Email",
-      "note": "Notes"
+      "note": "Notes",
+      "hours": "Office hours",
+      "focus": "Support scope",
+      "responseTime": "Response time"
+    },
+    "contactAside": {
+      "title": "Before you contact us",
+      "cta": "Email support desk"
     }
   }
 }
