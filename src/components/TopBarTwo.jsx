@@ -1,6 +1,5 @@
 "use client";
 import {useEffect, useRef, useState} from "react";
-import NiceSelect from "nice-select2";
 import {useLocale, useTranslations} from "next-intl";
 import {usePathname, useRouter} from "@/i18n/navigation";
 import {localeFlagMap, localeLabels, locales} from "@/i18n/config";
@@ -33,6 +32,8 @@ const TopBarTwo = () => {
   }, []);
 
   useEffect(() => {
+    let isCurrent = true;
+    let removeSelectListeners = () => {};
     const selectEl = selectRef.current;
     if (!selectEl) {
       return;
@@ -61,51 +62,69 @@ const TopBarTwo = () => {
       wrapperRef.current.classList.add("enhanced");
     }
 
-    const instance = new NiceSelect(selectEl, {
-      searchable: false,
-      placeholder: t("languagePlaceholder")
-    });
-    niceInstanceRef.current = instance;
+    const enhanceSelect = async () => {
+      try {
+        const module = await import("nice-select2");
+        if (!isCurrent) return;
+        const NiceSelect = module.default ?? module;
+        const instance = new NiceSelect(selectEl, {
+          searchable: false,
+          placeholder: t("languagePlaceholder")
+        });
+        niceInstanceRef.current = instance;
 
-    const niceRoot = selectEl.nextElementSibling;
+        const niceRoot = selectEl.nextElementSibling;
 
-    const renderFlags = () => {
-      if (!niceRoot) return;
-      const selectedOption = selectEl.options[selectEl.selectedIndex];
-      const selectedLocale = selectedOption?.value;
-      const selectedFlag = selectedOption?.getAttribute("data-flag") || "";
-      const selectedLabel = localeLabels[selectedLocale] || selectedOption?.textContent || "";
-      const currentEl = niceRoot.querySelector(".current");
-      if (currentEl) {
-        currentEl.innerHTML = selectedFlag
-          ? `<i class="fi fi-${selectedFlag}"></i> ${selectedLabel}`
-          : selectedLabel;
+        const renderFlags = () => {
+          if (!niceRoot) return;
+          const selectedOption = selectEl.options[selectEl.selectedIndex];
+          const selectedLocale = selectedOption?.value;
+          const selectedFlag = selectedOption?.getAttribute("data-flag") || "";
+          const selectedLabel = localeLabels[selectedLocale] || selectedOption?.textContent || "";
+          const currentEl = niceRoot.querySelector(".current");
+          if (currentEl) {
+            currentEl.innerHTML = selectedFlag
+              ? `<i class="fi fi-${selectedFlag}"></i> ${selectedLabel}`
+              : selectedLabel;
+          }
+
+          const listOptions = niceRoot.querySelectorAll(".list .option");
+          listOptions.forEach((li) => {
+            const value = li.getAttribute("data-value");
+            const flag = localeFlagMap[value];
+            const label = localeLabels[value] || value;
+            li.innerHTML = flag ? `<i class="fi fi-${flag}"></i> ${label}` : label;
+          });
+        };
+
+        renderFlags();
+
+        const handleChange = (event) => {
+          const nextLocale = event.target.value;
+          if (nextLocale && nextLocale !== locale) {
+            router.replace(pathname, {locale: nextLocale});
+          }
+        };
+
+        selectEl.addEventListener("change", handleChange);
+        selectEl.addEventListener("change", renderFlags);
+        removeSelectListeners = () => {
+          selectEl.removeEventListener("change", handleChange);
+          selectEl.removeEventListener("change", renderFlags);
+        };
+      } catch (error) {
+        console.error(error);
       }
-
-      const listOptions = niceRoot.querySelectorAll(".list .option");
-      listOptions.forEach((li) => {
-        const value = li.getAttribute("data-value");
-        const flag = localeFlagMap[value];
-        const label = localeLabels[value] || value;
-        li.innerHTML = flag ? `<i class="fi fi-${flag}"></i> ${label}` : label;
-      });
     };
 
-    renderFlags();
-
-    const handleChange = (event) => {
-      const nextLocale = event.target.value;
-      if (nextLocale && nextLocale !== locale) {
-        router.replace(pathname, {locale: nextLocale});
-      }
-    };
-
-    selectEl.addEventListener("change", handleChange);
-    selectEl.addEventListener("change", renderFlags);
+    enhanceSelect();
 
     return () => {
-      selectEl.removeEventListener("change", handleChange);
-      selectEl.removeEventListener("change", renderFlags);
+      isCurrent = false;
+      removeSelectListeners();
+      if (wrapperRef.current) {
+        wrapperRef.current.classList.remove("enhanced");
+      }
       niceInstanceRef.current?.destroy?.();
       niceInstanceRef.current = null;
     };
