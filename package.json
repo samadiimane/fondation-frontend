@@ -3,7 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "clean:next": "node scripts/clean-next.cjs build",
+    "clean:next:dev": "node scripts/clean-next.cjs dev",
+    "clean:next:build": "node scripts/clean-next.cjs build",
+    "clean:next:all": "node scripts/clean-next.cjs all",
+    "prebuild": "npm run clean:next:build",
     "dev": "next dev",
+    "dev:clean": "npm run clean:next:dev && next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
