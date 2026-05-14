@@ -44,8 +44,6 @@ export default async function RootLayout({children}) {
       </head>
       <body className={isRtl ? 'rtl' : undefined} suppressHydrationWarning>
         {children}
-
-        <script src='/assets/js/bootstrap.bundle.min.js'></script>
       </body>
     </html>
   );
