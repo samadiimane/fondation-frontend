@@ -3,10 +3,10 @@ import {useEffect, useMemo, useRef, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {Link, usePathname} from "@/i18n/navigation";
 import useNavigationTaxonomy from "@/hooks/useNavigationTaxonomy";
+import useNavigationJournals from "@/hooks/useNavigationJournals";
 import useAuth from "@/hooks/useAuth";
 import {isRtlLocale} from "@/i18n/config";
 import {getServiceContent, SERVICE_SLUGS} from "@/content/services";
-import { getJournals } from "@/lib/api";
 
 const KNOWN_SECTION_CONFIG = {
   archives: {
@@ -58,9 +58,8 @@ const HeaderFour = () => {
   const [mobileMenu, setMobileMenu] = useState(false);
   const [scroll, setScroll] = useState(false);
   const {categories, loading: categoriesLoading} = useNavigationTaxonomy({ locale });
+  const {journals: navJournals, loading: navJournalsLoading} = useNavigationJournals({ locale });
   const {isAuthenticated, roles, logout, initializing: authLoading} = useAuth();
-  const [navJournals, setNavJournals] = useState([]);
-  const [navJournalsLoading, setNavJournalsLoading] = useState(false);
   const mobileMenuListRef = useRef(null);
   const safeRoles = Array.isArray(roles) ? roles : [];
   const hasAdminRole = safeRoles.includes("admin");
@@ -175,38 +174,6 @@ const HeaderFour = () => {
     } catch {
       return new Intl.Collator("en", {sensitivity: "base"});
     }
-  }, [locale]);
-
-  useEffect(() => {
-    const controller = new AbortController();
-    let isCurrent = true;
-    const load = async () => {
-      try {
-        setNavJournalsLoading(true);
-        const response = await getJournals({
-          page: 1,
-          pageSize: 100,
-          locale,
-          signal: controller.signal,
-        });
-        if (!isCurrent) return;
-        const items = Array.isArray(response?.journals) ? response.journals : [];
-        setNavJournals(items);
-      } catch (error) {
-        if (!isCurrent || controller.signal.aborted) return;
-        console.error(error);
-        setNavJournals([]);
-      } finally {
-        if (isCurrent) {
-          setNavJournalsLoading(false);
-        }
-      }
-    };
-    load();
-    return () => {
-      isCurrent = false;
-      controller.abort();
-    };
   }, [locale]);
 
   const journalLinks = useMemo(() => {
