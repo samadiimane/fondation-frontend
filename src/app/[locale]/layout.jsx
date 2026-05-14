@@ -1,7 +1,7 @@
 import 'slick-carousel/slick/slick.css';
 import '@/styles/vendor/slick-theme.css';
 import 'react-modal-video/scss/modal-video.scss';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import '@/styles/bootstrap-lite.scss';
 import '@/app/globals.scss';
 
 import InitializeAOS from '@/helper/InitializeAOS';

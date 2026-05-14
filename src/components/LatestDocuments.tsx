@@ -114,8 +114,8 @@ const LatestDocuments = () => {
 
   const isEmpty = !isLoading && !isError && slides.length === 0;
 
-  const skeletonSlides = Array.from({ length: 4 }, (_, idx) => (
-    <div key={`skeleton-${idx}`} className='px-3'>
+  const skeletonCards = Array.from({ length: 4 }, (_, idx) => (
+    <div key={`skeleton-${idx}`} className='col-12 col-md-6 col-xl-3'>
       <div className='blog__single-wrapper'>
         <div className='blog__single van-tilt'>
           <div className='blog__single-thumb skeleton-box' style={{ height: "240px" }} />
@@ -162,13 +162,13 @@ const LatestDocuments = () => {
                   {t("retry")}
                 </button>
               </div>
+            ) : isLoading ? (
+              <div className='row gutter-24'>{skeletonCards}</div>
             ) : isEmpty ? (
               <div className='text-center my-4'>{t("empty")}</div>
             ) : (
               <Slider {...sliderSettings} ref={sliderRef}>
-                {isLoading
-                  ? skeletonSlides
-                  : slides.map((doc, index) => (
+                {slides.map((doc, index) => (
                     <div key={doc.id || index} className='px-3'>
                       <div
                         className='blog__single-wrapper'

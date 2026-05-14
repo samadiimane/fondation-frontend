@@ -10,49 +10,63 @@ const RouteScrollToTop = () => {
   }, [location]);
 
   useEffect(() => {
-    const progressWrap = document.querySelector(".progress-wrap");
-    const progressPath = progressWrap?.querySelector("path");
-    if (!progressWrap || !progressPath) {
-      return undefined;
-    }
-    const pathLength = progressPath.getTotalLength();
-    progressPath.style.transition = progressPath.style.WebkitTransition = "none";
-    progressPath.style.strokeDasharray = `${pathLength} ${pathLength}`;
-    progressPath.style.strokeDashoffset = pathLength;
-    progressPath.getBoundingClientRect();
-    progressPath.style.transition = progressPath.style.WebkitTransition = "stroke-dashoffset 10ms linear";
+    let setupFrameId;
+    let scrollFrameId;
+    let cleanup = () => {};
 
-    const updateProgress = () => {
-      const scroll = window.scrollY;
-      const height = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = pathLength - (scroll * pathLength) / height;
-      progressPath.style.strokeDashoffset = progress;
-    };
-
-    updateProgress();
-    window.addEventListener("scroll", updateProgress);
-
-    const handleScroll = () => {
-      if (window.scrollY > 50) {
-        progressWrap.classList.add("active-progress");
-      } else {
-        progressWrap.classList.remove("active-progress");
+    setupFrameId = window.requestAnimationFrame(() => {
+      const progressWrap = document.querySelector(".progress-wrap");
+      const progressPath = progressWrap?.querySelector("path");
+      if (!progressWrap || !progressPath) {
+        return;
       }
-    };
 
-    window.addEventListener("scroll", handleScroll);
+      const pathLength = progressPath.getTotalLength();
+      progressPath.style.strokeDasharray = `${pathLength} ${pathLength}`;
+      progressPath.style.strokeDashoffset = `${pathLength}`;
+      progressPath.style.transition = progressPath.style.WebkitTransition =
+        "stroke-dashoffset 10ms linear";
 
-    const handleClick = (event) => {
-      event.preventDefault();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+      const updateProgress = () => {
+        scrollFrameId = undefined;
+        const scroll = window.scrollY;
+        const height = Math.max(
+          document.documentElement.scrollHeight - window.innerHeight,
+          1
+        );
+        const progress = pathLength - (scroll * pathLength) / height;
+        progressPath.style.strokeDashoffset = `${Math.max(progress, 0)}`;
+        progressWrap.classList.toggle("active-progress", scroll > 50);
+      };
 
-    progressWrap.addEventListener("click", handleClick);
+      const requestProgressUpdate = () => {
+        if (scrollFrameId) {
+          return;
+        }
+        scrollFrameId = window.requestAnimationFrame(updateProgress);
+      };
+
+      const handleClick = (event) => {
+        event.preventDefault();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      };
+
+      updateProgress();
+      window.addEventListener("scroll", requestProgressUpdate, { passive: true });
+      progressWrap.addEventListener("click", handleClick);
+
+      cleanup = () => {
+        if (scrollFrameId) {
+          window.cancelAnimationFrame(scrollFrameId);
+        }
+        window.removeEventListener("scroll", requestProgressUpdate);
+        progressWrap.removeEventListener("click", handleClick);
+      };
+    });
 
     return () => {
-      window.removeEventListener("scroll", updateProgress);
-      window.removeEventListener("scroll", handleScroll);
-      progressWrap.removeEventListener("click", handleClick);
+      window.cancelAnimationFrame(setupFrameId);
+      cleanup();
     };
   }, []);
 

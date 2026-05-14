@@ -3,7 +3,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-const SILENCED_SASS_DEPRECATIONS = ['legacy-js-api', 'import'];
+const SILENCED_SASS_DEPRECATIONS = ['legacy-js-api', 'import', 'global-builtin', 'color-functions'];
 process.env.SASS_SILENCE_DEPRECATIONS = SILENCED_SASS_DEPRECATIONS.join(',');
 
 const isProduction = process.env.NODE_ENV === 'production';

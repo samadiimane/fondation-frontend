@@ -11,7 +11,6 @@ export default function InitializeAOS() {
   useEffect(() => {
     let cancelled = false;
     let timeoutId;
-    let animationFrameId;
     let idleCallbackId;
 
     const initialize = async () => {
@@ -28,37 +27,26 @@ export default function InitializeAOS() {
       AOS.init({
         duration: 1000,
         once: true,
+        disableMutationObserver: true,
+        debounceDelay: 150,
+        throttleDelay: 150,
       });
       isAosInitialized = true;
     };
 
-    const scheduleIdleInit = () => {
-      timeoutId = window.setTimeout(() => {
-        if (cancelled) return;
+    timeoutId = window.setTimeout(() => {
+      if (cancelled) return;
 
-        if ("requestIdleCallback" in window) {
-          idleCallbackId = window.requestIdleCallback(initialize, { timeout: 1500 });
-        } else {
-          initialize();
-        }
-      }, 300);
-    };
-
-    const scheduleInit = () => {
-      animationFrameId = window.requestAnimationFrame(scheduleIdleInit);
-    };
-
-    if (document.readyState === "complete") {
-      scheduleInit();
-    } else {
-      window.addEventListener("load", scheduleInit, { once: true });
-    }
+      if ("requestIdleCallback" in window) {
+        idleCallbackId = window.requestIdleCallback(initialize);
+      } else {
+        initialize();
+      }
+    }, 1200);
 
     return () => {
       cancelled = true;
-      window.removeEventListener("load", scheduleInit);
       window.clearTimeout(timeoutId);
-      window.cancelAnimationFrame(animationFrameId);
       if (idleCallbackId && "cancelIdleCallback" in window) {
         window.cancelIdleCallback(idleCallbackId);
       }
