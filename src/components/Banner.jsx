@@ -1,14 +1,15 @@
 "use client";
 
-import {useMemo, useRef} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
-import Slider from "react-slick";
 
 import {isRtlLocale} from "@/i18n/config";
 import {Link} from "@/i18n/navigation";
 
+const SLIDER_IDLE_DELAY_MS = 900;
+
 const Banner = () => {
-  const sliderRef = useRef(null);
+  const [SliderComponent, setSliderComponent] = useState(null);
   const t = useTranslations("Banner");
   const locale = useLocale();
   const isRtl = isRtlLocale(locale);
@@ -44,40 +45,86 @@ const Banner = () => {
     []
   );
 
+  useEffect(() => {
+    if (slides.length <= 1) return undefined;
+
+    let cancelled = false;
+    let timeoutId;
+    let idleCallbackId;
+
+    const loadSlider = async () => {
+      const module = await import("react-slick");
+      if (!cancelled) {
+        setSliderComponent(() => module.default ?? module);
+      }
+    };
+
+    timeoutId = window.setTimeout(() => {
+      if (cancelled) return;
+
+      if ("requestIdleCallback" in window) {
+        idleCallbackId = window.requestIdleCallback(loadSlider, {timeout: 1500});
+      } else {
+        loadSlider();
+      }
+    }, SLIDER_IDLE_DELAY_MS);
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(timeoutId);
+      if (idleCallbackId && "cancelIdleCallback" in window) {
+        window.cancelIdleCallback(idleCallbackId);
+      }
+    };
+  }, [slides.length]);
+
+  const renderSlide = (slide, index, {isStatic = false} = {}) => (
+    <div className='banner__slide' key={slide?.title ?? index}>
+      <div
+        className={`banner__content${isStatic ? " banner__content--ready" : ""}`}
+        dir={isRtl ? "rtl" : "ltr"}
+      >
+        <h1 className='title-animation_inner'>{slide?.title}</h1>
+        <p>{slide?.subtitle}</p>
+        <div className='banner__content-cta cta'>
+          <Link
+            href='/foundation'
+            aria-label={t("ctaPrimaryAria")}
+            title={t("ctaPrimaryAria")}
+            className='btn--tertiary'
+          >
+            {t("ctaPrimary")} <i className='fa-solid fa-arrow-right' />
+          </Link>
+          <Link
+            href='/library'
+            aria-label={t("ctaSecondaryAria")}
+            title={t("ctaSecondaryAria")}
+            className='btn--primary'
+          >
+            {t("ctaSecondary")} <i className='fa-solid fa-arrow-right' />
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+
+  const shouldRenderSlider = Boolean(SliderComponent) && slides.length > 1;
+
   return (
     <section className='banner banner--hero'>
       <div className='container-fluid'>
         <div className='row align-items-center'>
           <div className='col-12 col-lg-6'>
             <div className='banner__slider' style={{direction: "ltr"}}>
-              <Slider {...settings} ref={sliderRef} className='banner__slides'>
-                {slides.map((slide, index) => (
-                  <div className='banner__slide' key={slide?.title ?? index}>
-                    <div className='banner__content' dir={isRtl ? "rtl" : "ltr"}>
-                      <h1 className='title-animation_inner'>{slide?.title}</h1>
-                      <p>{slide?.subtitle}</p>
-                      <div className='banner__content-cta cta'>
-                        <Link
-                          href='/foundation'
-                          aria-label={t("ctaPrimaryAria")}
-                          title={t("ctaPrimaryAria")}
-                          className='btn--tertiary'
-                        >
-                          {t("ctaPrimary")} <i className='fa-solid fa-arrow-right' />
-                        </Link>
-                        <Link
-                          href='/library'
-                          aria-label={t("ctaSecondaryAria")}
-                          title={t("ctaSecondaryAria")}
-                          className='btn--primary'
-                        >
-                          {t("ctaSecondary")} <i className='fa-solid fa-arrow-right' />
-                        </Link>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </Slider>
+              {shouldRenderSlider ? (
+                <SliderComponent {...settings} className='banner__slides'>
+                  {slides.map((slide, index) => renderSlide(slide, index, {isStatic: index === 0}))}
+                </SliderComponent>
+              ) : (
+                <div className='banner__slides banner__slides--static'>
+                  {renderSlide(slides[0], 0, {isStatic: true})}
+                </div>
+              )}
             </div>
           </div>
           <div className='col-12 col-lg-6 d-none d-lg-block'>

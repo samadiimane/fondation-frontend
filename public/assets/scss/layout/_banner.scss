@@ -138,6 +138,17 @@
     }
   }
 
+  .banner__content--ready {
+    span,
+    h1,
+    p,
+    .banner__content-cta {
+      opacity: 1;
+      transform: translateX(0);
+      transition-delay: 0ms;
+    }
+  }
+
   .slick-slide.slick-active {
     .banner__content {
       span {
