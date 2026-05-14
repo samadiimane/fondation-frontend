@@ -4,6 +4,20 @@ import {useLocale, useTranslations} from "next-intl";
 import {usePathname, useRouter} from "@/i18n/navigation";
 import {localeFlagMap, localeLabels, locales} from "@/i18n/config";
 
+const DARK_MODE_STYLESHEET_ID = "dark-mode-stylesheet";
+
+const loadDarkModeStyles = () => {
+  if (document.getElementById(DARK_MODE_STYLESHEET_ID)) {
+    return;
+  }
+
+  const link = document.createElement("link");
+  link.id = DARK_MODE_STYLESHEET_ID;
+  link.rel = "stylesheet";
+  link.href = "/assets/css/dark-mode.css";
+  document.head.appendChild(link);
+};
+
 const TopBarTwo = () => {
   const selectRef = useRef(null);
   const wrapperRef = useRef(null);
@@ -17,6 +31,7 @@ const TopBarTwo = () => {
   const handleDarkVersion = (type) => {
     const body = document.body;
     if (type === "dark") {
+      loadDarkModeStyles();
       body.classList.add("dark-body");
       setDark(true);
     } else {
@@ -27,7 +42,11 @@ const TopBarTwo = () => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setDark(document.body.classList.contains("dark-body"));
+      const isDark = document.body.classList.contains("dark-body");
+      if (isDark) {
+        loadDarkModeStyles();
+      }
+      setDark(isDark);
     }
   }, []);
 

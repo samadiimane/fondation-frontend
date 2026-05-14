@@ -45,11 +45,6 @@ export default async function RootLayout({children}) {
         <link rel='stylesheet' href='/assets/fonts/css/charifund.css' />
         <link rel='stylesheet' href='/assets/css/aos.css' />
         <link rel='stylesheet' href='/assets/css/nice-select.css' />
-
-        <link rel='stylesheet' href='/assets/css/default-theme.css' id='switch-color' />
-        <link rel='stylesheet' href='/assets/css/sticky-header.css' />
-        <link rel='stylesheet' href='/assets/css/box-layout.css' />
-        <link rel='stylesheet' href='/assets/css/dark-mode.css' />
       </head>
       <body className={isRtl ? 'rtl' : undefined} suppressHydrationWarning>
         {children}

@@ -27,9 +27,9 @@ export default async function LocaleLayout({children, params}) {
     <NextIntlClientProvider locale={locale} messages={messages}>
       <QueryProvider>
         <AuthProvider>
-          <InitializeAOS />
           <RouteScrollToTop />
           {children}
+          <InitializeAOS />
         </AuthProvider>
       </QueryProvider>
     </NextIntlClientProvider>
