@@ -43,7 +43,6 @@ export default async function RootLayout({children}) {
         <link rel='stylesheet' href='/assets/fonts/css/all.min.css' />
         <link rel='stylesheet' href='/assets/fonts/css/flag-icons.min.css' />
         <link rel='stylesheet' href='/assets/fonts/css/charifund.css' />
-        <link rel='stylesheet' href='/assets/css/aos.css' />
         <link rel='stylesheet' href='/assets/css/nice-select.css' />
       </head>
       <body className={isRtl ? 'rtl' : undefined} suppressHydrationWarning>

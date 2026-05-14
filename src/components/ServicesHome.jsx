@@ -1,10 +1,10 @@
 "use client";
 
-import React, {useMemo, useRef} from "react";
-import Slider from "react-slick";
+import {useMemo, useRef} from "react";
 import {useLocale, useTranslations} from "next-intl";
 
 import {SERVICE_SLUGS, getServiceContent} from "@/content/services";
+import {useDeferredSlider} from "@/hooks/useDeferredSlider";
 import {isRtlLocale} from "@/i18n/config";
 import {Link} from "@/i18n/navigation";
 
@@ -34,6 +34,10 @@ const ServicesHome = () => {
       }).filter(Boolean),
     [locale]
   );
+  const {SliderComponent, containerRef, loadSlider} = useDeferredSlider({
+    enabled: slides.length > 1,
+    rootMargin: "700px"
+  });
 
   const settings = {
     infinite: true,
@@ -67,15 +71,45 @@ const ServicesHome = () => {
   };
 
   const handlePrev = () => {
+    if (!SliderComponent) {
+      loadSlider();
+      return;
+    }
     sliderRef.current?.slickPrev();
   };
 
   const handleNext = () => {
+    if (!SliderComponent) {
+      loadSlider();
+      return;
+    }
     sliderRef.current?.slickNext();
   };
 
   const prevIcon = <i className='fa-solid fa-arrow-left' />;
   const nextIcon = <i className='fa-solid fa-arrow-right' />;
+  const renderServiceCard = (slide, index) => (
+    <div className='difference__single-wrapper'>
+      <div className={`difference__single ${CARD_CLASSNAMES[index % CARD_CLASSNAMES.length]}`}>
+        <div className='difference__single-content'>
+          <h5>
+            <Link href={`/services/${slide.slug}`}>{slide.title}</Link>
+          </h5>
+          <p>{slide.intro || t("fallback")}</p>
+          <div className='readmore'>
+            <Link
+              href={`/services/${slide.slug}`}
+              aria-label={t("aria.readMore", {title: slide.title})}
+              title={t("aria.readMore", {title: slide.title})}
+            >
+              {t("readMore")}
+              <i className='fa-solid fa-circle-arrow-right' />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <section className='difference' id='services' dir={isRtl ? "rtl" : "ltr"}>
@@ -97,33 +131,24 @@ const ServicesHome = () => {
         <div className='container'>
           <div className='row'>
             <div className='col-12'>
-              <div className='difference__slider swiper'>
-                <Slider {...settings} ref={sliderRef} className='swiper-wrapper'>
-                  {slides.map((slide, index) => (
-                    <div className='swiper-slide px-2' key={slide.slug}>
-                      <div className='difference__single-wrapper'>
-                        <div className={`difference__single ${CARD_CLASSNAMES[index % CARD_CLASSNAMES.length]}`}>
-                          <div className='difference__single-content'>
-                            <h5>
-                              <Link href={`/services/${slide.slug}`}>{slide.title}</Link>
-                            </h5>
-                            <p>{slide.intro || t("fallback")}</p>
-                            <div className='readmore'>
-                              <Link
-                                href={`/services/${slide.slug}`}
-                                aria-label={t("aria.readMore", {title: slide.title})}
-                                title={t("aria.readMore", {title: slide.title})}
-                              >
-                                {t("readMore")}
-                                <i className='fa-solid fa-circle-arrow-right' />
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
+              <div className='difference__slider swiper' ref={containerRef}>
+                {SliderComponent ? (
+                  <SliderComponent {...settings} ref={sliderRef} className='swiper-wrapper'>
+                    {slides.map((slide, index) => (
+                      <div className='swiper-slide px-2' key={slide.slug}>
+                        {renderServiceCard(slide, index)}
                       </div>
-                    </div>
-                  ))}
-                </Slider>
+                    ))}
+                  </SliderComponent>
+                ) : (
+                  <div className='row gutter-24'>
+                    {slides.slice(0, 3).map((slide, index) => (
+                      <div className='col-12 col-md-6 col-xl-4' key={slide.slug}>
+                        {renderServiceCard(slide, index)}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -135,6 +160,7 @@ const ServicesHome = () => {
             aria-label='prev slide'
             title='prev slide'
             className='prev-difference slider-btn'
+            disabled={!SliderComponent}
           >
             {isRtl ? nextIcon : prevIcon}
           </button>
@@ -144,6 +170,7 @@ const ServicesHome = () => {
             aria-label='next slide'
             title='next slide'
             className='next-difference slider-btn slider-btn-next'
+            disabled={!SliderComponent}
           >
             {isRtl ? prevIcon : nextIcon}
           </button>

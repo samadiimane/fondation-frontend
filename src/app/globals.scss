@@ -4,6 +4,25 @@
 
 @import "/public/assets/scss/main.scss";
 
+html:not(.aos-active) [data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition-delay: 0ms !important;
+}
+
+.award [data-aos],
+.footer-two [data-aos] {
+  opacity: 1 !important;
+  transform: none !important;
+  transition-delay: 0ms !important;
+}
+
+.title-animation,
+.title-animation_inner {
+  animation: none !important;
+  transition: none !important;
+}
+
 @layer base {
   :root {
 

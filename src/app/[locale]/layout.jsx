@@ -4,7 +4,6 @@ import 'react-modal-video/scss/modal-video.scss';
 import '@/styles/bootstrap-lite.scss';
 import '@/app/globals.scss';
 
-import InitializeAOS from '@/helper/InitializeAOS';
 import RouteScrollToTop from '@/helper/RouteScrollToTop';
 import {defaultLocale, locales} from '@/i18n/config';
 import {getMessagesForLocale} from '@/messages';
@@ -29,7 +28,6 @@ export default async function LocaleLayout({children, params}) {
         <AuthProvider>
           <RouteScrollToTop />
           {children}
-          <InitializeAOS />
         </AuthProvider>
       </QueryProvider>
     </NextIntlClientProvider>

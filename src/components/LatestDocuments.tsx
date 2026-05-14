@@ -1,11 +1,11 @@
 "use client";
 
 import {useMemo, useRef} from "react";
-import Slider from "react-slick";
 import {useLocale, useTranslations} from "next-intl";
 import {useQuery} from "@tanstack/react-query";
 
 import {getLatestDocuments, PublicDocument} from "@/lib/api/publicDocuments";
+import {useDeferredSlider} from "@/hooks/useDeferredSlider";
 import {Link} from "@/i18n/navigation";
 import {isRtlLocale} from "@/i18n/config";
 
@@ -68,7 +68,7 @@ const trimText = (text: string, length = 140) => {
 };
 
 const LatestDocuments = () => {
-  const sliderRef = useRef<Slider | null>(null);
+  const sliderRef = useRef<any>(null);
   const locale = useLocale();
   const t = useTranslations("home.latest");
   const isRtl = isRtlLocale(locale);
@@ -113,6 +113,10 @@ const LatestDocuments = () => {
   }, [data, locale, t]);
 
   const isEmpty = !isLoading && !isError && slides.length === 0;
+  const {SliderComponent, containerRef} = useDeferredSlider({
+    enabled: !isLoading && slides.length > 1,
+    rootMargin: "700px"
+  });
 
   const skeletonCards = Array.from({ length: 4 }, (_, idx) => (
     <div key={`skeleton-${idx}`} className='col-12 col-md-6 col-xl-3'>
@@ -136,6 +140,55 @@ const LatestDocuments = () => {
       </div>
     </div>
   ));
+  const renderDocumentCard = (doc: (typeof slides)[number]) => (
+    <div className='blog__single-wrapper'>
+      <div className='blog__single van-tilt'>
+        <div className='blog__single-thumb'>
+          <Link href={doc.href} aria-label={doc.title}>
+            <img src={doc.image} alt={doc.title || t("imageAltFallback")} />
+          </Link>
+          <div className='tag'>
+            <span>
+              <i className='fa-solid fa-tags' />
+              {doc.category}
+            </span>
+          </div>
+        </div>
+        <div className='blog__single-inner'>
+          <div className='blog__single-meta'>
+            <p>
+              <i className='icon-user' />
+              {doc.author}
+            </p>
+            {doc.year ? (
+              <p>
+                <i className='fa-regular fa-calendar' />
+                {doc.year}
+              </p>
+            ) : null}
+          </div>
+          <div className='blog__single-content'>
+            <h6>
+              <Link href={doc.href} aria-label={doc.title}>
+                {doc.title}
+              </Link>
+            </h6>
+            {doc.excerpt ? <p>{doc.excerpt}</p> : null}
+          </div>
+          <div className='blog__single-cta'>
+            <Link
+              href={doc.href}
+              aria-label={doc.title}
+              title={doc.title}
+            >
+              {t("readMore")}
+              <i className='fa-solid fa-circle-arrow-right' />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <section className='blog' dir={isRtl ? "rtl" : "ltr"}>
@@ -154,7 +207,7 @@ const LatestDocuments = () => {
         </div>
 
         <div className='row'>
-          <div className='col-12'>
+          <div className='col-12' ref={containerRef}>
             {isError ? (
               <div className='text-center my-4'>
                 <p>{t("error")}</p>
@@ -166,65 +219,22 @@ const LatestDocuments = () => {
               <div className='row gutter-24'>{skeletonCards}</div>
             ) : isEmpty ? (
               <div className='text-center my-4'>{t("empty")}</div>
-            ) : (
-              <Slider {...sliderSettings} ref={sliderRef}>
+            ) : SliderComponent && slides.length > 1 ? (
+              <SliderComponent {...sliderSettings} ref={sliderRef}>
                 {slides.map((doc, index) => (
-                    <div key={doc.id || index} className='px-3'>
-                      <div
-                        className='blog__single-wrapper'
-                        data-aos='fade-up'
-                        data-aos-duration={1000}
-                        data-aos-delay={index * 150}
-                      >
-                        <div className='blog__single van-tilt'>
-                          <div className='blog__single-thumb'>
-                            <Link href={doc.href} aria-label={doc.title}>
-                              <img src={doc.image} alt={doc.title || t("imageAltFallback")} />
-                            </Link>
-                            <div className='tag'>
-                              <span>
-                                <i className='fa-solid fa-tags' />
-                                {doc.category}
-                              </span>
-                            </div>
-                          </div>
-                          <div className='blog__single-inner'>
-                            <div className='blog__single-meta'>
-                              <p>
-                                <i className='icon-user' />
-                                {doc.author}
-                              </p>
-                              {doc.year ? (
-                                <p>
-                                  <i className='fa-regular fa-calendar' />
-                                  {doc.year}
-                                </p>
-                              ) : null}
-                            </div>
-                            <div className='blog__single-content'>
-                              <h6>
-                                <Link href={doc.href} aria-label={doc.title}>
-                                  {doc.title}
-                                </Link>
-                              </h6>
-                              {doc.excerpt ? <p>{doc.excerpt}</p> : null}
-                            </div>
-                            <div className='blog__single-cta'>
-                              <Link
-                                href={doc.href}
-                                aria-label={doc.title}
-                                title={doc.title}
-                              >
-                                {t("readMore")}
-                                <i className='fa-solid fa-circle-arrow-right' />
-                              </Link>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div key={doc.id || index} className='px-3'>
+                    {renderDocumentCard(doc)}
+                  </div>
+                ))}
+              </SliderComponent>
+            ) : (
+              <div className='row gutter-24'>
+                {slides.map((doc, index) => (
+                  <div key={doc.id || index} className='col-12 col-md-6 col-xl-3'>
+                    {renderDocumentCard(doc)}
+                  </div>
                   ))}
-              </Slider>
+              </div>
             )}
           </div>
         </div>

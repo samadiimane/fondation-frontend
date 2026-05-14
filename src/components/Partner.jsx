@@ -2,8 +2,9 @@
 
 import TrackVisibility from "react-on-screen";
 import CountUp from "react-countup";
-import Slider from "react-slick";
 import {useTranslations} from "next-intl";
+
+import {useDeferredSlider} from "@/hooks/useDeferredSlider";
 
 const logos = [
   "/assets/images/sponsor/one.png",
@@ -20,6 +21,10 @@ const logos = [
 
 const Partner = () => {
   const t = useTranslations("partners");
+  const {SliderComponent, containerRef} = useDeferredSlider({
+    enabled: logos.length > 1,
+    rootMargin: "800px"
+  });
   const settings = {
     infinite: true,
     speed: 1000,
@@ -75,16 +80,28 @@ const Partner = () => {
             </div>
           </div>
           <div className='col-12'>
-            <div className='partner__slider swiper'>
-              <Slider {...settings} className='swiper-wrapper'>
-                {logos.map((src, idx) => (
-                  <div className='swiper-slide' key={`${src}-${idx}`}>
-                    <div className='partner__slider-single'>
-                      <img src={src} alt={t("logoAlt")} />
+            <div className='partner__slider swiper' ref={containerRef}>
+              {SliderComponent ? (
+                <SliderComponent {...settings} className='swiper-wrapper'>
+                  {logos.map((src, idx) => (
+                    <div className='swiper-slide' key={`${src}-${idx}`}>
+                      <div className='partner__slider-single'>
+                        <img src={src} alt={t("logoAlt")} />
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </Slider>
+                  ))}
+                </SliderComponent>
+              ) : (
+                <div className='row row-cols-2 row-cols-sm-3 row-cols-lg-5 g-3 justify-content-center'>
+                  {logos.slice(0, 5).map((src, idx) => (
+                    <div className='col' key={`${src}-${idx}`}>
+                      <div className='partner__slider-single'>
+                        <img src={src} alt={t("logoAlt")} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
