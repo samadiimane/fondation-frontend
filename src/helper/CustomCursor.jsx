@@ -1,13 +1,57 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
+
+const HOVER_SELECTOR = "a, button, .cursor-pointer, [role='button'], input, select, textarea, summary";
+
+const supportsCustomCursor = () => {
+  if (typeof window === "undefined" || typeof window.matchMedia !== "function") {
+    return false;
+  }
+
+  return (
+    window.matchMedia("(pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  );
+};
+
+const addMediaChangeListener = (query, listener) => {
+  if (typeof query.addEventListener === "function") {
+    query.addEventListener("change", listener);
+    return () => query.removeEventListener("change", listener);
+  }
+
+  query.addListener(listener);
+  return () => query.removeListener(listener);
+};
 
 const CustomCursor = () => {
   const cursorOuterRef = useRef(null);
   const cursorInnerRef = useRef(null);
-  console.warn = () => {};
-  console.error = () => {};
+  const [enabled, setEnabled] = useState(false);
+
   useEffect(() => {
+    const pointerQuery = window.matchMedia("(pointer: fine)");
+    const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const updateAvailability = () => {
+      setEnabled(supportsCustomCursor());
+    };
+
+    updateAvailability();
+
+    const removePointerListener = addMediaChangeListener(pointerQuery, updateAvailability);
+    const removeMotionListener = addMediaChangeListener(reducedMotionQuery, updateAvailability);
+
+    return () => {
+      removePointerListener();
+      removeMotionListener();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
+
     const cursorOuter = cursorOuterRef.current;
     const cursorInner = cursorInnerRef.current;
 
@@ -15,13 +59,29 @@ const CustomCursor = () => {
 
     let mouseX = 0;
     let mouseY = 0;
+    let animationFrame = 0;
+    let isVisible = false;
+
+    const applyCursorPosition = () => {
+      animationFrame = 0;
+      const transform = `translate3d(${mouseX}px, ${mouseY}px, 0)`;
+      cursorInner.style.transform = transform;
+      cursorOuter.style.transform = transform;
+
+      if (!isVisible) {
+        cursorInner.style.visibility = "visible";
+        cursorOuter.style.visibility = "visible";
+        isVisible = true;
+      }
+    };
 
     const moveCursor = (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
 
-      cursorInner.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-      cursorOuter.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+      if (!animationFrame) {
+        animationFrame = window.requestAnimationFrame(applyCursorPosition);
+      }
     };
 
     const addHoverClass = () => {
@@ -34,28 +94,37 @@ const CustomCursor = () => {
       cursorOuter.classList.remove("cursor-hover");
     };
 
-    document.addEventListener("mousemove", moveCursor);
+    const handlePointerOver = (event) => {
+      if (event.target?.closest?.(HOVER_SELECTOR)) {
+        addHoverClass();
+      }
+    };
 
-    const hoverElements = document.querySelectorAll(
-      "a, button, .cursor-pointer"
-    );
-    hoverElements.forEach((el) => {
-      el.addEventListener("mouseenter", addHoverClass);
-      el.addEventListener("mouseleave", removeHoverClass);
-    });
+    const handlePointerOut = (event) => {
+      const interactiveElement = event.target?.closest?.(HOVER_SELECTOR);
+      const relatedTarget = event.relatedTarget;
+      if (!interactiveElement) return;
+      if (relatedTarget instanceof Node && interactiveElement.contains(relatedTarget)) return;
+      removeHoverClass();
+    };
 
-    // Make cursors visible
-    cursorInner.style.visibility = "visible";
-    cursorOuter.style.visibility = "visible";
+    document.addEventListener("pointermove", moveCursor, { passive: true });
+    document.addEventListener("pointerover", handlePointerOver);
+    document.addEventListener("pointerout", handlePointerOut);
 
     return () => {
-      document.removeEventListener("mousemove", moveCursor);
-      hoverElements.forEach((el) => {
-        el.removeEventListener("mouseenter", addHoverClass);
-        el.removeEventListener("mouseleave", removeHoverClass);
-      });
+      document.removeEventListener("pointermove", moveCursor);
+      document.removeEventListener("pointerover", handlePointerOver);
+      document.removeEventListener("pointerout", handlePointerOut);
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+      }
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) {
+    return null;
+  }
 
   return (
     <>
