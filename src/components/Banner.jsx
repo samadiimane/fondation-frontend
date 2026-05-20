@@ -1,11 +1,12 @@
 "use client";
 
 import Image from "next/image";
-import {useEffect, useMemo, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 
 import {isRtlLocale} from "@/i18n/config";
 import {Link} from "@/i18n/navigation";
+import {useSlickAccessibility} from "@/hooks/useSlickAccessibility";
 
 const SLIDER_IDLE_DELAY_MS = 900;
 const HERO_IMAGE_SIZES = "(min-width: 1400px) 13vw, (min-width: 992px) 17vw, 0vw";
@@ -27,6 +28,7 @@ const renderHeroImage = ({src, alt, width, height, aos, delay}) => (
 );
 
 const Banner = () => {
+  const sliderContainerRef = useRef(null);
   const [SliderComponent, setSliderComponent] = useState(null);
   const t = useTranslations("Banner");
   const locale = useLocale();
@@ -45,6 +47,9 @@ const Banner = () => {
     Array.isArray(slidesFromTranslations) && slidesFromTranslations.length
       ? slidesFromTranslations
       : [{title: t("title"), subtitle: t("subtitle")}];
+  const shouldRenderSlider = Boolean(SliderComponent) && slides.length > 1;
+
+  useSlickAccessibility(sliderContainerRef, shouldRenderSlider);
 
   const settings = useMemo(
     () => ({
@@ -126,14 +131,12 @@ const Banner = () => {
     </div>
   );
 
-  const shouldRenderSlider = Boolean(SliderComponent) && slides.length > 1;
-
   return (
     <section className='banner banner--hero'>
       <div className='container-fluid'>
         <div className='row align-items-center'>
           <div className='col-12 col-lg-6'>
-            <div className='banner__slider' style={{direction: "ltr"}}>
+            <div className='banner__slider' style={{direction: "ltr"}} ref={sliderContainerRef}>
               {shouldRenderSlider ? (
                 <SliderComponent {...settings} className='banner__slides'>
                   {slides.map((slide, index) => renderSlide(slide, index, {isStatic: index === 0}))}

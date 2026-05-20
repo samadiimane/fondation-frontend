@@ -2,6 +2,8 @@
 
 import {useCallback, useEffect, useRef, useState} from "react";
 
+import {useSlickAccessibility} from "@/hooks/useSlickAccessibility";
+
 let sliderImportPromise;
 
 const importSlider = async () => {
@@ -20,6 +22,8 @@ export const useDeferredSlider = ({
 } = {}) => {
   const containerRef = useRef(null);
   const [SliderComponent, setSliderComponent] = useState(null);
+
+  useSlickAccessibility(containerRef, enabled && Boolean(SliderComponent));
 
   const loadSlider = useCallback(async () => {
     if (!enabled || SliderComponent) return;
