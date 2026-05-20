@@ -1,6 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 
+const GALLERY_LINK_LABEL = "View event photo gallery item";
+
 const AwardOne = () => {
   return (
     <section className='award'>
@@ -26,10 +28,10 @@ const AwardOne = () => {
               data-aos-duration={1000}
             >
               <div className='thumb'>
-                <Link href='/'>
+                <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
                   <Image
                     src='/assets/images/award/fondation.jpg'
-                    alt='Image_inner'
+                    alt='AKT Research Foundation event gallery'
                     width={888}
                     height={393}
                     sizes='(min-width: 992px) 66vw, 100vw'
@@ -46,7 +48,7 @@ const AwardOne = () => {
                   <p>Demostic &amp; Transportation</p>
                 </div>
                 <div className='award__thumb'>
-                  <Link href='/'>
+                  <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
                     <i className='fa-solid fa-arrow-right' />
                   </Link>
                 </div>
@@ -61,10 +63,10 @@ const AwardOne = () => {
               data-aos-delay={200}
             >
               <div className='thumb'>
-                <Link href='/'>
+                <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
                   <Image
                     src='/assets/images/award/ctr.jpg'
-                    alt='Image_inner'
+                    alt='Event gallery audience and speakers'
                     width={1600}
                     height={1200}
                     sizes='(min-width: 992px) 33vw, 100vw'
@@ -81,7 +83,7 @@ const AwardOne = () => {
                   <p>Demostic &amp; Transportation</p>
                 </div>
                 <div className='award__thumb'>
-                  <Link href='/'>
+                  <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
                     <i className='fa-solid fa-arrow-right' />
                   </Link>
                 </div>
@@ -96,10 +98,10 @@ const AwardOne = () => {
               data-aos-delay={100}
             >
               <div className='thumb'>
-                <Link href='/'>
+                <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
                   <Image
                     src='/assets/images/award/ctr.jpg'
-                    alt='Image_inner'
+                    alt='Event gallery audience and speakers'
                     width={1600}
                     height={1200}
                     sizes='(min-width: 992px) 42vw, 100vw'
@@ -116,7 +118,7 @@ const AwardOne = () => {
                   <p>Demostic &amp; Transportation</p>
                 </div>
                 <div className='award__thumb'>
-                  <Link href='/'>
+                  <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
                     <i className='fa-solid fa-arrow-right' />
                   </Link>
                 </div>
@@ -131,10 +133,10 @@ const AwardOne = () => {
               data-aos-delay={300}
             >
               <div className='thumb'>
-                <Link href='/'>
+                <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
                   <Image
                     src='/assets/images/award/fondation.jpg'
-                    alt='Image_inner'
+                    alt='AKT Research Foundation event gallery'
                     width={888}
                     height={393}
                     sizes='(min-width: 992px) 58vw, 100vw'
@@ -151,7 +153,7 @@ const AwardOne = () => {
                   <p>Demostic &amp; Transportation</p>
                 </div>
                 <div className='award__thumb'>
-                  <Link href='/'>
+                  <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
                     <i className='fa-solid fa-arrow-right' />
                   </Link>
                 </div>

@@ -131,14 +131,16 @@ const FoundationIntro = () => {
           </div>
         </div>
       </section>
-      <ModalVideo
-        channel='youtube'
-        autoplay
-        isOpen={isOpen}
-        videoId={content.videoId}
-        onClose={() => setIsOpen(false)}
-        allowFullScreen
-      />
+      {isOpen ? (
+        <ModalVideo
+          channel='youtube'
+          autoplay
+          isOpen={isOpen}
+          videoId={content.videoId}
+          onClose={() => setIsOpen(false)}
+          allowFullScreen
+        />
+      ) : null}
     </>
   );
 };

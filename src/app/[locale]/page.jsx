@@ -30,13 +30,15 @@ export default function HomePage() {
         <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
-        <Banner />
-        <FoundationIntro />
-        <ServicesHome />
-        <CounterOne />
-        <LatestDocuments />
-        <Partner />
-        <AwardOne />
+        <main id='main-content'>
+          <Banner />
+          <FoundationIntro />
+          <ServicesHome />
+          <CounterOne />
+          <LatestDocuments />
+          <Partner />
+          <AwardOne />
+        </main>
         <Footer />
       </section>
     </AOSWrap>
