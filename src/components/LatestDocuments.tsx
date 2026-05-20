@@ -189,6 +189,7 @@ const LatestDocuments = () => {
               title={doc.title}
             >
               {t("readMore")}
+              <span className='visually-hidden'>: {doc.title}</span>
               <i className='fa-solid fa-circle-arrow-right' />
             </Link>
           </div>

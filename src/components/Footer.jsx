@@ -18,6 +18,11 @@ const Footer = () => {
   const locale = useLocale();
   const isRtl = isRtlLocale(locale);
   const year = new Date().getFullYear();
+  const copyrightTemplate =
+    typeof t.raw === "function"
+      ? t.raw("copyright")
+      : "Copyright © {year} Abdelaziz Khallouk Temsamani Foundation. All rights reserved.";
+  const copyrightText = String(copyrightTemplate).replace("{year}", String(year));
 
   const quickLinks = [
     {href: "/foundation", label: tNav("foundation")},
@@ -198,7 +203,7 @@ const Footer = () => {
           <div className='row align-items-center gutter-12 justify-content-between'>
             <div className='col-12 col-lg-auto'>
               <div className='footer-two__copyright-inner text-center text-lg-start'>
-                <p>{t("copyright", {year})}</p>
+                <p>{copyrightText}</p>
               </div>
             </div>
             <div className='col-12 col-lg-auto'>

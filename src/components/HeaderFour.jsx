@@ -329,7 +329,7 @@ const HeaderFour = () => {
                           isActive(["/foundation", "/dr-temsamani", "/structure"]) ? "active" : ""
                         }`}
                       >
-                         <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
+                         <Link href='/' className='navbar__dropdown-label dropdown-label-alter'>
                           {t("aboutUs")}
                          </Link>
                         <ul className='navbar__sub-menu'>
@@ -352,7 +352,6 @@ const HeaderFour = () => {
                       >
                         <Link
                           href='/library'
-                          aria-label='dropdown menu'
                           className='navbar__dropdown-label dropdown-label-alter'
                         >
                           {t("libraryResources")}
@@ -424,7 +423,7 @@ const HeaderFour = () => {
                           isActive(["/advanced-search", "/publishing"]) ? "active" : ""
                         }`}
                       >
-                        <Link href='/' aria-label='dropdown menu' className='navbar__dropdown-label dropdown-label-alter'>
+                        <Link href='/' className='navbar__dropdown-label dropdown-label-alter'>
                           {t("researchPublishing")}
                          </Link>
                         <ul className='navbar__sub-menu'>
@@ -444,7 +443,6 @@ const HeaderFour = () => {
                       >
                         <Link
                           href='/services/academic-consultations'
-                          aria-label='dropdown menu'
                           className='navbar__dropdown-label dropdown-label-alter'
                         >
                           {t("services")}
@@ -465,7 +463,6 @@ const HeaderFour = () => {
                       >
                         <Link
                           href='/events'
-                          aria-label='dropdown menu'
                           className='navbar__dropdown-label dropdown-label-alter'
                         >
                           {t("events")}
@@ -488,7 +485,6 @@ const HeaderFour = () => {
                       >
                         <Link
                           href='/support/faq'
-                          aria-label='dropdown menu'
                           className='navbar__dropdown-label dropdown-label-alter'
                         >
                           {t("supportHelp")}

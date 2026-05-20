@@ -165,12 +165,12 @@ const AwardOne = () => {
           <div className='col-12'>
             <div className='section__cta cta text-center'>
               <Link
-                href='/'
-                aria-label='our events'
-                title='our events'
+                href='/events'
+                aria-label='View all event photos'
+                title='View all event photos'
                 className='btn--primary'
               >
-                View All <i className='fa-solid fa-arrow-right' />
+                View all event photos <i className='fa-solid fa-arrow-right' />
               </Link>
             </div>
           </div>

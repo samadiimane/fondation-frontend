@@ -99,10 +99,11 @@ const ServicesHome = () => {
           <div className='readmore'>
             <Link
               href={`/services/${slide.slug}`}
-              aria-label={t("aria.readMore", {title: slide.title})}
-              title={t("aria.readMore", {title: slide.title})}
+              aria-label={`${t("readMore")}: ${slide.title}`}
+              title={`${t("readMore")}: ${slide.title}`}
             >
               {t("readMore")}
+              <span className='visually-hidden'>: {slide.title}</span>
               <i className='fa-solid fa-circle-arrow-right' />
             </Link>
           </div>
