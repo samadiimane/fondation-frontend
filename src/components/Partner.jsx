@@ -86,7 +86,14 @@ const Partner = () => {
                   {logos.map((src, idx) => (
                     <div className='swiper-slide' key={`${src}-${idx}`}>
                       <div className='partner__slider-single'>
-                        <img src={src} alt={t("logoAlt")} />
+                        <img
+                          src={src}
+                          alt={t("logoAlt")}
+                          width={135}
+                          height={95}
+                          loading='lazy'
+                          decoding='async'
+                        />
                       </div>
                     </div>
                   ))}
@@ -96,7 +103,14 @@ const Partner = () => {
                   {logos.slice(0, 5).map((src, idx) => (
                     <div className='col' key={`${src}-${idx}`}>
                       <div className='partner__slider-single'>
-                        <img src={src} alt={t("logoAlt")} />
+                        <img
+                          src={src}
+                          alt={t("logoAlt")}
+                          width={135}
+                          height={95}
+                          loading='lazy'
+                          decoding='async'
+                        />
                       </div>
                     </div>
                   ))}

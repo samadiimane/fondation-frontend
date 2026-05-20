@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {useState} from "react";
 import ModalVideo from "react-modal-video";
 import {useLocale, useTranslations} from "next-intl";
@@ -33,9 +34,14 @@ const FoundationIntro = () => {
                     data-aos='fade-right'
                     data-aos-duration={1000}
                   >
-                    <img
+                    <Image
                       src={content.images.primary}
                       alt={t("aria.primaryImage")}
+                      width={888}
+                      height={533}
+                      sizes='(min-width: 1400px) 500px, (min-width: 992px) 36vw, 0vw'
+                      quality={72}
+                      loading='lazy'
                     />
                     <div className='video-btn-wrapper'>
                       <button
@@ -53,9 +59,14 @@ const FoundationIntro = () => {
                     data-aos-duration={1000}
                     data-aos-delay={300}
                   >
-                    <img
+                    <Image
                       src={content.images.secondary}
                       alt={t("aria.secondaryImage")}
+                      width={780}
+                      height={780}
+                      sizes='(min-width: 992px) 250px, 0vw'
+                      quality={70}
+                      loading='lazy'
                     />
                   </div>
                 </div>

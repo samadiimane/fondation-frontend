@@ -145,7 +145,14 @@ const LatestDocuments = () => {
       <div className='blog__single van-tilt'>
         <div className='blog__single-thumb'>
           <Link href={doc.href} aria-label={doc.title}>
-            <img src={doc.image} alt={doc.title || t("imageAltFallback")} />
+            <img
+              src={doc.image}
+              alt={doc.title || t("imageAltFallback")}
+              width={388}
+              height={280}
+              loading='lazy'
+              decoding='async'
+            />
           </Link>
           <div className='tag'>
             <span>

@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import {useEffect, useMemo, useRef, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {Link, usePathname} from "@/i18n/navigation";
@@ -301,10 +302,15 @@ const HeaderFour = () => {
                 <nav className='navbar p-0'>
                   <div className='navbar-logo'>
                     <Link href='/'>
-                      <img
+                      <Image
                         src='/assets/images/logo.png'
                         alt='Foundation logo'
-                        style={{height: "80px", objectFit: "cover"}}
+                        width={476}
+                        height={197}
+                        sizes='180px'
+                        quality={75}
+                        priority
+                        style={{height: "80px", width: "auto", objectFit: "cover"}}
                       />
                     </Link>
                   </div>
@@ -559,7 +565,15 @@ const HeaderFour = () => {
           <div className='mobile-menu__header nav-fade'>
             <div className='logo'>
               <Link href='/' aria-label='home page' title='logo'>
-                <img src='/assets/images/logo.png' alt='Foundation logo' />
+                <Image
+                  src='/assets/images/logo.png'
+                  alt='Foundation logo'
+                  width={476}
+                  height={197}
+                  sizes='160px'
+                  quality={75}
+                  loading='lazy'
+                />
               </Link>
             </div>
             <button

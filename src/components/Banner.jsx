@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {useEffect, useMemo, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 
@@ -7,6 +8,23 @@ import {isRtlLocale} from "@/i18n/config";
 import {Link} from "@/i18n/navigation";
 
 const SLIDER_IDLE_DELAY_MS = 900;
+const HERO_IMAGE_SIZES = "(min-width: 1400px) 13vw, (min-width: 992px) 17vw, 0vw";
+
+const renderHeroImage = ({src, alt, width, height, aos, delay}) => (
+  <Image
+    src={src}
+    alt={alt}
+    width={width}
+    height={height}
+    sizes={HERO_IMAGE_SIZES}
+    quality={68}
+    loading='lazy'
+    decoding='async'
+    data-aos={aos}
+    data-aos-duration={1000}
+    {...(delay ? {"data-aos-delay": delay} : {})}
+  />
+);
 
 const Banner = () => {
   const [SliderComponent, setSliderComponent] = useState(null);
@@ -132,59 +150,65 @@ const Banner = () => {
               <div className='banner__thumb-inner'>
                 <div className='group'>
                   <div className='m-one move-image'>
-                    <img
-                      src='/assets/images/banner/kasbah.png'
-                      alt={t("altKasbah")}
-                      data-aos='fade-right'
-                      data-aos-duration={1000}
-                    />
+                    {renderHeroImage({
+                      src: "/assets/images/banner/kasbah.png",
+                      alt: t("altKasbah"),
+                      width: 697,
+                      height: 522,
+                      aos: "fade-right"
+                    })}
                   </div>
                   <div className='m-three move-image'>
-                    <img
-                      src='/assets/images/banner/lagrotte.png'
-                      alt={t("altGrotto")}
-                      data-aos='fade-right'
-                      data-aos-duration={1000}
-                      data-aos-delay={300}
-                    />
+                    {renderHeroImage({
+                      src: "/assets/images/banner/lagrotte.png",
+                      alt: t("altGrotto"),
+                      width: 491,
+                      height: 787,
+                      aos: "fade-right",
+                      delay: 300
+                    })}
                   </div>
                 </div>
                 <div className='group'>
                   <div className='m-two move-image'>
-                    <img
-                      src='/assets/images/banner/babhar.png'
-                      alt={t("altPort")}
-                      data-aos='zoom-in'
-                      data-aos-duration={1000}
-                    />
+                    {renderHeroImage({
+                      src: "/assets/images/banner/babhar.png",
+                      alt: t("altPort"),
+                      width: 883,
+                      height: 885,
+                      aos: "zoom-in"
+                    })}
                   </div>
                   <div className='m-four move-image'>
-                    <img
-                      src='/assets/images/banner/port.png'
-                      alt={t("altPort")}
-                      data-aos='zoom-in'
-                      data-aos-duration={1000}
-                      data-aos-delay={300}
-                    />
+                    {renderHeroImage({
+                      src: "/assets/images/banner/port.png",
+                      alt: t("altPort"),
+                      width: 692,
+                      height: 693,
+                      aos: "zoom-in",
+                      delay: 300
+                    })}
                   </div>
                 </div>
                 <div className='group'>
                   <div className='m-one move-image'>
-                    <img
-                      src='/assets/images/banner/phare.png'
-                      alt={t("altLighthouse")}
-                      data-aos='fade-right'
-                      data-aos-duration={1000}
-                    />
+                    {renderHeroImage({
+                      src: "/assets/images/banner/phare.png",
+                      alt: t("altLighthouse"),
+                      width: 486,
+                      height: 856,
+                      aos: "fade-right"
+                    })}
                   </div>
                   <div className='m-three move-image'>
-                    <img
-                      src='/assets/images/banner/atlas.png'
-                      alt={t("altAtlas")}
-                      data-aos='fade-right'
-                      data-aos-duration={1000}
-                      data-aos-delay={300}
-                    />
+                    {renderHeroImage({
+                      src: "/assets/images/banner/atlas.png",
+                      alt: t("altAtlas"),
+                      width: 526,
+                      height: 514,
+                      aos: "fade-right",
+                      delay: 300
+                    })}
                   </div>
                 </div>
               </div>

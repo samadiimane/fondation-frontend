@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const AwardOne = () => {
   return (
@@ -26,7 +27,15 @@ const AwardOne = () => {
             >
               <div className='thumb'>
                 <Link href='/'>
-                  <img src='/assets/images/award/fondation.jpg' alt='Image_inner' />
+                  <Image
+                    src='/assets/images/award/fondation.jpg'
+                    alt='Image_inner'
+                    width={888}
+                    height={393}
+                    sizes='(min-width: 992px) 66vw, 100vw'
+                    quality={72}
+                    loading='lazy'
+                  />
                 </Link>
               </div>
               <div className='content'>
@@ -53,7 +62,15 @@ const AwardOne = () => {
             >
               <div className='thumb'>
                 <Link href='/'>
-                  <img src='/assets/images/award/ctr.jpg' alt='Image_inner' />
+                  <Image
+                    src='/assets/images/award/ctr.jpg'
+                    alt='Image_inner'
+                    width={1600}
+                    height={1200}
+                    sizes='(min-width: 992px) 33vw, 100vw'
+                    quality={68}
+                    loading='lazy'
+                  />
                 </Link>
               </div>
               <div className='content'>
@@ -80,7 +97,15 @@ const AwardOne = () => {
             >
               <div className='thumb'>
                 <Link href='/'>
-                  <img src='/assets/images/award/ctr.jpg' alt='Image_inner' />
+                  <Image
+                    src='/assets/images/award/ctr.jpg'
+                    alt='Image_inner'
+                    width={1600}
+                    height={1200}
+                    sizes='(min-width: 992px) 42vw, 100vw'
+                    quality={68}
+                    loading='lazy'
+                  />
                 </Link>
               </div>
               <div className='content'>
@@ -107,7 +132,15 @@ const AwardOne = () => {
             >
               <div className='thumb'>
                 <Link href='/'>
-                  <img src='/assets/images/award/fondation.jpg' alt='Image_inner' />
+                  <Image
+                    src='/assets/images/award/fondation.jpg'
+                    alt='Image_inner'
+                    width={888}
+                    height={393}
+                    sizes='(min-width: 992px) 58vw, 100vw'
+                    quality={72}
+                    loading='lazy'
+                  />
                 </Link>
               </div>
               <div className='content'>

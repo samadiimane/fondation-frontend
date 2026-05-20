@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import {useLocale, useTranslations} from "next-intl";
 import {Link} from "@/i18n/navigation";
 import {isRtlLocale} from "@/i18n/config";
@@ -66,9 +67,14 @@ const Footer = () => {
             >
               <div className='footer-two__widget-logo'>
                 <Link href='/'>
-                  <img
+                  <Image
                     src='/assets/images/logo2.png'
                     alt={t("logoAlt")}
+                    width={472}
+                    height={197}
+                    sizes='200px'
+                    quality={75}
+                    loading='lazy'
                     style={{height: "100px", width: "200px", objectFit: "contain"}}
                   />
                 </Link>

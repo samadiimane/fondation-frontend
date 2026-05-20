@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import TrackVisibility from "react-on-screen";
 import CountUp from "react-countup";
 import {useTranslations} from "next-intl";
@@ -52,10 +53,15 @@ const CounterOne = () => {
         </div>
       </div>
       <div className='poor'>
-        <img
+        <Image
           src='/assets/images/counter/old.png'
           alt='Background pattern'
+          fill
+          sizes='100vw'
+          quality={65}
           className='parallax-image'
+          loading='lazy'
+          style={{objectFit: "cover"}}
         />
       </div>
     </section>
