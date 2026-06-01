@@ -6,6 +6,11 @@
 .banner {
   background-color: #062046;
   background-image: linear-gradient(0deg, rgba(8, 10, 37, 0.767), rgba(13, 34, 46, 0.904)), url('/assets/images/banner/old.png');
+  background-image: linear-gradient(0deg, rgba(8, 10, 37, 0.767), rgba(13, 34, 46, 0.904)), image-set(
+    url('/assets/images/banner/old.avif') type('image/avif'),
+    url('/assets/images/banner/old.webp') type('image/webp'),
+    url('/assets/images/banner/old.png') type('image/png')
+  );
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
