@@ -1,7 +1,6 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
-import TopBarTwo from "@/components/TopBarTwo";
 import HistoricalSitesClient from "./HistoricalSitesClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
@@ -29,7 +28,6 @@ const HistoricalSitesPage = async ({ params }) => {
 
   return (
       <section className="page-wrapper">
-        <TopBarTwo />
         <HeaderFour />
 
         <main className="category-section">

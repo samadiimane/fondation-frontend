@@ -1,7 +1,6 @@
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import LibrarySearch from "@/components/LibrarySearch";
-import TopBarTwo from "@/components/TopBarTwo";
 
 export const metadata = {
   title: "AKT research foundation",
@@ -11,8 +10,6 @@ export const metadata = {
 const page = () => {
   return (
       <section className='page-wrapper'>
-        {/* TopBarTwo */}
-        <TopBarTwo />
 
         {/* HeaderFour */}
         <HeaderFour />

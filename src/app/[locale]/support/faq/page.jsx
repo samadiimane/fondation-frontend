@@ -1,6 +1,5 @@
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
-import TopBarTwo from "@/components/TopBarTwo";
 import { getFaqContent } from "@/content/support";
 import { isRtlLocale, locales, normalizeLocale } from "@/i18n/config";
 import { getTranslations } from "next-intl/server";
@@ -75,7 +74,6 @@ const FaqPage = async ({ params }) => {
 
   return (
       <section className='page-wrapper'>
-        <TopBarTwo />
         <HeaderFour />
 
         <main className='support-page' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>

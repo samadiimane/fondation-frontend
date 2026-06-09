@@ -8,6 +8,7 @@ import RouteScrollToTop from '@/helper/RouteScrollToTop';
 import {defaultLocale, locales} from '@/i18n/config';
 import {getMessagesForLocale} from '@/messages';
 import {AuthProvider} from '@/hooks/useAuth';
+import PublicShell from '@/components/PublicShell';
 import QueryProvider from '@/components/providers/QueryProvider';
 import {NextIntlClientProvider} from 'next-intl';
 import {setRequestLocale} from 'next-intl/server';
@@ -27,7 +28,7 @@ export default async function LocaleLayout({children, params}) {
       <QueryProvider>
         <AuthProvider>
           <RouteScrollToTop />
-          {children}
+          <PublicShell>{children}</PublicShell>
         </AuthProvider>
       </QueryProvider>
     </NextIntlClientProvider>

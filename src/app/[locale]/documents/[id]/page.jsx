@@ -5,7 +5,6 @@ import { Link } from "@/i18n/navigation";
 import DocumentDownloadButton from "@/components/documents/DocumentDownloadButton";
 import DocumentPreview from "@/components/documents/DocumentPreview";
 import ExpandableText from "@/components/documents/ExpandableText";
-import TopBarTwo from "@/components/TopBarTwo";
 import { getDocument } from "@/lib/api";
 import { mapAuthors } from "@/lib/authors";
 import { getDocumentTypeLabel } from "@/lib/documentTypes";
@@ -317,7 +316,6 @@ export default async function DocumentDetailPage(context) {
 
   return (
       <section className="page-wrapper" style={{ backgroundColor: "#f7f8fc" }}>
-        <TopBarTwo />
         <HeaderFour />
 
         <main className={detailClassName} lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>

@@ -7,7 +7,6 @@ import FoundationIntro from '@/components/foundation/FoundationIntro';
 import Footer from '@/components/Footer';
 import HeaderFour from '@/components/HeaderFour';
 import Partner from '@/components/Partner';
-import TopBarTwo from '@/components/TopBarTwo';
 import {getLocale, getTranslations} from 'next-intl/server';
 
 export async function generateMetadata() {
@@ -22,7 +21,6 @@ export async function generateMetadata() {
 export default function HomePage() {
   return (
       <section className='page-wrapper'>
-        <TopBarTwo />
         <HeaderFour />
         <main id='main-content'>
           <Banner />

@@ -1,6 +1,5 @@
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
-import TopBarTwo from "@/components/TopBarTwo";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getServiceContent, SERVICE_SLUGS } from "@/content/services";
 import { locales } from "@/i18n/config";
@@ -51,7 +50,6 @@ const ServiceDetailPage = async ({ params }) => {
 
   return (
       <section className='page-wrapper'>
-        <TopBarTwo />
         <HeaderFour />
 
         <section

@@ -2,7 +2,6 @@ import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import IssueArticlesExplorer from "@/components/journals/IssueArticlesExplorer";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import TopBarTwo from "@/components/TopBarTwo";
 import { getJournal, getJournalIssues } from "@/lib/api";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -172,7 +171,6 @@ export default async function IssueArticlesPage(context) {
 
   return (
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
-        <TopBarTwo />
         <HeaderFour />
 
         <main className="issue-articles-page" lang={locale} dir={isRtl ? "rtl" : "ltr"}>

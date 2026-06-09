@@ -1,6 +1,5 @@
 import Footer from '@/components/Footer';
 import HeaderFour from '@/components/HeaderFour';
-import TopBarTwo from '@/components/TopBarTwo';
 import { getCollections } from '@/lib/api';
 import { Link } from '@/i18n/navigation';
 
@@ -24,7 +23,6 @@ const CollectionsPage = async () => {
 
   return (
       <section className='page-wrapper'>
-        <TopBarTwo />
         <HeaderFour />
 
         <main className='collections-page' style={{ padding: '4rem 0' }}>

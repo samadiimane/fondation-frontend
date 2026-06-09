@@ -1,54 +1,22 @@
 "use client";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useRef} from "react";
 import {useLocale, useTranslations} from "next-intl";
 import {usePathname, useRouter} from "@/i18n/navigation";
 import {localeFlagMap, localeLabels, locales} from "@/i18n/config";
 
-const DARK_MODE_STYLESHEET_ID = "dark-mode-stylesheet";
-
-const loadDarkModeStyles = () => {
-  if (document.getElementById(DARK_MODE_STYLESHEET_ID)) {
-    return;
-  }
-
-  const link = document.createElement("link");
-  link.id = DARK_MODE_STYLESHEET_ID;
-  link.rel = "stylesheet";
-  link.href = "/assets/css/dark-mode.css";
-  document.head.appendChild(link);
-};
-
-const TopBarTwo = () => {
+const PublicTopBar = () => {
   const selectRef = useRef(null);
   const wrapperRef = useRef(null);
   const niceInstanceRef = useRef(null);
-  const [dark, setDark] = useState(false);
   const t = useTranslations("topbar");
   const locale = useLocale();
   const router = useRouter();
   const pathname = usePathname();
-
-  const handleDarkVersion = (type) => {
-    const body = document.body;
-    if (type === "dark") {
-      loadDarkModeStyles();
-      body.classList.add("dark-body");
-      setDark(true);
-    } else {
-      body.classList.remove("dark-body");
-      setDark(false);
-    }
-  };
+  const pathnameRef = useRef(pathname);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const isDark = document.body.classList.contains("dark-body");
-      if (isDark) {
-        loadDarkModeStyles();
-      }
-      setDark(isDark);
-    }
-  }, []);
+    pathnameRef.current = pathname;
+  }, [pathname]);
 
   useEffect(() => {
     let isCurrent = true;
@@ -121,7 +89,7 @@ const TopBarTwo = () => {
         const handleChange = (event) => {
           const nextLocale = event.target.value;
           if (nextLocale && nextLocale !== locale) {
-            router.replace(pathname, {locale: nextLocale});
+            router.replace(pathnameRef.current, {locale: nextLocale});
           }
         };
 
@@ -147,12 +115,12 @@ const TopBarTwo = () => {
       niceInstanceRef.current?.destroy?.();
       niceInstanceRef.current = null;
     };
-  }, [locale, pathname, router, t]);
+  }, [locale, router, t]);
 
   return (
-    <div className="topbar two d-none d-lg-block px-4">
+    <div className="topbar two d-none d-xl-block">
       <div className="container">
-        <div className="row align-items-center">
+        <div className="px-3 row align-items-center">
           <div className="col-12 col-lg-6">
             <div className="topbar__list-wrapper">
               <ul className="topbar__list">
@@ -173,16 +141,6 @@ const TopBarTwo = () => {
           </div>
           <div className="col-12 col-lg-6">
             <div className="topbar__items justify-content-end">
-              <button
-                type="button"
-                className="topbar__theme-btn"
-                aria-label={t(dark ? "lightMode" : "darkMode")}
-                title={t(dark ? "lightMode" : "darkMode")}
-                onClick={() => handleDarkVersion(dark ? "light" : "dark")}
-              >
-                <i className={`fa-solid ${dark ? "fa-moon" : "fa-sun"}`} />
-              </button>
-
               <div className="country-select two" ref={wrapperRef}>
                 <select
                   ref={selectRef}
@@ -230,4 +188,4 @@ const TopBarTwo = () => {
   );
 };
 
-export default TopBarTwo;
+export default PublicTopBar;

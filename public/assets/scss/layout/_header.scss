@@ -126,6 +126,55 @@
   }
 }
 
+.topbar.two {
+  .row,
+  .topbar__list,
+  .topbar__items,
+  .social {
+    flex-wrap: nowrap;
+  }
+
+  .topbar__list-wrapper,
+  .topbar__items {
+    min-width: 0;
+  }
+
+  .topbar__list,
+  .topbar__items {
+    gap: clamp(18px, 2vw, 32px);
+    white-space: nowrap;
+  }
+
+  .topbar__list {
+    margin: 0;
+    padding: 0;
+  }
+
+  .topbar__list a {
+    white-space: nowrap;
+  }
+
+  .country-select.two {
+    flex: 0 0 auto;
+    min-inline-size: 124px;
+  }
+
+  .country-select.two .select,
+  .country-select.two .nice-select {
+    white-space: nowrap;
+  }
+
+  .social {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    a {
+      flex: 0 0 auto;
+    }
+  }
+}
+
 // topbar secondary
 .topbar--secondary {
   padding: 0px;
@@ -1293,8 +1342,6 @@
 /* ==== 
  --------- (4.01) header styles end ---------
  ==== */
-
-
 
 
 

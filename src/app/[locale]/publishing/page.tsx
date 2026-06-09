@@ -1,6 +1,5 @@
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
-import TopBarTwo from "@/components/TopBarTwo";
 import PublishingClient from "@/components/publishing/PublishingClient";
 import { getTranslations } from "next-intl/server";
 import { defaultLocale } from "@/i18n/config";
@@ -18,7 +17,6 @@ export async function generateMetadata({ params }: { params: LocaleParams }) {
 
 const PublishingPage = () => (
     <section className="page-wrapper">
-      <TopBarTwo />
       <HeaderFour />
       <PublishingClient />
       <Footer />

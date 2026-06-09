@@ -3,7 +3,6 @@ import HeaderFour from "@/components/HeaderFour";
 import JournalHeader from "@/components/journals/JournalHeader";
 import JournalIssuesExplorer from "@/components/journals/JournalIssuesExplorer";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import TopBarTwo from "@/components/TopBarTwo";
 import {getJournal} from "@/lib/api";
 import {getTranslations} from "next-intl/server";
 import {notFound} from "next/navigation";
@@ -186,7 +185,6 @@ export default async function JournalDetailPage({params}) {
 
   return (
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
-        <TopBarTwo />
         <HeaderFour />
 
         <main className="journal-detail-page" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
