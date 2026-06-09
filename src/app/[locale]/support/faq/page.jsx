@@ -1,9 +1,6 @@
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
-import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
-import AOSWrap from "@/helper/AOSWrap";
-import CustomCursor from "@/helper/CustomCursor";
 import { getFaqContent } from "@/content/support";
 import { isRtlLocale, locales, normalizeLocale } from "@/i18n/config";
 import { getTranslations } from "next-intl/server";
@@ -77,10 +74,7 @@ const FaqPage = async ({ params }) => {
   const heading = splitHeading(title);
 
   return (
-    <AOSWrap>
       <section className='page-wrapper'>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -128,7 +122,6 @@ const FaqPage = async ({ params }) => {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 };
 

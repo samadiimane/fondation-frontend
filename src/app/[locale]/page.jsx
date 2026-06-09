@@ -7,10 +7,7 @@ import FoundationIntro from '@/components/foundation/FoundationIntro';
 import Footer from '@/components/Footer';
 import HeaderFour from '@/components/HeaderFour';
 import Partner from '@/components/Partner';
-import Preloader from '@/components/Preloader';
 import TopBarTwo from '@/components/TopBarTwo';
-import AOSWrap from '@/helper/AOSWrap';
-import CustomCursor from '@/helper/CustomCursor';
 import {getLocale, getTranslations} from 'next-intl/server';
 
 export async function generateMetadata() {
@@ -24,10 +21,7 @@ export async function generateMetadata() {
 
 export default function HomePage() {
   return (
-    <AOSWrap>
       <section className='page-wrapper'>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
         <main id='main-content'>
@@ -41,7 +35,6 @@ export default function HomePage() {
         </main>
         <Footer />
       </section>
-    </AOSWrap>
   );
 }
 

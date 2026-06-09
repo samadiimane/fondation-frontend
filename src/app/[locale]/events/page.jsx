@@ -1,9 +1,6 @@
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
-import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
-import AOSWrap from "@/helper/AOSWrap";
-import CustomCursor from "@/helper/CustomCursor";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import EventsHub from "@/components/events/EventsHub";
 import { getTranslations } from "next-intl/server";
@@ -27,10 +24,7 @@ const EventsPage = async ({ params }) => {
   ];
 
   return (
-    <AOSWrap>
       <section className='page-wrapper'>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -44,7 +38,6 @@ const EventsPage = async ({ params }) => {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 };
 

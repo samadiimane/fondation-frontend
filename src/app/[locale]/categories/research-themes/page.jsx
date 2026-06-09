@@ -2,9 +2,6 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import TopBarTwo from "@/components/TopBarTwo";
-import Preloader from "@/components/Preloader";
-import CustomCursor from "@/helper/CustomCursor";
-import AOSWrap from "@/helper/AOSWrap";
 import ResearchThemesClient from "./ResearchThemesClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
@@ -31,10 +28,7 @@ const ResearchThemesPage = async ({ params }) => {
   const t = await getTranslations({ locale, namespace: "library.researchThemes" });
 
   return (
-    <AOSWrap>
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -53,7 +47,6 @@ const ResearchThemesPage = async ({ params }) => {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 };
 

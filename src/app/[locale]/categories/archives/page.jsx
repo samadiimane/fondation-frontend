@@ -2,9 +2,6 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import TopBarTwo from "@/components/TopBarTwo";
-import Preloader from "@/components/Preloader";
-import CustomCursor from "@/helper/CustomCursor";
-import AOSWrap from "@/helper/AOSWrap";
 import ArchivesClient from "./ArchivesClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
@@ -32,10 +29,7 @@ const ArchivesPage = async ({ params }) => {
   const tCategories = await getTranslations({ locale, namespace: "library.categories" });
 
   return (
-    <AOSWrap>
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -57,7 +51,6 @@ const ArchivesPage = async ({ params }) => {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 };
 

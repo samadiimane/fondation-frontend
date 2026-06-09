@@ -1,9 +1,6 @@
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
-import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
-import AOSWrap from "@/helper/AOSWrap";
-import CustomCursor from "@/helper/CustomCursor";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 
@@ -12,10 +9,7 @@ const EventNotFound = async ({ params }) => {
   const t = await getTranslations({ locale, namespace: "events" });
 
   return (
-    <AOSWrap>
       <section className='page-wrapper'>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
         <section className='support-detail pt-120 pb-120'>
@@ -29,7 +23,6 @@ const EventNotFound = async ({ params }) => {
         </section>
         <Footer />
       </section>
-    </AOSWrap>
   );
 };
 

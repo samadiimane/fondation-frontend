@@ -5,10 +5,7 @@ import { Link } from "@/i18n/navigation";
 import DocumentDownloadButton from "@/components/documents/DocumentDownloadButton";
 import DocumentPreview from "@/components/documents/DocumentPreview";
 import ExpandableText from "@/components/documents/ExpandableText";
-import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
-import AOSWrap from "@/helper/AOSWrap";
-import CustomCursor from "@/helper/CustomCursor";
 import { getDocument } from "@/lib/api";
 import { mapAuthors } from "@/lib/authors";
 import { getDocumentTypeLabel } from "@/lib/documentTypes";
@@ -319,10 +316,7 @@ export default async function DocumentDetailPage(context) {
   breadcrumbItems.push({ label: documentTitle, current: true });
 
   return (
-    <AOSWrap>
       <section className="page-wrapper" style={{ backgroundColor: "#f7f8fc" }}>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -403,6 +397,5 @@ export default async function DocumentDetailPage(context) {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 }

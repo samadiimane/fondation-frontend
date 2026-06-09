@@ -3,10 +3,7 @@ import HeaderFour from "@/components/HeaderFour";
 import JournalHeader from "@/components/journals/JournalHeader";
 import JournalIssuesExplorer from "@/components/journals/JournalIssuesExplorer";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
-import AOSWrap from "@/helper/AOSWrap";
-import CustomCursor from "@/helper/CustomCursor";
 import {getJournal} from "@/lib/api";
 import {getTranslations} from "next-intl/server";
 import {notFound} from "next/navigation";
@@ -188,10 +185,7 @@ export default async function JournalDetailPage({params}) {
     journal.raw?.holdings_note ?? journal.raw?.holding_note ?? journal.raw?.holdings ?? null;
 
   return (
-    <AOSWrap>
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -213,6 +207,5 @@ export default async function JournalDetailPage({params}) {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 }

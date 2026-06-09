@@ -1,10 +1,7 @@
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import JournalsExplorer from "@/components/journals/JournalsExplorer";
-import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
-import AOSWrap from "@/helper/AOSWrap";
-import CustomCursor from "@/helper/CustomCursor";
 import {getTranslations} from "next-intl/server";
 import {defaultLocale} from "@/i18n/config";
 
@@ -83,10 +80,7 @@ export default async function JournalsPage({params}) {
   const strings = buildStrings(t, tPagination);
 
   return (
-    <AOSWrap>
       <section className="page-wrapper">
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -96,6 +90,5 @@ export default async function JournalsPage({params}) {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 }

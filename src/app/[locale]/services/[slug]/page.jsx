@@ -1,9 +1,6 @@
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
-import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
-import AOSWrap from "@/helper/AOSWrap";
-import CustomCursor from "@/helper/CustomCursor";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getServiceContent, SERVICE_SLUGS } from "@/content/services";
 import { locales } from "@/i18n/config";
@@ -53,10 +50,7 @@ const ServiceDetailPage = async ({ params }) => {
   const fallbackMessage = t("fallback");
 
   return (
-    <AOSWrap>
       <section className='page-wrapper'>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -110,7 +104,6 @@ const ServiceDetailPage = async ({ params }) => {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 };
 

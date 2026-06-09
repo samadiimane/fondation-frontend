@@ -1,9 +1,6 @@
 import Footer from '@/components/Footer';
 import HeaderFour from '@/components/HeaderFour';
-import Preloader from '@/components/Preloader';
 import TopBarTwo from '@/components/TopBarTwo';
-import AOSWrap from '@/helper/AOSWrap';
-import CustomCursor from '@/helper/CustomCursor';
 import { getCollections } from '@/lib/api';
 import { Link } from '@/i18n/navigation';
 
@@ -26,10 +23,7 @@ const CollectionsPage = async () => {
   }
 
   return (
-    <AOSWrap>
       <section className='page-wrapper'>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -127,7 +121,6 @@ const CollectionsPage = async () => {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 };
 

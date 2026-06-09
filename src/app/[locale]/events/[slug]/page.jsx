@@ -1,9 +1,6 @@
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
-import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
-import AOSWrap from "@/helper/AOSWrap";
-import CustomCursor from "@/helper/CustomCursor";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import EventDetailView from "@/components/events/EventDetailView";
 import { getEvent } from "@/lib/api";
@@ -46,10 +43,7 @@ const EventDetailPage = async ({ params }) => {
   ];
 
   return (
-    <AOSWrap>
       <section className='page-wrapper'>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -63,7 +57,6 @@ const EventDetailPage = async ({ params }) => {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 };
 

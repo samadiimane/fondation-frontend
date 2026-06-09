@@ -2,10 +2,7 @@ import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
 import IssueArticlesExplorer from "@/components/journals/IssueArticlesExplorer";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import Preloader from "@/components/Preloader";
 import TopBarTwo from "@/components/TopBarTwo";
-import AOSWrap from "@/helper/AOSWrap";
-import CustomCursor from "@/helper/CustomCursor";
 import { getJournal, getJournalIssues } from "@/lib/api";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -174,10 +171,7 @@ export default async function IssueArticlesPage(context) {
   ];
 
   return (
-    <AOSWrap>
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
-        <Preloader />
-        <CustomCursor />
         <TopBarTwo />
         <HeaderFour />
 
@@ -195,6 +189,5 @@ export default async function IssueArticlesPage(context) {
 
         <Footer />
       </section>
-    </AOSWrap>
   );
 }

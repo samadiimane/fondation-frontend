@@ -1,11 +1,8 @@
 import DifferenceTwo from "@/components/DifferenceTwo";
 import Footer from "@/components/Footer";
 import HeaderFour from "@/components/HeaderFour";
-import Preloader from "@/components/Preloader";
 import TeamInner from "@/components/TeamInner";
 import TopBarTwo from "@/components/TopBarTwo";
-import AOSWrap from "@/helper/AOSWrap";
-import CustomCursor from "@/helper/CustomCursor";
 
 export const metadata = {
   title: "AKT research foundation",
@@ -14,14 +11,7 @@ export const metadata = {
 
 const page = () => {
   return (
-    <AOSWrap>
       <section className='page-wrapper'>
-        {/* Preloader */}
-        <Preloader />
-
-        {/* CustomCursor  */}
-        <CustomCursor />
-
         {/* TopBarTwo */}
         <TopBarTwo />
 
@@ -34,7 +24,6 @@ const page = () => {
         {/* Footer */}
         <Footer />
       </section>
-    </AOSWrap>
   );
 };
 
