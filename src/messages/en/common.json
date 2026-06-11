@@ -19,11 +19,6 @@
     "journals": "Journals",
     "darAlNiaba": "Dar Al-Niaba",
     "lesTangerois": "Les Tangerois",
-    "journalsLoading": "Loading journal titles...",
-    "journalsEmpty": "Journal titles will be published shortly.",
-    "journalsAll": "All journals",
-    "libraryLoading": "Loading library sections...",
-    "libraryEmpty": "Additional sections will be published shortly.",
     "publications": "Publications",
     "archives": "Archives & Documentary Heritage",
     "manuscripts": "Manuscripts",
@@ -49,8 +44,7 @@
     "adminLink": "Admin console",
     "committeeLink": "Committee workspace",
     "login": "Log in",
-    "logout": "Log out",
-    "searchPlaceholder": "Search..."
+    "logout": "Log out"
   },
   "Banner": {
     "title": "Advancing Scientific Knowledge for a Better Tomorrow",

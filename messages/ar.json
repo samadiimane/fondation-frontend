@@ -44,13 +44,7 @@
     "adminLink": "لوحة الإدارة",
     "committeeLink": "مساحة اللجنة",
     "login": "تسجيل الدخول",
-    "logout": "تسجيل الخروج",
-    "searchPlaceholder": "ابحث...",
-    "journalsLoading": "جاري تحميل عناوين الدوريات...",
-    "journalsEmpty": "سيتم نشر عناوين الدوريات قريباً.",
-    "journalsAll": "جميع الدوريات",
-    "libraryLoading": "جاري تحميل أقسام المكتبة...",
-    "libraryEmpty": "سيتم نشر مزيد من الأقسام قريباً."
+    "logout": "تسجيل الخروج"
   },
   "footer": {
     "logoAlt": "شعار مؤسسة أبحاث AKT",

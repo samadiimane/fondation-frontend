@@ -19,11 +19,6 @@
     "journals": "Revues",
     "darAlNiaba": "Dar Al-Niaba",
     "lesTangerois": "Les Tangérois",
-    "journalsLoading": "Chargement des titres de revues...",
-    "journalsEmpty": "Les titres de revues seront publiés prochainement.",
-    "journalsAll": "Toutes les revues",
-    "libraryLoading": "Chargement des sections de la bibliothèque...",
-    "libraryEmpty": "Des sections supplémentaires seront publiées prochainement.",
     "publications": "Publications",
     "archives": "Archives & patrimoine documentaire",
     "manuscripts": "Manuscrits",
@@ -49,8 +44,7 @@
     "adminLink": "Console admin",
     "committeeLink": "Espace du comité",
     "login": "Se connecter",
-    "logout": "Se déconnecter",
-    "searchPlaceholder": "Rechercher..."
+    "logout": "Se déconnecter"
   },
   "footer": {
     "logoAlt": "Logo de la Fondation de recherche AKT",
