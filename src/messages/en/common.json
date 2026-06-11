@@ -2,8 +2,6 @@
   "topbar": {
     "email": "AKT_Research_Foundation@gmail.com",
     "phone": "+212 654-396-789",
-    "darkMode": "Dark Mode",
-    "lightMode": "Light Mode",
     "languageLabel": "Language",
     "languagePlaceholder": "Select language"
   },

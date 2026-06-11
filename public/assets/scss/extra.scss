@@ -15,28 +15,6 @@
   }
 }
 
-.search-active.search-popup {
-  -webkit-transform: translateY(0%);
-  -ms-transform: translateY(0%);
-  transform: translateY(0%);
-  margin-top: 0;
-}
-.search-active.search-popup .close-search {
-  visibility: visible;
-  opacity: 1;
-  top: 50%;
-  -webkit-transition-delay: 1500ms;
-  transition-delay: 1500ms;
-}
-
-.search-active.search-popup form {
-  -webkit-transform: scaleX(1);
-  -ms-transform: scaleX(1);
-  transform: scaleX(1);
-  -webkit-transition-delay: 1200ms;
-  transition-delay: 1200ms;
-}
-
 .testimonial-two__inner .slick-slide.slick-active {
   .testimonial-two__single .author-info {
     opacity: 1;
