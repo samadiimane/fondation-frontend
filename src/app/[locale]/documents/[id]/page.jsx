@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { Link } from "@/i18n/navigation";
 import DocumentDownloadButton from "@/components/documents/DocumentDownloadButton";
@@ -316,7 +315,6 @@ export default async function DocumentDetailPage(context) {
 
   return (
       <section className="page-wrapper" style={{ backgroundColor: "#f7f8fc" }}>
-        <HeaderFour />
 
         <main className={detailClassName} lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
           <Breadcrumbs items={breadcrumbItems} ariaLabel={strings.a11y.breadcrumbs} locale={locale} />

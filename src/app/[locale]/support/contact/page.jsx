@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import ContactUsInner from "@/components/ContactUsInner";
 import { getContactContent } from "@/content/support";
 import { isRtlLocale, locales, normalizeLocale } from "@/i18n/config";
@@ -54,7 +53,6 @@ const ContactPage = async ({ params }) => {
 
   return (
       <section className='page-wrapper'>
-        <HeaderFour />
 
         <main className='support-page' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>
           <section className='support-detail'>

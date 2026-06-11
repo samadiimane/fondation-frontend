@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import { getTermsContent } from "@/content/support";
 import { isRtlLocale, locales, normalizeLocale } from "@/i18n/config";
 import { getTranslations } from "next-intl/server";
@@ -50,7 +49,6 @@ const TermsPage = async ({ params }) => {
 
   return (
       <section className='page-wrapper'>
-        <HeaderFour />
 
         <main className='support-page' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>
           <section className='support-detail'>

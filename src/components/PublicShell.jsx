@@ -2,10 +2,11 @@
 
 import {usePathname} from "next/navigation";
 
+import PublicHeader from "@/components/PublicHeader";
 import PublicTopBar from "@/components/PublicTopBar";
 import {locales} from "@/i18n/config";
 
-const TOPBAR_EXCLUDED_SECTIONS = new Set(["admin", "auth"]);
+const PUBLIC_CHROME_EXCLUDED_SECTIONS = new Set(["admin", "auth"]);
 
 const getSectionFromPathname = (pathname = "") => {
   const [firstSegment, secondSegment] = pathname.split("/").filter(Boolean);
@@ -15,11 +16,16 @@ const getSectionFromPathname = (pathname = "") => {
 const PublicShell = ({children}) => {
   const pathname = usePathname();
   const section = getSectionFromPathname(pathname);
-  const showPublicTopBar = !TOPBAR_EXCLUDED_SECTIONS.has(section);
+  const showPublicChrome = !PUBLIC_CHROME_EXCLUDED_SECTIONS.has(section);
 
   return (
     <>
-      {showPublicTopBar && <PublicTopBar />}
+      {showPublicChrome && (
+        <>
+          <PublicTopBar />
+          <PublicHeader />
+        </>
+      )}
       {children}
     </>
   );

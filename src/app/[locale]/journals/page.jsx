@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import JournalsExplorer from "@/components/journals/JournalsExplorer";
 import {getTranslations} from "next-intl/server";
 import {defaultLocale} from "@/i18n/config";
@@ -80,7 +79,6 @@ export default async function JournalsPage({params}) {
 
   return (
       <section className="page-wrapper">
-        <HeaderFour />
 
         <main className="library-journals">
           <JournalsExplorer key={locale} locale={locale} strings={strings} />

@@ -1,6 +1,5 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import ArchivesClient from "./ArchivesClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
@@ -29,7 +28,6 @@ const ArchivesPage = async ({ params }) => {
 
   return (
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
-        <HeaderFour />
 
         <main className="category-section">
           <Breadcrumbs

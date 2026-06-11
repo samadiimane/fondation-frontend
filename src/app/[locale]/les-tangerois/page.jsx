@@ -1,6 +1,5 @@
 import DifferenceTwo from "@/components/DifferenceTwo";
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 
 export const metadata = {
   title: "AKT research foundation",
@@ -10,9 +9,6 @@ export const metadata = {
 const page = () => {
   return (
       <section className='page-wrapper'>
-
-        {/* HeaderFour */}
-        <HeaderFour />
 
         {/* DifferenceTwo*/}
         <DifferenceTwo />

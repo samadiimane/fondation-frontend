@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import EventDetailView from "@/components/events/EventDetailView";
 import { getEvent } from "@/lib/api";
@@ -43,7 +42,6 @@ const EventDetailPage = async ({ params }) => {
 
   return (
       <section className='page-wrapper'>
-        <HeaderFour />
 
         <section className='support-detail pt-120 pb-0'>
           <div className='container'>

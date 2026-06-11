@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import JournalHeader from "@/components/journals/JournalHeader";
 import JournalIssuesExplorer from "@/components/journals/JournalIssuesExplorer";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -185,7 +184,6 @@ export default async function JournalDetailPage({params}) {
 
   return (
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
-        <HeaderFour />
 
         <main className="journal-detail-page" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
           <Breadcrumbs items={breadcrumbsItems} ariaLabel={t("a11y.breadcrumbs")} locale={locale} />

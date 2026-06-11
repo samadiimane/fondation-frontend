@@ -1,6 +1,5 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import ResearchThemesClient from "./ResearchThemesClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
@@ -28,7 +27,6 @@ const ResearchThemesPage = async ({ params }) => {
 
   return (
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
-        <HeaderFour />
 
         <main className="category-section">
           <Breadcrumbs

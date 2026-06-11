@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import AssistantClient from "@/components/assistant/AssistantClient";
 import { getTranslations } from "next-intl/server";
 import { defaultLocale } from "@/i18n/config";
@@ -17,7 +16,6 @@ export async function generateMetadata({ params }: { params: LocaleParams }) {
 
 const AdvancedSearchPage = () => (
     <section className="page-wrapper">
-      <HeaderFour />
       <AssistantClient />
       <Footer />
     </section>

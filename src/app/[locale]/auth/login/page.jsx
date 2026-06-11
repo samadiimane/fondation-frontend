@@ -3,7 +3,7 @@
 import {useEffect, useState} from "react";
 import {useTranslations} from "next-intl";
 
-import HeaderFour from "@/components/HeaderFour";
+import PublicHeader from "@/components/PublicHeader";
 import {Link, useRouter} from "@/i18n/navigation";
 import useAuth from "@/hooks/useAuth";
 
@@ -98,7 +98,7 @@ export default function LoginPage() {
 
   return (
     <>
-      <HeaderFour />
+      <PublicHeader />
       <main className='py-5 py-md-5 bg-light'>
         <div className='container'>
           <div className='row justify-content-center'>

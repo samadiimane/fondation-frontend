@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import IssueArticlesExplorer from "@/components/journals/IssueArticlesExplorer";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getJournal, getJournalIssues } from "@/lib/api";
@@ -171,7 +170,6 @@ export default async function IssueArticlesPage(context) {
 
   return (
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
-        <HeaderFour />
 
         <main className="issue-articles-page" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
           <Breadcrumbs items={breadcrumbsItems} ariaLabel={t("a11y.breadcrumbs")} locale={locale} />

@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import { Link } from "@/i18n/navigation";
 import { getTranslations } from "next-intl/server";
 
@@ -9,7 +8,6 @@ const EventNotFound = async ({ params }) => {
 
   return (
       <section className='page-wrapper'>
-        <HeaderFour />
         <section className='support-detail pt-120 pb-120'>
           <div className='container text-center'>
             <h1 className='title-animation_inner'>{t("title")}</h1>

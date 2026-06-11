@@ -1,6 +1,5 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import PublicationsClient from "./PublicationsClient";
 import { getCategory } from "@/lib/api";
 import { notFound } from "next/navigation";
@@ -28,7 +27,6 @@ const PublicationsPage = async ({ params }) => {
 
   return (
       <section className="page-wrapper">
-        <HeaderFour />
 
         <main className="category-section">
           <Breadcrumbs

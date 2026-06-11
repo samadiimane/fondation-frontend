@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import LibrarySearch from "@/components/LibrarySearch";
 
 export const metadata = {
@@ -10,9 +9,6 @@ export const metadata = {
 const page = () => {
   return (
       <section className='page-wrapper'>
-
-        {/* HeaderFour */}
-        <HeaderFour />
 
         {/* LibrarySearch */}
         <LibrarySearch />

@@ -1,6 +1,5 @@
 import DifferenceTwo from "@/components/DifferenceTwo";
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import TeamInner from "@/components/TeamInner";
 
 export const metadata = {
@@ -11,9 +10,6 @@ export const metadata = {
 const page = () => {
   return (
       <section className='page-wrapper'>
-
-        {/* HeaderFour */}
-        <HeaderFour />
 
         {/* TeamInner */}
         <TeamInner/>

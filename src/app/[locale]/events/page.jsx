@@ -1,5 +1,4 @@
 import Footer from "@/components/Footer";
-import HeaderFour from "@/components/HeaderFour";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import EventsHub from "@/components/events/EventsHub";
 import { getTranslations } from "next-intl/server";
@@ -24,7 +23,6 @@ const EventsPage = async ({ params }) => {
 
   return (
       <section className='page-wrapper'>
-        <HeaderFour />
 
         <section className='support-detail pt-120 pb-0'>
           <div className='container'>

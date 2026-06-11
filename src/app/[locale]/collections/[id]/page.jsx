@@ -1,5 +1,4 @@
 import Footer from '@/components/Footer';
-import HeaderFour from '@/components/HeaderFour';
 import CollectionDocumentsSection from '@/components/CollectionDocumentsSection';
 import { getCollectionDocuments, getCollections } from '@/lib/api';
 import { notFound } from 'next/navigation';
@@ -46,7 +45,6 @@ const CollectionDetailPage = async ({ params }) => {
 
   return (
       <section className='page-wrapper'>
-        <HeaderFour />
 
         <CollectionDocumentsSection
           collectionId={id}

@@ -5,7 +5,6 @@ import CounterOne from '@/components/CounterOne';
 import ServicesHome from '@/components/ServicesHome';
 import FoundationIntro from '@/components/foundation/FoundationIntro';
 import Footer from '@/components/Footer';
-import HeaderFour from '@/components/HeaderFour';
 import Partner from '@/components/Partner';
 import {getLocale, getTranslations} from 'next-intl/server';
 
@@ -21,7 +20,6 @@ export async function generateMetadata() {
 export default function HomePage() {
   return (
       <section className='page-wrapper'>
-        <HeaderFour />
         <main id='main-content'>
           <Banner />
           <FoundationIntro />

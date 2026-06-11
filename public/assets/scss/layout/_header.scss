@@ -359,15 +359,22 @@
   }
 
   .navbar__item {
-    a {
+    a,
+    > button {
+      background-color: transparent;
+      border: 0px;
       font-size: 18px;
       font-weight: 600;
+      font-family: inherit;
       text-transform: capitalize;
       padding: clamp(10px, 1vw, 15px) clamp(8px, 1vw, 10px);
       width: auto;
       line-height: 1;
       white-space: nowrap;
       color: #16171a;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
 
       &:hover {
         color: var(--hover-color);
@@ -774,6 +781,19 @@
   inset-inline-start: 0px;
   inset-inline-end: 0px;
 
+  .navbar {
+    column-gap: clamp(12px, 1.5vw, 24px);
+  }
+
+  .navbar__menu {
+    min-width: 0;
+  }
+
+  .navbar__list {
+    margin-inline: 0px;
+    white-space: nowrap;
+  }
+
   .select {
     background-color: transparent;
     border-radius: 0px;
@@ -844,6 +864,8 @@
     gap: 10px;
 
     .btn--secondary {
+      white-space: nowrap;
+
       i {
         transform: rotate(-45deg);
         transition: transform 0.5s ease, color 0s ease;
@@ -1080,7 +1102,10 @@
     width: 100%;
     transition: var(--transition);
 
-    a {
+    a,
+    > button {
+      background-color: transparent;
+      border: 0px;
       color: var(--black);
       padding-block: 20px;
       padding-inline: 40px 80px;
@@ -1090,6 +1115,7 @@
       width: 100%;
       position: relative;
       font-weight: 700;
+      text-align: start;
       &:hover {
         color: var(--hover-color);
       }
@@ -1097,6 +1123,15 @@
         transition: none;
       }
     }
+  }
+
+  .navbar__text {
+    display: block;
+    color: var(--black);
+    padding: 20px 40px;
+    font-size: 16px;
+    line-height: 1.4;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   }
 
   .nav-fade {
@@ -1183,6 +1218,10 @@
         }
       }
     }
+  }
+
+  .navbar__sub-menu.show {
+    max-height: none;
   }
 
   .mobile-menu__options {
@@ -1342,10 +1381,6 @@
 /* ==== 
  --------- (4.01) header styles end ---------
  ==== */
-
-
-
-
 
 
 
