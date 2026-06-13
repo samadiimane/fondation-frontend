@@ -158,7 +158,8 @@
   .difference-two__thumb {
     text-align: end;
     position: relative;
-    min-width: 30vw;
+    min-width: 0;
+    width: min(100%, 500px);
     direction: ltr;
     .thumb-lg {
       display: inline-block;
@@ -167,8 +168,8 @@
       border-radius: 30px;
       position: relative;
       z-index: 1;
-      width: 500px;
-      height: 400px;
+      width: min(100%, 500px);
+      aspect-ratio: 888 / 533;
       img {
         border-radius: 30px;
         width: 100%;
@@ -197,8 +198,8 @@
       bottom: 0px;
       inset-inline-end: 0px;
       z-index: 2;
-      width: 250px;
-      height: 250px;
+      width: min(45%, 250px);
+      aspect-ratio: 1;
 
       img {
         border: 8px solid var(--white);
@@ -235,32 +236,47 @@
         color: var(--base-color);
       }
     }
+
+    p {
+      font-size: clamp(18px, 1.3vw, 22px);
+      line-height: 1.75;
+      max-width: 760px;
+    }
   }
 
   .difference-two__inner {
     display: flex;
     gap: 24px;
     flex-direction: column;
+    width: 100%;
+    min-width: 0;
   }
 
   .difference-two__inner-content {
     flex-grow: 1;
   }
 
+  .difference-two__tab {
+    width: 100%;
+    min-width: 0;
+  }
+
   .difference-two__tab-btns {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: center;
     gap: 12px;
-    justify-content: space-between;
-    flex-wrap: wrap;
+    width: 100%;
+    min-width: 0;
     border-bottom: 1px solid #dedede;
     position: relative;
     padding-bottom: 16px;
 
     .difference-two__tab-btn {
-      padding: 12px 30px;
+      padding: 15px 30px;
       border-radius: 40px;
-      flex-grow: 1;
+      width: 100%;
+      min-width: 0;
       font-weight: 700;
       color: var(--secondary-color);
       justify-content: center;
@@ -278,20 +294,32 @@
 
   .difference-two__tab-content {
     margin-top: 30px;
+    width: 100%;
+    min-width: 0;
+
+    .difference-two__content-single {
+      width: 100%;
+      min-width: 0;
+    }
+
+    ul {
+      display: grid;
+      gap: 10px;
+    }
 
     li {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: 12px;
       font-weight: 600;
       color: #696969;
-      margin-bottom: 6px;
-      &:nth-last-of-type(1) {
-        margin-bottom: 0px;
-      }
+      line-height: 1.6;
+      text-align: start;
       i {
+        flex: 0 0 auto;
         color: var(--base-color);
         font-size: 20px;
+        margin-top: 3px;
       }
     }
   }

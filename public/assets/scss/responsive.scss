@@ -402,6 +402,7 @@
     .difference-two__inner {
       flex-direction: row;
     }
+
     .difference-two__card {
       display: block;
       width: 200px;
@@ -938,6 +939,10 @@
     .difference-two__content {
       padding-inline-start: 30px;
     }
+
+    .difference-two__tab-btns {
+      gap: 8px;
+    }
   }
 
   .cta-section-two {
@@ -1240,6 +1245,35 @@
     h1 {
       font-size: 24px;
       line-height: 34px;
+    }
+  }
+
+  .difference-two {
+    padding: 50px 0px;
+
+    .difference-two__content {
+      h2 {
+        font-size: 30px;
+        line-height: 40px;
+      }
+    }
+
+    .difference-two__inner {
+      margin-top: 28px;
+    }
+
+    .difference-two__tab-btns {
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding-bottom: 12px;
+
+      .difference-two__tab-btn {
+        padding: 12px 18px;
+      }
+    }
+
+    .difference-two__tab-content {
+      margin-top: 22px;
     }
   }
 }

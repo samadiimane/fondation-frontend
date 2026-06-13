@@ -1,6 +1,7 @@
 {
   "titleShort": "Bienvenue à la Fondation",
   "tabs": {
+    "ariaLabel": "Sections de présentation de la Fondation",
     "mission": "Notre mission",
     "vision": "Notre vision",
     "excellence": "Excellence"

@@ -1,8 +1,8 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
-import {useState} from "react";
-import ModalVideo from "react-modal-video";
+import {useId, useState} from "react";
 import {useLocale, useTranslations} from "next-intl";
 
 import {getFoundationIntroContent} from "@/content/foundationIntro";
@@ -11,29 +11,30 @@ import {Link} from "@/i18n/navigation";
 
 const TAB_KEYS = ["mission", "vision", "excellence"];
 
+const ModalVideo = dynamic(() => import("react-modal-video"), {ssr: false});
+
 const FoundationIntro = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState(TAB_KEYS[0]);
+  const idPrefix = useId();
   const locale = useLocale();
   const t = useTranslations("foundation-intro");
   const content = getFoundationIntroContent(locale);
   const isRtl = isRtlLocale(locale);
-
-  const currentBullets = content.tabs[activeTab] || [];
+  const ctaIconClass = `fa-solid ${isRtl ? "fa-arrow-left" : "fa-arrow-right"}`;
+  const tablistId = `${idPrefix}-foundation-intro-tabs`;
+  const getTabId = (key) => `${idPrefix}-foundation-intro-tab-${key}`;
+  const getPanelId = (key) => `${idPrefix}-foundation-intro-panel-${key}`;
 
   return (
     <>
-      <section className='difference-two' dir={isRtl ? "rtl" : "ltr"}>
+      <section className='difference-two' dir={isRtl ? "rtl" : "ltr"} lang={locale}>
         <div className='container'>
           <div className='row gutter-40 align-items-center'>
             <div className='col-12 col-lg-3 col-xxl-5 d-none d-lg-block'>
               <div className='difference-two__thumb-wrapper'>
                 <div className='difference-two__thumb'>
-                  <div
-                    className='thumb-lg'
-                    data-aos='fade-right'
-                    data-aos-duration={1000}
-                  >
+                  <div className='thumb-lg'>
                     <Image
                       src={content.images.primary}
                       alt={t("aria.primaryImage")}
@@ -45,20 +46,16 @@ const FoundationIntro = () => {
                     />
                     <div className='video-btn-wrapper'>
                       <button
+                        type='button'
                         onClick={() => setIsOpen(true)}
                         className='open-video-popup'
                         aria-label={t("aria.openVideo")}
                       >
-                        <i className='icon-play' />
+                        <i className='icon-play' aria-hidden='true' />
                       </button>
                     </div>
                   </div>
-                  <div
-                    className='thumb-sm'
-                    data-aos='fade-up'
-                    data-aos-duration={1000}
-                    data-aos-delay={300}
-                  >
+                  <div className='thumb-sm'>
                     <Image
                       src={content.images.secondary}
                       alt={t("aria.secondaryImage")}
@@ -76,7 +73,7 @@ const FoundationIntro = () => {
               <div className='difference-two__tab'>
                 <div className='difference-two__content'>
                   <h2 className='title-animation_inner'>
-                    <span>{t("titleShort")}</span> {content.heroTitle}
+                    <span>{t("titleShort")}</span>
                   </h2>
                   {content.intro.map((paragraph, index) => (
                     <p key={index}>{paragraph}</p>
@@ -84,13 +81,22 @@ const FoundationIntro = () => {
 
                   <div className='difference-two__inner cta'>
                     <div className='difference-two__tab'>
-                      <div className='difference-two__tab-btns'>
+                      <div
+                        className='difference-two__tab-btns'
+                        role='tablist'
+                        id={tablistId}
+                        aria-label={t("tabs.ariaLabel")}
+                      >
                         {TAB_KEYS.map((key) => (
                           <button
                             key={key}
+                            type='button'
+                            id={getTabId(key)}
                             className={`difference-two__tab-btn ${activeTab === key ? "active" : ""}`}
                             onClick={() => setActiveTab(key)}
-                            aria-label={t(`tabs.${key}`)}
+                            role='tab'
+                            aria-selected={activeTab === key}
+                            aria-controls={getPanelId(key)}
                             title={t(`tabs.${key}`)}
                           >
                             {t(`tabs.${key}`)}
@@ -99,15 +105,24 @@ const FoundationIntro = () => {
                       </div>
 
                       <div className='difference-two__tab-content'>
-                        <div className='difference-two__content-single' id={activeTab}>
-                          <ul>
-                            {currentBullets.map((bullet) => (
-                              <li key={bullet}>
-                                <i className='fa-solid fa-check' /> {bullet}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                        {TAB_KEYS.map((key) => (
+                          <div
+                            key={key}
+                            className='difference-two__content-single'
+                            id={getPanelId(key)}
+                            role='tabpanel'
+                            aria-labelledby={getTabId(key)}
+                            hidden={activeTab !== key}
+                          >
+                            <ul>
+                              {(content.tabs[key] || []).map((bullet) => (
+                                <li key={bullet}>
+                                  <i className='fa-solid fa-check' aria-hidden='true' /> {bullet}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
@@ -119,10 +134,10 @@ const FoundationIntro = () => {
                       aria-label={t("cta.foundation")}
                       style={{borderRadius: "999px"}}
                     >
-                      {t("cta.foundation")} <i className='fa-solid fa-arrow-right' />
+                      {t("cta.foundation")} <i className={ctaIconClass} aria-hidden='true' />
                     </Link>
                     <Link href='/dr-temsamani' className='btn--secondary' aria-label={t("cta.founder")}>
-                      {t("cta.founder")} <i className='fa-solid fa-arrow-right' />
+                      {t("cta.founder")} <i className={ctaIconClass} aria-hidden='true' />
                     </Link>
                   </div>
                 </div>

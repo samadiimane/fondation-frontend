@@ -1,6 +1,7 @@
 {
   "titleShort": "Welcome to the Foundation",
   "tabs": {
+    "ariaLabel": "Foundation introduction sections",
     "mission": "Our Mission",
     "vision": "Our Vision",
     "excellence": "Excellence"
