@@ -69,27 +69,8 @@
     "subtitle": "We connect researchers, preserve knowledge, and support innovation, ensuring that discoveries continue to benefit future generations.",
     "ctaPrimary": "Publish Your Work",
     "ctaSecondary": "Explore the Library",
-    "ctaPrimaryAria": "About us",
-    "ctaSecondaryAria": "Open the library",
-    "altKasbah": "Kasbah of Tangier",
-    "altGrotto": "Hercules Caves",
-    "altPort": "Tangier Port",
-    "altLighthouse": "Cap Spartel Lighthouse",
-    "altAtlas": "Rif and Atlas mountains",
-    "slides": [
-      {
-        "title": "Advancing Scientific Knowledge for a Better Tomorrow",
-        "subtitle": "We connect researchers, preserve knowledge, and support innovation, ensuring that discoveries continue to benefit future generations."
-      },
-      {
-        "title": "Preserving Tangier's Heritage for Researchers Everywhere",
-        "subtitle": "Open access to archives, landmarks, and collections so scholars can explore Morocco's past."
-      },
-      {
-        "title": "Supporting Researchers at Every Stage",
-        "subtitle": "From publishing guidance to library resources, we equip teams to share discoveries with the world."
-      }
-    ]
+    "ctaPrimaryAria": "Publish your work",
+    "ctaSecondaryAria": "Open the library"
   },
   "admin": {
     "dashboardTitle": "Admin dashboard",

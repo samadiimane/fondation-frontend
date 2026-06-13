@@ -69,27 +69,8 @@
     "subtitle": "Nous mettons en relation les chercheurs, préservons le savoir et soutenons l’innovation afin que les découvertes bénéficient aux générations futures.",
     "ctaPrimary": "Publier vos travaux",
     "ctaSecondary": "Explorer la bibliothèque",
-    "ctaPrimaryAria": "À propos de nous",
-    "ctaSecondaryAria": "Ouvrir la bibliothèque",
-    "altKasbah": "Kasbah de Tanger",
-    "altGrotto": "Grottes d’Hercule",
-    "altPort": "Port de Tanger",
-    "altLighthouse": "Phare du Cap Spartel",
-    "altAtlas": "Chaînes du Rif et de l’Atlas",
-    "slides": [
-      {
-        "title": "Faire avancer la connaissance scientifique pour un avenir meilleur",
-        "subtitle": "Nous mettons en relation les chercheurs, préservons le savoir et soutenons l’innovation afin que les découvertes bénéficient aux générations futures."
-      },
-      {
-        "title": "Préserver le patrimoine de Tanger pour les chercheurs du monde entier",
-        "subtitle": "Accès ouvert aux archives, sites et collections pour explorer l’histoire du Maroc."
-      },
-      {
-        "title": "Accompagner les chercheurs à chaque étape",
-        "subtitle": "Guides de publication et ressources documentaires pour partager vos découvertes avec le monde."
-      }
-    ]
+    "ctaPrimaryAria": "Publier vos travaux",
+    "ctaSecondaryAria": "Ouvrir la bibliothèque"
   },
   "admin": {
     "dashboardTitle": "Tableau de bord admin",

@@ -6,6 +6,7 @@ import ServicesHome from '@/components/ServicesHome';
 import FoundationIntro from '@/components/foundation/FoundationIntro';
 import Footer from '@/components/Footer';
 import Partner from '@/components/Partner';
+import {defaultLocale, normalizeLocale} from '@/i18n/config';
 import {getLocale, getTranslations} from 'next-intl/server';
 
 export async function generateMetadata() {
@@ -17,11 +18,14 @@ export async function generateMetadata() {
   };
 }
 
-export default function HomePage() {
+export default async function HomePage({params}) {
+  const resolvedParams = await params;
+  const locale = normalizeLocale(resolvedParams?.locale ?? defaultLocale);
+
   return (
       <section className='page-wrapper'>
         <main id='main-content'>
-          <Banner />
+          <Banner locale={locale} />
           <FoundationIntro />
           <ServicesHome />
           <CounterOne />
@@ -33,4 +37,3 @@ export default function HomePage() {
       </section>
   );
 }
-
