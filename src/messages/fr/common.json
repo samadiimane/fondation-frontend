@@ -82,9 +82,7 @@
     }
   },
   "partners": {
-    "headingPrefix": "Plus de",
-    "headingSuffix": "institutions académiques dont les chercheurs ont contribué",
-    "logoAlt": "Logo partenaire"
+    "title": "Partenariats académiques et institutionnels"
   },
   "footer": {
     "logoAlt": "Logo de la Fondation de recherche AKT",

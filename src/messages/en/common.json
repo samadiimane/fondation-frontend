@@ -82,9 +82,7 @@
     }
   },
   "partners": {
-    "headingPrefix": "Over",
-    "headingSuffix": "Academic Institutions Whose Scholars Have Contributed",
-    "logoAlt": "Partner logo"
+    "title": "Academic & Institutional Partnerships"
   },
   "footer": {
     "logoAlt": "AKT Research Foundation logo",

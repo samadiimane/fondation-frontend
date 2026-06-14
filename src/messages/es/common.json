@@ -82,9 +82,7 @@
     }
   },
   "partners": {
-    "headingPrefix": "Más de",
-    "headingSuffix": "instituciones académicas cuyos investigadores han contribuido",
-    "logoAlt": "Logotipo de socio"
+    "title": "Alianzas académicas e institucionales"
   },
   "footer": {
     "logoAlt": "Logotipo de la Fundación de Investigación AKT",

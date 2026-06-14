@@ -82,9 +82,7 @@
     }
   },
   "partners": {
-    "headingPrefix": "أكثر من",
-    "headingSuffix": "مؤسسة أكاديمية ساهم باحثوها",
-    "logoAlt": "شعار شريك"
+    "title": "شراكات أكاديمية ومؤسسية"
   },
   "footer": {
     "logoAlt": "شعار مؤسسة أبحاث AKT",

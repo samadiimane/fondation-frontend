@@ -1028,21 +1028,6 @@
   }
 }
 
-.fc-partner {
-  background-color: transparent;
-  h5 {
-    margin-bottom: 30px;
-    font-weight: 700;
-    div {
-      line-height: 1 !important;
-    }
-
-    span {
-      color: var(--base-color);
-    }
-  }
-}
-
 .fc-team {
   background: #222223;
   position: relative;
@@ -2286,23 +2271,6 @@
       transform: rotate(-45deg);
       transition: var(--transition);
       margin-bottom: -3px;
-    }
-  }
-}
-
-.cf-p {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-  .th-t {
-    position: absolute;
-    top: 100px;
-    left: 0px;
-    z-index: -1;
-    img {
-      animation: moveTopBottom 5s linear infinite;
-      max-width: 10vw;
-      min-width: 40px;
     }
   }
 }
