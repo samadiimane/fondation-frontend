@@ -1,6 +1,18 @@
 {
-  "activeResearchers": "Chercheurs actifs",
-  "fundingDistributed": "Financement de recherche distribué",
-  "papersPublished": "Articles de recherche publiés",
-  "awardsWon": "Prix remportés"
+  "title": "Repères de la plateforme",
+  "subtitle": "Quatre axes orientent le travail académique de la Fondation : préserver le patrimoine, structurer les questions de recherche, soutenir la publication et accompagner les chercheurs.",
+  "items": {
+    "heritage": {
+      "title": "Patrimoine documentaire numérisé"
+    },
+    "research": {
+      "title": "Thèmes et problématiques de recherche"
+    },
+    "publications": {
+      "title": "Revues et publications"
+    },
+    "support": {
+      "title": "Services d'appui académique"
+    }
+  }
 }

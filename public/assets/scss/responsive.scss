@@ -59,12 +59,6 @@
     }
   }
 
-  .counter {
-    .counter__single {
-      width: calc(50% - 8px);
-    }
-  }
-
   .testimonial-three {
     .testimonial-three__single {
       flex-direction: row;
@@ -630,17 +624,6 @@
   .rtl {
     .help-three .section__header h2 {
       text-align: end !important;
-    }
-  }
-
-  .counter {
-    .counter__single {
-      height: 100%;
-      width: auto;
-    }
-    .divider {
-      display: block;
-      height: 100%;
     }
   }
 

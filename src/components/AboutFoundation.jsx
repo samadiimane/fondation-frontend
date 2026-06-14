@@ -6,7 +6,7 @@ import {useLocale} from "next-intl";
 import {getAboutFoundationContent} from "@/content/aboutFoundation";
 import {isRtlLocale} from "@/i18n/config";
 import {Link} from "@/i18n/navigation";
-import CounterOne from "./CounterOne";
+import Counter from "./Counter";
 import Partner from "./Partner";
 
 const AboutFoundation = () => {
@@ -150,8 +150,8 @@ const AboutFoundation = () => {
       </section>
 
 
-      {/* CounterOne */}
-      <CounterOne />
+      {/* Counter */}
+      <Counter />
 
 
       {/* Partner */}

@@ -1,7 +1,7 @@
 import AwardOne from '@/components/AwardOne';
 import Banner from '@/components/Banner';
 import LatestDocuments from '@/components/LatestDocuments';
-import CounterOne from '@/components/CounterOne';
+import Counter from '@/components/Counter';
 import ServicesHome from '@/components/ServicesHome';
 import FoundationIntro from '@/components/foundation/FoundationIntro';
 import Footer from '@/components/Footer';
@@ -28,7 +28,7 @@ export default async function HomePage({params}) {
           <Banner locale={locale} />
           <FoundationIntro />
           <ServicesHome />
-          <CounterOne />
+          <Counter />
           <LatestDocuments />
           <Partner />
           <AwardOne />

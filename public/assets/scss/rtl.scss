@@ -346,12 +346,6 @@ html[dir='rtl'] .rtl {
   }
 
   .counter {
-    .counter__single {
-      h2 {
-        direction: ltr;
-      }
-    }
-
     .poor {
       &::before {
         background: linear-gradient(
@@ -365,12 +359,6 @@ html[dir='rtl'] .rtl {
           #091f1b 95.2%,
           rgba(9, 31, 27, 0.91) 103.44%
         );
-      }
-    }
-
-    .shape-left {
-      img {
-        scale: -1 1;
       }
     }
   }

@@ -1,6 +1,18 @@
 {
-  "activeResearchers": "Active Researchers",
-  "fundingDistributed": "Research Funding Distributed",
-  "papersPublished": "Research Papers Published",
-  "awardsWon": "Awards won"
+  "title": "Platform highlights",
+  "subtitle": "Four areas that guide the Foundation's academic work: preserving heritage, organizing research questions, supporting publication, and accompanying researchers.",
+  "items": {
+    "heritage": {
+      "title": "Digitized documentary heritage"
+    },
+    "research": {
+      "title": "Research themes and problematics"
+    },
+    "publications": {
+      "title": "Journals and publications"
+    },
+    "support": {
+      "title": "Academic support services"
+    }
+  }
 }
