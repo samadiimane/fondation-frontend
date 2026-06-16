@@ -1,5 +1,5 @@
 "use client";
-import {useState} from "react";
+import Image from "next/image";
 import {useLocale} from "next-intl";
 
 import {getAboutDoctorContent} from "@/content/aboutDoctor";
@@ -7,7 +7,6 @@ import {isRtlLocale} from "@/i18n/config";
 import {Link} from "@/i18n/navigation";
 
 const AboutDoctor = () => {
-  const [activeSection, setActiveSection] = useState("biography");
   const locale = useLocale();
   const content = getAboutDoctorContent(locale);
   const isRtl = isRtlLocale(locale);
@@ -15,62 +14,41 @@ const AboutDoctor = () => {
   const timelineClass = `timeline${isRtl ? " timeline-rtl" : ""}`;
   const badgeClass = `timeline-badge${isRtl ? " timeline-badge-rtl" : ""}`;
 
-  const scrollToSection = (sectionId) => {
-    setActiveSection(sectionId);
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({behavior: "smooth"});
-    }
-  };
-
   return (
     <>
       {/* Main Hero Section */}
-      <section className='difference-two' dir={isRtl ? "rtl" : "ltr"}>
+      <section className='doctor-hero' dir={isRtl ? "rtl" : "ltr"}>
         <div className='container'>
           <div className='row gutter-40 align-items-center'>
-            <div className='col-12 col-lg-4 col-xxl-4'>
-              <div className='difference-two__thumb-wrapper'>
-                <div
-                  className='thumb-lg'
-                  data-aos='fade-right'
-                  data-aos-duration={600}
-                >
-                  <img
+            <div className='col-12 col-md-5 col-lg-4 col-xxl-4'>
+              <div className='doctor-hero__media'>
+                <div className='doctor-hero__portrait'>
+                  <Image
                     src='/assets/images/difference/temsamani.png'
-                    alt={content.hero.name}
+                    alt={content.hero.imageAlt ?? content.hero.name}
+                    width={540}
+                    height={650}
+                    sizes='(min-width: 1200px) 360px, (min-width: 992px) 32vw, (min-width: 768px) 34vw, 82vw'
+                    priority
+                    className='doctor-hero__image'
                   />
-                </div>
-                <div
-                  className={`doctor-info-card ${isRtl ? "doctor-info-rtl" : "doctor-info-ltr"}`}
-                  data-aos='fade-up'
-                  data-aos-duration={600}
-                  data-aos-delay={100}
-                >
-                  <div className='info-item'>
-                    <i className='fa-solid fa-clock'></i>
-                    <span>{content.hero.lifespan}</span>
-                  </div>
-                  <div className='info-item'>
-                    <i className='fa-solid fa-map-marker-alt'></i>
-                    <span>{content.hero.birthplace}</span>
-                  </div>
-                  <div className='info-item'>
-                    <i className='fa-solid fa-graduation-cap'></i>
-                    <span>{content.hero.degree}</span>
-                  </div>
                 </div>
               </div>
             </div>
-            <div className='col-12 col-lg-8 col-xxl-8'>
-              <div className='difference-two__tab'>
-                <div className='difference-two__content'>
+            <div className='col-12 col-md-7 col-lg-8 col-xxl-8'>
+              <div className='doctor-hero__body'>
+                <div className='doctor-hero__content'>
+                  {content.hero.eyebrow ? (
+                    <p className={`doctor-hero__eyebrow ${textAlignClass}`}>
+                      {content.hero.eyebrow}
+                    </p>
+                  ) : null}
                   <h2 className='title-animation_inner'>
                     <span>{content.hero.title}</span> {content.hero.name}
                   </h2>
                   <p className={`doctor-subtitle ${textAlignClass}`}>{content.hero.subtitle}</p>
                   {content.hero.intro.map((paragraph, index) => (
-                    <p key={`hero-intro-${index}`} className={`mb-4 ${textAlignClass}`}>
+                    <p key={`hero-intro-${index}`} className={`doctor-hero__intro ${textAlignClass}`}>
                       {paragraph}
                     </p>
                   ))}
@@ -80,37 +58,10 @@ const AboutDoctor = () => {
                       target='_blank'
                       rel='noopener noreferrer'
                       className='btn--secondary'
+                      aria-label={content.hero.ctaLabel}
                     >
                       {content.hero.ctaLabel}
                     </a>
-                  </div>
-
-                  {/* Navigation Buttons */}
-                  <div className='doctor-navigation'>
-                    <button
-                      className={`nav-btn ${activeSection === "biography" ? "active" : ""}`}
-                      onClick={() => scrollToSection("biography")}
-                    >
-                      {content.nav.biography}
-                    </button>
-                    <button
-                      className={`nav-btn ${activeSection === "research" ? "active" : ""}`}
-                      onClick={() => scrollToSection("research")}
-                    >
-                      {content.nav.research}
-                    </button>
-                    <button
-                      className={`nav-btn ${activeSection === "publications" ? "active" : ""}`}
-                      onClick={() => scrollToSection("publications")}
-                    >
-                      {content.nav.publications}
-                    </button>
-                    <button
-                      className={`nav-btn ${activeSection === "testimonials" ? "active" : ""}`}
-                      onClick={() => scrollToSection("testimonials")}
-                    >
-                      {content.nav.testimonials}
-                    </button>
                   </div>
                 </div>
               </div>
@@ -118,6 +69,44 @@ const AboutDoctor = () => {
           </div>
         </div>
       </section>
+
+      {content.formation ? (
+        <section id='formation' className='doctor-formation' dir={isRtl ? "rtl" : "ltr"}>
+          <div className='container'>
+            <div className='row justify-content-center'>
+              <div className='col-12 col-lg-10'>
+                <div className='section__header text-center'>
+                  <p className='doctor-formation__subtitle'>{content.formation.subtitle}</p>
+                  <h2 className='title-animation_inner'>{content.formation.title}</h2>
+                  {content.formation.intro.map((paragraph, index) => (
+                    <p className='doctor-formation__intro' key={`formation-intro-${index}`}>
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <ul className='doctor-formation__grid'>
+              {content.formation.cards.map((card, index) => (
+                <li className='doctor-formation__card' key={`formation-card-${index}`}>
+                  <span className='doctor-formation__icon' aria-hidden='true'>
+                    <i className={card.icon}></i>
+                  </span>
+                  <h3>{card.title}</h3>
+                  <p>{card.description}</p>
+                </li>
+              ))}
+            </ul>
+
+            {content.formation.quote ? (
+              <blockquote className='doctor-formation__quote'>
+                {content.formation.quote}
+              </blockquote>
+            ) : null}
+          </div>
+        </section>
+      ) : null}
 
       {/* Biography Section */}
       <section id="biography" className='team' style={{paddingTop: "60px"}} dir={isRtl ? "rtl" : "ltr"}>

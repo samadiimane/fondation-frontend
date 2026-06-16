@@ -5,18 +5,32 @@ export interface AboutDoctorContent {
   hero: {
     name: string;
     title: string;
+    eyebrow?: string;
     subtitle: string;
-    lifespan: string;
-    birthplace: string;
-    degree: string;
+    imageAlt?: string;
+    lifespan?: string;
+    birthplace?: string;
+    degree?: string;
     intro: string[];
     ctaLabel: string;
   };
   nav: {
+    formation?: string;
     biography: string;
     research: string;
     publications: string;
     testimonials: string;
+  };
+  formation?: {
+    title: string;
+    subtitle: string;
+    intro: string[];
+    cards: Array<{
+      title: string;
+      description: string;
+      icon: string;
+    }>;
+    quote?: string;
   };
   biography: {
     title: string;
@@ -86,21 +100,48 @@ const aboutDoctorContent: Record<Locale, AboutDoctorContent> = {
     hero: {
       name: "Abdelaziz Khallouk Temsamani",
       title: "Dr.",
-      subtitle: "Distinguished Moroccan Historian and Cultural Heritage Researcher",
-      lifespan: "1945 - 2010",
-      birthplace: "Born in Tetouan, Morocco",
-      degree: "PhD in History",
+      eyebrow: "Historian and researcher in the modern history of Northern Morocco",
+      subtitle:
+        "A scholarly path devoted to documents and archives for understanding the history of Tangier and Northern Morocco, and rereading historical memory with critical method.",
+      imageAlt: "Portrait of Dr. Abdelaziz Khallouk Temsamani",
       intro: [
-        "Dr. Abdelaziz Khallouk Temsamani (1945-2010) was a distinguished Moroccan historian and researcher whose work fundamentally shaped contemporary understanding of North African history and cultural heritage. Born in Tetouan, Morocco, Dr. Temsamani demonstrated exceptional academic promise from an early age.",
-        'He pursued his higher education at the University of Mohammed V in Rabat, where he earned his doctorate in History with highest honors. His doctoral thesis on "Commercial and Cultural Relations Between Morocco and Andalusia" established the foundation for his lifelong research interests.'
+        "Abdelaziz Khallouk Temsamani was not simply a historian concerned with recording events; his scholarly project made the document an entry point for questioning memory and reconstructing the history of Northern Morocco.",
+        "From Tangier, and specifically Hay Al-Mesalla, his early intellectual awareness was shaped by reading and knowledge before expanding through a self-directed formation across languages and sources."
       ],
       ctaLabel: "Read full biography (PDF)"
     },
     nav: {
+      formation: "Formation",
       biography: "Biography",
       research: "Research",
       publications: "Publications",
       testimonials: "Testimonials"
+    },
+    formation: {
+      title: "Intellectual Formation and the Beginnings of Critical Awareness",
+      subtitle: "From Hay Al-Mesalla to the horizon of historical inquiry",
+      intro: [
+        "Temsamani's intellectual formation was shaped by wide reading, encouraged from childhood and pursued independently across Arabic, French, and Spanish sources.",
+        "This early culture of reading connected literature, thought, history, and politics, and later informed his documentary method and his attention to the archives of Tangier and Northern Morocco."
+      ],
+      cards: [
+        {
+          title: "Self-Education and Reading",
+          description: "His formation relied on sustained personal reading and a disciplined search for knowledge beyond narrow cultural routines.",
+          icon: "fa-solid fa-book-open-reader"
+        },
+        {
+          title: "Languages and Sources",
+          description: "Arabic, French, and Spanish opened multiple documentary and intellectual horizons across history, literature, thought, and politics.",
+          icon: "fa-solid fa-language"
+        },
+        {
+          title: "Critical Inquiry",
+          description: "His work gradually moved toward independent questioning and a documentary approach to historical memory.",
+          icon: "fa-solid fa-magnifying-glass"
+        }
+      ],
+      quote: "I read widely, and in a self-directed way, major works in Arabic, French, and Spanish."
     },
     biography: {
       title: "Academic Biography",
@@ -737,6 +778,164 @@ const aboutDoctorContent: Record<Locale, AboutDoctorContent> = {
   }
 };
 
+type AboutDoctorTopContent = {
+  hero: AboutDoctorContent["hero"];
+  nav: {
+    formation: string;
+  };
+  formation: NonNullable<AboutDoctorContent["formation"]>;
+};
+
+const aboutDoctorTopContent: Partial<Record<Locale, AboutDoctorTopContent>> = {
+  fr: {
+    hero: {
+      name: "Abdelaziz Khallouk Temsamani",
+      title: "Dr.",
+      eyebrow: "Historien et chercheur en histoire contemporaine du Nord du Maroc",
+      subtitle:
+        "Un parcours scientifique consacré aux documents et aux archives pour comprendre l'histoire de Tanger et du Nord du Maroc, et relire la mémoire historique avec méthode critique.",
+      imageAlt: "Portrait du Dr Abdelaziz Khallouk Temsamani",
+      intro: [
+        "Abdelaziz Khallouk Temsamani n'était pas seulement un historien soucieux de consigner les faits; son projet scientifique a fait du document un point d'entrée pour interroger la mémoire et reconstruire l'histoire du Nord marocain.",
+        "Depuis Tanger, et plus précisément Hay Al-Mesalla, sa conscience intellectuelle s'est formée par la lecture et le savoir, avant de s'élargir grâce à une formation autodidacte ouverte sur plusieurs langues et sources."
+      ],
+      ctaLabel: "Lire la biographie complète (PDF)"
+    },
+    nav: {
+      formation: "Formation"
+    },
+    formation: {
+      title: "Formation intellectuelle et débuts de la conscience critique",
+      subtitle: "De Hay Al-Mesalla à l'horizon du questionnement historique",
+      intro: [
+        "La formation intellectuelle de Temsamani s'est construite par une lecture large, encouragée dès l'enfance puis poursuivie de manière autonome et régulière.",
+        "L'arabe, le français et l'espagnol lui ont ouvert des horizons documentaires et intellectuels dans la pensée, la littérature, l'histoire et la politique."
+      ],
+      cards: [
+        {
+          title: "Autodidaxie et lecture",
+          description: "Sa formation s'est appuyée sur une lecture soutenue et une recherche disciplinée du savoir.",
+          icon: "fa-solid fa-book-open-reader"
+        },
+        {
+          title: "Langues et sources",
+          description: "L'arabe, le français et l'espagnol ont ouvert plusieurs horizons documentaires et intellectuels.",
+          icon: "fa-solid fa-language"
+        },
+        {
+          title: "Questionnement critique",
+          description: "Son travail s'est orienté vers une pensée indépendante et une approche documentaire de la mémoire historique.",
+          icon: "fa-solid fa-magnifying-glass"
+        }
+      ],
+      quote: "J'ai beaucoup lu, de manière autodidacte, les grandes oeuvres en arabe, en français et en espagnol."
+    }
+  },
+  es: {
+    hero: {
+      name: "Abdelaziz Khallouk Temsamani",
+      title: "Dr.",
+      eyebrow: "Historiador e investigador de la historia contemporánea del norte de Marruecos",
+      subtitle:
+        "Una trayectoria académica dedicada a los documentos y archivos para comprender la historia de Tánger y del norte de Marruecos, y releer la memoria histórica con método crítico.",
+      imageAlt: "Retrato del Dr. Abdelaziz Khallouk Temsamani",
+      intro: [
+        "Abdelaziz Khallouk Temsamani no fue solo un historiador dedicado a registrar hechos; su proyecto científico convirtió el documento en una vía para interrogar la memoria y reconstruir la historia del norte marroquí.",
+        "Desde Tánger, y más concretamente desde Hay Al-Mesalla, su conciencia intelectual se formó a través de la lectura y el conocimiento antes de ampliarse mediante una formación autodidacta en varias lenguas y fuentes."
+      ],
+      ctaLabel: "Leer la biografía completa (PDF)"
+    },
+    nav: {
+      formation: "Formación"
+    },
+    formation: {
+      title: "Formación intelectual e inicios de la conciencia crítica",
+      subtitle: "De Hay Al-Mesalla al horizonte de la pregunta histórica",
+      intro: [
+        "La formación intelectual de Temsamani se construyó mediante una lectura amplia, alentada desde la infancia y continuada de forma autónoma y constante.",
+        "El árabe, el francés y el español le abrieron horizontes documentales e intelectuales en el pensamiento, la literatura, la historia y la política."
+      ],
+      cards: [
+        {
+          title: "Autodidaxia y lectura",
+          description: "Su formación se apoyó en la lectura sostenida y en una búsqueda disciplinada del conocimiento.",
+          icon: "fa-solid fa-book-open-reader"
+        },
+        {
+          title: "Lenguas y fuentes",
+          description: "El árabe, el francés y el español abrieron varios horizontes documentales e intelectuales.",
+          icon: "fa-solid fa-language"
+        },
+        {
+          title: "Pregunta crítica",
+          description: "Su obra avanzó hacia el pensamiento independiente y un enfoque documental de la memoria histórica.",
+          icon: "fa-solid fa-magnifying-glass"
+        }
+      ],
+      quote: "Leí mucho, de forma autodidacta, grandes obras en árabe, francés y español."
+    }
+  },
+  ar: {
+    hero: {
+      name: "عبد العزيز خلوق التمسماني",
+      title: "د.",
+      eyebrow: "مؤرخ وباحث في تاريخ شمال المغرب المعاصر",
+      subtitle:
+        "مسار علمي كرّس الوثيقة والأرشيف لفهم تاريخ طنجة وشمال المغرب، وإعادة قراءة الذاكرة التاريخية بروح نقدية ومنهجية.",
+      imageAlt: "صورة الدكتور عبد العزيز خلوق التمسماني",
+      intro: [
+        "لم يكن عبد العزيز خلوق التمسماني مجرد مؤرخ منشغل بتدوين الوقائع، بل صاحب مشروع علمي جعل من الوثيقة مدخلا إلى مساءلة الذاكرة وإعادة بناء تاريخ الشمال المغربي.",
+        "من طنجة، ومن حي المصلى تحديدا، تشكل وعيه الأول بالقراءة والمعرفة، قبل أن يتسع أفقه عبر تكوين عصامي متعدد اللغات والمصادر."
+      ],
+      ctaLabel: "قراءة السيرة الكاملة (PDF)"
+    },
+    nav: {
+      formation: "التكوين"
+    },
+    formation: {
+      title: "التكوين الفكري وبدايات الوعي النقدي",
+      subtitle: "من حي المصلى إلى أفق السؤال التاريخي",
+      intro: [
+        "تشكل التكوين الفكري لعبد العزيز خلوق التمسماني عبر قراءة واسعة شجعها محيطه العائلي منذ الطفولة، ثم تابعها بشكل عصامي ومنتظم.",
+        "أتاحت له العربية والفرنسية والإسبانية الانفتاح على مجالات الفكر والأدب والتاريخ والسياسة، وهو ما انعكس لاحقا في منهجه القائم على الوثيقة والأرشيف وإعادة قراءة تاريخ طنجة وشمال المغرب."
+      ],
+      cards: [
+        {
+          title: "العصامية والقراءة",
+          description: "تكوّن عبر مطالعة واسعة ومنظمة جعلت القراءة مدخلا لبناء الوعي العلمي واستقلال النظر.",
+          icon: "fa-solid fa-book-open-reader"
+        },
+        {
+          title: "تعدد اللغات والمصادر",
+          description: "قرأ بالعربية والفرنسية والإسبانية، وتنقل بين الفكر والأدب والتاريخ والسياسة بحثا عن أفق معرفي أوسع.",
+          icon: "fa-solid fa-language"
+        },
+        {
+          title: "السؤال النقدي",
+          description: "ابتعد تدريجيا عن أساليب الثقافة الجامدة، وانفتح على السؤال النقدي والتفكير المستقل.",
+          icon: "fa-solid fa-magnifying-glass"
+        }
+      ],
+      quote: "طالعت كثيرا - وبشكل عصامي - روائع المؤلفات العربية والفرنسية والإسبانية"
+    }
+  }
+};
+
 export function getAboutDoctorContent(locale: Locale): AboutDoctorContent {
-  return aboutDoctorContent[locale] ?? aboutDoctorContent[defaultLocale];
+  const baseContent = aboutDoctorContent[locale] ?? aboutDoctorContent[defaultLocale];
+  const topContent = aboutDoctorTopContent[locale];
+
+  if (!topContent) {
+    return baseContent;
+  }
+
+  return {
+    ...baseContent,
+    hero: topContent.hero,
+    nav: {
+      ...baseContent.nav,
+      ...topContent.nav
+    },
+    formation: topContent.formation
+  };
 }
