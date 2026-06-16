@@ -1,6 +1,7 @@
 import Footer from '@/components/Footer';
 import CollectionDocumentsSection from '@/components/CollectionDocumentsSection';
 import { getCollectionDocuments, getCollections } from '@/lib/api';
+import { defaultLocale, normalizeLocale } from '@/i18n/config';
 import { notFound } from 'next/navigation';
 
 const getFriendlyError = (message) => {
@@ -11,7 +12,9 @@ const getFriendlyError = (message) => {
 };
 
 const CollectionDetailPage = async ({ params }) => {
-  const { id } = await params;
+  const resolvedParams = await params;
+  const id = resolvedParams?.id;
+  const locale = normalizeLocale(resolvedParams?.locale ?? defaultLocale);
 
   let collectionName = `Collection #${id}`;
 
@@ -55,7 +58,7 @@ const CollectionDetailPage = async ({ params }) => {
           initialError={initialError}
         />
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

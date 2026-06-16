@@ -1,6 +1,7 @@
 import Footer from '@/components/Footer';
 import { getCollections } from '@/lib/api';
 import { Link } from '@/i18n/navigation';
+import { defaultLocale, normalizeLocale } from '@/i18n/config';
 
 export const metadata = {
   title: 'eLibrary Collections',
@@ -9,7 +10,9 @@ export const metadata = {
 
 export const dynamic = 'force-dynamic';
 
-const CollectionsPage = async () => {
+const CollectionsPage = async ({params}) => {
+  const resolvedParams = await params;
+  const locale = normalizeLocale(resolvedParams?.locale ?? defaultLocale);
   let collections = [];
   let loadError = null;
 
@@ -82,6 +85,7 @@ const CollectionsPage = async () => {
                     </div>
                     <Link
                       href={`/collections/${collection.id}`}
+                      locale={locale}
                       style={{
                         alignSelf: 'flex-start',
                         padding: '0.55rem 1.25rem',
@@ -115,7 +119,7 @@ const CollectionsPage = async () => {
           </div>
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

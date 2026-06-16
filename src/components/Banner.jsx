@@ -38,6 +38,7 @@ const Banner = async ({locale: localeInput = defaultLocale}) => {
               <div className='banner__content-cta cta'>
                 <Link
                   href='/publishing'
+                  locale={locale}
                   aria-label={t("ctaPrimaryAria")}
                   title={t("ctaPrimaryAria")}
                   className='btn--tertiary'
@@ -46,6 +47,7 @@ const Banner = async ({locale: localeInput = defaultLocale}) => {
                 </Link>
                 <Link
                   href='/library'
+                  locale={locale}
                   aria-label={t("ctaSecondaryAria")}
                   title={t("ctaSecondaryAria")}
                   className='btn--primary'

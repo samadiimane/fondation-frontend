@@ -92,7 +92,7 @@ const TermsPage = async ({ params }) => {
           </section>
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

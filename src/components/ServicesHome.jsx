@@ -11,7 +11,7 @@ const truncateText = (text = "", length = 250) => {
   if (text.length <= length) return text;
   const sliced = text.slice(0, length);
   const lastSpace = sliced.lastIndexOf(" ");
-  return `${sliced.slice(0, lastSpace > 80 ? lastSpace : length)}…`;
+  return `${sliced.slice(0, lastSpace > 80 ? lastSpace : length)}...`;
 };
 
 const ServicesHome = () => {
@@ -33,29 +33,33 @@ const ServicesHome = () => {
 
   const arrowIconClass = `fa-solid ${isRtl ? "fa-circle-arrow-left" : "fa-circle-arrow-right"}`;
 
-  const renderServiceCard = (slide) => (
-    <li className='difference__item' key={slide.slug}>
-      <article className='difference__single'>
-        <div className='difference__single-content'>
-          <h3>
-            <Link href={`/services/${slide.slug}`}>{slide.title}</Link>
-          </h3>
-          <p>{slide.intro || t("fallback")}</p>
-          <div className='readmore'>
-            <Link
-              href={`/services/${slide.slug}`}
-              aria-label={t("aria.readMore", {title: slide.title})}
-              title={t("aria.readMore", {title: slide.title})}
-            >
-              {t("readMore")}
-              <span className='visually-hidden'>: {slide.title}</span>
-              <i className={arrowIconClass} aria-hidden='true' />
-            </Link>
+  const renderServiceCard = (slide) => {
+    const readMoreLabel = `${t("readMore")}: ${slide.title}`;
+
+    return (
+      <li className='difference__item' key={slide.slug}>
+        <article className='difference__single'>
+          <div className='difference__single-content'>
+            <h3>
+              <Link href={`/services/${slide.slug}`}>{slide.title}</Link>
+            </h3>
+            <p>{slide.intro || t("fallback")}</p>
+            <div className='readmore'>
+              <Link
+                href={`/services/${slide.slug}`}
+                aria-label={readMoreLabel}
+                title={readMoreLabel}
+              >
+                {t("readMore")}
+                <span className='visually-hidden'>: {slide.title}</span>
+                <i className={arrowIconClass} aria-hidden='true' />
+              </Link>
+            </div>
           </div>
-        </div>
-      </article>
-    </li>
-  );
+        </article>
+      </li>
+    );
+  };
 
   return (
     <section className='difference' id='services' dir={isRtl ? "rtl" : "ltr"}>

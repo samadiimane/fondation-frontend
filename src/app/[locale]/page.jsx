@@ -7,10 +7,11 @@ import FoundationIntro from '@/components/foundation/FoundationIntro';
 import Footer from '@/components/Footer';
 import Partner from '@/components/Partner';
 import {defaultLocale, normalizeLocale} from '@/i18n/config';
-import {getLocale, getTranslations} from 'next-intl/server';
+import {getLocale, getTranslations, setRequestLocale} from 'next-intl/server';
 
-export async function generateMetadata() {
-  const locale = await getLocale();
+export async function generateMetadata({params}) {
+  const resolvedParams = await params;
+  const locale = normalizeLocale(resolvedParams?.locale ?? await getLocale());
   const t = await getTranslations({locale, namespace: 'meta.home'});
   return {
     title: t('title'),
@@ -21,6 +22,7 @@ export async function generateMetadata() {
 export default async function HomePage({params}) {
   const resolvedParams = await params;
   const locale = normalizeLocale(resolvedParams?.locale ?? defaultLocale);
+  setRequestLocale(locale);
 
   return (
       <section className='page-wrapper'>
@@ -31,9 +33,9 @@ export default async function HomePage({params}) {
           <Counter />
           <LatestDocuments />
           <Partner />
-          <AwardOne />
+          <AwardOne locale={locale} />
         </main>
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 }

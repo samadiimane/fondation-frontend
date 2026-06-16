@@ -49,6 +49,16 @@ body {
   }
 }
 
+html[dir="rtl"],
+html[dir="rtl"] body {
+  font-family: "Cairo", "Tajawal", "Noto Naskh Arabic", "Noto Sans Arabic", "Helvetica Neue", Arial, sans-serif;
+  letter-spacing: normal;
+}
+
+html[dir="rtl"] body {
+  text-transform: none;
+}
+
 .body-active {
   height: 100vh;
   overflow: clip;

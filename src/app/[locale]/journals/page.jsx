@@ -84,7 +84,7 @@ export default async function JournalsPage({params}) {
           <JournalsExplorer key={locale} locale={locale} strings={strings} />
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 }

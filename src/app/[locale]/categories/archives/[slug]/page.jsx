@@ -42,7 +42,7 @@ const ArchiveCollectionPage = async ({ params }) => {
           <CollectionClient category={category} slug={slug} />
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

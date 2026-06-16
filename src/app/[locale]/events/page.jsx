@@ -32,7 +32,7 @@ const EventsPage = async ({ params }) => {
 
         <EventsHub />
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

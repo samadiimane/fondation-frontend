@@ -127,6 +127,11 @@
 }
 
 .topbar.two {
+  .row {
+    direction: ltr;
+    flex-direction: row;
+  }
+
   .row,
   .topbar__list,
   .topbar__items,
@@ -137,6 +142,15 @@
   .topbar__list-wrapper,
   .topbar__items {
     min-width: 0;
+  }
+
+  .topbar__list-wrapper {
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .topbar__items {
+    justify-content: flex-end !important;
   }
 
   .topbar__list,
@@ -171,6 +185,15 @@
 
     a {
       flex: 0 0 auto;
+    }
+  }
+
+  html[dir="rtl"] & {
+    .topbar__list a,
+    .select .option,
+    .select .current {
+      font-size: 16px;
+      line-height: 26px;
     }
   }
 }
@@ -783,6 +806,8 @@
 
   .navbar {
     column-gap: clamp(12px, 1.5vw, 24px);
+    direction: ltr;
+    flex-direction: row;
   }
 
   .navbar__menu {
@@ -874,6 +899,16 @@
         i {
           transform: rotate(0deg);
         }
+      }
+    }
+  }
+
+  html[dir="rtl"] & {
+    .navbar__sub-menu {
+      a,
+      button {
+        font-size: 16px;
+        line-height: 1.45;
       }
     }
   }
@@ -1281,6 +1316,23 @@
     }
   }
 
+  html[dir="rtl"] & {
+    .navbar__item {
+      a,
+      > button {
+        font-size: 17px;
+      }
+    }
+
+    .navbar__sub-menu {
+      a,
+      button {
+        font-size: 16px;
+        line-height: 1.45;
+      }
+    }
+  }
+
   .active > .navbar__dropdown-label,
   .active > a {
     color: var(--hover-color);
@@ -1381,12 +1433,6 @@
 /* ==== 
  --------- (4.01) header styles end ---------
  ==== */
-
-
-
-
-
-
 
 
 

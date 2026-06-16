@@ -1,9 +1,8 @@
-"use client";
-
 import Image from "next/image";
-import {useLocale, useTranslations} from "next-intl";
+import {getLocale, getTranslations} from "next-intl/server";
+
+import {defaultLocale, isRtlLocale, normalizeLocale} from "@/i18n/config";
 import {Link} from "@/i18n/navigation";
-import {isRtlLocale} from "@/i18n/config";
 
 const SOCIAL_LINKS = [
   {href: "https://www.facebook.com", icon: "fa-brands fa-facebook-f", labelKey: "facebook"},
@@ -11,31 +10,29 @@ const SOCIAL_LINKS = [
   {href: "https://www.linkedin.com", icon: "fa-brands fa-linkedin-in", labelKey: "linkedin"}
 ];
 
-const Footer = () => {
-  const t = useTranslations("footer");
-  const tNav = useTranslations("nav");
-  const tSupport = useTranslations("support");
-  const locale = useLocale();
+/**
+ * @param {{locale?: string}} [props]
+ */
+const Footer = async ({locale: localeInput} = {}) => {
+  const inferredLocale = localeInput ?? await getLocale();
+  const locale = normalizeLocale(inferredLocale || defaultLocale);
+  const t = await getTranslations({locale, namespace: "footer"});
   const isRtl = isRtlLocale(locale);
   const year = new Date().getFullYear();
-  const copyrightTemplate =
-    typeof t.raw === "function"
-      ? t.raw("copyright")
-      : "Copyright © {year} Abdelaziz Khallouk Temsamani Foundation. All rights reserved.";
-  const copyrightText = String(copyrightTemplate).replace("{year}", String(year));
+  const copyrightText = t("copyright", {year});
 
   const quickLinks = [
-    {href: "/foundation", label: tNav("foundation")},
-    {href: "/library", label: tNav("digitalLibrary")},
-    {href: "/journals", label: tNav("journals")},
-    {href: "/support/faq", label: tNav("faq")},
-    {href: "/support/contact", label: tNav("contactUs")}
+    {href: "/foundation", label: t("links.quick.foundation")},
+    {href: "/library", label: t("links.quick.digitalLibrary")},
+    {href: "/journals", label: t("links.quick.journals")},
+    {href: "/support/faq", label: t("links.quick.faq")},
+    {href: "/support/contact", label: t("links.quick.contact")}
   ];
 
   const serviceLinks = [
-    {href: "/services/academic-consultations", label: tNav("consultations")},
-    {href: "/services/researcher-support", label: tNav("support")},
-    {href: "/services/personal-platform", label: tNav("platform")}
+    {href: "/services/academic-consultations", label: t("links.services.consultations")},
+    {href: "/services/researcher-support", label: t("links.services.researcherSupport")},
+    {href: "/services/personal-platform", label: t("links.services.personalPlatform")}
   ];
 
   const contactLinks = [
@@ -60,18 +57,14 @@ const Footer = () => {
     <footer
       className={`footer-two${isRtl ? " footer-two--rtl" : ""}`}
       dir={isRtl ? "rtl" : "ltr"}
-      style={isRtl ? {textAlign: "right"} : undefined}
+      lang={locale}
     >
       <div className='container'>
         <div className='row gutter-60'>
           <div className='col-12 col-md-6 col-xl-3'>
-            <div
-              className='footer-two__widget'
-              data-aos='fade-up'
-              data-aos-duration={1000}
-            >
+            <div className='footer-two__widget'>
               <div className='footer-two__widget-logo'>
-                <Link href='/'>
+                <Link href='/' locale={locale} aria-label={t("logoAlt")}>
                   <Image
                     src='/assets/images/logo2.png'
                     alt={t("logoAlt")}
@@ -92,27 +85,22 @@ const Footer = () => {
                       key={href}
                       href={href}
                       target='_blank'
-                      rel='noreferrer'
+                      rel='noopener noreferrer'
                       aria-label={t(`social.${labelKey}`)}
                       title={t(`social.${labelKey}`)}
                     >
-                      <i className={icon} />
+                      <i className={icon} aria-hidden='true' />
                     </a>
                   ))}
                 </div>
               </div>
             </div>
           </div>
-          <div className='col-12 col-md-6 col-xl-2 offset-xl-1'>
-            <div
-              className='footer-two__widget'
-              data-aos='fade-up'
-              data-aos-duration={1000}
-              data-aos-delay={200}
-            >
+          <div className={`col-12 col-md-6 ${isRtl ? "col-xl-3" : "col-xl-2 offset-xl-1"}`}>
+            <div className='footer-two__widget'>
               <div className='footer-two__widget-intro'>
                 <h5>{t("headings.quickLinks")}</h5>
-                <div className='line'>
+                <div className='line' aria-hidden='true'>
                   <span className='large-line' />
                   <span className='small-line' />
                   <span className='small-line' />
@@ -122,37 +110,8 @@ const Footer = () => {
                 <ul>
                   {quickLinks.map((item) => (
                     <li key={item.href}>
-                    <Link href={item.href}>
-                      <i className='fa-solid fa-arrow-right' />
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className='col-12 col-md-6 col-xl-3'>
-            <div
-              className='footer-two__widget footer-two__widget--alternate'
-              data-aos='fade-up'
-              data-aos-duration={1000}
-              data-aos-delay={400}
-            >
-              <div className='footer-two__widget-intro'>
-                <h5>{t("headings.services")}</h5>
-                <div className='line'>
-                  <span className='large-line' />
-                  <span className='small-line' />
-                  <span className='small-line' />
-                </div>
-              </div>
-              <div className='footer-two__widget-content'>
-                <ul>
-                  {serviceLinks.map((item) => (
-                    <li key={item.href}>
-                      <Link href={item.href}>
-                        <i className='fa-solid fa-arrow-right' />
+                      <Link href={item.href} locale={locale}>
+                        <i className='fa-solid fa-arrow-right' aria-hidden='true' />
                         {item.label}
                       </Link>
                     </li>
@@ -162,15 +121,34 @@ const Footer = () => {
             </div>
           </div>
           <div className='col-12 col-md-6 col-xl-3'>
-            <div
-              className='footer-two__widget footer-two__widget--alternate'
-              data-aos='fade-up'
-              data-aos-duration={1000}
-              data-aos-delay={600}
-            >
+            <div className='footer-two__widget footer-two__widget--alternate'>
+              <div className='footer-two__widget-intro'>
+                <h5>{t("headings.services")}</h5>
+                <div className='line' aria-hidden='true'>
+                  <span className='large-line' />
+                  <span className='small-line' />
+                  <span className='small-line' />
+                </div>
+              </div>
+              <div className='footer-two__widget-content'>
+                <ul>
+                  {serviceLinks.map((item) => (
+                    <li key={item.href}>
+                      <Link href={item.href} locale={locale}>
+                        <i className='fa-solid fa-arrow-right' aria-hidden='true' />
+                        {item.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div className='col-12 col-md-6 col-xl-3'>
+            <div className='footer-two__widget footer-two__widget--alternate'>
               <div className='footer-two__widget-intro'>
                 <h5>{t("headings.contact")}</h5>
-                <div className='line'>
+                <div className='line' aria-hidden='true'>
                   <span className='large-line' />
                   <span className='small-line' />
                   <span className='small-line' />
@@ -184,9 +162,9 @@ const Footer = () => {
                       <li key={item.href}>
                         <a
                           href={item.href}
-                          {...(isExternal ? {target: "_blank", rel: "noreferrer"} : {})}
+                          {...(isExternal ? {target: "_blank", rel: "noopener noreferrer"} : {})}
                         >
-                          <i className={item.icon} />
+                          <i className={item.icon} aria-hidden='true' />
                           {item.label}
                         </a>
                       </li>
@@ -208,18 +186,15 @@ const Footer = () => {
             </div>
             <div className='col-12 col-lg-auto'>
               <div className='footer__bottom-left'>
-                <ul
-                  className='footer__bottom-list justify-content-center justify-content-lg-end'
-                  style={isRtl ? {flexDirection: "row-reverse"} : undefined}
-                >
+                <ul className='footer__bottom-list justify-content-center justify-content-lg-end'>
                   <li>
-                    <Link href='/support/terms'>{tSupport("terms")}</Link>
+                    <Link href='/support/terms' locale={locale}>{t("links.bottom.terms")}</Link>
                   </li>
                   <li>
-                    <Link href='/support/faq'>{tSupport("faq")}</Link>
+                    <Link href='/support/faq' locale={locale}>{t("links.bottom.faq")}</Link>
                   </li>
                   <li>
-                    <Link href='/support/contact'>{tSupport("contact")}</Link>
+                    <Link href='/support/contact' locale={locale}>{t("links.bottom.contact")}</Link>
                   </li>
                 </ul>
               </div>
@@ -227,23 +202,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      {isRtl ? (
-        <style jsx global>{`
-          .footer-two--rtl .footer-two__widget a::after,
-          .footer-two--rtl .footer__bottom-list a::after {
-            inset-inline-start: auto !important;
-            inset-inline-end: 0 !important;
-            transform: translateX(0) !important;
-            transform-origin: right center !important;
-          }
-          .footer-two--rtl .footer-two__widget a:hover::after,
-          .footer-two--rtl .footer__bottom-list a:hover::after {
-            width: 100% !important;
-            inset-inline-end: 0 !important;
-            inset-inline-start: auto !important;
-          }
-        `}</style>
-      ) : null}
     </footer>
   );
 };

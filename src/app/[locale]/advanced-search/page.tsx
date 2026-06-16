@@ -1,7 +1,7 @@
 import Footer from "@/components/Footer";
 import AssistantClient from "@/components/assistant/AssistantClient";
 import { getTranslations } from "next-intl/server";
-import { defaultLocale } from "@/i18n/config";
+import { defaultLocale, normalizeLocale } from "@/i18n/config";
 
 type LocaleParams = Promise<{ locale?: string }>;
 
@@ -14,11 +14,15 @@ export async function generateMetadata({ params }: { params: LocaleParams }) {
   };
 }
 
-const AdvancedSearchPage = () => (
+const AdvancedSearchPage = async ({ params }: { params: LocaleParams }) => {
+  const locale = normalizeLocale((await params)?.locale || defaultLocale);
+
+  return (
     <section className="page-wrapper">
       <AssistantClient />
-      <Footer />
+      <Footer locale={locale} />
     </section>
-);
+  );
+};
 
 export default AdvancedSearchPage;

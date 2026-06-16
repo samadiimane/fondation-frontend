@@ -1,11 +1,6 @@
 // rtl styles
 html[dir='rtl'],
 html[dir='rtl'] body {
-  --rtl-font-size: clamp(1.3rem, 1rem + 1vw, 1.45rem); // ~20-23px
-  --rtl-line-height: 1.95;
-  font-size: var(--rtl-font-size) !important;
-  line-height: var(--rtl-line-height) !important;
-  font-family: "Cairo", "Tajawal", "Noto Naskh Arabic", "Noto Sans Arabic", "Helvetica Neue", Arial, sans-serif;
   letter-spacing: normal;
 }
 
@@ -15,9 +10,6 @@ html[dir='rtl'] body {
 
 body.rtl,
 html[dir='rtl'] .rtl {
-  font-size: var(--rtl-font-size) !important;
-  line-height: var(--rtl-line-height) !important;
-
   .color-palate-inner {
     direction: ltr !important;
   }
@@ -58,12 +50,6 @@ html[dir='rtl'] .rtl {
 
   .community .community-donation .community__thumb {
     scale: -1 1;
-  }
-
-  p,
-  li {
-    line-height: 2.05;
-    font-size: 1em;
   }
 
   // header
@@ -414,19 +400,6 @@ html[dir='rtl'] .rtl {
 
   .progress-bar-single {
     direction: ltr;
-  }
-
-  .footer-two {
-    .footer-two__widget li a::after {
-      transform: translateX(50%);
-    }
-    .footer__bottom-list {
-      a {
-        &::after {
-          transform: translateX(50%);
-        }
-      }
-    }
   }
 
   .footer-three {

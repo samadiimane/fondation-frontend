@@ -93,7 +93,7 @@ const ContactPage = async ({ params }) => {
           </section>
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

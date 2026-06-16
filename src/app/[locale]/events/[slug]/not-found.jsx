@@ -17,7 +17,7 @@ const EventNotFound = async ({ params }) => {
             </Link>
           </div>
         </section>
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

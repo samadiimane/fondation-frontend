@@ -98,7 +98,7 @@ const ServiceDetailPage = async ({ params }) => {
           </div>
         </section>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

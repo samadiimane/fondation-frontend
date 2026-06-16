@@ -1,4 +1,4 @@
-import {defaultLocale, isRtlLocale} from '@/i18n/config';
+import {defaultLocale, isRtlLocale, normalizeLocale} from '@/i18n/config';
 import {getLocale} from 'next-intl/server';
 import {Caveat, Nunito} from 'next/font/google';
 
@@ -21,15 +21,21 @@ export const metadata = {
   description: 'Abdelaziz khallouk temsamani research foundation'
 };
 
-export default async function RootLayout({children}) {
+export default async function RootLayout({children, params}) {
   let locale;
+  const resolvedParams = await params;
+
+  if (resolvedParams?.locale) {
+    locale = resolvedParams.locale;
+  }
+
   try {
-    locale = await getLocale();
+    locale = locale ?? await getLocale();
   } catch (error) {
     locale = defaultLocale;
   }
 
-  const resolvedLocale = locale || defaultLocale;
+  const resolvedLocale = normalizeLocale(locale || defaultLocale);
   const isRtl = isRtlLocale(resolvedLocale);
 
   return (

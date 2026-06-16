@@ -391,7 +391,7 @@ export default async function DocumentDetailPage(context) {
           </section>
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 }

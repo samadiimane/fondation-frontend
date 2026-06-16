@@ -47,7 +47,7 @@ const ResearchThemePage = async ({ params }) => {
           <ResearchThemeClient category={category} slug={slug} />
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

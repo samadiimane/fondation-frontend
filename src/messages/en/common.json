@@ -79,6 +79,35 @@
       "empty": "No documents available yet.",
       "error": "Unable to load latest documents.",
       "retry": "Retry"
+    },
+    "gallery": {
+      "title": "Highlights from Foundation",
+      "titleAccent": "Events",
+      "itemAria": "Open event gallery item: {title}",
+      "cta": "View all event photos",
+      "ctaAria": "View all event photos",
+      "items": {
+        "anniversary": {
+          "title": "Dar Al-Niaba journal anniversary",
+          "meta": "Foundation event",
+          "alt": "AKT Foundation event gathering"
+        },
+        "symposium": {
+          "title": "Research symposium and dialogue",
+          "meta": "Academic meeting",
+          "alt": "Audience and speakers at a research event"
+        },
+        "research": {
+          "title": "Scholarly exchange sessions",
+          "meta": "Research activity",
+          "alt": "Research event session"
+        },
+        "heritage": {
+          "title": "Documentary heritage program",
+          "meta": "Cultural heritage",
+          "alt": "Foundation cultural heritage event"
+        }
+      }
     }
   },
   "partners": {
@@ -102,6 +131,25 @@
       "twitter": "Twitter / X",
       "linkedin": "LinkedIn"
     },
-    "copyright": "Copyright © {year} Abdelaziz Khallouk Temsamani Foundation. All rights reserved."
+    "copyright": "Copyright © {year} Abdelaziz Khallouk Temsamani Foundation. All rights reserved.",
+    "links": {
+      "quick": {
+        "foundation": "The Foundation",
+        "digitalLibrary": "Digital Library",
+        "journals": "Journals",
+        "faq": "FAQ",
+        "contact": "Contact Us"
+      },
+      "services": {
+        "consultations": "Academic Consultations & Guidance",
+        "researcherSupport": "Researcher Support",
+        "personalPlatform": "Personal Platform"
+      },
+      "bottom": {
+        "terms": "Terms & Policies",
+        "faq": "Frequently Asked Questions",
+        "contact": "Contact Us"
+      }
+    }
   }
 }

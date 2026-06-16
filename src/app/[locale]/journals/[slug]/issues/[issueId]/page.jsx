@@ -183,7 +183,7 @@ export default async function IssueArticlesPage(context) {
           />
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 }

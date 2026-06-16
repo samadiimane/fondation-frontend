@@ -1,11 +1,59 @@
-import Link from "next/link";
 import Image from "next/image";
+import {getTranslations} from "next-intl/server";
 
-const GALLERY_LINK_LABEL = "View event photo gallery item";
+import {defaultLocale, isRtlLocale, normalizeLocale} from "@/i18n/config";
+import {Link} from "@/i18n/navigation";
 
-const AwardOne = () => {
+const GALLERY_ITEMS = [
+  {
+    key: "anniversary",
+    className: "col-12 col-lg-8",
+    src: "/assets/images/award/fondation.jpg",
+    width: 888,
+    height: 393,
+    sizes: "(min-width: 992px) 66vw, 100vw",
+    quality: 72
+  },
+  {
+    key: "symposium",
+    className: "col-12 col-lg-4",
+    src: "/assets/images/award/2.jpg",
+    width: 1600,
+    height: 1200,
+    sizes: "(min-width: 992px) 33vw, 100vw",
+    quality: 68,
+    delay: 200
+  },
+  {
+    key: "research",
+    className: "col-12 col-lg-5",
+    src: "/assets/images/award/7.jpg",
+    width: 1600,
+    height: 1200,
+    sizes: "(min-width: 992px) 42vw, 100vw",
+    quality: 68,
+    delay: 100
+  },
+  {
+    key: "heritage",
+    className: "col-12 col-lg-7",
+    src: "/assets/images/award/4.jpg",
+    width: 888,
+    height: 393,
+    sizes: "(min-width: 992px) 58vw, 100vw",
+    quality: 72,
+    delay: 300
+  }
+];
+
+const AwardOne = async ({locale: localeInput = defaultLocale}) => {
+  const locale = normalizeLocale(localeInput);
+  const t = await getTranslations({locale, namespace: "home.gallery"});
+  const isRtl = isRtlLocale(locale);
+  const iconClass = `fa-solid ${isRtl ? "fa-arrow-left" : "fa-arrow-right"}`;
+
   return (
-    <section className='award'>
+    <section className='award' dir={isRtl ? "rtl" : "ltr"} lang={locale}>
       <div className='container'>
         <div className='row justify-content-center'>
           <div className='col-12 col-lg-10 col-xl-8'>
@@ -15,162 +63,68 @@ const AwardOne = () => {
               data-aos-duration={1000}
             >
               <h2 className='title-animation_inner'>
-                Highlights of the events <span>Photo Gallery</span>
+                {t("title")} <span>{t("titleAccent")}</span>
               </h2>
             </div>
           </div>
         </div>
         <div className='row gutter-24'>
-          <div className='col-12 col-lg-8'>
-            <div
-              className='award__single'
-              data-aos='fade-up'
-              data-aos-duration={1000}
-            >
-              <div className='thumb'>
-                <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
-                  <Image
-                    src='/assets/images/award/fondation.jpg'
-                    alt='AKT Research Foundation event gallery'
-                    width={888}
-                    height={393}
-                    sizes='(min-width: 992px) 66vw, 100vw'
-                    quality={72}
-                    loading='lazy'
-                  />
-                </Link>
-              </div>
-              <div className='content'>
-                <div className='award__content'>
-                  <h5>
-                    <Link href='/'>"الذكرى الأربعين لصدور مجلة "دار النيابة</Link>
-                  </h5>
-                  <p>Demostic &amp; Transportation</p>
-                </div>
-                <div className='award__thumb'>
-                  <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
-                    <i className='fa-solid fa-arrow-right' />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className='col-12 col-lg-4'>
-            <div
-              className='award__single'
-              data-aos='fade-up'
-              data-aos-duration={1000}
-              data-aos-delay={200}
-            >
-              <div className='thumb'>
-                <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
-                  <Image
-                    src='/assets/images/award/ctr.jpg'
-                    alt='Event gallery audience and speakers'
-                    width={1600}
-                    height={1200}
-                    sizes='(min-width: 992px) 33vw, 100vw'
-                    quality={68}
-                    loading='lazy'
-                  />
-                </Link>
-              </div>
-              <div className='content'>
-                <div className='award__content'>
-                  <h5>
-                    <Link href='/'>Child trouble &amp; care</Link>
-                  </h5>
-                  <p>Demostic &amp; Transportation</p>
-                </div>
-                <div className='award__thumb'>
-                  <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
-                    <i className='fa-solid fa-arrow-right' />
-                  </Link>
+          {GALLERY_ITEMS.map((item) => {
+            const title = t(`items.${item.key}.title`);
+            const meta = t(`items.${item.key}.meta`);
+            const alt = t(`items.${item.key}.alt`);
+            const itemLabel = t("itemAria", {title});
+
+            return (
+              <div className={item.className} key={item.key}>
+                <div
+                  className='award__single'
+                  data-aos='fade-up'
+                  data-aos-duration={1000}
+                  {...(item.delay ? {"data-aos-delay": item.delay} : {})}
+                >
+                  <div className='thumb'>
+                    <Link href='/events' locale={locale} aria-label={itemLabel} title={itemLabel}>
+                      <Image
+                        src={item.src}
+                        alt={alt}
+                        width={item.width}
+                        height={item.height}
+                        sizes={item.sizes}
+                        quality={item.quality}
+                        loading='lazy'
+                      />
+                    </Link>
+                  </div>
+                  <div className='content'>
+                    <div className='award__content'>
+                      <h5>
+                        <Link href='/events' locale={locale}>{title}</Link>
+                      </h5>
+                      <p>{meta}</p>
+                    </div>
+                    <div className='award__thumb'>
+                      <Link href='/events' locale={locale} aria-label={itemLabel} title={itemLabel}>
+                        <i className={iconClass} aria-hidden='true' />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-          <div className='col-12 col-lg-5'>
-            <div
-              className='award__single'
-              data-aos='fade-up'
-              data-aos-duration={1000}
-              data-aos-delay={100}
-            >
-              <div className='thumb'>
-                <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
-                  <Image
-                    src='/assets/images/award/ctr.jpg'
-                    alt='Event gallery audience and speakers'
-                    width={1600}
-                    height={1200}
-                    sizes='(min-width: 992px) 42vw, 100vw'
-                    quality={68}
-                    loading='lazy'
-                  />
-                </Link>
-              </div>
-              <div className='content'>
-                <div className='award__content'>
-                  <h5>
-                    <Link href='/'>Child trouble &amp; care</Link>
-                  </h5>
-                  <p>Demostic &amp; Transportation</p>
-                </div>
-                <div className='award__thumb'>
-                  <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
-                    <i className='fa-solid fa-arrow-right' />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className='col-12 col-lg-7'>
-            <div
-              className='award__single'
-              data-aos='fade-up'
-              data-aos-duration={1000}
-              data-aos-delay={300}
-            >
-              <div className='thumb'>
-                <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
-                  <Image
-                    src='/assets/images/award/fondation.jpg'
-                    alt='AKT Research Foundation event gallery'
-                    width={888}
-                    height={393}
-                    sizes='(min-width: 992px) 58vw, 100vw'
-                    quality={72}
-                    loading='lazy'
-                  />
-                </Link>
-              </div>
-              <div className='content'>
-                <div className='award__content'>
-                  <h5>
-                    <Link href='/'>Child trouble &amp; care</Link>
-                  </h5>
-                  <p>Demostic &amp; Transportation</p>
-                </div>
-                <div className='award__thumb'>
-                  <Link href='/' aria-label={GALLERY_LINK_LABEL} title={GALLERY_LINK_LABEL}>
-                    <i className='fa-solid fa-arrow-right' />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
+            );
+          })}
         </div>
         <div className='row'>
           <div className='col-12'>
             <div className='section__cta cta text-center'>
               <Link
                 href='/events'
-                aria-label='View all event photos'
-                title='View all event photos'
+                locale={locale}
+                aria-label={t("ctaAria")}
+                title={t("ctaAria")}
                 className='btn--primary'
               >
-                View all event photos <i className='fa-solid fa-arrow-right' />
+                {t("cta")} <i className={iconClass} aria-hidden='true' />
               </Link>
             </div>
           </div>

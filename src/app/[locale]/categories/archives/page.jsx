@@ -45,7 +45,7 @@ const ArchivesPage = async ({ params }) => {
           <ArchivesClient category={category} />
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

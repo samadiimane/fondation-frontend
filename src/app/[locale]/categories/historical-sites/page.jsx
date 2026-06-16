@@ -41,7 +41,7 @@ const HistoricalSitesPage = async ({ params }) => {
           <HistoricalSitesClient category={category} />
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

@@ -41,7 +41,7 @@ const PublicationsPage = async ({ params }) => {
           <PublicationsClient category={category} />
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };

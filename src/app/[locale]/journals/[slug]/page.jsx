@@ -201,7 +201,7 @@ export default async function JournalDetailPage({params}) {
           <JournalIssuesExplorer slug={slug} locale={locale} strings={issuesStrings} />
         </main>
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 }

@@ -79,6 +79,35 @@
       "empty": "Aucun document disponible pour le moment.",
       "error": "Impossible de charger les derniers documents.",
       "retry": "Réessayer"
+    },
+    "gallery": {
+      "title": "Temps forts des",
+      "titleAccent": "événements",
+      "itemAria": "Ouvrir l'élément de galerie : {title}",
+      "cta": "Voir toutes les photos d'événements",
+      "ctaAria": "Voir toutes les photos d'événements",
+      "items": {
+        "anniversary": {
+          "title": "Anniversaire de la revue Dar Al-Niaba",
+          "meta": "Événement de la Fondation",
+          "alt": "Rencontre organisée par la Fondation AKT"
+        },
+        "symposium": {
+          "title": "Symposium de recherche et dialogue",
+          "meta": "Rencontre académique",
+          "alt": "Public et intervenants lors d'un événement scientifique"
+        },
+        "research": {
+          "title": "Séances d'échange scientifique",
+          "meta": "Activité de recherche",
+          "alt": "Séance d'un événement de recherche"
+        },
+        "heritage": {
+          "title": "Programme de patrimoine documentaire",
+          "meta": "Patrimoine culturel",
+          "alt": "Événement de la Fondation consacré au patrimoine"
+        }
+      }
     }
   },
   "partners": {
@@ -102,6 +131,25 @@
       "twitter": "X (Twitter)",
       "linkedin": "LinkedIn"
     },
-    "copyright": "Copyright © {year} Fondation Abdelaziz Khallouk Temsamani. Tous droits réservés."
+    "copyright": "Copyright © {year} Fondation Abdelaziz Khallouk Temsamani. Tous droits réservés.",
+    "links": {
+      "quick": {
+        "foundation": "La Fondation",
+        "digitalLibrary": "Bibliothèque numérique",
+        "journals": "Revues",
+        "faq": "FAQ",
+        "contact": "Nous contacter"
+      },
+      "services": {
+        "consultations": "Consultations académiques & orientation",
+        "researcherSupport": "Accompagnement des chercheurs",
+        "personalPlatform": "Plateforme personnelle"
+      },
+      "bottom": {
+        "terms": "Conditions et politiques",
+        "faq": "Questions fréquentes",
+        "contact": "Contactez-nous"
+      }
+    }
   }
 }

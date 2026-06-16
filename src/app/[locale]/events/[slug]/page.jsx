@@ -51,7 +51,7 @@ const EventDetailPage = async ({ params }) => {
 
         <EventDetailView event={event} />
 
-        <Footer />
+        <Footer locale={locale} />
       </section>
   );
 };
