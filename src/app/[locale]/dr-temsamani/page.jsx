@@ -1,5 +1,4 @@
 import AboutDoctor from "@/components/AboutDoctor";
-import DifferenceTwo from "@/components/DifferenceTwo";
 import Footer from "@/components/Footer";
 import {defaultLocale, normalizeLocale} from "@/i18n/config";
 

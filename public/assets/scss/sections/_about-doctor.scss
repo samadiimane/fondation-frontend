@@ -73,491 +73,668 @@
 }
 
 .doctor-formation {
-    padding: 80px 0;
-    background: #f8f9fa;
+    padding: 40px 0;
 }
 
-.doctor-formation__subtitle {
-    color: var(--primary-color);
-    font-weight: 700;
-    margin-bottom: 10px;
+.doctor-formation__header {
+    text-align: center;
+}
+
+.doctor-formation__header h2 {
+    align-items: center;
+    color: var(--secondary-color);
+    display: flex;
+    gap: 18px;
+    font-weight: 800;
+    justify-content: center;
+    margin-top: 0;
+    text-align: center;
+}
+
+.doctor-formation__header h2 span {
+    color: var(--base-color);
+}
+
+.doctor-formation__header h2::before,
+.doctor-formation__header h2::after {
+    background: rgba(4, 53, 106, 0.22);
+    content: "";
+    display: block;
+    flex: 1 1 80px;
+    height: 1.5px;
+    min-width: 48px;
 }
 
 .doctor-formation__intro {
     color: var(--template-color);
     font-size: 1.05rem;
     line-height: 1.8;
-    margin: 0 auto 14px;
-    max-width: 920px;
+    margin: auto;
 }
 
 .doctor-formation__grid {
+    counter-reset: formation-card;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
+    gap: 22px;
     list-style: none;
-    margin: 36px 0 0;
+    margin: 40px 0 0;
     padding: 0;
 }
 
 .doctor-formation__card {
-    background: var(--white);
-    border: 1px solid rgba(4, 53, 106, 0.08);
-    border-radius: 10px;
-    box-shadow: var(--shadow-secondary);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(4, 53, 106, 0.08);
     display: flex;
     flex-direction: column;
     min-height: 100%;
-    padding: 28px;
+    padding: 30px;
+    position: relative;
+    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
-.doctor-formation__icon {
-    align-items: center;
-    background: rgba(4, 53, 106, 0.08);
-    border-radius: 50%;
-    color: var(--primary-color);
-    display: inline-flex;
-    font-size: 22px;
-    height: 54px;
-    justify-content: center;
-    margin-bottom: 20px;
-    width: 54px;
+.doctor-formation__card::before {
+    background: var(--base-color);
+    border-radius: 999px;
+    content: "";
+    height: 3px;
+    inset-block-start: 0;
+    inset-inline: 24px;
+    opacity: 0.72;
+    position: absolute;
+}
+
+.doctor-formation__card:hover {
+    box-shadow: 0 18px 40px rgba(4, 53, 106, 0.12);
+    transform: translateY(-3px);
 }
 
 .doctor-formation__card h3 {
     color: var(--secondary-color);
     font-family: var(--template-font);
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.35;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+    max-width: 88%;
+    position: relative;
+    z-index: 1;
 }
 
 .doctor-formation__card p {
     color: var(--template-color);
     line-height: 1.7;
     margin: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.doctor-formation__quote-card {
+    align-items: center;
+    border-radius: 8px;
+    display: flex;
+    gap: 24px;
+    margin: 36px auto 0;
+    max-width: 920px;
+}
+
+.doctor-formation__quote-image {
+    border: solid rgba(4, 53, 106, 0.863);
+    border-width: 1px 4px 1px 0;
+    border-radius: 50px;
+    flex: 0 0 120px;
+    height: 120px;
+    overflow: hidden;
+    width: 120px;
+}
+
+.doctor-formation__quote-photo {
+    display: block;
+    height: 100%;
+    object-fit: cover;
+    width: 100%;
 }
 
 .doctor-formation__quote {
-    background: rgba(4, 53, 106, 0.05);
-    border-inline-start: 4px solid var(--primary-color);
-    border-radius: 8px;
     color: var(--secondary-color);
-    font-family: var(--template-font);
+    flex: 1 1 auto;
     font-size: 1.15rem;
     font-style: italic;
     line-height: 1.8;
-    margin: 36px auto 0;
-    max-width: 920px;
-    padding: 24px 28px;
+    margin : 0;
+    white-space: pre-line;
 }
 
-.timeline {
-    position: relative;
-    padding-left: 30px;
+.doctor-biography {
+    padding: 40px 0 56px;
 }
 
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 15px;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: linear-gradient(to bottom, var(--primary-color), var(--tertiary-color));
-}
-
-.timeline-item {
-    position: relative;
-    margin-bottom: 30px;
-    display: flex; 
-    align-items: flex-start; 
-}
-
-.timeline-badge {
-    position: relative; 
-    left: auto;
-    top: auto;
-    background: var(--primary-color);
-    color: var(--white);
-    padding: 8px 16px; 
-    border-radius: 15px;
-    font-size: 12px;
-    font-weight: 600;
-    min-width: 60px;
+.doctor-biography__header {
     text-align: center;
-    font-family: var(--template-font);
-    margin-right: 20px; 
-    flex-shrink: 0;
-    line-height: 1.2;
 }
 
-.timeline-badge-rtl {
-    order: 2;
-    margin-right: 0;
-    margin-left: 20px;
-}
-
-.timeline-content {
-    flex: 1;
-    text-align: left;
-}
-
-.timeline.timeline-rtl {
-    padding-left: 0;
-    padding-right: 30px;
-}
-
-.timeline.timeline-rtl::before {
-    left: auto;
-    right: 15px;
-}
-
-.timeline.timeline-rtl .timeline-item {
-    flex-direction: row-reverse;
-}
-
-.timeline.timeline-rtl .timeline-content {
-    text-align: right;
-}
-
-.timeline-content h4 {
-    font-size: 1.1rem;
-    font-weight: 700;
+.doctor-biography__header h2 {
     color: var(--secondary-color);
-    margin: 0 0 5px 0;
-    font-family: var(--template-font);
-    line-height: 1.3;
+    font-weight: 800;
+    margin: 0;
 }
 
-.institution {
+.doctor-biography__subtitle {
+    color: var(--template-color);
+    font-size: clamp(1.05rem, 1.15vw, 1.25rem);
+    line-height: 1.85;
+    margin: 15px 0;
+}
+
+.doctor-biography__milestones {
+    list-style: none;
+    margin: 34px auto 0;
+    max-width: 1100px;
+    padding: 0;
+    position: relative;
+}
+
+.doctor-biography__milestone {
+    min-width: 0;
+}
+
+.doctor-biography__milestone + .doctor-biography__milestone {
+    margin-top: 24px;
+}
+
+.doctor-biography__entry {
+    align-items: start;
+    display: grid;
+    column-gap: 0;
+    grid-template-columns: 104px 44px minmax(0, 1fr);
+    position: relative;
+}
+
+.doctor-biography__entry::before {
+    background: var(--white);
+    border: 3px solid var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 0 0 0 6px rgba(4, 53, 106, 0.07);
+    content: "";
+    grid-column: 2;
+    grid-row: 1;
+    height: 15px;
+    justify-self: center;
+    margin-block-start: 12px;
+    width: 15px;
+    z-index: 1;
+}
+
+.doctor-biography__period {
+    align-items: center;
+    color: var(--primary-color);
+    display: flex;
+    font-family: var(--template-font);
+    font-size: clamp(1rem, 1.15vw, 1.2rem);
+    font-weight: 800;
+    grid-column: 1;
+    grid-row: 1;
+    justify-content: flex-end;
+    line-height: 1.25;
+    min-height: 28px;
+    margin-top: 7px;
+    padding-block-start: 0;
+    text-align: end;
+}
+
+.doctor-biography__content {
+    grid-column: 3;
+    grid-row: 1;
+    min-width: 0;
+    padding-block-start: 0;
+    padding-top: 2px;
+    border-top: 1px solid var(--primary-color);
+}
+
+.doctor-biography__heading {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+    min-height: 28px;
+    padding-block-start: 0;
+}
+
+.doctor-biography__category {
     color: var(--tertiary-color);
-    font-weight: 600;
-    margin-bottom: 5px;
+    font-size: clamp(1.02rem, 1.15vw, 1.2rem);
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.doctor-biography__category::after {
+    color: rgba(4, 53, 106, 0.45);
+    content: ":";
+    font-weight: 700;
+    margin-inline-start: 6px;
+}
+
+.doctor-biography__content h3 {
+    color: var(--secondary-color);
+    font-family: var(--template-font);
+    font-size: clamp(1.18rem, 1.25vw, 1.35rem);
+    font-weight: 800;
+    line-height: 1.35;
+    margin: 0;
+}
+
+.doctor-biography__place {
+    color: var(--primary-color);
     font-size: 0.95rem;
+    font-weight: 650;
+    line-height: 1.45;
+    margin: 8px 0 10px;
 }
 
-.thesis {
-    font-style: italic;
-    color: #666;
-    font-size: 0.9rem;
-    margin-top: 5px;
-}
-
-.section-subtitle {
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--secondary-color);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--template-font);
-    margin-bottom: 2rem; 
-}
-
-.section-subtitle i {
-    color: var(--primary-color);
-}
-
-.thesis {
-    font-style: italic;
+.doctor-biography__description {
     color: var(--template-color);
-    font-size: 0.9rem;
-}
-
-.research-area-card {
-    display: flex;
-    gap: 20px;
-    padding: 30px;
-    background: var(--white);
-    border-radius: 10px;
-    box-shadow: var(--shadow-secondary);
-    height: 100%;
-    transition: var(--transition);
-}
-
-.research-area-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow);
-}
-
-.research-icon {
-    flex-shrink: 0;
-    width: 60px;
-    height: 60px;
-    background: linear-gradient(45deg, var(--primary-color), var(--tertiary-color));
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: var(--white);
-}
-
-.research-content h4 {
-    font-size: 1.2rem;
-    font-weight: 700;
-    color: var(--secondary-color);
-    margin-bottom: 10px;
-    font-family: var(--template-font);
-}
-
-.research-content p {
-    color: var(--template-color);
-    line-height: 1.6;
-    margin: 0;
-}
-.publications-grid {
-    display: grid;
-    gap: 30px;
-    margin-bottom: 50px;
-}
-
-.publication-card {
-    background: var(--white);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: var(--shadow-secondary);
-    border-left: 4px solid var(--primary-color);
-    transition: var(--transition);
-    display: flex;
-    flex-direction: column;
-}
-
-.publication-card:hover {
-    box-shadow: var(--shadow);
-}
-
-.publication-header h4 {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: var(--secondary-color);
-    margin-bottom: 10px;
-    font-family: var(--template-font);
-}
-
-.publication-meta {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
-    font-size: 0.9rem;
-}
-
-.publication-meta span {
-    color: var(--tertiary-color);
-    font-weight: 600;
-}
-
-.year {
-    color: var(--primary-color) !important;
-}
-
-.publication-description {
-    color: var(--template-color);
-    line-height: 1.6;
-    margin-bottom: 20px;
-    flex: 1; 
-}
-
-.publication-stats {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 30px;
-}
-
-.stats-left {
-    display: flex;
-    gap: 30px;
-}
-
-.stat {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.9rem;
-    color: var(--template-color);
-}
-
-.stat i {
-    color: var(--primary-color);
-}
-
-.view-more-btn {
-    margin-left: auto;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 10px;
-    color: var(--primary-color);
-    text-decoration: none;
-    border: 1px solid var(--primary-color);
-    border-radius: 50px;
-    font-weight: 600;
-    white-space: nowrap;
-}
-
-.view-more-btn:hover {
-    background-color: var(--primary-color);
-    color: var(--white);
-}
-
-.awards-grid {
-    display:flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.award-item {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 10px;
-    align-items: center;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: var(--shadow-tertiary);
-    transition: var(--transition);
-}
-
-.award-year {
-    background: var(--primary-color);
-    color: var(--white);
-    padding: 8px 12px;
-    border-radius: 5px;
-    font-weight: 700;
-    text-align: center;
-    font-size: 14px;
-    line-height: 1.2;
-}
-
-.award-title {
-    font-weight: 600;
-    color: var(--secondary-color);
-    word-break: break-word;
-    overflow-wrap: break-word;
-    line-height: 1.4;
-    margin: 0;
-}
-
-@media (max-width: 768px) {
-    .publication-stats {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-    
-    .stats-left {
-        width: 100%;
-        justify-content: space-between;
-    }
-    
-    .view-more-btn {
-        margin-left: 0;
-        align-self: flex-end;
-    }
-    
-    .awards-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .award-item {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-    
-    .award-year {
-        align-self: center;
-    }
-}
-.testimonial-card {
-    background: var(--white);
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: var(--shadow);
-    height: 100%;
-    position: relative;
-    transition: var(--transition);
-}
-
-.testimonial-card:hover {
-    transform: translateY(-5px);
-}
-
-.quote-icon {
-    position: absolute;
-    top: -15px;
-    left: 30px;
-    width: 40px;
-    height: 40px;
-    background: var(--primary-color);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--white);
-    font-size: 18px;
-}
-
-.testimonial-card blockquote {
-    font-style: italic;
-    color: var(--secondary-color);
-    line-height: 1.7;
-    margin: 20px 0;
     font-size: 1rem;
-    font-family: var(--template-font);
-}
-
-.testimonial-author h5 {
-    color: var(--secondary-color);
-    font-weight: 700;
-    margin-bottom: 5px;
-    font-family: var(--template-font);
-}
-
-.testimonial-author p {
-    color: var(--template-color);
-    font-size: 0.9rem;
+    line-height: 1.75;
     margin: 0;
 }
 
-.doctor-quote {
-    font-size: 1.5rem;
-    font-style: italic;
-    color: var(--secondary-color);
-    margin: 30px 0;
-    padding: 30px;
-    background: rgba(4, 53, 106, 0.05);
-    border-left: 4px solid var(--primary-color);
-    border-radius: 5px;
-    font-family: var(--template-font);
+.doctor-methodology {
+    padding: 64px 0 56px;
+    width: 85%;
+    margin: 0 auto;
 }
 
-.philosophy-grid {
+.doctor-methodology__layout {
+    align-items: start;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 30px;
-    margin-top: 40px;
+    gap: 20px;
+    grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
 }
 
-.philosophy-item {
-    text-align: center;
-    padding: 20px;
-}
-
-.philosophy-item h4 {
-    color: var(--secondary-color);
-    font-weight: 700;
-    margin-bottom: 15px;
+.doctor-methodology__eyebrow {
+    color: var(--primary-color);
     font-family: var(--template-font);
+    font-size: 0.95rem;
+    font-weight: 800;
+    line-height: 1.35;
+    margin: 0 0 10px;
 }
 
-.philosophy-item p {
+.doctor-methodology__intro h2 {
+    color: var(--secondary-color);
+    font-weight: 800;
+    margin: 0;
+}
+
+.doctor-methodology__subtitle {
     color: var(--template-color);
-    line-height: 1.6;
+    font-size: clamp(1.05rem, 1.15vw, 1.24rem);
+    line-height: 1.85;
+    margin: 16px 0 0;
 }
 
+.doctor-methodology__body {
+    color: var(--template-color);
+    font-size: clamp(1.02rem, 1.05vw, 1.14rem);
+}
+
+.doctor-methodology__quote {
+    background: rgba(4, 53, 106, 0.045);
+    border-inline-start: 4px solid var(--primary-color);
+    margin: auto;
+    padding: 28px;
+}
+
+.doctor-methodology__quote blockquote {
+    color: var(--secondary-color);
+    font-family: var(--template-font);
+    font-size: clamp(1.08rem, 1.2vw, 1.28rem);
+    font-style: italic;
+    line-height: 1.9;
+    margin: 0;
+}
+
+.doctor-methodology__quote figcaption {
+    color: var(--tertiary-color);
+    font-size: 0.92rem;
+    font-weight: 650;
+    line-height: 1.5;
+    margin-top: 16px;
+}
+
+.doctor-methodology__principles {
+    border-block-start: 1px solid rgba(4, 53, 106, 0.12);
+    display: grid;
+    gap: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
+}
+
+.doctor-methodology__principle {
+    display: grid;
+    gap: 18px;
+    grid-template-columns: 44px minmax(0, 1fr);
+    padding: 26px 24px 24px 0;
+}
+
+.doctor-methodology__principle:nth-child(odd) {
+    border-inline-end: 1px solid rgba(4, 53, 106, 0.1);
+}
+
+.doctor-methodology__principle:nth-child(n + 3) {
+    border-block-start: 1px solid rgba(4, 53, 106, 0.1);
+}
+
+.doctor-methodology__principle-label {
+    color: var(--base-color);
+    font-family: var(--template-font);
+    font-size: 1.15rem;
+    font-weight: 800;
+    line-height: 1.25;
+}
+
+.doctor-methodology__principle h3 {
+    color: var(--secondary-color);
+    font-family: var(--template-font);
+    font-size: clamp(1.12rem, 1.16vw, 1.28rem);
+    font-weight: 800;
+    line-height: 1.35;
+    margin: 0 0 8px;
+}
+
+.doctor-methodology__principle p {
+    color: var(--template-color);
+    font-size: 1rem;
+    line-height: 1.78;
+    margin: 0;
+}
+
+.doctor-journals__header {
+    margin: 0 auto 32px;
+    max-width: 90%;
+}
+
+.doctor-journals__header h2 {
+    color: var(--secondary-color);
+    font-weight: 800;
+    margin: 0;
+}
+
+.doctor-journals__intro {
+    color: var(--template-color);
+    font-size: clamp(1.2rem, 1.3vw, 1.4rem);
+    line-height: 1.88;
+    margin: 18px 0;
+    text-align: justify;
+}
+
+.doctor-journals__highlight {
+    border-inline-start: 4px solid var(--primary-color);
+    margin: 0 auto 20px;
+    padding: 18px;
+    max-width: 90%;
+}
+
+.doctor-journals__highlight p {
+    color: var(--secondary-color);
+    font-family: var(--template-font);
+    font-size: clamp(1.08rem, 1.15vw, 1.24rem);
+    font-style: italic;
+    line-height: 1.85;
+    margin: 0;
+}
+
+.doctor-journals__highlight span {
+    color: var(--base-color);
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 650;
+    line-height: 1.5;
+    margin-top: 10px;
+}
+
+.doctor-journals__items {
+    display: grid;
+    gap: 28px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    max-width: 90%;
+    margin: 0 auto 20px;
+}
+
+.doctor-journals__item {
+    align-items: start;
+    display: grid;
+    gap: 22px;
+    grid-template-columns: minmax(110px, 150px) minmax(0, 1fr);
+    padding: 24px 0 0;
+}
+
+.doctor-journals__item--text-only {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+.doctor-journals__item--text-only .doctor-journals__content {
+    grid-column: 1;
+}
+
+.doctor-journals__cover {
+    display: block;
+    height: auto;
+    margin: 0 auto;
+    max-height: 220px;
+    object-fit: contain;
+    width: 100%;
+}
+
+.doctor-journals__content h3 {
+    color: var(--secondary-color);
+    font-family: var(--template-font);
+    font-size: clamp(1.45rem, 1.8vw, 2rem);
+    font-weight: 800;
+    line-height: 1.25;
+    margin: 0 0 18px;
+}
+
+.doctor-journals__period {
+    color: var(--primary-color);
+    font-size: 0.92rem;
+    font-weight: 700;
+    line-height: 1.55;
+    margin: 0;
+}
+
+.doctor-journals__description {
+    color: var(--template-color);
+    font-size: 1rem;
+    line-height: 1.85;
+    margin: 0;
+}
+
+.doctor-journals__description {
+    margin-top: 12px;
+}
+
+.doctor-publications {
+    padding: 50px 0;
+    margin: 0 auto;
+    max-width: 80%;
+}
+
+.doctor-publications__header {
+    margin: 0 auto 20px;
+    text-align: center;
+}
+
+.doctor-publications__header h2 {
+    color: var(--secondary-color);
+    font-weight: 800;
+    margin: 0;
+}
+
+.doctor-publications__intro {
+    color: var(--template-color);
+    font-size: clamp(1.04rem, 1.12vw, 1.22rem);
+    line-height: 1.88;
+    margin: 16px auto 0;
+    text-align: justify;
+}
+
+
+.doctor-publications__body {
+    max-width: 90%;
+    margin: 0 auto;
+}
+
+.doctor-publications__list {
+    list-style: disc;
+    margin: 0;
+    padding-inline-start: 1rem;
+}
+
+.doctor-publications__item {
+    color: var(--primary-color);
+    padding: 7px 0;
+}
+
+.doctor-publications__line {
+    color: var(--template-color);
+    font-size: clamp(1rem, 1.05vw, 1.14rem);
+    line-height: 1.75;
+    margin: 0;
+}
+
+.doctor-publications__line strong {
+    color: var(--primary-color);
+    font-family: var(--template-font);
+    font-weight: 700;
+}
+
+.doctor-publications__cta {
+    margin-top: 26px;
+}
+
+.doctor-publications__cta .btn--secondary {
+    display: inline-flex;
+}
+
+.doctor-archive {
+    padding: 20px 0;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.doctor-archive__header {
+    margin: 0 auto;
+    text-align: center;
+}
+
+.doctor-archive__header h2 {
+    color: var(--secondary-color);
+    font-weight: 800;
+    margin: 0;
+}
+
+.doctor-archive__group {
+    padding-block-start: 30px;
+}
+
+.doctor-archive__carousel {
+    padding-inline: 56px;
+    position: relative;
+}
+
+.doctor-archive__control {
+    align-items: center;
+    background: var(--base-color);
+    border-radius: 50%;
+    color: var(--white);
+    direction: ltr;
+    display: inline-flex;
+    font-size: 1.3rem;
+    height: 30px;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: color 180ms ease, border-color 180ms ease, background-color 180ms ease;
+    width: 30px;
+    z-index: 2;
+}
+
+.doctor-archive__control span {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    line-height: 1;
+    transform: translateY(-1px);
+    width: 100%;
+}
+
+.doctor-archive__control--prev {
+    left: 0;
+}
+
+.doctor-archive__control--next {
+    right: 0;
+}
+
+.doctor-archive__control:hover,
+.doctor-archive__control:focus-visible {
+    background: var(--secondary-color);
+    border-color: var(--secondary-color);
+    color: var(--white);
+}
+
+.doctor-archive__gallery {
+    display: flex;
+    gap: 18px;
+    list-style: none;
+    margin: 0;
+    overflow-x: auto;
+    padding: 0 0 10px;
+    scroll-padding-inline: 2px;
+    scroll-snap-type: x mandatory;
+    scrollbar-color: rgba(4, 53, 106, 0.3) transparent;
+    scrollbar-width: thin;
+    -webkit-overflow-scrolling: touch;
+}
+
+.doctor-archive__gallery-item {
+    flex: 0 0 clamp(190px, 17vw, 250px);
+    min-width: 0;
+    scroll-snap-align: start;
+}
+
+.doctor-archive__figure {
+    border: 1.7px solid rgba(4, 53, 106, 0.14);
+    margin: 0;
+    padding: 12px;
+}
+
+.doctor-archive__image {
+    aspect-ratio: 3 / 4;
+    background: var(--white);
+    display: block;
+    height: auto;
+    object-fit: contain;
+    width: 100%;
+}
+
+.doctor-archive__figure figcaption {
+    border-block-start: 1px solid rgba(4, 53, 106, 0.12);
+    color: var(--tertiary-color);
+    font-size: 0.88rem;
+    font-weight: 600;
+    line-height: 1.5;
+    margin-top: 10px;
+    padding-top: 8px;
+}
 
 @media (max-width: 991px) {
     .doctor-hero__content {
@@ -575,6 +752,36 @@
     .doctor-formation__grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
+    .doctor-biography {
+        padding: 60px 0 48px;
+    }
+
+    .doctor-methodology__layout,
+    .doctor-methodology__principles {
+        grid-template-columns: 1fr;
+    }
+
+    .doctor-methodology__principle:nth-child(odd) {
+        border-inline-end: 0;
+    }
+
+    .doctor-methodology__principle:nth-child(n + 2) {
+        border-block-start: 1px solid rgba(4, 53, 106, 0.1);
+    }
+
+    .doctor-journals__items {
+        grid-template-columns: 1fr;
+    }
+
+    .doctor-journals__cover {
+        max-height: 240px;
+    }
+
+    .doctor-archive__gallery-item {
+        flex-basis: clamp(190px, 30vw, 230px);
+    }
+
 }
 
 @media (max-width: 767px) {
@@ -586,39 +793,6 @@
         max-width: 300px;
     }
 
-    .timeline-badge {
-        position: static;
-        display: inline-block;
-        margin-bottom: 10px;
-    }
-
-    .timeline {
-        padding-left: 0;
-    }
-
-    .timeline::before {
-        display: none;
-    }
-
-    .research-area-card {
-        flex-direction: column;
-        text-align: center;
-    }
-
-    .publication-meta {
-        flex-direction: column;
-        gap: 5px;
-    }
-
-    .publication-stats {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .philosophy-grid {
-        grid-template-columns: 1fr;
-    }
-
     .doctor-formation {
         padding: 52px 0;
     }
@@ -628,12 +802,171 @@
         gap: 18px;
     }
 
+    .doctor-formation__header h2 {
+        gap: 12px;
+    }
+
+    .doctor-formation__header h2::before,
+    .doctor-formation__header h2::after {
+        flex-basis: 40px;
+        max-width: 64px;
+        min-width: 28px;
+    }
+
     .doctor-formation__card {
         padding: 24px;
     }
 
+    .doctor-formation__quote-card {
+        align-items: center;
+        border-block-start: 4px solid var(--primary-color);
+        border-inline-start: 0;
+        flex-direction: column;
+        gap: 18px;
+        padding: 22px;
+        text-align: center;
+    }
+
+    .doctor-formation__quote-image {
+        flex-basis: 96px;
+        height: 96px;
+        width: 96px;
+    }
+
     .doctor-formation__quote {
         font-size: 1.05rem;
-        padding: 20px;
     }
+
+    .doctor-biography {
+        padding: 52px 0 42px;
+    }
+
+    .doctor-biography__header {
+        margin-bottom: 28px;
+    }
+
+    .doctor-biography__milestones {
+        margin-top: 28px;
+    }
+
+    .doctor-biography__milestones::before {
+        display: none;
+    }
+
+    .doctor-biography__entry {
+        display: block;
+        padding-block: 0 22px;
+    }
+
+    .doctor-biography__entry::before {
+        display: none;
+    }
+
+    .doctor-biography__period {
+        display: inline-flex;
+        margin-bottom: 10px;
+        padding-block-start: 0;
+        text-align: inherit;
+    }
+
+    .doctor-biography__content {
+        padding-block-start: 12px;
+    }
+
+    .doctor-biography__heading {
+        display: block;
+    }
+
+    .doctor-biography__category {
+        display: inline;
+    }
+
+    .doctor-biography__content h3 {
+        display: inline;
+    }
+
+    .doctor-methodology {
+        padding: 52px 0 44px;
+    }
+
+    .doctor-methodology__layout {
+        gap: 28px;
+    }
+
+    .doctor-methodology__quote {
+        padding: 22px;
+    }
+
+    .doctor-methodology__principle {
+        grid-template-columns: 38px minmax(0, 1fr);
+        padding: 22px 0;
+    }
+
+    .doctor-journals {
+        padding: 50px 0 56px;
+    }
+
+    .doctor-journals__highlight {
+        margin-bottom: 30px;
+        padding: 16px 20px;
+    }
+
+    .doctor-journals__item {
+        gap: 22px;
+        grid-template-columns: 1fr;
+        padding: 26px 0;
+    }
+
+    .doctor-journals__media {
+        margin-inline: auto;
+        max-width: 260px;
+        width: 100%;
+    }
+
+    .doctor-journals__cover {
+        max-height: 330px;
+    }
+
+    .doctor-publications {
+        padding: 52px 0;
+    }
+
+    .doctor-publications__header {
+        margin-bottom: 32px;
+    }
+
+    .doctor-archive {
+        padding: 54px 0 60px;
+    }
+
+    .doctor-archive__header {
+        margin-bottom: 34px;
+    }
+
+    .doctor-archive__group {
+        padding-block-start: 24px;
+    }
+
+    .doctor-archive__carousel {
+        padding-inline: 46px;
+    }
+
+    .doctor-archive__control {
+        font-size: 1.55rem;
+        height: 38px;
+        width: 38px;
+    }
+
+    .doctor-archive__gallery {
+        gap: 14px;
+    }
+
+    .doctor-archive__gallery-item {
+        flex-basis: clamp(160px, 58vw, 230px);
+    }
+
+    .doctor-archive__figure {
+        padding: 8px;
+    }
+
 }

@@ -15,11 +15,7 @@ export interface AboutDoctorContent {
     ctaLabel: string;
   };
   nav: {
-    formation?: string;
     biography: string;
-    research: string;
-    publications: string;
-    testimonials: string;
   };
   formation?: {
     title: string;
@@ -28,70 +24,171 @@ export interface AboutDoctorContent {
     cards: Array<{
       title: string;
       description: string;
-      icon: string;
     }>;
     quote?: string;
   };
   biography: {
     title: string;
-    educationTitle: string;
-    education: Array<{
+    subtitle?: string;
+    milestones?: Array<{
+      period: string;
+      category: string;
+      title: string;
+      place: string;
+      description: string;
+    }>;
+    educationTitle?: string;
+    education?: Array<{
       year: string;
       degree: string;
       institution: string;
       thesis?: string;
     }>;
-    careerTitle: string;
-    career: Array<{
+    careerTitle?: string;
+    career?: Array<{
       period: string;
       title: string;
       institution: string;
       description: string;
     }>;
   };
-  research: {
-    title: string;
-    description: string;
-    areas: Array<{
-      title: string;
-      description: string;
-      icon: string;
-    }>;
-  };
-  publications: {
+  methodology?: {
+    eyebrow: string;
     title: string;
     subtitle: string;
-    landmarkTitle: string;
-    books: Array<{
-      title: string;
-      publisher: string;
-      year: string;
-      description: string;
-      citations: string;
-      downloads: string;
-    }>;
-    awardsTitle: string;
-    awards: Array<{
-      year: string;
-      award: string;
-    }>;
-    viewMoreLabel: string;
-  };
-  testimonials: {
-    title: string;
-    items: Array<{
-      name: string;
-      title: string;
-      quote: string;
-    }>;
-  };
-  legacy: {
-    title: string;
+    body: string;
     quote: string;
+    quoteSource?: string;
     principles: Array<{
       title: string;
       description: string;
     }>;
+  };
+  journals?: {
+    title: string;
+    intro: string;
+    highlight: string;
+    highlightSource: string;
+    items: Array<{
+      key: string;
+      title: string;
+      image?: string;
+      imageAlt?: string;
+      period: string;
+      description: string;
+    }>;
+  };
+  publications: {
+    title: string;
+    intro: string;
+    listTitle: string;
+    items: Array<{
+      title: string;
+      meta: string;
+    }>;
+    ctaLabel: string;
+    ctaHref: string;
+  };
+  archive?: {
+    title: string;
+    controls: {
+      previous: string;
+      next: string;
+    };
+    groups: Array<{
+      key: string;
+      images: Array<{
+        src: string;
+        alt: string;
+        caption?: string;
+      }>;
+    }>;
+  };
+}
+
+const doctorBibliographyItems: AboutDoctorContent["publications"]["items"] = [
+  {
+    title: "Pays Jbala : Makhzen, Espagne et Ahmed Raissouni",
+    meta: "طنجة، الطبعة الأولى 1995؛ الطبعة الثانية 1996"
+  },
+  {
+    title: "بحوث ونصوص حول تاريخ المغرب المعاصر",
+    meta: "طنجة، 1996"
+  },
+  {
+    title: "حفريات في تاريخ المغرب المعاصر",
+    meta: "طنجة، 1996"
+  },
+  {
+    title: "ملامح من تاريخ طنجة المعاصر (1792-1947)",
+    meta: "طنجة، 1996"
+  },
+  {
+    title: "دراسات في تاريخ شمال المغرب المعاصر",
+    meta: "طنجة، 1996"
+  },
+  {
+    title: "مقالات ووثائق حول تاريخ المغرب المعاصر",
+    meta: "طنجة، 1997"
+  },
+  {
+    title: "الحركة الريسونية من خلال الوثائق المغربية",
+    meta: "جزآن، طنجة، 1997"
+  },
+  {
+    title: "العلاقات الإسبانية المغربية في نهاية القرن 19 من خلال الأرشيف الديبلوماسي (1884-1898)",
+    meta: "المحمدية، 1997"
+  },
+  {
+    title: "تقديم ونشر كتاب: رحلة الجلالة المحمدية إلى طنجة عاصمتها الديبلوماسية",
+    meta: "لأحمد بن محمد الكردودي الكلالي، طنجة، 1997"
+  },
+  {
+    title: "تأملات في تاريخ المغرب المعاصر من خلال التقاييد والرؤى",
+    meta: "طنجة، 1998"
+  },
+  {
+    title: "تقديم ونشر كتاب: الرحلة الطنجوية الممزوجة بالمناسك المالكية",
+    meta: "للمحسن بن محمد الغسال، طنجة، 1998"
+  },
+  {
+    title: "طنجة الدولية من خلال الوثائق",
+    meta: "دراسة بدعم من وزارة الثقافة، 2000؛ لم يكتب لها النشر"
+  }
+];
+
+const archiveManuscriptImagePaths = Array.from(
+  {length: 16},
+  (_, index) => `/assets/images/difference/manu${index + 1}.jpg`
+);
+
+function createDoctorArchiveContent(copy: {
+  title: string;
+  manuscriptAlt: string;
+  manuscriptCaption: string;
+  previousLabel: string;
+  nextLabel: string;
+}): NonNullable<AboutDoctorContent["archive"]> {
+  return {
+    title: copy.title,
+    controls: {
+      previous: copy.previousLabel,
+      next: copy.nextLabel
+    },
+    groups: [
+      {
+        key: "manuscripts",
+        images: archiveManuscriptImagePaths.map((src, index) => ({
+          src,
+          alt: `${copy.manuscriptAlt} ${index + 1}`,
+          caption: copy.manuscriptCaption
+        }))
+      },
+      {
+        key: "press",
+        images: []
+      }
+    ]
   };
 }
 
@@ -111,11 +208,7 @@ const aboutDoctorContent: Record<Locale, AboutDoctorContent> = {
       ctaLabel: "Read full biography (PDF)"
     },
     nav: {
-      formation: "Formation",
       biography: "Biography",
-      research: "Research",
-      publications: "Publications",
-      testimonials: "Testimonials"
     },
     formation: {
       title: "Intellectual Formation and the Beginnings of Critical Awareness",
@@ -128,17 +221,14 @@ const aboutDoctorContent: Record<Locale, AboutDoctorContent> = {
         {
           title: "Self-Education and Reading",
           description: "His formation relied on sustained personal reading and a disciplined search for knowledge beyond narrow cultural routines.",
-          icon: "fa-solid fa-book-open-reader"
         },
         {
           title: "Languages and Sources",
           description: "Arabic, French, and Spanish opened multiple documentary and intellectual horizons across history, literature, thought, and politics.",
-          icon: "fa-solid fa-language"
         },
         {
           title: "Critical Inquiry",
           description: "His work gradually moved toward independent questioning and a documentary approach to historical memory.",
-          icon: "fa-solid fa-magnifying-glass"
         }
       ],
       quote: "I read widely, and in a self-directed way, major works in Arabic, French, and Spanish."
@@ -181,110 +271,22 @@ const aboutDoctorContent: Record<Locale, AboutDoctorContent> = {
         }
       ]
     },
-    research: {
-      title: "Research Areas & Contributions",
-      description:
-        "Dr. Temsamani's research methodology combined rigorous archival work with innovative interdisciplinary approaches, bridging history, sociology, and cultural anthropology.",
-      areas: [
-        {
-          title: "Urban History of Northern Morocco",
-          description: "Comprehensive studies of urban development and social transformations in Tetouan and surrounding regions.",
-          icon: "fa-solid fa-building"
-        },
-        {
-          title: "Jewish-Muslim Relations in Pre-colonial Morocco",
-          description: "Groundbreaking research on cultural coexistence and exchange between communities.",
-          icon: "fa-solid fa-users"
-        },
-        {
-          title: "Oral History Preservation Techniques",
-          description: "Innovative methodologies for collecting, preserving, and analyzing oral historical narratives.",
-          icon: "fa-solid fa-quote-left"
-        },
-        {
-          title: "Archival Documentation Methodologies",
-          description: "Development of systematic approaches to historical document preservation and analysis.",
-          icon: "fa-solid fa-book"
-        }
-      ]
-    },
     publications: {
-      title: "Publications & Notable Works",
-      subtitle: "",
-      landmarkTitle: "Landmark Publications",
-      books: [
-        {
-          title: "Tetouan: Urban Development and Social Transformations (1850-1950)",
-          publisher: "University of Abdelmalek Essaâdi Press",
-          year: "1995",
-          description: "A comprehensive study of urban evolution in Northern Morocco, examining the social and architectural transformations during a pivotal period in Moroccan history.",
-          citations: "450+",
-          downloads: "8,500+"
-        },
-        {
-          title: "The Jewish Community of Northern Morocco: Coexistence and Cultural Exchange",
-          publisher: "Moroccan Historical Society",
-          year: "2001",
-          description: "An in-depth exploration of Jewish-Muslim relations in pre-colonial Morocco, documenting centuries of cultural coexistence and mutual influence.",
-          citations: "320+",
-          downloads: "6,200+"
-        },
-        {
-          title: "Historical Documents of the Moroccan Rif: Preservation and Analysis",
-          publisher: "Center for Historical Studies",
-          year: "2005",
-          description: "Essential methodological approaches to preserving and analyzing historical documents from the Rif region, establishing new standards for archival work.",
-          citations: "280+",
-          downloads: "4,800+"
-        }
-      ],
-      awardsTitle: "Awards & Recognition",
-      awards: [
-        {year: "2008", award: "Moroccan Cultural Heritage Preservation Award"},
-        {year: "2005", award: "Excellence in Maghreb Studies Award"},
-        {year: "2000", award: "Outstanding Historical Research Award"},
-        {year: "1995", award: "Archival Preservation Innovation Award"}
-      ],
-      viewMoreLabel: "View More"
+      title: "Scholarly Works and Publications",
+      intro:
+        "For Abdelaziz Khallouk Temsamani, authorship was a direct extension of his historical method: the book remained a space for questioning documents, organizing historical material, and revisiting issues long shaped by reduction or ready-made readings.",
+      listTitle: "Selected examples of his works",
+      items: doctorBibliographyItems,
+      ctaLabel: "Read the doctor's works in the library",
+      ctaHref: "/library"
     },
-    testimonials: {
-      title: "Testimonials & Appreciation",
-      items: [
-        {
-          name: "Prof. Hassan El-Ouazzani",
-          title: "Director, Institute of Maghreb Studies, University of Rabat",
-          quote: "Dr. Temsamani's meticulous approach to archival research and his innovative methodologies have fundamentally changed how we study North African urban history. His work bridges the gap between academic research and community heritage preservation."
-        },
-        {
-          name: "Dr. Fatima Benali",
-          title: "Professor of Mediterranean Studies, University of Tunis",
-          quote: "Working with Dr. Temsamani on the Jewish-Muslim coexistence project was transformative. His ability to uncover forgotten narratives and present them with scholarly rigor while maintaining cultural sensitivity is unparalleled."
-        },
-        {
-          name: "Prof. Ahmed Tazi",
-          title: "Former Student, now Director of Moroccan National Archives",
-          quote: "Dr. Temsamani taught me that history is not just about dates and events, but about understanding the human stories that shape our present. His mentorship shaped my entire approach to historical preservation."
-        }
-      ]
-    },
-    legacy: {
-      title: "Legacy & Philosophy",
-      quote: "History is not just about studying the past, but about understanding the present to shape the future.",
-      principles: [
-        {
-          title: "Critical Analysis",
-          description: "Emphasis on rigorous examination of primary sources and historical evidence."
-        },
-        {
-          title: "Interdisciplinary Approach",
-          description: "Integration of history, sociology, and cultural anthropology in research."
-        },
-        {
-          title: "Community Engagement",
-          description: "Active involvement of local communities in historical preservation efforts."
-        }
-      ]
-    }
+    archive: createDoctorArchiveContent({
+      title: "The Memory Cabinet: Documents and Images from a Scholarly Path",
+      manuscriptAlt: "Archival document",
+      manuscriptCaption: "Archival document",
+      previousLabel: "Previous archival image",
+      nextLabel: "Next archival image"
+    }),
   },
   fr: {
     hero: {
@@ -302,9 +304,6 @@ const aboutDoctorContent: Record<Locale, AboutDoctorContent> = {
     },
     nav: {
       biography: "Biographie",
-      research: "Recherche",
-      publications: "Publications",
-      testimonials: "Témoignages"
     },
     biography: {
       title: "Biographie académique",
@@ -344,110 +343,22 @@ const aboutDoctorContent: Record<Locale, AboutDoctorContent> = {
         }
       ]
     },
-    research: {
-      title: "Champs de recherche et contributions",
-      description:
-        "La méthode du Dr Temsamani combine un travail archivistique rigoureux et des approches interdisciplinaires reliant histoire, sociologie et anthropologie culturelle.",
-      areas: [
-        {
-          title: "Histoire urbaine du nord du Maroc",
-          description: "Études approfondies sur l’évolution urbaine et les transformations sociales à Tétouan et dans la région.",
-          icon: "fa-solid fa-building"
-        },
-        {
-          title: "Relations judéo-musulmanes au Maroc précolonial",
-          description: "Recherches novatrices sur la coexistence et les échanges culturels entre communautés.",
-          icon: "fa-solid fa-users"
-        },
-        {
-          title: "Techniques de préservation de l’histoire orale",
-          description: "Méthodes innovantes pour collecter, préserver et analyser les récits oraux.",
-          icon: "fa-solid fa-quote-left"
-        },
-        {
-          title: "Méthodologies de documentation archivistique",
-          description: "Développement d’approches systématiques pour conserver et analyser les documents historiques.",
-          icon: "fa-solid fa-book"
-        }
-      ]
-    },
     publications: {
-      title: "Publications et ouvrages",
-      subtitle: "",
-      landmarkTitle: "Publications marquantes",
-      books: [
-        {
-          title: "Tétouan : développement urbain et transformations sociales (1850-1950)",
-          publisher: "Presses de l’Université Abdelmalek Essaâdi",
-          year: "1995",
-          description: "Étude complète de l’évolution urbaine du nord du Maroc, analysant les mutations sociales et architecturales d’une période clé.",
-          citations: "450+",
-          downloads: "8 500+"
-        },
-        {
-          title: "La communauté juive du nord du Maroc : coexistence et échanges culturels",
-          publisher: "Société marocaine d’histoire",
-          year: "2001",
-          description: "Exploration des relations judéo-musulmanes au Maroc précolonial, documentant des siècles de coexistence et d’influence mutuelle.",
-          citations: "320+",
-          downloads: "6 200+"
-        },
-        {
-          title: "Documents historiques du Rif marocain : préservation et analyse",
-          publisher: "Centre d’études historiques",
-          year: "2005",
-          description: "Méthodologies essentielles pour conserver et analyser les documents historiques du Rif, fixant de nouveaux standards archivistiques.",
-          citations: "280+",
-          downloads: "4 800+"
-        }
-      ],
-      awardsTitle: "Prix et distinctions",
-      awards: [
-        {year: "2008", award: "Prix marocain de la préservation du patrimoine culturel"},
-        {year: "2005", award: "Prix d’excellence en études du Maghreb"},
-        {year: "2000", award: "Prix de la recherche historique"},
-        {year: "1995", award: "Prix d’innovation en conservation archivistique"}
-      ],
-      viewMoreLabel: "Voir plus"
+      title: "Œuvres scientifiques et publications",
+      intro:
+        "Chez Abdelaziz Khallouk Temsamani, l'écriture prolonge directement sa méthode historique : le livre demeure un espace d'interrogation du document, d'organisation de la matière historique et de relecture de questions longtemps réduites par des interprétations toutes faites.",
+      listTitle: "Exemples choisis de ses travaux",
+      items: doctorBibliographyItems,
+      ctaLabel: "Lire les œuvres du docteur dans la bibliothèque",
+      ctaHref: "/library"
     },
-    testimonials: {
-      title: "Témoignages et reconnaissance",
-      items: [
-        {
-          name: "Pr. Hassan El-Ouazzani",
-          title: "Directeur, Institut d’études du Maghreb, Université de Rabat",
-          quote: "L’approche méticuleuse du Dr Temsamani et ses méthodes innovantes ont transformé notre manière d’étudier l’histoire urbaine nord-africaine."
-        },
-        {
-          name: "Dr. Fatima Benali",
-          title: "Professeure d’études méditerranéennes, Université de Tunis",
-          quote: "Sa capacité à révéler des récits oubliés avec rigueur scientifique et sensibilité culturelle est sans égal."
-        },
-        {
-          name: "Pr. Ahmed Tazi",
-          title: "Ancien étudiant, aujourd’hui directeur des Archives nationales du Maroc",
-          quote: "Il m’a appris que l’histoire concerne les histoires humaines qui façonnent notre présent."
-        }
-      ]
-    },
-    legacy: {
-      title: "Héritage et philosophie",
-      quote: "L’histoire ne consiste pas seulement à étudier le passé, mais à comprendre le présent pour façonner l’avenir.",
-      principles: [
-        {
-          title: "Analyse critique",
-          description: "Accent sur l’examen rigoureux des sources primaires et des preuves historiques."
-        },
-        {
-          title: "Approche interdisciplinaire",
-          description: "Croisement de l’histoire, de la sociologie et de l’anthropologie culturelle."
-        },
-        {
-          title: "Engagement communautaire",
-          description: "Implication active des communautés locales dans la préservation historique."
-        }
-      ]
-    }
+    archive: createDoctorArchiveContent({
+      title: "Le cabinet de la mémoire : documents et images d'un parcours",
+      manuscriptAlt: "Document d'archive",
+      manuscriptCaption: "Document d'archive",
+      previousLabel: "Image d'archive précédente",
+      nextLabel: "Image d'archive suivante"
+    }),
   },
   es: {
     hero: {
@@ -465,9 +376,6 @@ const aboutDoctorContent: Record<Locale, AboutDoctorContent> = {
     },
     nav: {
       biography: "Biografía",
-      research: "Investigación",
-      publications: "Publicaciones",
-      testimonials: "Testimonios"
     },
     biography: {
       title: "Biografía académica",
@@ -507,110 +415,22 @@ const aboutDoctorContent: Record<Locale, AboutDoctorContent> = {
         }
       ]
     },
-    research: {
-      title: "Áreas de investigación y aportes",
-      description:
-        "Su método combinó trabajo archivístico riguroso con enfoques interdisciplinarios que unen historia, sociología y antropología cultural.",
-      areas: [
-        {
-          title: "Historia urbana del norte de Marruecos",
-          description: "Estudios completos sobre desarrollo urbano y transformaciones sociales en Tetuán y la región.",
-          icon: "fa-solid fa-building"
-        },
-        {
-          title: "Relaciones judeo-musulmanas en el Marruecos precolonial",
-          description: "Investigación pionera sobre coexistencia y intercambio cultural entre comunidades.",
-          icon: "fa-solid fa-users"
-        },
-        {
-          title: "Técnicas de preservación de historia oral",
-          description: "Metodologías innovadoras para recopilar, preservar y analizar relatos orales.",
-          icon: "fa-solid fa-quote-left"
-        },
-        {
-          title: "Metodologías de documentación archivística",
-          description: "Desarrollo de enfoques sistemáticos para conservar y analizar documentos históricos.",
-          icon: "fa-solid fa-book"
-        }
-      ]
-    },
     publications: {
-      title: "Publicaciones y obras destacadas",
-      subtitle: "",
-      landmarkTitle: "Publicaciones clave",
-      books: [
-        {
-          title: "Tetuán: desarrollo urbano y transformaciones sociales (1850-1950)",
-          publisher: "Editorial Universidad Abdelmalek Essaâdi",
-          year: "1995",
-          description: "Estudio completo sobre la evolución urbana del norte de Marruecos, analizando cambios sociales y arquitectónicos en un periodo crucial.",
-          citations: "450+",
-          downloads: "8,500+"
-        },
-        {
-          title: "La comunidad judía del norte de Marruecos: convivencia e intercambio cultural",
-          publisher: "Sociedad Histórica Marroquí",
-          year: "2001",
-          description: "Exploración profunda de las relaciones judeo-musulmanas en el Marruecos precolonial.",
-          citations: "320+",
-          downloads: "6,200+"
-        },
-        {
-          title: "Documentos históricos del Rif marroquí: preservación y análisis",
-          publisher: "Centro de Estudios Históricos",
-          year: "2005",
-          description: "Metodologías esenciales para conservar y analizar documentos históricos del Rif, estableciendo nuevos estándares archivísticos.",
-          citations: "280+",
-          downloads: "4,800+"
-        }
-      ],
-      awardsTitle: "Premios y reconocimientos",
-      awards: [
-        {year: "2008", award: "Premio marroquí a la preservación del patrimonio cultural"},
-        {year: "2005", award: "Premio a la excelencia en estudios del Magreb"},
-        {year: "2000", award: "Premio a la investigación histórica"},
-        {year: "1995", award: "Premio a la innovación en conservación archivística"}
-      ],
-      viewMoreLabel: "Ver más"
+      title: "Obra científica y publicaciones",
+      intro:
+        "Para Abdelaziz Khallouk Temsamani, la escritura fue una prolongación directa de su método histórico: el libro siguió siendo un espacio para interrogar documentos, ordenar material histórico y revisar cuestiones marcadas por lecturas reductoras o ya establecidas.",
+      listTitle: "Ejemplos seleccionados de sus obras",
+      items: doctorBibliographyItems,
+      ctaLabel: "Leer las obras del doctor en la biblioteca",
+      ctaHref: "/library"
     },
-    testimonials: {
-      title: "Testimonios y agradecimientos",
-      items: [
-        {
-          name: "Prof. Hassan El-Ouazzani",
-          title: "Director, Instituto de Estudios del Magreb, Universidad de Rabat",
-          quote: "Su enfoque meticuloso e innovador cambió la forma de estudiar la historia urbana del norte de África."
-        },
-        {
-          name: "Dra. Fatima Benali",
-          title: "Profesora de Estudios Mediterráneos, Universidad de Túnez",
-          quote: "Su capacidad para recuperar relatos olvidados con rigor y sensibilidad cultural es incomparable."
-        },
-        {
-          name: "Prof. Ahmed Tazi",
-          title: "Exalumno, hoy director de los Archivos Nacionales de Marruecos",
-          quote: "Me enseñó que la historia trata de las historias humanas que moldean nuestro presente."
-        }
-      ]
-    },
-    legacy: {
-      title: "Legado y filosofía",
-      quote: "La historia no es solo estudiar el pasado, sino entender el presente para construir el futuro.",
-      principles: [
-        {
-          title: "Análisis crítico",
-          description: "Énfasis en el examen riguroso de fuentes primarias y evidencias históricas."
-        },
-        {
-          title: "Enfoque interdisciplinar",
-          description: "Integración de historia, sociología y antropología cultural en la investigación."
-        },
-        {
-          title: "Compromiso comunitario",
-          description: "Participación activa de las comunidades locales en la preservación histórica."
-        }
-      ]
-    }
+    archive: createDoctorArchiveContent({
+      title: "El gabinete de la memoria: documentos e imágenes de una trayectoria",
+      manuscriptAlt: "Documento de archivo",
+      manuscriptCaption: "Documento de archivo",
+      previousLabel: "Imagen de archivo anterior",
+      nextLabel: "Imagen de archivo siguiente"
+    }),
   },
   ar: {
     hero: {
@@ -628,161 +448,152 @@ const aboutDoctorContent: Record<Locale, AboutDoctorContent> = {
     },
     nav: {
       biography: "السيرة الذاتية",
-      research: "الأبحاث",
-      publications: "المنشورات",
-      testimonials: "الشهادات"
     },
     biography: {
-      title: "السيرة الأكاديمية",
-      educationTitle: "التعليم",
-      education: [
+      title: "محطات من المسار العلمي والأكاديمي",
+      subtitle:
+        "من التكوين الأول إلى البحث الجامعي، تشكل مسار عبد العزيز خلوق التمسماني عبر محطات جمعت بين التدريس، والتحصيل الأكاديمي، والاشتغال الوثائقي على تاريخ طنجة وشمال المغرب.",
+      milestones: [
         {
-          year: "1975",
-          degree: "دكتوراه في التاريخ",
-          institution: "جامعة محمد الخامس، الرباط",
-          thesis: "الأطروحة: العلاقات التجارية والثقافية بين المغرب والأندلس"
+          period: "1943",
+          category: "البدايات",
+          title: "النشأة في طنجة",
+          place: "حي المصلى، طنجة",
+          description:
+            "ولد عبد العزيز خلوق التمسماني سنة 1943 بحي المصلى بطنجة، في وسط عائلي شجع مساره التعليمي وفتح أمامه مبكرا أفق القراءة والمعرفة."
         },
         {
-          year: "1968",
-          degree: "إجازة في التاريخ",
-          institution: "جامعة محمد الخامس، الرباط"
-        }
-      ],
-      careerTitle: "المسار الأكاديمي",
-      career: [
-        {
-          period: "1985-2008",
-          title: "أستاذ التاريخ الحديث",
-          institution: "جامعة عبد المالك السعدي",
-          description: "قاد أبحاثًا رائدة في تاريخ المدن وحفظ التراث في شمال أفريقيا."
+          period: "1961",
+          category: "التكوين",
+          title: "مدرسة المعلمين بمراكش",
+          place: "مدرسة المعلمين بالقصبة، مراكش",
+          description:
+            "بعد نهاية التكوين الابتدائي والثانوي بطنجة، انتقل إلى مراكش حيث عُيّن معلما متدربا بمدرسة المعلمين بالقصبة، فالتحق بالقسم الفرنسي وتخرّج متفوقا داخل فصله."
         },
         {
-        period: "1970-1985",
-        title: "باحث ومؤرخ في تاريخ المغرب المعاصر",
-        institution: "",
-        description: "توجّه بشكل أكبر إلى البحث التاريخي، منشغلاً بقضايا الشمال المغربي والعلاقات المغربية الإسبانية وتاريخ الحركة الوطنية."
-        }, 
-        {
-        period: "1960-1970",
-        title: "مدرّس وباحث في تاريخ المغرب",
-        institution: "مدارس وثانويات بمدينة طنجة",
-        description: "اشتغل بالتدريس في التعليم، وبدأ في الوقت نفسه نشر أبحاثه حول تاريخ المغرب المعاصر والشمال المغربي."
-        },
-      
-      ]
-    },
-    research: {
-      title: "مجالات البحث والمساهمات",
-      description:
-        "جمع نهجه بين العمل الأرشيفي الدقيق ومقاربات متعددة التخصصات تربط التاريخ بعلم الاجتماع والأنثروبولوجيا الثقافية.",
-      areas: [
-        {
-          title: "تاريخ المدن في شمال المغرب",
-          description: "دراسات شاملة حول التطور الحضري والتحولات الاجتماعية في تطوان والمناطق المجاورة.",
-          icon: "fa-solid fa-building"
+          period: "بعد التخرج",
+          category: "التدريس",
+          title: "البدايات المهنية بطنجة",
+          place: "مدرسة بني مكادة، طنجة",
+          description:
+            "بدأ مساره المهني معلما بمدرسة بني مكادة بطنجة، ثم أستاذا للغة الفرنسية بالسلك الأول، قبل أن يلتحق بمدرسة المعلمين أستاذا لمادة البيداغوجيا عقب حصوله على الإجازة."
         },
         {
-          title: "العلاقات اليهودية الإسلامية في المغرب قبل الاستعمار",
-          description: "أبحاث رائدة حول التعايش والتبادل الثقافي بين المجتمعات.",
-          icon: "fa-solid fa-users"
+          period: "1978",
+          category: "البحث الجامعي",
+          title: "دكتوراه السلك الثالث",
+          place: "جامعة بوردو، فرنسا",
+          description:
+            "حصل سنة 1978 على دكتوراه السلك الثالث من جامعة بوردو، ببحث تناول قيمة تراث النوازل في دراسة تطور اقتصاد المغرب الإسلامي خلال العصر الوسيط، اعتمادا على نموذج نوازل البرزلي، تحت إشراف الأستاذ روحي هادي إدريس."
         },
         {
-          title: "تقنيات حفظ التاريخ الشفهي",
-          description: "منهجيات مبتكرة لجمع ورعاية وتحليل الروايات الشفوية.",
-          icon: "fa-solid fa-quote-left"
+          period: "ابتداء من 1980",
+          category: "تحول علمي",
+          title: "الانتقال إلى تاريخ المغرب المعاصر",
+          place: "فرنسا / تاريخ منطقة جبالة",
+          description:
+            "ابتداء من سنة 1980، اتجه إلى الاشتغال على المرحلة المعاصرة، وأنجز أطروحة دكتوراه الدولة حول تطور أوضاع منطقة جبالة في نهاية القرن التاسع عشر ومطلع القرن العشرين، في ضوء الأطماع الإسبانية، وطموحات أحمد الريسوني، وأزمات المخزن المغربي."
         },
         {
-          title: "منهجيات التوثيق الأرشيفي",
-          description: "تطوير أساليب منهجية لحفظ وتحليل الوثائق التاريخية.",
-          icon: "fa-solid fa-book"
+          period: "المسار الجامعي",
+          category: "الجامعة",
+          title: "التدريس الجامعي",
+          place: "تطوان، الرباط، ثم تطوان",
+          description:
+            "درّس بكلية أصول الدين بمدينة تطوان، ثم بكلية الآداب والعلوم الإنسانية بالرباط، قبل أن يواصل مساره أستاذا للتعليم العالي بشعبة التاريخ بكلية الآداب بتطوان."
+        },
+        {
+          period: "1984",
+          category: "منعطف مؤسساتي",
+          title: "إطلاق مجلة دار النيابة",
+          place: "طنجة",
+          description:
+            "مع مطلع سنة 1984، ساهم في تنظيم الاشتغال الجماعي حول تاريخ المغرب وشماله من خلال إصدار مجلة دار النيابة، التي تحولت إلى منبر متخصص استقطب باحثين مغاربة وأجانب في حقل الدراسات التاريخية."
         }
       ]
     },
-    publications: {
-      title: "منشورات وأعمال بارزة",
-      subtitle: "",
-      landmarkTitle: "منشورات رائدة",
-      books: [
-        {
-          title: "تطوان: التطور الحضري والتحولات الاجتماعية (1850-1950)",
-          publisher: "منشورات جامعة عبد المالك السعدي",
-          year: "1995",
-          description: "دراسة شاملة لتطور المدن في شمال المغرب وتحولاتها الاجتماعية والمعمارية خلال فترة مفصلية.",
-          citations: "450+",
-          downloads: "8,500+"
-        },
-        {
-          title: "المجتمع اليهودي في شمال المغرب: تعايش وتبادل ثقافي",
-          publisher: "الجمعية المغربية للتاريخ",
-          year: "2001",
-          description: "استكشاف معمق للعلاقات اليهودية الإسلامية في المغرب قبل الاستعمار.",
-          citations: "320+",
-          downloads: "6,200+"
-        },
-        {
-          title: "وثائق تاريخية من الريف المغربي: الحفظ والتحليل",
-          publisher: "مركز الدراسات التاريخية",
-          year: "2005",
-          description: "مناهج أساسية لحفظ وتحليل وثائق الريف التاريخية ووضع معايير أرشيفية جديدة.",
-          citations: "280+",
-          downloads: "4,800+"
-        }
-      ],
-      awardsTitle: "جوائز وتكريمات",
-      awards: [
-        {year: "2008", award: "جائزة المغرب لحفظ التراث الثقافي"},
-        {year: "2005", award: "جائزة التميز في دراسات المغرب العربي"},
-        {year: "2000", award: "جائزة البحث التاريخي المتميز"},
-        {year: "1995", award: "جائزة الابتكار في الحفظ الأرشيفي"}
-      ],
-      viewMoreLabel: "عرض المزيد"
-    },
-    testimonials: {
-      title: "شهادات وتقدير",
-      items: [
-        {
-          name: "الأستاذ حسن الوزاني",
-          title: "مدير معهد دراسات المغرب، جامعة الرباط",
-          quote: "منهجه الدقيق والمبتكر غيّر جذريًا طريقة دراسة التاريخ الحضري في شمال أفريقيا."
-        },
-        {
-          name: "الدكتورة فاطمة بن علي",
-          title: "أستاذة الدراسات المتوسطية، جامعة تونس",
-          quote: "قدرته على كشف الروايات المنسية بدقة علمية وحس ثقافي لا مثيل لها."
-        },
-        {
-          name: "الأستاذ أحمد الطازي",
-          title: "طالب سابق، مدير الأرشيف الوطني المغربي",
-          quote: "علمني أن التاريخ يتعلق بالقصص الإنسانية التي تشكل حاضرنا."
-        }
-      ]
-    },
-    legacy: {
-      title: "الإرث والفلسفة",
-      quote: "التاريخ ليس مجرد دراسة الماضي، بل فهم الحاضر لصنع المستقبل.",
+    methodology: {
+      eyebrow: "منهجه في كتابة التاريخ",
+      title: "الوثيقة بوصفها مدخلاً إلى إعادة بناء الذاكرة",
+      subtitle:
+        "لم يكن اشتغال عبد العزيز خلوق التمسماني على تاريخ الشمال المغربي مجرد جمعٍ للوقائع، بل كان سعياً منهجياً إلى مساءلة الروايات المتداولة، واستنطاق الوثائق، وتصحيح ما تراكم من أحكام جاهزة حول تاريخ المنطقة.",
+      body:
+        "ينطلق مشروعه التاريخي من وعي عميق بأن الخصاص في دراسة تاريخ طنجة ومنطقتي جبالة والريف لم يكن راجعاً إلى ندرة المادة الوثائقية بقدر ما كان نتيجة لهيمنة قراءات كولونيالية متهافتة، ومحدودية بعض المقاربات التقليدية، وغياب الوثيقة الغميسة عن كثير من محاولات الفهم والتأويل. لذلك جعل من الأرشيف، ومن الوثائق المخزنية والدبلوماسية والمحلية، أساساً لإعادة النظر في تاريخ الشمال المغربي، وإضاءة مناطقه المعتمة، وردّ الاعتبار إلى تعقيداته السياسية والاجتماعية والثقافية.",
+      quote:
+        "لقد فتح الاشتغال على الوثائق إمكانيات هائلة أمام مشاريع إعادة الأمور إلى نصابها عبر تصحيح الأخطاء الجسيمة التي ارتبطت بتاريخنا، وعبر إضاءة نقاط الظلام الكثيف الذي كان يكتنف هذا التاريخ.",
+      quoteSource: "من حوار مع المؤرخ عبد العزيز خلوق التمسماني",
       principles: [
         {
-          title: "التحليل النقدي",
-          description: "تركيز على الفحص الدقيق للمصادر الأولية والأدلة التاريخية."
+          title: "استنطاق الوثيقة",
+          description:
+            "اعتمد التمسماني على الوثيقة بوصفها شاهداً لا يكتفي بتأكيد الرواية، بل يفتح إمكانات جديدة للسؤال، والمراجعة، وإعادة تركيب الوقائع في سياقاتها التاريخية."
         },
         {
-          title: "مقاربة متعددة التخصصات",
-          description: "دمج التاريخ بعلم الاجتماع والأنثروبولوجيا الثقافية."
+          title: "نقد الروايات الجاهزة",
+          description:
+            "واجه في أعماله آثار الكتابات الكولونيالية والقراءات التقليدية التي اختزلت تاريخ الشمال، وسعى إلى تفكيك الأحكام المسبقة التي حجبت كثيراً من تعقيدات المجال والإنسان والمؤسسة."
         },
         {
-          title: "مشاركة المجتمع",
-          description: "إشراك المجتمعات المحلية في جهود حفظ التاريخ."
+          title: "إعادة كتابة تاريخ الشمال",
+          description:
+            "لم يكن تاريخ طنجة وجبالة والريف عنده موضوعاً محلياً ضيقاً، بل مدخلاً لفهم علاقة المغرب بمحيطه المتوسطي، وبالتحولات الدبلوماسية والسياسية التي طبعت العصر الحديث والمعاصر."
+        },
+        {
+          title: "العمل العلمي الجماعي",
+          description:
+            "كان واعياً بأن إعادة بناء الذاكرة التاريخية تتجاوز إمكانات الفرد الواحد، لذلك ارتبط مشروعه بإطلاق منابر علمية متخصصة، وفي مقدمتها مجلة دار النيابة، لتوسيع دائرة البحث والتوثيق."
         }
       ]
-    }
+    },
+    journals: {
+      title: "منابر للبحث التاريخي : دار النيابة والطنجيون",
+      intro:
+        "توزّع الاشتغال العلمي للدكتور عبد العزيز خلوق التمسماني على قضايا مترابطة في تاريخ طنجة وشمال المغرب، من تاريخ جبالة والريف، والعلاقات المغربية الإسبانية، إلى الوثائق المخزنية والدبلوماسية، والتحولات الحضرية والثقافية والاجتماعية للمدينة. غير أن هذه المحاور لم تكن عنده موضوعات متفرقة، بل كانت أجزاء من مشروع واحد يقوم على استنطاق الوثيقة، ونقد الروايات الجاهزة، وإعادة بناء الذاكرة التاريخية على أسس علمية رصينة. ومن هنا تبرز أهمية «مجلة دار النيابة» و«الطنجيون»؛ فالأولى مثّلت امتداداً لاهتمامه بالمؤسسة المخزنية الطنجية والأرشيف الدبلوماسي، والثانية وسّعت أفق البحث نحو تاريخ طنجة في أبعاده الحضارية والإنسانية والمعمارية والثقافية. وبذلك تحولت الدوريتان من مجرد فضاء للنشر إلى تعبير مؤسساتي عن مشروعه في حفظ الذاكرة، وتنظيم البحث الجماعي، وردّ الاعتبار لتاريخ الشمال المغربي من داخل الوثيقة لا من خارجها.",
+      highlight:
+        "إن ما قام به عبد العزيز خلوق التمسماني هو عمل جماعة ومؤسسة، وليس عمل فرد أو اثنين.",
+      highlightSource: "من نص ذاكرة مؤرخ",
+      items: [
+        {
+          key: "darAlNiaba",
+          title: "مجلة دار النيابة",
+          image: "/assets/images/difference/dar-al-niaba.png",
+          imageAlt: "غلاف مجلة دار النيابة",
+          period: "صدرت أولى أعدادها مطلع سنة 1984",
+          description:
+            "منبر متخصص أعاد توجيه البحث نحو دار النيابة بطنجة، ووثائقها الدبلوماسية، وتاريخ المغرب وشماله في القرن التاسع عشر وبدايات القرن العشرين."
+        },
+        {
+          key: "tangerois",
+          title: "الطنجيون",
+          image: "/assets/images/difference/tangerois.jpg",
+          imageAlt: "غلاف مجلة الطنجيون",
+          period: "تجربة وثائقية لاحقة متخصصة في تاريخ طنجة",
+          description:
+            "امتداد لسؤال التوثيق والذاكرة، ركز على طنجة بوصفها مجالاً حضرياً وثقافياً تتقاطع فيه التحولات الاجتماعية والاقتصادية والمعمارية."
+        }
+      ],
+    },
+    publications: {
+      title: " مختارات من آثاره العلمية ومؤلفاته",
+      intro:
+        "شكّل التأليف عند عبد العزيز خلوق التمسماني امتداداً مباشراً لمنهجه في البحث التاريخي؛ فقد ظل الكتاب عنده مجالاً لاستنطاق الوثيقة، وترتيب المادة التاريخية، وإعادة النظر في قضايا ظلّت محكومة بالاختزال أو القراءة الجاهزة. ولذلك جاءت أعماله موزعة بين الدراسة، والتحقيق، والنشر، وتجميع النصوص والوثائق، بما يخدم مشروعاً أوسع في صيانة الذاكرة التاريخية لشمال المغرب.",
+      listTitle: "نماذج مختارة من أعماله",
+      items: doctorBibliographyItems,
+      ctaLabel: "قراءة أعمال الدكتور في المكتبة",
+      ctaHref: "/library"
+    },
+    archive: createDoctorArchiveContent({
+      title: "خزانة الذاكرة : وثائق وصور من المسار",
+      manuscriptAlt: "وثيقة أرشيفية رقم",
+      manuscriptCaption: "وثيقة أرشيفية",
+      previousLabel: "الصورة الأرشيفية السابقة",
+      nextLabel: "الصورة الأرشيفية التالية"
+    }),
   }
 };
 
 type AboutDoctorTopContent = {
   hero: AboutDoctorContent["hero"];
-  nav: {
-    formation: string;
-  };
   formation: NonNullable<AboutDoctorContent["formation"]>;
 };
 
@@ -801,9 +612,6 @@ const aboutDoctorTopContent: Partial<Record<Locale, AboutDoctorTopContent>> = {
       ],
       ctaLabel: "Lire la biographie complète (PDF)"
     },
-    nav: {
-      formation: "Formation"
-    },
     formation: {
       title: "Formation intellectuelle et débuts de la conscience critique",
       subtitle: "De Hay Al-Mesalla à l'horizon du questionnement historique",
@@ -815,17 +623,14 @@ const aboutDoctorTopContent: Partial<Record<Locale, AboutDoctorTopContent>> = {
         {
           title: "Autodidaxie et lecture",
           description: "Sa formation s'est appuyée sur une lecture soutenue et une recherche disciplinée du savoir.",
-          icon: "fa-solid fa-book-open-reader"
         },
         {
           title: "Langues et sources",
           description: "L'arabe, le français et l'espagnol ont ouvert plusieurs horizons documentaires et intellectuels.",
-          icon: "fa-solid fa-language"
         },
         {
           title: "Questionnement critique",
           description: "Son travail s'est orienté vers une pensée indépendante et une approche documentaire de la mémoire historique.",
-          icon: "fa-solid fa-magnifying-glass"
         }
       ],
       quote: "J'ai beaucoup lu, de manière autodidacte, les grandes oeuvres en arabe, en français et en espagnol."
@@ -845,9 +650,6 @@ const aboutDoctorTopContent: Partial<Record<Locale, AboutDoctorTopContent>> = {
       ],
       ctaLabel: "Leer la biografía completa (PDF)"
     },
-    nav: {
-      formation: "Formación"
-    },
     formation: {
       title: "Formación intelectual e inicios de la conciencia crítica",
       subtitle: "De Hay Al-Mesalla al horizonte de la pregunta histórica",
@@ -859,17 +661,14 @@ const aboutDoctorTopContent: Partial<Record<Locale, AboutDoctorTopContent>> = {
         {
           title: "Autodidaxia y lectura",
           description: "Su formación se apoyó en la lectura sostenida y en una búsqueda disciplinada del conocimiento.",
-          icon: "fa-solid fa-book-open-reader"
         },
         {
           title: "Lenguas y fuentes",
           description: "El árabe, el francés y el español abrieron varios horizontes documentales e intelectuales.",
-          icon: "fa-solid fa-language"
         },
         {
           title: "Pregunta crítica",
           description: "Su obra avanzó hacia el pensamiento independiente y un enfoque documental de la memoria histórica.",
-          icon: "fa-solid fa-magnifying-glass"
         }
       ],
       quote: "Leí mucho, de forma autodidacta, grandes obras en árabe, francés y español."
@@ -889,9 +688,6 @@ const aboutDoctorTopContent: Partial<Record<Locale, AboutDoctorTopContent>> = {
       ],
       ctaLabel: "قراءة السيرة الكاملة (PDF)"
     },
-    nav: {
-      formation: "التكوين"
-    },
     formation: {
       title: "التكوين الفكري وبدايات الوعي النقدي",
       subtitle: "من حي المصلى إلى أفق السؤال التاريخي",
@@ -903,20 +699,18 @@ const aboutDoctorTopContent: Partial<Record<Locale, AboutDoctorTopContent>> = {
         {
           title: "العصامية والقراءة",
           description: "تكوّن عبر مطالعة واسعة ومنظمة جعلت القراءة مدخلا لبناء الوعي العلمي واستقلال النظر.",
-          icon: "fa-solid fa-book-open-reader"
         },
         {
           title: "تعدد اللغات والمصادر",
           description: "قرأ بالعربية والفرنسية والإسبانية، وتنقل بين الفكر والأدب والتاريخ والسياسة بحثا عن أفق معرفي أوسع.",
-          icon: "fa-solid fa-language"
         },
         {
           title: "السؤال النقدي",
           description: "ابتعد تدريجيا عن أساليب الثقافة الجامدة، وانفتح على السؤال النقدي والتفكير المستقل.",
-          icon: "fa-solid fa-magnifying-glass"
         }
       ],
-      quote: "طالعت كثيرا - وبشكل عصامي - روائع المؤلفات العربية والفرنسية والإسبانية"
+      quote:
+        "طالعت كثيرا - وبشكل عصامي - روائع المؤلفات العربية والفرنسية والإسبانية\nالتاريخ ليس مجرد دراسة الماضي، بل فهم الحاضر لصنع المستقبل"
     }
   }
 };
@@ -932,10 +726,6 @@ export function getAboutDoctorContent(locale: Locale): AboutDoctorContent {
   return {
     ...baseContent,
     hero: topContent.hero,
-    nav: {
-      ...baseContent.nav,
-      ...topContent.nav
-    },
     formation: topContent.formation
   };
 }

@@ -1,4 +1,5 @@
 "use client";
+import {useRef} from "react";
 import Image from "next/image";
 import {useLocale} from "next-intl";
 
@@ -10,9 +11,40 @@ const AboutDoctor = () => {
   const locale = useLocale();
   const content = getAboutDoctorContent(locale);
   const isRtl = isRtlLocale(locale);
+  const archiveTrackRefs = useRef({});
   const textAlignClass = isRtl ? "text-end" : "text-start";
-  const timelineClass = `timeline${isRtl ? " timeline-rtl" : ""}`;
-  const badgeClass = `timeline-badge${isRtl ? " timeline-badge-rtl" : ""}`;
+  const biographyMilestones =
+    content.biography.milestones ??
+    [
+      ...(content.biography.education ?? []).map((item) => ({
+        period: item.year,
+        category: content.biography.educationTitle ?? content.nav.biography,
+        title: item.degree,
+        place: item.institution,
+        description: item.thesis ?? ""
+      })),
+      ...(content.biography.career ?? []).map((item) => ({
+        period: item.period,
+        category: content.biography.careerTitle ?? content.nav.biography,
+        title: item.title,
+        place: item.institution,
+        description: item.description
+      }))
+    ];
+  const archiveGroups = content.archive?.groups.filter((group) => group.images.length > 0) ?? [];
+  const handleArchiveScroll = (groupKey, direction) => {
+    const track = archiveTrackRefs.current[groupKey];
+
+    if (!track) {
+      return;
+    }
+
+    const scrollDistance = Math.max(track.clientWidth * 0.78, 260);
+    track.scrollBy({
+      left: direction * scrollDistance,
+      behavior: "smooth"
+    });
+  };
 
   return (
     <>
@@ -70,29 +102,24 @@ const AboutDoctor = () => {
         </div>
       </section>
 
+      {/* Formation Section */}
       {content.formation ? (
         <section id='formation' className='doctor-formation' dir={isRtl ? "rtl" : "ltr"}>
           <div className='container'>
             <div className='row justify-content-center'>
-              <div className='col-12 col-lg-10'>
-                <div className='section__header text-center'>
-                  <p className='doctor-formation__subtitle'>{content.formation.subtitle}</p>
+                <header className='doctor-formation__header'>
                   <h2 className='title-animation_inner'>{content.formation.title}</h2>
                   {content.formation.intro.map((paragraph, index) => (
                     <p className='doctor-formation__intro' key={`formation-intro-${index}`}>
                       {paragraph}
                     </p>
                   ))}
-                </div>
-              </div>
+                </header>
             </div>
 
             <ul className='doctor-formation__grid'>
               {content.formation.cards.map((card, index) => (
                 <li className='doctor-formation__card' key={`formation-card-${index}`}>
-                  <span className='doctor-formation__icon' aria-hidden='true'>
-                    <i className={card.icon}></i>
-                  </span>
                   <h3>{card.title}</h3>
                   <p>{card.description}</p>
                 </li>
@@ -100,230 +127,273 @@ const AboutDoctor = () => {
             </ul>
 
             {content.formation.quote ? (
-              <blockquote className='doctor-formation__quote'>
-                {content.formation.quote}
-              </blockquote>
+              <figure className='doctor-formation__quote-card'>
+                <div className='doctor-formation__quote-image' aria-hidden='true'>
+                  <Image
+                    src='/assets/images/difference/akt.jpg'
+                    alt=''
+                    width={128}
+                    height={128}
+                    sizes='112px'
+                    className='doctor-formation__quote-photo'
+                  />
+                </div>
+                <blockquote className='doctor-formation__quote'>
+                  {content.formation.quote}
+                </blockquote>
+              </figure>
             ) : null}
           </div>
         </section>
       ) : null}
 
       {/* Biography Section */}
-      <section id="biography" className='team' style={{paddingTop: "60px"}} dir={isRtl ? "rtl" : "ltr"}>
+      <section
+        id='biography'
+        className='doctor-biography'
+        dir={isRtl ? "rtl" : "ltr"}
+        aria-labelledby='doctor-biography-title'
+      >
         <div className='container'>
           <div className='row justify-content-center'>
-            <div className='col-12 col-lg-10'>
-              <div className='section__header text-center' data-aos='fade-up' data-aos-duration={1000}>
-                <h2 className='title-animation_inner'>{content.biography.title}</h2>
-              </div>
-            </div>
-          </div>
-
-          {/* Education Timeline */}
-          <div className='row mb-5'>
             <div className='col-12'>
-              <div className='education-timeline' data-aos='fade-up' data-aos-duration={1000}>
-                <h3 className='section-subtitle mb-4'>
-                  {content.biography.educationTitle}
-                </h3>
-                <div className={timelineClass}>
-                  {content.biography.education.map((item, index) => (
-                    <div className='timeline-item' key={`education-${index}`}>
-                      <div className={badgeClass}>{item.year}</div>
-                      <div className='timeline-content'>
-                        <h4>{item.degree}</h4>
-                        <p className='institution'>{item.institution}</p>
-                        {item.thesis ? <p className={`thesis ${textAlignClass}`}>{item.thesis}</p> : null}
-                      </div>
+              <header className='doctor-biography__header'>
+                <h2 id='doctor-biography-title' className='title-animation_inner'>
+                  {content.biography.title}
+                </h2>
+                {content.biography.subtitle ? (
+                  <p className='doctor-biography__subtitle'>{content.biography.subtitle}</p>
+                ) : null}
+              </header>
+            </div>
+          </div>
+
+          <ul className='doctor-biography__milestones'>
+            {biographyMilestones.map((milestone, index) => (
+              <li className='doctor-biography__milestone' key={`biography-milestone-${index}`}>
+                <article className='doctor-biography__entry'>
+                  <div className='doctor-biography__period'>{milestone.period}</div>
+                  <div className='doctor-biography__content'>
+                    <div className='doctor-biography__heading'>
+                      <p className='doctor-biography__category'>{milestone.category}</p>
+                      <h3>{milestone.title}</h3>
                     </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Career Timeline */}
-          <div className='row'>
-            <div className='col-12'>
-              <div className='career-timeline' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={300}>
-                <h3 className='section-subtitle mb-4'>
-                  {content.biography.careerTitle}
-                </h3>
-                <div className={timelineClass}>
-                  {content.biography.career.map((position, index) => (
-                    <div key={`career-${index}`} className='timeline-item'>
-                      <div className={badgeClass}>{position.period}</div>
-                      <div className='timeline-content'>
-                        <h4>{position.title}</h4>
-                        <p className='institution'>{position.institution}</p>
-                        <p className={textAlignClass}>{position.description}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Research Areas Section */}
-      <section id="research" className='difference' style={{background: "#f8f9fa"}} dir={isRtl ? "rtl" : "ltr"}>
-        <div className='container mb-4'>
-          <div className='row justify-content-center p-2'>
-            <div className='col-12 col-lg-10 col-xl-8'>
-              <div className='section__header text-center' data-aos='fade-up' data-aos-duration={1000}>
-                <h2 className='title-animation_inner'>{content.research.title}</h2>
-                <p className={textAlignClass}>{content.research.description}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className='row g-4'>
-            {content.research.areas.map((area, index) => (
-              <div key={`area-${index}`} className='col-lg-6' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={index * 200}>
-                <div className='research-area-card'>
-                  <div className='research-icon'>
-                    <i className={area.icon}></i>
+                    {milestone.place ? <p className='doctor-biography__place'>{milestone.place}</p> : null}
+                    {milestone.description ? (
+                      <p className='doctor-biography__description'>{milestone.description}</p>
+                    ) : null}
                   </div>
-                  <div className='research-content'>
-                    <h4>{area.title}</h4>
-                    <p className={textAlignClass}>{area.description}</p>
-                  </div>
-                </div>
-              </div>
+                </article>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
+
+      {/* Methodology Section */}
+      {content.methodology ? (
+        <section
+          id='methodology'
+          className='doctor-methodology'
+          dir={isRtl ? "rtl" : "ltr"}
+          aria-labelledby='doctor-methodology-title'
+        >
+          <div className='container'>
+            <div className='doctor-methodology__layout'>
+              <header className='doctor-methodology__intro'>
+                <p className='doctor-methodology__eyebrow'>{content.methodology.eyebrow}</p>
+                <h2 id='doctor-methodology-title' className='title-animation_inner'>
+                  {content.methodology.title}
+                </h2>
+                <p className='doctor-methodology__subtitle'>{content.methodology.subtitle}</p>
+                <p className='doctor-methodology__body'>{content.methodology.body}</p>
+              </header>
+
+              <figure className='doctor-methodology__quote'>
+                <blockquote>{content.methodology.quote}</blockquote>
+                {content.methodology.quoteSource ? (
+                  <figcaption>{content.methodology.quoteSource}</figcaption>
+                ) : null}
+              </figure>
+            </div>
+
+            <ul className='doctor-methodology__principles'>
+              {content.methodology.principles.map((principle, index) => (
+                <li className='doctor-methodology__principle' key={principle.title}>
+                  <span className='doctor-methodology__principle-label'>
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <div>
+                    <h3>{principle.title}</h3>
+                    <p>{principle.description}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
+
+      {/* Journals Section */}
+      {content.journals ? (
+        <section
+          id='journals'
+          className='doctor-journals'
+          dir={isRtl ? "rtl" : "ltr"}
+          aria-labelledby='doctor-journals-title'
+        >
+          <div className='container'>
+            <header className='doctor-journals__header'>
+              <h2 id='doctor-journals-title' className='title-animation_inner'>
+                {content.journals.title}
+              </h2>
+              <p className='doctor-journals__intro'>{content.journals.intro}</p>
+            </header>
+
+            <aside className='doctor-journals__highlight' aria-label={content.journals.highlightSource}>
+              <p>{content.journals.highlight}</p>
+              <span>{content.journals.highlightSource}</span>
+            </aside>
+
+            <div className='doctor-journals__items'>
+              {content.journals.items.map((journal) => (
+                <article
+                  className={`doctor-journals__item${journal.image ? "" : " doctor-journals__item--text-only"}`}
+                  key={journal.key}
+                >
+                  {journal.image ? (
+                    <figure className='doctor-journals__media'>
+                      <Image
+                        src={journal.image}
+                        alt={journal.imageAlt ?? journal.title}
+                        width={420}
+                        height={596}
+                        sizes='(min-width: 1200px) 150px, (min-width: 768px) 22vw, 56vw'
+                        className='doctor-journals__cover'
+                      />
+                    </figure>
+                  ) : null}
+
+                  <div className='doctor-journals__content'>
+                    <h3>{journal.title}</h3>
+                    <p className='doctor-journals__period'>{journal.period}</p>
+                    <p className='doctor-journals__description'>{journal.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* Publications Section */}
-      <section id="publications" className='blog' dir={isRtl ? "rtl" : "ltr"}>
+      <section
+        id='publications'
+        className='doctor-publications'
+        dir={isRtl ? "rtl" : "ltr"}
+        aria-labelledby='doctor-publications-title'
+      >
         <div className='container'>
-          <div className='row justify-content-center'>
-            <div className='col-12 col-md-8 col-xl-8'>
-              <div className='section__header text-center' data-aos='fade-up' data-aos-duration={1000}>
-                <h2 className='title-animation_inner'>{content.publications.title}</h2>
-              </div>
-            </div>
-          </div>
+          <header className='doctor-publications__header'>
+              <h2 id='doctor-publications-title' className='title-animation_inner'>
+              {content.publications.title}
+            </h2>
+            <p className='doctor-publications__intro'>{content.publications.intro}</p>
+          </header>
 
-          <div className='row'>
-            <div className='col-12'>
-              <h3 className='section-subtitle mb-4'>
-                {content.publications.landmarkTitle}
-              </h3>
-              <div className='publications-grid'>
-                {content.publications.books.map((book, index) => (
-                  <div key={`book-${index}`} className='publication-card' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={index * 200}>
-                    <div className='publication-header'>
-                      <h4>{book.title}</h4>
-                      <div className='publication-meta'>
-                        <span>{book.publisher}</span>
-                        <span className='year'>{book.year}</span>
-                      </div>
-                    </div>
-                    <p className={`publication-description ${textAlignClass}`}>{book.description}</p>
-                    <div className='publication-stats'>
-                      <div className='stats-left'>
-                        <div className='stat'>
-                          <i className='fa-solid fa-quote-left'></i>
-                          <span>{book.citations}</span>
-                        </div>
-                        <div className='stat'>
-                          <i className='fa-solid fa-download'></i>
-                          <span>{book.downloads}</span>
-                        </div>
-                      </div>
-                      <Link href='/library' className='view-more-btn'>
-                        {content.publications.viewMoreLabel} <i className="fa-solid fa-book-open"></i>
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-              </div>
+          <div className='doctor-publications__body'>
+            <ul className='doctor-publications__list'>
+              {content.publications.items.map((item) => (
+                <li className='doctor-publications__item' key={item.title}>
+                  <p className='doctor-publications__line'>
+                    <strong>{item.title}</strong>
+                    <span aria-hidden='true'> &nbsp; : &nbsp;</span>
+                    <span>{item.meta}</span>
+                  </p>
+                </li>
+              ))}
+            </ul>
 
-              {/* Awards Section */}
-              <div className='awards-section mt-5' data-aos='fade-up' data-aos-duration={1000}>
-                <h3 className='section-subtitle mb-4'>
-                  <i className='fa-solid fa-award'></i> {content.publications.awardsTitle}
-                </h3>
-                <div className='awards-grid'>
-                  {content.publications.awards.map((award, index) => (
-                    <div key={`award-${index}`} className='award-item'>
-                      <div className='award-year'>{award.year}</div>
-                      <div className='award-title'>{award.award}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            <div className='doctor-publications__cta'>
+              <Link href={content.publications.ctaHref} className='btn--secondary'>
+                {content.publications.ctaLabel}
+              </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section id="testimonials" className='team' style={{background: "#f8f9fa"}} dir={isRtl ? "rtl" : "ltr"}>
-        <div className='container'>
-          <div className='row justify-content-center'>
-            <div className='col-12 col-lg-10'>
-              <div className='section__header text-center' data-aos='fade-up' data-aos-duration={1000}>
-                <h2 className='title-animation_inner'>{content.testimonials.title}</h2>
-              </div>
-            </div>
-          </div>
+      {/* Archive Section */}
+      {content.archive && archiveGroups.length > 0 ? (
+        <section
+          id='archive'
+          className='doctor-archive'
+          dir={isRtl ? "rtl" : "ltr"}
+          aria-labelledby='doctor-archive-title'
+        >
+          <div className='container'>
+            <header className='doctor-archive__header'>
+              <h2 id='doctor-archive-title' className='title-animation_inner'>
+                {content.archive.title}
+              </h2>
+            </header>
 
-          <div className='row g-4'>
-            {content.testimonials.items.map((testimonial, index) => (
-              <div key={`testimonial-${index}`} className='col-lg-4' data-aos='fade-up' data-aos-duration={1000} data-aos-delay={index * 200}>
-                <div className='testimonial-card'>
-                  <div className='quote-icon'>
-                    <i className='fa-solid fa-quote-left'></i>
-                  </div>
-                  <blockquote>"{testimonial.quote}"</blockquote>
-                  <div className='testimonial-author'>
-                    <h5 className={textAlignClass}>{testimonial.name}</h5>
-                    <p className={textAlignClass}>{testimonial.title}</p>
-                  </div>
+            {archiveGroups.map((group) => (
+              <div className='doctor-archive__group' key={group.key}>
+                <div className='doctor-archive__carousel'>
+                  <button
+                    type='button'
+                    className='doctor-archive__control doctor-archive__control--prev'
+                    aria-label={content.archive.controls.previous}
+                    onClick={() => handleArchiveScroll(group.key, -1)}
+                  >
+                    <span aria-hidden='true'>&lsaquo;</span>
+                  </button>
+
+                  <ul
+                    className='doctor-archive__gallery'
+                    dir='ltr'
+                    ref={(node) => {
+                      if (node) {
+                        archiveTrackRefs.current[group.key] = node;
+                      }
+                    }}
+                  >
+                    {group.images.map((image) => (
+                      <li className='doctor-archive__gallery-item' key={image.src}>
+                        <figure className='doctor-archive__figure' dir={isRtl ? "rtl" : "ltr"}>
+                          <Image
+                            src={image.src}
+                            alt={image.alt}
+                            width={420}
+                            height={560}
+                            sizes='(min-width: 1400px) 230px, (min-width: 1200px) 18vw, (min-width: 768px) 28vw, 46vw'
+                            loading='lazy'
+                            className='doctor-archive__image'
+                          />
+                          {image.caption ? (
+                            <figcaption>{image.caption}</figcaption>
+                          ) : null}
+                        </figure>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <button
+                    type='button'
+                    className='doctor-archive__control doctor-archive__control--next'
+                    aria-label={content.archive.controls.next}
+                    onClick={() => handleArchiveScroll(group.key, 1)}
+                  >
+                    <span aria-hidden='true'>&rsaquo;</span>
+                  </button>
                 </div>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
+      ) : null}
 
-      {/* Legacy Section */}
-      <section className='difference-two' dir={isRtl ? "rtl" : "ltr"}>
-        <div className='container'>
-          <div className='row align-items-center'>
-            <div className='col-12'>
-              <div className='difference-two__content text-center'>
-                <h2 className='title-animation_inner mb-4'>
-                  {content.legacy.title}
-                </h2>
-                <blockquote className='doctor-quote'>
-                  "{content.legacy.quote}"
-                </blockquote>
-
-                <div className='philosophy-grid'>
-                  {content.legacy.principles.map((principle, index) => (
-                    <div
-                      key={`principle-${index}`}
-                      className='philosophy-item'
-                      data-aos='fade-up'
-                      data-aos-duration={1000}
-                      data-aos-delay={index * 200}
-                    >
-                      <h4>{principle.title}</h4>
-                      <p className={textAlignClass}>{principle.description}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
     </>
   );
 };
