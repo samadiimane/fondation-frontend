@@ -33,339 +33,349 @@ export interface AboutFoundationContent {
 const aboutFoundationContent: Record<Locale, AboutFoundationContent> = {
   en: {
     hero: {
-      highlight: "Welcome",
-      title: "to the Abdelaziz Khallouk Temsamani Research Foundation",
+      highlight: "From legacy to institution",
+      title: "Abdelaziz Khallouk Temsamani Foundation for Scientific Research",
       description:
-        "Advancing rigorous scholarship on Morocco and North Africa by pairing classical research methods with digital humanities. We preserve, analyze, and share knowledge for the global academic community while extending the legacy of Dr. Abdelaziz Khallouk Temsamani.",
+        "The Foundation extends the scholarly memory of a historian who made documents and archives a path toward rereading the history of Tangier and Northern Morocco. It preserves documentary heritage, facilitates access to knowledge, and supports rigorous research in history and the humanities through an open and responsible digital horizon.",
       ctaLabel: "Read more about Dr. Temsamani",
       ctaHref: "/dr-temsamani"
     },
     history: {
-      title: "Foundation History",
+      title: "From Legacy to Institution",
       paragraphs: [
-        "The Foundation was established to sustain and advance the academic legacy of Dr. Abdelaziz Khallouk Temsamani, whose pioneering work in Moroccan and North African studies championed rigorous archival research, intellectual history, and cultural analysis. Inspired by his commitment to mentoring young scholars and to safeguarding fragile historical sources, the Foundation builds a programmatic approach to preservation, research, and open-access dissemination.",
-        "From its inception, the Foundation has positioned itself as a trusted steward of documentary heritage and a hub for interdisciplinary inquiry, linking historians, sociologists, anthropologists, linguists, digital humanists, and information scientists across regions and institutions."
+        "The Foundation exists to carry forward a scholarly legacy rooted in documents, archives, and the historical memory of Tangier and Northern Morocco. It treats Dr. Temsamani's work not as a commemorative reference only, but as a living intellectual project that can continue through preservation, study, publication, and access.",
+        "Its role is to turn documentary and scholarly material into a structured space for research and formation, linking historians and researchers with the possibilities of digitization, cataloguing, and open access. In this sense, the Foundation works to preserve memory, organize resources, and bring reliable documents and studies closer to students, scholars, and interested readers."
       ],
-      imageAlt: "Foundation research library"
+      imageAlt: "Research and documentary space of the Foundation"
     },
     pillars: [
       {
         key: "mission",
         title: "Mission",
         intro:
-          "To advance high-quality, open, and ethical research on Morocco and North Africa through preservation, critical analysis, and digital infrastructure.",
+          "To preserve the documentary and scholarly heritage connected to Tangier and Northern Morocco, and make it organized, accessible, and useful for rigorous academic research.",
         bullets: [
-          "Digitize and preserve vulnerable materials to archival standards.",
-          "Empower scholars with training, grants, and research residencies.",
-          "Publish open-access datasets, editions, and tools for reuse.",
-          "Integrate AI responsibly to strengthen, not replace, humanistic inquiry."
+          "Digitize documents, manuscripts, journals, and scholarly materials related to the region's history.",
+          "Organize and catalogue archives so they can be searched and used responsibly.",
+          "Support students and researchers with reliable sources and clear research pathways.",
+          "Strengthen the culture of documentation, citation, and respect for knowledge sources."
         ]
       },
       {
         key: "vision",
         title: "Vision",
         intro:
-          "A research ecosystem where traditional scholarship and digital innovation reinforce each other and keep North African knowledge accessible.",
+          "To build a knowledge space where documentary memory becomes a foundation for research, and where digital tools help preserve and share heritage without weakening scholarly rigor.",
         bullets: [
-          "Reliable access to primary sources through sustainable platforms.",
-          "Stronger regional and international networks for co-authorship.",
-          "Methodological excellence that blends philology and computation.",
-          "Evidence-based policy insights rooted in historical analysis."
+          "Provide a multilingual digital library for researchers and interested readers.",
+          "Connect the history of Tangier and Northern Morocco to its national and Mediterranean contexts.",
+          "Develop modern research tools that help users read and understand documents.",
+          "Transform Dr. Temsamani's legacy into a continuous institutional project."
         ]
       },
       {
         key: "values",
         title: "Values",
-        intro: "The principles that shape how we collaborate and share knowledge.",
+        intro: "The Foundation treats knowledge as a scholarly and ethical responsibility before it is a published resource.",
         bullets: [
-          "Integrity in how we cite, steward, and open collections.",
-          "Collaboration across languages, disciplines, and borders.",
-          "Reciprocity with communities whose histories we preserve.",
-          "Careful balance between access, privacy, and conservation."
+          "Integrity in handling documents, sources, and citations.",
+          "Rigor in research, cataloguing, publishing, and presentation.",
+          "Openness to researchers and scholarly institutions in Morocco and abroad.",
+          "Protection of local and national memory from simplification and loss."
         ]
       }
     ],
     goals: {
-      title: "Goals",
-      subtitle: "We operationalize our commitments through clear policies, transparent workflows, and measurable standards.",
+      title: "Fields of Action",
+      subtitle: "The Foundation translates its mission into practical work that brings together documentary preservation, academic research, publishing, and access to knowledge.",
       cards: [
         {
-          title: "Scholarly Rigor",
+          title: "Digital Library",
           description:
-            "Peer review of editions and datasets; adherence to citation and provenance standards; method transparency in all publications."
+            "Gathering books, journals, articles, and digital documents in an organized space that enables access to reliable sources on Tangier and Northern Morocco."
         },
         {
-          title: "Preservation Stewardship",
-          description: "Archival-grade digitization; fixity checks; redundant storage; lifecycle planning aligned with OAIS and FAIR principles."
+          title: "Archive Preservation",
+          description: "Preserving, classifying, and cataloguing documentary material while keeping each item connected to its historical context."
         },
         {
-          title: "Open Access",
-          description: "Non-exclusive rights; machine-readable licenses; public APIs; multilingual interfaces to broaden participation."
+          title: "Research Support",
+          description: "Encouraging rigorous studies based on documents and critical rereading, away from reduction and ready-made judgments."
         },
         {
-          title: "Interdisciplinarity",
-          description: "Co-designed projects with historians, sociologists, linguists, and data scientists; mixed-methods research protocols."
+          title: "Publishing and Journals",
+          description: "Highlighting scholarly work connected to Dr. Temsamani's school and to journals that served Tangier's history and Moroccan memory."
         },
         {
-          title: "Ethical Responsibility",
-          description: "Culturally sensitive access models; community consultation; privacy-by-design for contemporary materials."
+          title: "Academic Events",
+          description: "Organizing seminars, exhibitions, and workshops that bring historical documents closer to researchers, students, and the public."
         },
         {
-          title: "Public Engagement",
-          description: "Exhibitions, workshops, and teacher resources that translate research into inclusive learning."
+          title: "Intelligent Assistant",
+          description: "Using responsible digital assistance to improve discovery, orientation, and access while keeping the researcher and critical method at the center."
         }
       ]
     }
   },
   fr: {
     hero: {
-      highlight: "Bienvenue",
-      title: "à la Fondation de recherche Abdelaziz Khallouk Temsamani",
+      highlight: "De l'héritage à l'institution",
+      title: "Fondation Abdelaziz Khallouk Temsamani pour la recherche scientifique",
       description:
-        "Nous faisons progresser une recherche rigoureuse sur le Maroc et l'Afrique du Nord en reliant les méthodes classiques aux humanités numériques. Nous préservons, analysons et partageons le savoir avec la communauté académique mondiale tout en prolongeant l'héritage du Dr Abdelaziz Khallouk Temsamani.",
+        "La Fondation prolonge la mémoire scientifique d'un historien qui a fait du document et de l'archive une voie pour relire l'histoire de Tanger et du Nord du Maroc. Elle préserve le patrimoine documentaire, facilite l'accès au savoir et soutient une recherche rigoureuse en histoire et en sciences humaines dans un horizon numérique ouvert et responsable.",
       ctaLabel: "En savoir plus sur le Dr Temsamani",
       ctaHref: "/dr-temsamani"
     },
     history: {
-      title: "Histoire de la fondation",
+      title: "De l'héritage à l'institution",
       paragraphs: [
-        "La Fondation a été créée pour prolonger et enrichir l'héritage académique du Dr Abdelaziz Khallouk Temsamani, dont le travail pionnier sur le Maroc et l'Afrique du Nord défendait la recherche archivistique, l'histoire intellectuelle et l'analyse culturelle. Inspirée par son engagement auprès des jeunes chercheurs et par la sauvegarde des sources fragiles, la Fondation structure des programmes de conservation, de recherche et de diffusion en accès ouvert.",
-        "Dès l'origine, la Fondation s'est positionnée comme un gardien de confiance du patrimoine documentaire et comme un carrefour d'enquêtes interdisciplinaires, reliant historiens, sociologues, anthropologues, linguistes, spécialistes du numérique et sciences de l'information à travers régions et institutions."
+        "La Fondation existe pour porter plus loin un héritage scientifique ancré dans les documents, les archives et la mémoire historique de Tanger et du Nord du Maroc. Elle ne considère pas l'œuvre du Dr Temsamani comme une simple référence commémorative, mais comme un projet intellectuel vivant appelé à se poursuivre par la conservation, l'étude, la publication et l'accès.",
+        "Son rôle est de transformer les matériaux documentaires et scientifiques en un espace structuré de recherche et de formation, reliant les historiens et les chercheurs aux possibilités de la numérisation, du catalogage et de l'accès ouvert."
       ],
-      imageAlt: "Bâtiment de la fondation"
+      imageAlt: "Espace de recherche et de documentation de la Fondation"
     },
     pillars: [
       {
         key: "mission",
         title: "Mission",
         intro:
-          "Faire progresser une recherche ouverte, éthique et exigeante sur le Maroc et l'Afrique du Nord grâce à la préservation, l'analyse critique et des infrastructures numériques solides.",
+          "Préserver le patrimoine documentaire et scientifique lié à Tanger et au Nord du Maroc, et le rendre organisé, accessible et utile à la recherche académique rigoureuse.",
         bullets: [
-          "Numériser et préserver les matériaux fragiles selon des standards archivistiques.",
-          "Accompagner les chercheurs par des formations, des bourses et des résidences de recherche.",
-          "Publier en accès ouvert des jeux de données, des éditions et des outils réutilisables.",
-          "Intégrer l'IA de façon responsable pour renforcer, et non remplacer, les sciences humaines."
+          "Numériser les documents, manuscrits, revues et matériaux scientifiques liés à l'histoire de la région.",
+          "Organiser et cataloguer les archives pour faciliter leur recherche et leur usage scientifique.",
+          "Accompagner les étudiants et chercheurs avec des sources fiables et des parcours de lecture clairs.",
+          "Renforcer la culture de la documentation, de la citation et du respect des sources."
         ]
       },
       {
         key: "vision",
         title: "Vision",
-        intro: "Un écosystème de recherche où la tradition et l'innovation numérique se renforcent.",
+        intro: "Construire un espace de connaissance où la mémoire documentaire fonde la recherche, et où le numérique aide à préserver et diffuser le patrimoine sans affaiblir la rigueur scientifique.",
         bullets: [
-          "Accès fiable aux sources primaires via des plateformes durables.",
-          "Réseaux régionaux et internationaux plus solides pour la co-publication.",
-          "Excellence méthodologique qui combine philologie et calcul.",
-          "Recommandations éclairées pour les politiques publiques ancrées dans l'histoire."
+          "Mettre à disposition une bibliothèque numérique multilingue.",
+          "Relier l'histoire de Tanger et du Nord du Maroc à ses contextes nationaux et méditerranéens.",
+          "Développer des outils modernes d'aide à la lecture et à la compréhension des documents.",
+          "Transformer l'héritage du Dr Temsamani en projet institutionnel continu."
         ]
       },
       {
         key: "values",
         title: "Valeurs",
-        intro: "Des principes qui guident notre manière de collaborer et de partager le savoir.",
+        intro: "La Fondation considère la connaissance comme une responsabilité scientifique et éthique avant d'être une ressource publiée.",
         bullets: [
-          "Intégrité dans la citation, la conservation et l'ouverture des collections.",
-          "Collaboration entre langues, disciplines et frontières.",
-          "Réciprocité avec les communautés dont nous préservons les histoires.",
-          "Équilibre attentif entre accès, confidentialité et conservation."
+          "Intégrité dans le traitement des documents, des sources et des références.",
+          "Rigueur dans la recherche, le catalogage, la publication et la présentation.",
+          "Ouverture aux chercheurs et institutions scientifiques au Maroc et à l'étranger.",
+          "Protection de la mémoire locale et nationale contre la simplification et l'oubli."
         ]
       }
     ],
     goals: {
-      title: "Objectifs",
-      subtitle: "Nous mettons en œuvre nos engagements par des politiques claires, des processus transparents et des standards mesurables.",
+      title: "Champs d'action",
+      subtitle: "La Fondation traduit sa mission en projets concrets associant conservation documentaire, recherche académique, publication et accès au savoir.",
       cards: [
         {
-          title: "Rigueur scientifique",
+          title: "Bibliothèque numérique",
           description:
-            "Relecture par les pairs des éditions et jeux de données; respect des standards de citation et de provenance; transparence méthodologique dans toutes les publications."
+            "Réunir livres, revues, articles et documents numériques dans un espace organisé donnant accès à des sources fiables sur Tanger et le Nord du Maroc."
         },
         {
-          title: "Préservation responsable",
-          description: "Numérisation de niveau archivistique; contrôles d'intégrité; stockage redondant; planification du cycle de vie alignée sur les principes OAIS et FAIR."
+          title: "Préservation des archives",
+          description: "Conserver, classer et cataloguer les matériaux documentaires en maintenant leur lien avec leur contexte historique."
         },
         {
-          title: "Accès ouvert",
-          description: "Droits non exclusifs; licences lisibles par machine; API publiques; interfaces multilingues pour élargir la participation."
+          title: "Soutien à la recherche",
+          description: "Encourager des études rigoureuses fondées sur le document et sur une relecture critique de l'histoire."
         },
         {
-          title: "Interdisciplinarité",
-          description: "Projets co-conçus avec historiens, sociologues, linguistes et scientifiques des données; protocoles de recherche mixtes."
+          title: "Publication et revues",
+          description: "Valoriser les travaux liés à l'école du Dr Temsamani et aux revues qui ont servi l'histoire de Tanger et la mémoire marocaine."
         },
         {
-          title: "Responsabilité éthique",
-          description: "Modèles d'accès adaptés aux contextes culturels; consultation des communautés; confidentialité intégrée pour les matériaux contemporains."
+          title: "Événements scientifiques",
+          description: "Organiser séminaires, expositions et ateliers rapprochant les documents historiques des chercheurs, étudiants et lecteurs."
         },
         {
-          title: "Engagement du public",
-          description: "Expositions, ateliers et ressources pédagogiques qui transforment la recherche en apprentissage inclusif."
+          title: "Assistant intelligent",
+          description: "Utiliser une assistance numérique responsable pour améliorer la découverte, l'orientation et l'accès, sans remplacer le chercheur ni la méthode critique."
         }
       ]
     }
   },
   es: {
     hero: {
-      highlight: "Bienvenidos",
-      title: "a la Fundación de Investigación Abdelaziz Khallouk Temsamani",
+      highlight: "Del legado a la institución",
+      title: "Fundación Abdelaziz Khallouk Temsamani para la investigación científica",
       description:
-        "Impulsamos una investigación rigurosa sobre Marruecos y el norte de África uniendo los métodos clásicos con las humanidades digitales. Preservamos, analizamos y compartimos el conocimiento con la comunidad académica mundial mientras prolongamos el legado del Dr. Abdelaziz Khallouk Temsamani.",
+        "La Fundación prolonga la memoria científica de un historiador que hizo del documento y del archivo una vía para releer la historia de Tánger y del norte de Marruecos. Preserva el patrimonio documental, facilita el acceso al conocimiento y apoya una investigación rigurosa en historia y humanidades dentro de un horizonte digital abierto y responsable.",
       ctaLabel: "Leer más sobre el Dr. Temsamani",
       ctaHref: "/dr-temsamani"
     },
     history: {
-      title: "Historia de la fundación",
+      title: "Del legado a la institución",
       paragraphs: [
-        "La Fundación se creó para mantener y ampliar el legado académico del Dr. Abdelaziz Khallouk Temsamani, cuya labor pionera sobre Marruecos y el norte de África defendía la investigación archivística rigurosa, la historia intelectual y el análisis cultural. Inspirada por su compromiso con los jóvenes investigadores y la protección de fuentes frágiles, la Fundación organiza programas de preservación, investigación y difusión en acceso abierto.",
-        "Desde su inicio, la Fundación se ha posicionado como un custodio confiable del patrimonio documental y como un centro de investigación interdisciplinaria, conectando a historiadores, sociólogos, antropólogos, lingüistas, humanistas digitales y especialistas de la información en distintas regiones e instituciones."
+        "La Fundación existe para proyectar un legado científico arraigado en los documentos, los archivos y la memoria histórica de Tánger y del norte de Marruecos. No considera la obra del Dr. Temsamani como una simple referencia conmemorativa, sino como un proyecto intelectual vivo que continúa mediante conservación, estudio, publicación y acceso.",
+        "Su función es transformar los materiales documentales y científicos en un espacio estructurado de investigación y formación, conectando a historiadores e investigadores con las posibilidades de la digitalización, la catalogación y el acceso abierto."
       ],
-      imageAlt: "Edificio de la fundación"
+      imageAlt: "Espacio de investigación y documentación de la Fundación"
     },
     pillars: [
       {
         key: "mission",
         title: "Misión",
         intro:
-          "Avanzar una investigación abierta, ética y de alta calidad sobre Marruecos y el norte de África mediante preservación, análisis crítico e infraestructura digital.",
+          "Preservar el patrimonio documental y científico vinculado a Tánger y al norte de Marruecos, y convertirlo en material organizado, accesible y útil para la investigación académica rigurosa.",
         bullets: [
-          "Digitalizar y preservar materiales vulnerables con estándares archivísticos.",
-          "Apoyar a los investigadores con formaciones, becas y residencias.",
-          "Publicar conjuntos de datos, ediciones y herramientas en acceso abierto.",
-          "Integrar la IA de manera responsable para reforzar, y no reemplazar, la investigación humanística."
+          "Digitalizar documentos, manuscritos, revistas y materiales científicos relacionados con la historia de la región.",
+          "Organizar y catalogar archivos para facilitar la búsqueda y el uso científico.",
+          "Apoyar a estudiantes e investigadores con fuentes fiables y rutas de lectura claras.",
+          "Fortalecer la cultura de la documentación, la cita y el respeto de las fuentes."
         ]
       },
       {
         key: "vision",
         title: "Visión",
-        intro: "Un ecosistema donde la investigación tradicional y la innovación digital se refuercen mutuamente.",
+        intro: "Construir un espacio de conocimiento donde la memoria documental fundamente la investigación y las herramientas digitales ayuden a preservar y difundir el patrimonio sin debilitar el rigor científico.",
         bullets: [
-          "Acceso fiable a fuentes primarias mediante plataformas sostenibles.",
-          "Redes regionales e internacionales más fuertes para la coautoría.",
-          "Excelencia metodológica que combina filología y computación.",
-          "Recomendaciones de políticas basadas en evidencias históricas."
+          "Ofrecer una biblioteca digital multilingüe para investigadores y lectores interesados.",
+          "Relacionar la historia de Tánger y del norte de Marruecos con sus contextos nacionales y mediterráneos.",
+          "Desarrollar herramientas modernas que ayuden a leer y comprender documentos.",
+          "Convertir el legado del Dr. Temsamani en un proyecto institucional continuo."
         ]
       },
       {
         key: "values",
         title: "Valores",
-        intro: "Principios que guían cómo colaboramos y compartimos conocimiento.",
+        intro: "La Fundación entiende el conocimiento como una responsabilidad científica y ética antes que como un simple recurso publicado.",
         bullets: [
-          "Integridad en la citación, custodia y apertura de las colecciones.",
-          "Colaboración entre idiomas, disciplinas y fronteras.",
-          "Reciprocidad con las comunidades cuyas historias preservamos.",
-          "Equilibrio cuidadoso entre acceso, privacidad y conservación."
+          "Integridad en el trato con documentos, fuentes y referencias.",
+          "Rigor en la investigación, catalogación, publicación y presentación.",
+          "Apertura a investigadores e instituciones científicas dentro y fuera de Marruecos.",
+          "Protección de la memoria local y nacional frente a la simplificación y la pérdida."
         ]
       }
     ],
     goals: {
-      title: "Objetivos",
-      subtitle: "Aplicamos nuestros compromisos mediante políticas claras, procesos transparentes y estándares medibles.",
+      title: "Campos de acción",
+      subtitle: "La Fundación traduce su misión en proyectos concretos que combinan preservación documental, investigación académica, publicación y acceso al conocimiento.",
       cards: [
         {
-          title: "Rigor académico",
+          title: "Biblioteca digital",
           description:
-            "Revisión por pares de ediciones y conjuntos de datos; cumplimiento de estándares de citación y procedencia; transparencia metodológica en todas las publicaciones."
+            "Reunir libros, revistas, artículos y documentos digitales en un espacio organizado que facilite el acceso a fuentes fiables sobre Tánger y el norte de Marruecos."
         },
         {
-          title: "Custodia y preservación",
-          description: "Digitalización con calidad de archivo; verificaciones de integridad; almacenamiento redundante; planificación del ciclo de vida alineada con OAIS y FAIR."
+          title: "Preservación de archivos",
+          description: "Conservar, clasificar y catalogar materiales documentales manteniendo su vínculo con el contexto histórico."
         },
         {
-          title: "Acceso abierto",
-          description: "Derechos no exclusivos; licencias legibles por máquina; API públicas; interfaces multilingües para ampliar la participación."
+          title: "Apoyo a la investigación",
+          description: "Fomentar estudios rigurosos basados en documentos y en una relectura crítica de la historia."
         },
         {
-          title: "Interdisciplinariedad",
-          description: "Proyectos codiseñados con historiadores, sociólogos, lingüistas y científicos de datos; protocolos de investigación mixtos."
+          title: "Publicación y revistas",
+          description: "Poner en valor trabajos vinculados a la escuela del Dr. Temsamani y a las revistas que sirvieron la historia de Tánger y la memoria marroquí."
         },
         {
-          title: "Responsabilidad ética",
-          description: "Modelos de acceso sensibles a la cultura; consulta con comunidades; privacidad integrada para materiales contemporáneos."
+          title: "Eventos académicos",
+          description: "Organizar seminarios, exposiciones y talleres que acerquen los documentos históricos a investigadores, estudiantes y lectores."
         },
         {
-          title: "Participación pública",
-          description: "Exposiciones, talleres y recursos docentes que traducen la investigación en aprendizaje inclusivo."
+          title: "Asistente inteligente",
+          description: "Usar asistencia digital responsable para mejorar el descubrimiento, la orientación y el acceso sin reemplazar al investigador ni al método crítico."
         }
       ]
     }
   },
   ar: {
     hero: {
-      highlight: "أهلاً بكم",
-      title: "في مؤسسة عبد العزيز خلوق تمسماني للبحث",
+      highlight: " في صون الذاكرة وخدمة البحث العلمي : ",
+      title: "مؤسسة عبد العزيز خلوق التمسماني للبحث العلمي",
       description:
-        "نطوّر البحث الرصين حول المغرب وشمال إفريقيا بدمج المناهج الكلاسيكية مع الإنسانيات الرقمية. نحفظ المعرفة ونحللها ونتقاسمها مع المجتمع الأكاديمي العالمي مع مواصلة إرث الدكتور عبد العزيز خلوق تمسماني.",
-      ctaLabel: "قراءة المزيد عن الدكتور تمسماني",
+        "تنهض المؤسسة بوصفها امتداداً علمياً لذاكرة مؤرخ جعل من الوثيقة والأرشيف مدخلاً إلى إعادة قراءة تاريخ طنجة وشمال المغرب. وتسعى إلى حفظ التراث الوثائقي، وتيسير الوصول إلى المعرفة، ودعم البحث الرصين في التاريخ والعلوم الإنسانية، ضمن أفق رقمي منفتح ومسؤول.",
+      ctaLabel: "التعرّف إلى مسار الدكتور التمسماني",
       ctaHref: "/dr-temsamani"
     },
     history: {
-      title: "تاريخ المؤسسة",
+      title: "من الإرث العلمي إلى البناء المؤسسي",
       paragraphs: [
-        "أُنشئت المؤسسة للحفاظ على الإرث الأكاديمي للدكتور عبد العزيز خلوق تمسماني وتطويره. لقد دافع عمله الرائد في دراسات المغرب وشمال إفريقيا عن البحث الأرشيفي الدقيق، والتاريخ الفكري، والتحليل الثقافي. انطلاقاً من التزامه بتأطير الباحثين الشباب وحماية المصادر الهشة، تضع المؤسسة برامج منهجية للحفظ والبحث والنشر المفتوح.",
-        "منذ البداية، رسخت المؤسسة نفسها كوصي موثوق على التراث الوثائقي وكمركز للبحث البيني، يربط المؤرخين وعلماء الاجتماع والأنثروبولوجيا واللغويين والمتخصصين في الإنسانيات الرقمية وعلوم المعلومات عبر المناطق والمؤسسات."
+        "تأسست مؤسسة عبد العزيز خلوق التمسماني للبحث العلمي استلهاماً لمسار مؤرخ كرّس حياته للبحث في الوثيقة، واستنطاق الأرشيف، وإعادة الاعتبار لذاكرة طنجة وشمال المغرب. فهي لا تنظر إلى إرثه بوصفه ذكرى شخصية فحسب، بل تعتبره مشروعاً معرفياً قابلاً للاستمرار عبر الحفظ، والدراسة، والنشر، والإتاحة.",
+        "تسعى المؤسسة إلى تحويل المادة الوثائقية والعلمية إلى فضاء حي للبحث والتكوين، يربط بين عمل المؤرخين والباحثين، وبين إمكانات الرقمنة والفهرسة والوصول المفتوح. ومن هذا المنطلق، تشتغل المؤسسة على صيانة الذاكرة، وتنظيم الموارد، وتقريب الوثائق والدراسات من الطلبة والباحثين والمهتمين."
       ],
-      imageAlt: "مبنى المؤسسة البحثية"
+      imageAlt: "فضاء بحثي ووثائقي تابع للمؤسسة"
     },
     pillars: [
       {
         key: "mission",
         title: "الرسالة",
-        intro: "تطوير بحث مفتوح وأخلاقي وعالي الجودة حول المغرب وشمال إفريقيا من خلال الحفظ، والتحليل النقدي، والبنى الرقمية.",
+        intro:
+          "حفظ الإرث الوثائقي والعلمي المتصل بتاريخ طنجة وشمال المغرب، وجعله مادة منظمة ومتاحة لخدمة البحث الأكاديمي الرصين.",
         bullets: [
-          "رقمنة المواد الهشة وحفظها وفق المعايير الأرشيفية.",
-          "تمكين الباحثين عبر التدريب والمنح والإقامات البحثية.",
-          "نشر قواعد بيانات وإصدارات وأدوات متاحة لإعادة الاستخدام.",
-          "دمج الذكاء الاصطناعي بمسؤولية لدعم، لا لاستبدال، البحث الإنساني."
+          "رقمنة الوثائق والمخطوطات والدوريات والمواد العلمية ذات الصلة بتاريخ المنطقة.",
+          "تنظيم الأرشيف وفهرسته بما يضمن سهولة البحث والاستعمال العلمي.",
+          "دعم الباحثين والطلبة بمصادر موثوقة ومسارات قراءة واضحة.",
+          "تعزيز ثقافة التوثيق، والإحالة، واحترام مصادر المعرفة."
         ]
       },
       {
         key: "vision",
         title: "الرؤية",
-        intro: "منظومة بحثية يتعزز فيها التراث الأكاديمي بالابتكار الرقمي لتبقى المعرفة في المتناول.",
+        intro:
+          "بناء فضاء معرفي يجعل من الذاكرة الوثائقية أساساً للبحث، ومن الرقمنة وسيلة لصون التراث وإشاعته دون التفريط في الصرامة العلمية.",
         bullets: [
-          "وصول موثوق إلى المصادر الأولية عبر منصات مستدامة.",
-          "شبكات إقليمية ودولية أقوى للتأليف المشترك.",
-          "تفوق منهجي يجمع بين الفيلولوجيا والحوسبة.",
-          "رؤى سياساتية مبنية على تحليل تاريخي موثق."
+          "إتاحة مكتبة رقمية متعددة اللغات تخدم الباحثين والمهتمين.",
+          "ربط تاريخ طنجة وشمال المغرب بسياقاته الوطنية والمتوسطية.",
+          "تطوير أدوات بحث حديثة تساعد على قراءة الوثائق وفهمها.",
+          "تحويل إرث الدكتور التمسماني إلى مشروع مؤسسي مستمر."
         ]
       },
       {
         key: "values",
         title: "القيم",
-        intro: "مبادئ توجه تعاوننا وطريقة مشاركة المعرفة.",
+        intro:
+          "تستند المؤسسة إلى جملة من المبادئ التي تجعل المعرفة مسؤولية علمية وأخلاقية قبل أن تكون مجرد مادة منشورة.",
         bullets: [
-          "النزاهة في التوثيق وحفظ المجموعات وإتاحة الوصول إليها.",
-          "التعاون عبر اللغات والتخصصات والحدود.",
-          "التعامل بالمثل مع المجتمعات التي نحفظ تاريخها.",
-          "موازنة مدروسة بين الإتاحة والخصوصية والحفاظ."
+          "الأمانة في التعامل مع الوثيقة والمصدر والإحالة.",
+          "الصرامة في البحث، والفهرسة، والنشر، والتقديم.",
+          "الانفتاح على الباحثين والمؤسسات العلمية داخل المغرب وخارجه.",
+          "صيانة الذاكرة المحلية والوطنية من التبسيط والضياع."
         ]
       }
     ],
     goals: {
-      title: "الأهداف",
-      subtitle: "نحوّل التزاماتنا إلى واقع عبر سياسات واضحة، ومسارات عمل شفافة، ومعايير قابلة للقياس.",
+      title: "مجالات العمل",
+      subtitle:
+        "تترجم المؤسسة رسالتها من خلال مشاريع عملية تجمع بين الحفظ الوثائقي، والبحث الأكاديمي، والنشر، وإتاحة المعرفة للقراء والباحثين.",
       cards: [
         {
-          title: "صرامة علمية",
-          description: "مراجعة الأقران للإصدارات وقواعد البيانات؛ الالتزام بمعايير الإسناد والتوثيق؛ شفافية منهجية في كل المنشورات."
+          title: "المكتبة الرقمية",
+          description:
+            "تجميع الكتب، والدوريات، والمقالات، والوثائق الرقمية في فضاء منظم يتيح البحث والوصول إلى مصادر موثوقة حول تاريخ طنجة وشمال المغرب."
         },
         {
-          title: "رعاية الحفظ",
-          description: "رقمنة بمعايير أرشيفية؛ فحوص سلامة دورية؛ تخزين متعدد النسخ؛ تخطيط عمر افتراضي وفق مبادئ OAIS و FAIR."
+          title: "الأرشيف والتوثيق",
+          description:
+            "حفظ المواد الوثائقية وتصنيفها وفهرستها، مع العناية بسياقاتها التاريخية حتى لا تتحول الوثيقة إلى صورة معزولة عن معناها العلمي."
         },
         {
-          title: "وصول مفتوح",
-          description: "حقوق غير حصرية؛ تراخيص قابلة للقراءة آلياً؛ واجهات برمجة عامة؛ واجهات متعددة اللغات لتوسيع المشاركة."
+          title: "البحث العلمي",
+          description:
+            "تشجيع الدراسات الرصينة التي تعتمد الوثيقة، وتعيد قراءة تاريخ المنطقة بعيداً عن الاختزال والأحكام الجاهزة."
         },
         {
-          title: "تعدد التخصصات",
-          description: "مشاريع مصممة مع مؤرخين وعلماء اجتماع ولسانيين وعلماء بيانات؛ بروتوكولات بحثية متنوعة."
+          title: "النشر والدوريات",
+          description:
+            "إبراز التراث العلمي المتصل بمدرسة الدكتور التمسماني، والعناية بالدوريات والمساهمات التي خدمت تاريخ طنجة والذاكرة المغربية."
         },
         {
-          title: "مسؤولية أخلاقية",
-          description: "نماذج إتاحة تراعي الخصوصيات الثقافية؛ تشاور مجتمعي؛ خصوصية مدمجة للمواد المعاصرة."
+          title: "المساعد الذكي",
+          description:
+            "توظيف المساعدة الرقمية المسؤولة لتحسين الاكتشاف والتوجيه والوصول إلى الوثائق والمحتوى العلمي، مع الحفاظ على مركزية الباحث والمنهج النقدي."
         },
         {
-          title: "انخراط مجتمعي",
-          description: "معارض وورش عمل وموارد تعليمية تنقل البحث إلى تعلّم شامل."
+          title: "الأنشطة العلمية",
+          description:
+            "تنظيم لقاءات وندوات ومعارض وورشات تُقرب الوثيقة التاريخية من الباحثين والطلبة والمهتمين، وتعيد وصل المعرفة بمحيطها الثقافي."
         }
       ]
     }

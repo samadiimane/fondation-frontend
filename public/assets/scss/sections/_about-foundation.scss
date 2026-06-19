@@ -1,142 +1,187 @@
-.hero {
-    background: linear-gradient(
-  180deg,
-  #ffffff 0%,
-  #e8f7fc 30%,
-  #def2f9 50%,
-  #def2f9 50%,
-  #e8f5fa 70%,
-  #ffffff 100%
-);
-    text-align: justify;
+/* About Foundation - scoped page styles */
+.about-hero {
+    padding: clamp(18px, 2vw, 32px);
 }
 
-/* About Foundation – shared UI tokens */
+.about-hero__header {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-inline: auto;
+    text-align: center;
+    width: min(70vw, 1280px);
+}
+
+.about-hero__header h2,
+.about-actions__header h3,
+.about-history__content h3 {
+    margin: 0;
+    font-weight: 600;
+    color: var(--secondary-color);
+}
+
+.about-hero__header h2 span {
+    color: var(--base-color);
+}
+
+.about-hero__description {
+    color: var(--secondary-color);
+    font-size: clamp(1.04rem, 1.12vw, 1.22rem);
+    line-height: 1.85;
+    margin: 0;
+}
+
+.about-history {
+    padding: clamp(16px, 2vw, 34px) 0;
+}
+
+.about-history__content {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.about-history__content p {
+    color: var(--template-color);
+    font-size: clamp(1.03rem, 1.02vw, 1.16rem);
+    line-height: 1.9;
+    margin: 0;
+}
+
+.about-history__image {
+    aspect-ratio: 21 / 9;
+    border-radius: 12px;
+    display: block;
+    height: auto;
+    object-fit: cover;
+    width: 100%;
+}
+
+.about-pillars,
+.about-actions {
+    padding: clamp(14px, 2vw, 34px) 0;
+}
+
+.about-actions__header {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 0 auto 36px;
+    max-width: 980px;
+    text-align: center;
+}
+
+.about-actions__header p {
+    color: var(--template-color);
+    font-size: clamp(1.02rem, 1vw, 1.14rem);
+    line-height: 1.8;
+    margin: 0;
+}
+
 .af-card {
-    background: #ffffff;
-    border-radius: 16px;
-    padding: 24px;
-    transition: transform 280ms ease, box-shadow 280ms ease, border-color 280ms ease;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    box-shadow: 1px 3px 5px rgba(4, 53, 106, 0.1);
+    height: 100%;
+    padding: 14px;
+    position: relative;
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
 }
 
-h5 {
-    color: rgb(7, 7, 31);
-    font-weight: bolder;
+.af-card h4 {
+    color: var(--secondary-color);
+    font-weight: 700;
+    line-height: 1.35;
+    margin: 0 0 18px;
+    padding-bottom: 12px;
+    position: relative;
 }
 
-.af-elevate {
-    box-shadow: 0 4px 18px rgba(15, 23, 42, 0.06);
+.af-card h4::after {
+    background: linear-gradient(90deg, var(--base-color) 0%, rgba(14, 165, 233, 0) 100%);
+    border-radius: 2px;
+    bottom: 0;
+    content: "";
+    height: 2px;
+    inset-inline-start: 0;
+    position: absolute;
+    width: 72px;
+}
+
+.af-card p {
+    color: var(--template-color);
+    line-height: 1.78;
+    margin: 0;
 }
 
 .af-hover:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.10);
     border-color: rgba(42, 58, 95, 0.12);
-}
-
-/* Accent border + subtle gradient */
-.af-card {
-    position: relative;
-    background-origin: border-box;
-    background-clip: padding-box, border-box;
-}
-.af-card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
+    box-shadow: 0 8px 18px rgba(15, 23, 42, 0.08);
+    transform: translateY(-2px);
 }
 
 .af-list {
     list-style: none;
-    padding-left: 0;
+    margin: 18px 0 0;
+    padding-inline-start: 0;
 }
 
 .af-list-check li {
-    position: relative;
-    padding-left: 28px;
+    line-height: 1.75;
     margin-bottom: 10px;
+    padding-inline-start: 28px;
+    position: relative;
+}
+
+.af-list-check li:last-child {
+    margin-bottom: 0;
 }
 
 .af-list-check li::before {
-    content: "\f00c"; /* Font Awesome check */
+    color: var(--base-color);
+    content: "\f00c";
     font-family: "Font Awesome 6 Free";
     font-weight: 900;
+    inset-inline-start: 0;
     position: absolute;
-    left: 0;
     top: 0.05rem;
-    color: #0ea5e9;
 }
 
-[dir='rtl'] .af-list-check li {
-    padding-left: 0;
-    padding-right: 28px;
+.af-card--pillar {
+    box-shadow: none;
 }
 
-[dir='rtl'] .af-list-check li::before {
-    left: auto;
-    right: 0;
+.af-card--pillar p,
+.af-card--pillar li,
+.af-card--action p {
+    font-size: 0.98rem;
 }
 
-.af-list-bullet li {
-    position: relative;
-    padding-left: 16px;
-    margin-bottom: 8px;
-}
-
-.af-list-bullet li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 0.6rem;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #0ea5e9;
-}
-
-.af-card-min {
-    padding: 18px;
-}
-
-/* Headings accent underline */
-.af-card h3, .af-card h5, .af-card h6 {
-    position: relative;
-}
-.af-card h3::after, .af-card h5::after, .af-card h6::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -8px;
-    width: 100px;
-    height: 3px;
-    border-radius: 2px;
-    background: linear-gradient(90deg, #0ea5e9 0%, rgba(14,165,233,0) 100%);
-}
-
-/* Sections */
-.about-history {
-    scroll-margin-top: 80px;
-}
-
-.mission-vision .af-card h3 { margin-bottom: 12px; }
-.mission-vision .af-card ul { margin-bottom: 0; }
-
-.values .af-card h5 { margin-bottom: 8px; }
-.values .af-card p { margin-bottom: 0; }
-.values .af-card { height: 100%; }
-.values .af-card:hover h5 { color: #0ea5e9; }
-
-.about-domains .af-card h6 { margin-bottom: 6px; }
-.about-domains .af-card { height: 100%; }
-.about-domains .af-card:hover h6 { color: #0ea5e9; }
-
-
-/* Responsive tweaks */
 @media (max-width: 991.98px) {
-    .af-card { border-radius: 14px; padding: 20px; }
+    .about-hero__header {
+        width: 100%;
+    }
+
+    .about-history__image {
+        aspect-ratio: 16 / 9;
+    }
+
+    .af-card {
+        border-radius: 14px;
+        padding: 20px;
+    }
 }
+
 @media (max-width: 575.98px) {
-    .af-card { border-radius: 12px; padding: 18px; }
+    .about-hero,
+    .about-history,
+    .about-pillars,
+    .about-actions {
+        padding-block: 48px;
+    }
+
+    .af-card {
+        border-radius: 12px;
+        padding: 18px;
+    }
 }
