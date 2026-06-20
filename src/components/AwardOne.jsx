@@ -84,7 +84,7 @@ const AwardOne = async ({locale: localeInput = defaultLocale}) => {
                   {...(item.delay ? {"data-aos-delay": item.delay} : {})}
                 >
                   <div className='thumb'>
-                    <Link href='/events' locale={locale} aria-label={itemLabel} title={itemLabel}>
+                    <Link href='/events/seminars' locale={locale} aria-label={itemLabel} title={itemLabel}>
                       <Image
                         src={item.src}
                         alt={alt}
@@ -99,12 +99,12 @@ const AwardOne = async ({locale: localeInput = defaultLocale}) => {
                   <div className='content'>
                     <div className='award__content'>
                       <h5>
-                        <Link href='/events' locale={locale}>{title}</Link>
+                        <Link href='/events/seminars' locale={locale}>{title}</Link>
                       </h5>
                       <p>{meta}</p>
                     </div>
                     <div className='award__thumb'>
-                      <Link href='/events' locale={locale} aria-label={itemLabel} title={itemLabel}>
+                      <Link href='/events/seminars' locale={locale} aria-label={itemLabel} title={itemLabel}>
                         <i className={iconClass} aria-hidden='true' />
                       </Link>
                     </div>
@@ -118,7 +118,7 @@ const AwardOne = async ({locale: localeInput = defaultLocale}) => {
           <div className='col-12'>
             <div className='section__cta cta text-center'>
               <Link
-                href='/events'
+                href='/events/seminars'
                 locale={locale}
                 aria-label={t("ctaAria")}
                 title={t("ctaAria")}

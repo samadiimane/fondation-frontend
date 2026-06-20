@@ -843,3 +843,197 @@
   font-weight: 500;
   color: #4a5a78;
 }
+
+.event-detail-static {
+  background: #f7f8fc;
+  min-block-size: 120vh;
+
+  .breadcrumb-nav {
+    margin-block-end: clamp(1rem, 2vw, 1.5rem);
+  }
+}
+
+.event-detail-static__hero,
+.event-detail-static__body,
+.event-detail-static__gallery,
+.event-detail-static__video,
+.event-detail-static__actions {
+  max-width: 1120px;
+  margin-inline: auto;
+}
+
+.event-detail-static__hero {
+  display: grid;
+  gap: clamp(0.8rem, 1.4vw, 1.15rem);
+  padding-block-end: clamp(1.2rem, 2.5vw, 2rem);
+  text-align: start;
+}
+
+.event-detail-static__eyebrow {
+  margin: 0;
+  color: var(--base-color);
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.event-detail-static__hero h1 {
+  margin: 0;
+  color: var(--secondary-color);
+  font-size: clamp(30px, 2.4vw, 38px);
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.event-detail-static__subtitle {
+  max-width: 860px;
+  margin: 0;
+  color: #4a5a78;
+  font-size: clamp(1.1rem, 1.18vw, 1.3rem);
+  line-height: 1.85;
+}
+
+.event-detail-static__meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+  margin: clamp(0.5rem, 1vw, 0.8rem) 0 0;
+}
+
+.event-detail-static__meta div {
+  min-width: 0;
+  padding: clamp(0.85rem, 1.4vw, 1rem);
+  border: 1px solid rgba(15, 49, 95, 0.12);
+  border-inline-start: 3px solid var(--base-color);
+  background: #ffffff;
+}
+
+.event-detail-static__meta dt,
+.event-detail-static__meta dd {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.event-detail-static__meta dt {
+  color: rgba(15, 49, 95, 0.75);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.event-detail-static__meta dd {
+  color: var(--secondary-color);
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.event-detail-static__cover {
+  max-width: 1120px;
+  margin: 0 auto clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.event-detail-static__cover-media,
+.event-detail-static__gallery-item {
+  position: relative;
+  overflow: hidden;
+  background: #e9edf5;
+}
+
+.event-detail-static__cover-media {
+  aspect-ratio: 16 / 9;
+}
+
+.event-detail-static__image {
+  object-fit: cover;
+}
+
+.event-detail-static__body {
+  display: grid;
+  gap: clamp(1.2rem, 2.4vw, 1.9rem);
+}
+
+.event-detail-static__intro,
+.event-detail-static__section p {
+  margin: 0;
+  color: #3f4d66;
+  font-size: clamp(1.08rem, 1.14vw, 1.24rem);
+  line-height: 1.95;
+}
+
+.event-detail-static__intro {
+  padding: clamp(1rem, 2vw, 1.4rem);
+  border-inline-start: 3px solid var(--base-color);
+  background: #ffffff;
+  color: var(--secondary-color);
+  font-weight: 500;
+}
+
+.event-detail-static__section {
+  display: grid;
+  gap: clamp(0.65rem, 1.1vw, 0.9rem);
+}
+
+.event-detail-static__section h2,
+.event-detail-static__gallery h2,
+.event-detail-static__video h2 {
+  margin: 0;
+  color: var(--secondary-color);
+  font-size: clamp(1.35rem, 1.55vw, 1.7rem);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.event-detail-static__gallery {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  margin-block-start: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.event-detail-static__gallery-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.6vw, 1.1rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.event-detail-static__gallery-item {
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  border: 1px solid rgba(15, 49, 95, 0.1);
+}
+
+.event-detail-static__video {
+  display: grid;
+  gap: 1rem;
+  margin-block-start: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.event-detail-static__video iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+.event-detail-static__actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-block-start: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+@media (max-width: 992px) {
+  .event-detail-static__meta,
+  .event-detail-static__gallery-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .event-detail-static__meta,
+  .event-detail-static__gallery-list {
+    grid-template-columns: 1fr;
+  }
+
+  .event-detail-static__cover-media {
+    aspect-ratio: 4 / 3;
+  }
+}

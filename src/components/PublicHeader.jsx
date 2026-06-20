@@ -56,10 +56,9 @@ const LIBRARY_LINKS = [
 const LIBRARY_ACTIVE_TARGETS = LIBRARY_LINKS.flatMap((item) => item.activeTargets);
 
 const EVENT_LINKS = [
-  {href: "/events", labelKey: "events"},
-  {href: "/events?type=seminar", labelKey: "seminars"},
-  {href: "/events?type=award", labelKey: "awards"},
-  {href: "/events?type=exhibition", labelKey: "exhibitions"},
+  {href: "/events/seminars", labelKey: "seminars"},
+  {href: "/events/research-awards", labelKey: "awards"},
+  {href: "/events/documentary-media", labelKey: "exhibitions"},
 ];
 
 const SUPPORT_LINKS = [
@@ -217,10 +216,10 @@ const PublicHeader = () => {
       },
       {
         id: "events",
-        href: "/events",
+        href: "/events/seminars",
         label: t("events"),
-        activeTargets: ["/events"],
-        children: EVENT_LINKS.filter(({labelKey}) => labelKey !== "events").map(
+        activeTargets: EVENT_LINKS.map(({href}) => extractPath(href)),
+        children: EVENT_LINKS.map(
           ({href, labelKey}) => ({
             id: `event-${sanitizeNavId(labelKey)}`,
             href,

@@ -102,7 +102,7 @@ const EventOne = () => {
           <div className='col-12'>
             <div className='section__cta cta text-center'>
               <Link
-                href='/events'
+                href='/events/seminars'
                 aria-label='our events'
                 title='our events'
                 className='btn--primary'
