@@ -13,6 +13,8 @@ const PublicTopBar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const pathnameRef = useRef(pathname);
+  const phone = t("phone");
+  const phoneHref = phone.replace(/[^\d+]/g, "");
 
   useEffect(() => {
     pathnameRef.current = pathname;
@@ -131,9 +133,9 @@ const PublicTopBar = () => {
                   </a>
                 </li>
                 <li>
-                  <a href={`tel:${t("phone")}`}>
+                  <a href={`tel:${phoneHref}`}>
                     <i className="fa-solid fa-phone" />
-                    {t("phone")}
+                    {phone}
                   </a>
                 </li>
               </ul>

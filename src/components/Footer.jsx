@@ -42,14 +42,18 @@ const Footer = async ({locale: localeInput} = {}) => {
       label: t("contact.address")
     },
     {
-      href: "tel:+2122466422710",
+      href: "tel:+212628595830",
       icon: "fa-solid fa-phone",
-      label: t("contact.phone")
+      label: t("contact.phone"),
+      textDirection: "ltr",
+      valueClass: "footer-two__contact-value--phone"
     },
     {
-      href: "mailto:AKT_Research_Foundation@gmail.com",
+      href: "mailto:aktfoundation.ma@gmail.com",
       icon: "fa-regular fa-envelope",
-      label: t("contact.email")
+      label: t("contact.email"),
+      textDirection: "ltr",
+      valueClass: "footer-two__contact-value--email"
     }
   ];
 
@@ -96,7 +100,7 @@ const Footer = async ({locale: localeInput} = {}) => {
               </div>
             </div>
           </div>
-          <div className={`col-12 col-md-6 ${isRtl ? "col-xl-3" : "col-xl-2 offset-xl-1"}`}>
+          <div className='col-12 col-md-6 col-xl-2'>
             <div className='footer-two__widget'>
               <div className='footer-two__widget-intro'>
                 <h5>{t("headings.quickLinks")}</h5>
@@ -144,7 +148,7 @@ const Footer = async ({locale: localeInput} = {}) => {
               </div>
             </div>
           </div>
-          <div className='col-12 col-md-6 col-xl-3'>
+          <div className='col-12 col-md-6 col-xl-4'>
             <div className='footer-two__widget footer-two__widget--alternate'>
               <div className='footer-two__widget-intro'>
                 <h5>{t("headings.contact")}</h5>
@@ -165,7 +169,12 @@ const Footer = async ({locale: localeInput} = {}) => {
                           {...(isExternal ? {target: "_blank", rel: "noopener noreferrer"} : {})}
                         >
                           <i className={item.icon} aria-hidden='true' />
-                          {item.label}
+                          <span
+                            className={`footer-two__contact-value ${item.textDirection ? "footer-two__contact-value--latin" : ""} ${item.valueClass || ""}`}
+                            dir={item.textDirection}
+                          >
+                            {item.label}
+                          </span>
                         </a>
                       </li>
                     );

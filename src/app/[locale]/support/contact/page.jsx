@@ -41,7 +41,7 @@ const ContactPage = async ({ params }) => {
   const address = contact?.address ?? "";
   const mapLink = contact?.mapLink ?? "";
   const phoneNumbers = normalizeToArray(contact?.phone);
-  const emailAddresses = normalizeToArray(contact?.email ?? "support@aktfoundation.org");
+  const emailAddresses = normalizeToArray(contact?.email ?? "aktfoundation.ma@gmail.com");
   const officeHours = normalizeToArray(contact?.hours);
   const focusAreas = normalizeToArray(contact?.focus);
   const responseTime = contact?.responseTime ?? "";

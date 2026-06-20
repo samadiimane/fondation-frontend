@@ -124,8 +124,8 @@ const SUPPORT_CONTENT = {
       heading: "Contact the Research Support Desk",
       address: "Avenue Abdelaziz Khallouk Temsamani, Tangier 90000, Morocco",
       mapLink: "https://maps.google.com/?q=Avenue+Abdelaziz+Khallouk+Temsamani+Tangier",
-      phone: ["+212 537 00 00 00", "+212 539 00 00 11"],
-      email: ["support@aktfoundation.org", "research@aktfoundation.org"],
+      phone: ["+212 628 595 830"],
+      email: ["aktfoundation.ma@gmail.com"],
       note: "For access requests, citation guidance, and institutional partnerships.",
       focus: [
         "Archive access and appointment scheduling",
@@ -139,8 +139,8 @@ const SUPPORT_CONTENT = {
       heading: "Contactez le bureau de soutien",
       address: "Avenue Abdelaziz Khallouk Temsamani, Tanger, Maroc",
       mapLink: "https://maps.google.com/?q=Avenue+Abdelaziz+Khallouk+Temsamani+Tangier",
-      phone: ["+212 537 00 00 00", "+212 539 00 00 11"],
-      email: ["support@aktfoundation.org", "research@aktfoundation.org"],
+      phone: ["+212 628 595 830"],
+      email: ["aktfoundation.ma@gmail.com"],
       note: "Demandes d'acces, citations et partenariats institutionnels.",
       focus: [
         "Acces aux archives et planification des rendez-vous",
@@ -154,8 +154,8 @@ const SUPPORT_CONTENT = {
       heading: "Contacta con nuestro equipo",
       address: "Avenida Abdelaziz Khallouk Temsamani, Tanger, Marruecos",
       mapLink: "https://maps.google.com/?q=Avenue+Abdelaziz+Khallouk+Temsamani+Tangier",
-      phone: ["+212 537 00 00 00", "+212 539 00 00 11"],
-      email: ["support@aktfoundation.org", "research@aktfoundation.org"],
+      phone: ["+212 628 595 830"],
+      email: ["aktfoundation.ma@gmail.com"],
       note: "Solicitudes de acceso, citas y alianzas institucionales.",
       focus: [
         "Acceso al archivo y programacion de citas",
@@ -169,8 +169,8 @@ const SUPPORT_CONTENT = {
       heading: "\u062a\u0648\u0627\u0635\u0644 \u0645\u0639 \u0641\u0631\u064a\u0642\u0646\u0627",
       address: "\u0634\u0627\u0631\u0639 \u0639\u0628\u062f \u0627\u0644\u0639\u0632\u064a\u0632 \u062e\u0644\u0648\u0642 \u062a\u0645\u0633\u0627\u0645\u0627\u0646\u064a\u060c \u0637\u0646\u062c\u0629\u060c \u0627\u0644\u0645\u063a\u0631\u0628",
       mapLink: "https://maps.google.com/?q=Avenue+Abdelaziz+Khallouk+Temsamani+Tangier",
-      phone: ["+212 537 00 00 00", "+212 539 00 00 11"],
-      email: ["support@aktfoundation.org", "research@aktfoundation.org"],
+      phone: ["+212 628 595 830"],
+      email: ["aktfoundation.ma@gmail.com"],
       note: "\u0644\u0627\u0633\u062a\u0642\u0628\u0627\u0644 \u0637\u0644\u0628\u0627\u062a \u0627\u0644\u0648\u0635\u0648\u0644 \u0648\u0625\u0631\u0634\u0627\u062f\u0627\u062a \u0627\u0644\u0627\u0633\u062a\u0634\u0647\u0627\u062f \u0648\u0627\u0644\u0634\u0631\u0627\u0643\u0627\u062a.",
       focus: [
         "\u0627\u0644\u0648\u0635\u0648\u0644 \u0625\u0644\u0649 \u0627\u0644\u0623\u0631\u0634\u064a\u0641 \u0648\u062c\u062f\u0648\u0644\u0629 \u0627\u0644\u0645\u0648\u0627\u0639\u064a\u062f",
@@ -208,7 +208,7 @@ const SUPPORT_CONTENT = {
           title: "Digital Privacy",
           paragraphs: [
             "We collect minimal analytics to improve our services. Personal information submitted via forms is stored securely and only for the stated purpose.",
-            "You may request data removal or updates at any time by contacting support@aktfoundation.org.",
+            "You may request data removal or updates at any time by contacting aktfoundation.ma@gmail.com.",
           ],
         },
       ],
@@ -236,7 +236,7 @@ const SUPPORT_CONTENT = {
           title: "Confidentialite et donnees personnelles",
           paragraphs: [
             "Nous collectons un volume limite de donnees analytiques pour ameliorer nos services. Les informations soumises via les formulaires sont conservees de facon securisee et uniquement pour l'objectif annonce.",
-            "Vous pouvez demander la mise a jour ou la suppression de vos donnees a tout moment en ecrivant a support@aktfoundation.org.",
+            "Vous pouvez demander la mise a jour ou la suppression de vos donnees a tout moment en ecrivant a aktfoundation.ma@gmail.com.",
           ],
         },
       ],
@@ -264,7 +264,7 @@ const SUPPORT_CONTENT = {
           title: "Privacidad digital",
           paragraphs: [
             "Recopilamos analitica minima para mejorar nuestros servicios. La informacion personal enviada en formularios se almacena de forma segura y solo para el fin indicado.",
-            "Puedes solicitar en cualquier momento la actualizacion o eliminacion de tus datos escribiendo a support@aktfoundation.org.",
+            "Puedes solicitar en cualquier momento la actualizacion o eliminacion de tus datos escribiendo a aktfoundation.ma@gmail.com.",
           ],
         },
       ],
@@ -292,7 +292,7 @@ const SUPPORT_CONTENT = {
           title: "\u0627\u0644\u062e\u0635\u0648\u0635\u064a\u0629 \u0648\u0627\u0644\u0628\u064a\u0627\u0646\u0627\u062a \u0627\u0644\u0631\u0642\u0645\u064a\u0629",
           paragraphs: [
             "\u0646\u062c\u0645\u0639 \u0628\u064a\u0627\u0646\u0627\u062a \u062a\u062d\u0644\u064a\u0644\u064a\u0629 \u0645\u062d\u062f\u0648\u062f\u0629 \u0644\u062a\u062d\u0633\u064a\u0646 \u0627\u0644\u062e\u062f\u0645\u0627\u062a. \u0627\u0644\u0645\u0639\u0644\u0648\u0645\u0627\u062a \u0627\u0644\u0634\u062e\u0635\u064a\u0629 \u0627\u0644\u0645\u0631\u0633\u0644\u0629 \u0639\u0628\u0631 \u0627\u0644\u0646\u0645\u0627\u0630\u062c \u062a\u064f\u062d\u0641\u0638 \u0628\u0634\u0643\u0644 \u0622\u0645\u0646 \u0648\u0644\u0644\u063a\u0631\u0636 \u0627\u0644\u0645\u062d\u062f\u062f \u0641\u0642\u0637.",
-            "\u064a\u0645\u0643\u0646\u0643 \u0637\u0644\u0628 \u062a\u062d\u062f\u064a\u062b \u0628\u064a\u0627\u0646\u0627\u062a\u0643 \u0623\u0648 \u062d\u0630\u0641\u0647\u0627 \u0641\u064a \u0623\u064a \u0648\u0642\u062a \u0639\u0628\u0631 \u0627\u0644\u062a\u0648\u0627\u0635\u0644 \u0645\u0639 support@aktfoundation.org.",
+            "\u064a\u0645\u0643\u0646\u0643 \u0637\u0644\u0628 \u062a\u062d\u062f\u064a\u062b \u0628\u064a\u0627\u0646\u0627\u062a\u0643 \u0623\u0648 \u062d\u0630\u0641\u0647\u0627 \u0641\u064a \u0623\u064a \u0648\u0642\u062a \u0639\u0628\u0631 \u0627\u0644\u062a\u0648\u0627\u0635\u0644 \u0645\u0639 aktfoundation.ma@gmail.com.",
           ],
         },
       ],
@@ -343,7 +343,7 @@ export function getContactContent(locale) {
   const content = withFallback(SUPPORT_CONTENT.contact, locale);
   if (!content) return null;
   return {
-    email: "support@aktfoundation.org",
+    email: "aktfoundation.ma@gmail.com",
     ...content,
   };
 }
