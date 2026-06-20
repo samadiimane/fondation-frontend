@@ -1,39 +1,51 @@
 import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/Breadcrumbs";
-import { isRtlLocale } from "@/i18n/config";
+import { isRtlLocale, normalizeLocale } from "@/i18n/config";
 
 const CONTENT = {
   ar: {
-    home: "الرئيسية",
-    ariaLabel: "مسار التنقل",
     title: "جوائز البحث",
     message: "سيتم نشر محتوى هذا القسم لاحقاً.",
+    breadcrumbs: {
+      home: "الرئيسية",
+      current: "جوائز البحث",
+      ariaLabel: "مسار التنقل",
+    },
   },
   en: {
-    home: "Home",
-    ariaLabel: "Breadcrumb",
     title: "Research Awards",
     message: "Content for this section will be published later.",
+    breadcrumbs: {
+      home: "Home",
+      current: "Research Awards",
+      ariaLabel: "Breadcrumb",
+    },
   },
   fr: {
-    home: "Accueil",
-    ariaLabel: "Fil d'Ariane",
     title: "Prix de recherche",
-    message: "Le contenu de cette section sera publie ulterieurement.",
+    message: "Le contenu de cette section sera publié ultérieurement.",
+    breadcrumbs: {
+      home: "Accueil",
+      current: "Prix de recherche",
+      ariaLabel: "Fil d’Ariane",
+    },
   },
   es: {
-    home: "Inicio",
-    ariaLabel: "Ruta de navegacion",
-    title: "Premios de investigacion",
-    message: "El contenido de esta seccion se publicara mas adelante.",
+    title: "Premios de investigación",
+    message: "El contenido de esta sección se publicará más adelante.",
+    breadcrumbs: {
+      home: "Inicio",
+      current: "Premios de investigación",
+      ariaLabel: "Ruta de navegación",
+    },
   },
 };
 
-const getContent = (locale) => CONTENT[locale] ?? CONTENT.en;
+const getContent = (locale) => CONTENT[normalizeLocale(locale)] ?? CONTENT.en;
 
 export async function generateMetadata({ params }) {
-  const { locale } = await params;
-  const content = getContent(locale);
+  const { locale: localeParam } = await params;
+  const content = getContent(localeParam);
 
   return {
     title: content.title,
@@ -42,29 +54,36 @@ export async function generateMetadata({ params }) {
 }
 
 const ResearchAwardsPage = async ({ params }) => {
-  const { locale } = await params;
+  const { locale: localeParam } = await params;
+  const locale = normalizeLocale(localeParam);
   const content = getContent(locale);
   const isRtl = isRtlLocale(locale);
 
   const breadcrumbs = [
-    { label: content.home, href: "/" },
-    { label: content.title, current: true },
+    { label: content.breadcrumbs.home, href: "/" },
+    { label: content.breadcrumbs.current, current: true },
   ];
 
   return (
     <section className='page-wrapper'>
-      <section className='support-detail pt-120 pb-120' dir={isRtl ? "rtl" : "ltr"}>
-        <div className='container'>
-          <Breadcrumbs items={breadcrumbs} ariaLabel={content.ariaLabel} locale={locale} />
+      <section
+        className='events-category-static pt-3'
+        dir={isRtl ? "rtl" : "ltr"}
+        lang={locale}
+      >
+        <div className='events-category-static__container'>
+          <Breadcrumbs
+            items={breadcrumbs}
+            ariaLabel={content.breadcrumbs.ariaLabel}
+            locale={locale}
+          />
 
-          <div className='support-detail__inner support-detail__inner--faq'>
-            <header className='support-detail__header section__header text-center'>
-              <h1 className='title-animation_inner'>{content.title}</h1>
-            </header>
+          <header className='events-category-static__header section__header'>
+            <h1 className='title-animation_inner'>{content.title}</h1>
+          </header>
 
-            <div className='support-detail__card'>
-              <p>{content.message}</p>
-            </div>
+          <div className='events-category-static__placeholder'>
+            <p>{content.message}</p>
           </div>
         </div>
       </section>

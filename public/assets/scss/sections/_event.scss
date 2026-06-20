@@ -883,6 +883,26 @@
   unicode-bidi: plaintext;
 }
 
+.events-category-static__placeholder {
+  max-width: 780px;
+  padding: clamp(1.15rem, 2.2vw, 1.65rem);
+  border: 1px solid rgba(15, 49, 95, 0.1);
+  border-inline-start: 3px solid var(--base-color);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 10px 28px rgba(15, 49, 95, 0.08);
+}
+
+.events-category-static__placeholder p {
+  margin: 0;
+  color: #3f4d66;
+  font-size: clamp(1.08rem, 1.15vw, 1.24rem);
+  font-weight: 500;
+  line-height: 1.85;
+  text-align: start;
+  unicode-bidi: plaintext;
+}
+
 .events-featured-card {
   position: relative;
   isolation: isolate;
