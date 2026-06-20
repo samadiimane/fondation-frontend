@@ -10,7 +10,7 @@
 
 .team-directory__header {
   margin: 0 auto;
-  max-width: 980px;
+  max-width: 1180px;
   text-align: center;
 }
 
@@ -19,7 +19,7 @@
   font-size: clamp(1.03rem, 1.04vw, 1.18rem);
   line-height: 1.85;
   margin: 18px auto 0;
-  max-width: 900px;
+  max-width: 1120px;
   text-align: center;
 }
 
@@ -66,8 +66,8 @@
 .team-directory__member {
   align-items: start;
   display: grid;
-  gap: clamp(18px, 3vw, 42px);
-  grid-template-columns: minmax(220px, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(18px, 2.5vw, 36px);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   padding: 18px 0;
 }
 
@@ -87,10 +87,7 @@
 }
 
 .team-directory__meta {
-  align-items: start;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px 28px;
+  display: contents;
   margin: 0;
 }
 

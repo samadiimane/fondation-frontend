@@ -9,7 +9,6 @@ const TeamInner = () => {
   const content = getTeamInnerContent(locale);
   const isRtl = isRtlLocale(locale);
   const dir = isRtl ? "rtl" : "ltr";
-  const groups = content.groups.filter((group) => group.key === "research");
 
   return (
     <section
@@ -25,49 +24,29 @@ const TeamInner = () => {
           <p>{content.intro}</p>
         </header>
 
-        <div className='team-directory__groups'>
-          {groups.map((group) => (
-            <section
-              className='team-directory__group'
-              key={group.key}
-              aria-labelledby={`team-directory-${group.key}-title`}
-            >
-              <header className='team-directory__group-header'>
-                <h3 id={`team-directory-${group.key}-title`} className='title-animation_inner'>
-                  {group.title}
-                </h3>
-                <p>{group.description}</p>
-              </header>
+        <ul className='team-directory__list' aria-label={content.title}>
+          {content.members.map((member) => (
+            <li className='team-directory__item' key={member.id}>
+              <article className='team-directory__member'>
+                <div className='team-directory__identity'>
+                  <h5>{member.name}</h5>
+                </div>
 
-              <ul className='team-directory__list'>
-                {group.members.map((member) => (
-                  <li className='team-directory__item' key={member.id}>
-                    <article className='team-directory__member'>
-                      <div className='team-directory__identity'>
-                        <h5>{member.name}</h5>
-                        <p>{member.role}</p>
-                      </div>
+                <dl className='team-directory__meta'>
+                  <div>
+                    <dt>{content.labels.profile}</dt>
+                    <dd>{member.profile}</dd>
+                  </div>
 
-                      <dl className='team-directory__meta'>
-                        <div>
-                          <dt>{content.labels.field}</dt>
-                          <dd>{member.field}</dd>
-                        </div>
-
-                        {member.affiliation ? (
-                          <div>
-                            <dt>{content.labels.affiliation}</dt>
-                            <dd>{member.affiliation}</dd>
-                          </div>
-                        ) : null}
-                      </dl>
-                    </article>
-                  </li>
-                ))}
-              </ul>
-            </section>
+                  <div>
+                    <dt>{content.labels.role}</dt>
+                    <dd>{member.role}</dd>
+                  </div>
+                </dl>
+              </article>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
