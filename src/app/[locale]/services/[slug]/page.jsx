@@ -2,10 +2,10 @@ import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { getServiceContent, SERVICE_SLUGS } from "@/content/services";
 import { locales } from "@/i18n/config";
+import { Link } from "@/i18n/navigation";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-
-const FALLBACK_IMAGE_ALT = "Service illustration";
 
 export function generateStaticParams() {
   return SERVICE_SLUGS.flatMap((slug) => locales.map((locale) => ({ locale, slug })));
@@ -52,17 +52,12 @@ const ServiceDetailPage = async ({ params }) => {
 
         <section
           className='service-detail pt-3'
-          style={{ backgroundColor: "#f7f8fc" }}
           dir={isRtl ? "rtl" : "ltr"}
         >
-          <div className='container' style={{ maxWidth: "80%" }}>
+          <div className='service-detail__container'>
             <Breadcrumbs items={breadcrumbs} ariaLabel={t("breadcrumbs.ariaLabel")} />
-            <div
-              className='section__header'
-              data-aos='fade-up'
-              data-aos-duration={900}
-            >
-              <h2 className="title-animation_inner mt-0"> {title} </h2>
+            <div className='section__header'>
+              <h1 className="title-animation_inner mt-0"> {title} </h1>
             </div>
             <div className='article-detail service-detail__inner'>
               <header className='service-detail__header article-detail__block'>
@@ -71,7 +66,15 @@ const ServiceDetailPage = async ({ params }) => {
 
               {heroImage ? (
                 <figure className='article-detail__cover service-detail__cover'>
-                  <img src={heroImage.src} alt={heroImage.alt ?? t("heroAlt")} />
+                  <div className='service-detail__cover-media'>
+                    <Image
+                      src={heroImage.src}
+                      alt={heroImage.alt ?? t("heroAlt")}
+                      fill
+                      sizes='min(1120px, 92vw)'
+                      className='service-detail__cover-image'
+                    />
+                  </div>
                   {heroImage.caption ? <figcaption>{heroImage.caption}</figcaption> : null}
                 </figure>
               ) : null}
@@ -94,6 +97,11 @@ const ServiceDetailPage = async ({ params }) => {
                   <p>{fallbackMessage}</p>
                 )}
               </article>
+              <nav className='service-detail__actions' aria-label={t("returnHome")}>
+                <Link href='/' className='service-detail__return-link'>
+                  {t("returnHome")}
+                </Link>
+              </nav>
             </div>
           </div>
         </section>

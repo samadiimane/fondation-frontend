@@ -5,6 +5,7 @@
   "title": "Services",
   "fallback": "Les détails de ce service seront publiés bientôt.",
   "heroAlt": "Illustration du service",
+  "returnHome": "Retour à la page d’accueil",
   "breadcrumbs": {
     "home": "Accueil",
     "services": "Services",
