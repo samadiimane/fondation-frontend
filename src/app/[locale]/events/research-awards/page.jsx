@@ -5,7 +5,7 @@ import { isRtlLocale, normalizeLocale } from "@/i18n/config";
 const CONTENT = {
   ar: {
     title: "جوائز البحث",
-    message: "سيتم نشر محتوى هذا القسم لاحقاً.",
+    message: "سيتم الإعلان عن محتوى هذا القسم بعد استكمال إعداده العلمي والتوثيقي.",
     breadcrumbs: {
       home: "الرئيسية",
       current: "جوائز البحث",

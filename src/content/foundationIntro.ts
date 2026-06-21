@@ -38,7 +38,7 @@ export const foundationIntroContent: Record<Locale, FoundationIntroContent> = {
         "Services designed with researchers, librarians, and educators at the center."
       ]
     },
-    videoId: "XxVg_s8xAms",
+    videoId: "noTczKTP0Ag",
     images: {
       primary: "/assets/images/difference/fondation.jpg",
       secondary: "/assets/images/difference/temsamani.png"
@@ -66,7 +66,7 @@ export const foundationIntroContent: Record<Locale, FoundationIntroContent> = {
         "Des services conçus avec les chercheurs, les bibliothécaires et les enseignants au cœur."
       ]
     },
-    videoId: "XxVg_s8xAms",
+    videoId: "noTczKTP0Ag",
     images: {
       primary: "/assets/images/difference/fondation.jpg",
       secondary: "/assets/images/difference/temsamani.png"
@@ -94,7 +94,7 @@ export const foundationIntroContent: Record<Locale, FoundationIntroContent> = {
         "Servicios diseñados con investigadores, bibliotecarios y educadores en el centro."
       ]
     },
-    videoId: "XxVg_s8xAms",
+    videoId: "noTczKTP0Ag",
     images: {
       primary: "/assets/images/difference/fondation.jpg",
       secondary: "/assets/images/difference/temsamani.png"
@@ -122,7 +122,7 @@ export const foundationIntroContent: Record<Locale, FoundationIntroContent> = {
         "خدمات مصممة بما يضع الباحثين وأمناء المكتبات والمربين في صلب اهتماماتها."
       ]
     },
-    videoId: "XxVg_s8xAms",
+    videoId: "noTczKTP0Ag",
     images: {
       primary: "/assets/images/difference/fondation.jpg",
       secondary: "/assets/images/difference/temsamani.png"

@@ -1,10 +1,12 @@
 import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import EventVideoModal from "@/components/events/EventVideoModal";
 import { isRtlLocale, normalizeLocale } from "@/i18n/config";
 import { Link } from "@/i18n/navigation";
 import Image from "next/image";
 
 const COVER_IMAGE = "/assets/images/event/1.jpg";
+const VIDEO_ID = "rHmiCv-4xkk";
 
 const GALLERY_IMAGES = [
   "/assets/images/event/1.jpg",
@@ -57,6 +59,7 @@ const CONTENT = {
       location: "المكان",
       theme: "الموضوع",
       galleryTitle: "معرض الصور",
+      watchVideo: "مشاهدة التسجيل",
       backToSeminars: "العودة إلى الندوات والمحاضرات",
       coverAlt: "صورة من لقاء ذكرى مجلة دار النيابة",
       galleryAlt: "صورة من لقاء ذكرى مجلة دار النيابة رقم {number}",
@@ -102,6 +105,7 @@ const CONTENT = {
       location: "Location",
       theme: "Theme",
       galleryTitle: "Photo Gallery",
+      watchVideo: "Watch recording",
       backToSeminars: "Back to Seminars and Lectures",
       coverAlt: "Photo from the Dar Al-Niaba journal anniversary meeting",
       galleryAlt: "Photo from the Dar Al-Niaba journal anniversary meeting number {number}",
@@ -147,6 +151,7 @@ const CONTENT = {
       location: "Lieu",
       theme: "Thème",
       galleryTitle: "Galerie de photos",
+      watchVideo: "Voir l’enregistrement",
       backToSeminars: "Retour aux séminaires et conférences",
       coverAlt: "Photo de la rencontre anniversaire de la revue Dar Al-Niaba",
       galleryAlt: "Photo de la rencontre anniversaire de la revue Dar Al-Niaba numéro {number}",
@@ -192,6 +197,7 @@ const CONTENT = {
       location: "Lugar",
       theme: "Tema",
       galleryTitle: "Galería de fotos",
+      watchVideo: "Ver grabación",
       backToSeminars: "Volver a seminarios y conferencias",
       coverAlt: "Foto del encuentro aniversario de la revista Dar Al-Niaba",
       galleryAlt: "Foto del encuentro aniversario de la revista Dar Al-Niaba número {number}",
@@ -269,6 +275,7 @@ const DarAlNiabaAnniversaryPage = async ({ params }) => {
                 sizes='min(860px, 92vw)'
                 className='event-detail-static__image'
               />
+              <EventVideoModal videoId={VIDEO_ID} label={labels.watchVideo} />
             </div>
           </figure>
 

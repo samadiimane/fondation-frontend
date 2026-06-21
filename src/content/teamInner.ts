@@ -26,6 +26,12 @@ const members: TeamMember[] = [
     role: "الإشراف المؤسسي"
   },
   {
+    id: "abdelouahed-el-bekkali",
+    name: "عبد الواحد البقالي",
+    profile: "الكتابة العامة للمؤسسة",
+    role: "الكاتب العام للمؤسسة"
+  },
+  {
     id: "mohamed-bourrass",
     name: "محمد بوراس",
     profile: "مؤرخ وباحث وأستاذ للتعليم العالي، متخصص في التاريخ المعاصر للمغرب.",
