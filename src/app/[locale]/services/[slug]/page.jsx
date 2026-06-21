@@ -25,6 +25,15 @@ export async function generateMetadata({ params }) {
   };
 }
 
+const splitTitle = (value) => {
+  const title = typeof value === "string" ? value.trim() : "";
+  const splitIndex = title.indexOf(" ");
+  return {
+    lead: splitIndex > 0 ? title.slice(0, splitIndex) : title,
+    rest: splitIndex > 0 ? title.slice(splitIndex + 1) : "",
+  };
+};
+
 const ServiceDetailPage = async ({ params }) => {
   const { slug, locale } = await params;
   const t = await getTranslations({ locale, namespace: "services" });
@@ -39,6 +48,7 @@ const ServiceDetailPage = async ({ params }) => {
   const bodySections = Array.isArray(service?.bodySections) ? service.bodySections : [];
   const hasBody = bodySections.length > 0;
   const isRtl = locale === "ar";
+  const titleParts = splitTitle(title);
 
   const breadcrumbs = [
     { label: t("breadcrumbs.home"), href: "/" },
@@ -57,7 +67,10 @@ const ServiceDetailPage = async ({ params }) => {
           <div className='service-detail__container'>
             <Breadcrumbs items={breadcrumbs} ariaLabel={t("breadcrumbs.ariaLabel")} />
             <div className='section__header'>
-              <h1 className="title-animation_inner mt-0"> {title} </h1>
+              <h1 className='title-animation_inner mt-0'>
+                <span>{titleParts.lead || title}</span>
+                {titleParts.rest ? ` ${titleParts.rest}` : ""}
+              </h1>
             </div>
             <div className='article-detail service-detail__inner'>
               <header className='service-detail__header article-detail__block'>

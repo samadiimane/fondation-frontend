@@ -1,4 +1,5 @@
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { getTermsContent } from "@/content/support";
 import { isRtlLocale, locales, normalizeLocale } from "@/i18n/config";
 import { getTranslations } from "next-intl/server";
@@ -46,19 +47,25 @@ const TermsPage = async ({ params }) => {
   const intro = terms?.intro ?? "";
   const sections = Array.isArray(terms?.sections) ? terms.sections : [];
   const heading = splitHeading(title);
+  const breadcrumbs = [
+    { label: t("breadcrumbs.home"), href: "/" },
+    { label: title, current: true }
+  ];
 
   return (
       <section className='page-wrapper'>
 
-        <main className='support-page' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>
-          <section className='support-detail'>
+        <main className='support-page support-page--terms' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>
+          <section className='support-detail support-detail--terms-page'>
             <div className='container'>
               <div className='support-detail__inner support-detail__inner--terms'>
+                <Breadcrumbs items={breadcrumbs} ariaLabel={t("breadcrumbs.ariaLabel")} />
+
                 <header className='support-detail__header support-detail__header--publishing'>
-                  <h3 className='title-animation_inner'>
+                  <h1 className='title-animation_inner'>
                     <span>{heading.lead || title}</span>
                     {heading.rest ? ` ${heading.rest}` : ""}
-                  </h3>
+                  </h1>
                   {intro ? <p>{intro}</p> : null}
                 </header>
 

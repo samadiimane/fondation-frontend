@@ -1,5 +1,6 @@
 import Footer from "@/components/Footer";
 import ContactUsInner from "@/components/ContactUsInner";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { getContactContent } from "@/content/support";
 import { isRtlLocale, locales, normalizeLocale } from "@/i18n/config";
 import { getTranslations } from "next-intl/server";
@@ -30,6 +31,15 @@ const normalizeToArray = (value) => {
   return [];
 };
 
+const splitTitle = (value) => {
+  const title = typeof value === "string" ? value.trim() : "";
+  const splitIndex = title.indexOf(" ");
+  return {
+    lead: splitIndex > 0 ? title.slice(0, splitIndex) : title,
+    rest: splitIndex > 0 ? title.slice(splitIndex + 1) : "",
+  };
+};
+
 const ContactPage = async ({ params }) => {
   const { locale } = await params;
   const normalizedLocale = normalizeLocale(locale);
@@ -47,27 +57,30 @@ const ContactPage = async ({ params }) => {
   const responseTime = contact?.responseTime ?? "";
   const note = contact?.note ?? "";
   const description = note || t("contactTagline") || "";
-  const titleSplitIndex = title.indexOf(" ");
-  const titleLead = titleSplitIndex > 0 ? title.slice(0, titleSplitIndex) : title;
-  const titleRest = titleSplitIndex > 0 ? title.slice(titleSplitIndex + 1) : "";
+  const titleParts = splitTitle(title);
+  const breadcrumbs = [
+    { label: t("breadcrumbs.home"), href: "/" },
+    { label: title, current: true }
+  ];
 
   return (
       <section className='page-wrapper'>
 
-        <main className='support-page' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>
-          <section className='support-detail'>
+        <main className='support-page support-page--contact' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>
+          <section className='support-detail support-detail--contact'>
             <div className='container'>
               <div className='support-detail__inner support-detail__inner--contact'>
+                <Breadcrumbs items={breadcrumbs} ariaLabel={t("breadcrumbs.ariaLabel")} />
+
                 <header className='support-detail__header support-detail__header--publishing'>
-                  <h3 className='title-animation_inner'>
-                    <span>{titleLead}</span>
-                    {titleRest ? ` ${titleRest}` : ""}
-                  </h3>
+                  <h1 className='title-animation_inner'>
+                    <span>{titleParts.lead || title}</span>
+                    {titleParts.rest ? ` ${titleParts.rest}` : ""}
+                  </h1>
                   <p>{t("contactTagline")}</p>
                 </header>
 
                 <ContactUsInner
-                  title={title}
                   description={description}
                   address={address}
                   mapLink={mapLink}
@@ -84,7 +97,6 @@ const ContactPage = async ({ params }) => {
                     hours: t("contactFields.hours"),
                     responseTime: t("contactFields.responseTime"),
                   }}
-                  asideTitle={t("contactAside.title")}
                   ctaLabel={t("contactAside.cta")}
                   emptyMessage={t("empty")}
                 />

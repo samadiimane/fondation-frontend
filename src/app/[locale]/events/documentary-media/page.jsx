@@ -43,6 +43,15 @@ const CONTENT = {
 
 const getContent = (locale) => CONTENT[normalizeLocale(locale)] ?? CONTENT.en;
 
+const splitTitle = (value) => {
+  const title = typeof value === "string" ? value.trim() : "";
+  const splitIndex = title.indexOf(" ");
+  return {
+    lead: splitIndex > 0 ? title.slice(0, splitIndex) : title,
+    rest: splitIndex > 0 ? title.slice(splitIndex + 1) : "",
+  };
+};
+
 export async function generateMetadata({ params }) {
   const { locale: localeParam } = await params;
   const content = getContent(localeParam);
@@ -58,6 +67,7 @@ const DocumentaryMediaPage = async ({ params }) => {
   const locale = normalizeLocale(localeParam);
   const content = getContent(locale);
   const isRtl = isRtlLocale(locale);
+  const titleParts = splitTitle(content.title);
 
   const breadcrumbs = [
     { label: content.breadcrumbs.home, href: "/" },
@@ -79,7 +89,10 @@ const DocumentaryMediaPage = async ({ params }) => {
           />
 
           <header className='events-category-static__header section__header'>
-            <h1 className='title-animation_inner'>{content.title}</h1>
+            <h1 className='title-animation_inner'>
+              <span>{titleParts.lead || content.title}</span>
+              {titleParts.rest ? ` ${titleParts.rest}` : ""}
+            </h1>
           </header>
 
           <div className='events-category-static__placeholder'>

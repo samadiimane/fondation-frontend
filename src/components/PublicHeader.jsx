@@ -63,8 +63,8 @@ const EVENT_LINKS = [
 
 const SUPPORT_LINKS = [
   {href: "/support/faq", labelKey: "faq"},
-  {href: "/support/contact", labelKey: "contactUs"},
   {href: "/support/terms", labelKey: "policies"},
+  {href: "/support/contact", labelKey: "contactUs"},
 ];
 
 const sanitizeNavId = (value = "") =>

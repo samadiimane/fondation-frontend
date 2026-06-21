@@ -1,4 +1,5 @@
 import Footer from "@/components/Footer";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { getFaqContent } from "@/content/support";
 import { isRtlLocale, locales, normalizeLocale } from "@/i18n/config";
 import { getTranslations } from "next-intl/server";
@@ -42,20 +43,12 @@ const createFaqGroups = (items, defaultCategoryTitle) => {
   return Array.from(map.values());
 };
 
-const splitHeading = (value) => {
+const splitTitle = (value) => {
   const title = typeof value === "string" ? value.trim() : "";
   const splitIndex = title.indexOf(" ");
-
-  if (splitIndex <= 0) {
-    return {
-      lead: title,
-      rest: "",
-    };
-  }
-
   return {
-    lead: title.slice(0, splitIndex),
-    rest: title.slice(splitIndex + 1),
+    lead: splitIndex > 0 ? title.slice(0, splitIndex) : title,
+    rest: splitIndex > 0 ? title.slice(splitIndex + 1) : "",
   };
 };
 
@@ -69,20 +62,26 @@ const FaqPage = async ({ params }) => {
   const title = faqContent?.heading ?? t("faq");
   const description = faqContent?.intro ?? t("faqIntro") ?? "";
   const groups = createFaqGroups(faqContent?.items, t("faq"));
-  const heading = splitHeading(title);
+  const titleParts = splitTitle(title);
+  const breadcrumbs = [
+    { label: t("breadcrumbs.home"), href: "/" },
+    { label: title, current: true }
+  ];
 
   return (
       <section className='page-wrapper'>
 
-        <main className='support-page' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>
-          <section className='support-detail'>
+        <main className='support-page support-page--faq' dir={isRtl ? "rtl" : "ltr"} lang={normalizedLocale}>
+          <section className='support-detail support-detail--faq-page'>
             <div className='container'>
               <div className='support-detail__inner support-detail__inner--faq'>
+                <Breadcrumbs items={breadcrumbs} ariaLabel={t("breadcrumbs.ariaLabel")} />
+
                 <header className='support-detail__header support-detail__header--publishing'>
-                  <h3 className='title-animation_inner'>
-                    <span>{heading.lead || title}</span>
-                    {heading.rest ? ` ${heading.rest}` : ""}
-                  </h3>
+                  <h1 className='title-animation_inner'>
+                    <span>{titleParts.lead || title}</span>
+                    {titleParts.rest ? ` ${titleParts.rest}` : ""}
+                  </h1>
                   {description ? <p>{description}</p> : null}
                 </header>
 

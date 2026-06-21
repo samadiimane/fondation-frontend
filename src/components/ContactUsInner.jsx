@@ -11,7 +11,6 @@ const ContactUsInner = ({
   focusAreas = [],
   responseTime = "",
   labels = {},
-  asideTitle = "How We Can Help",
   ctaLabel = "Email support desk",
   emptyMessage = "Contact information will be available soon.",
 }) => {
@@ -39,13 +38,7 @@ const ContactUsInner = ({
                 <div className='support-contact__row'>
                   <dt>{labels.address || "Address"}</dt>
                   <dd>
-                    {mapLink ? (
-                      <a href={mapLink} target='_blank' rel='noreferrer' dir='auto'>
-                        {address}
-                      </a>
-                    ) : (
-                      <span dir='auto'>{address}</span>
-                    )}
+                    <span dir='auto'>{address}</span>
                   </dd>
                 </div>
               ) : null}
@@ -88,14 +81,10 @@ const ContactUsInner = ({
           )}
         </article>
 
-        <aside className='article-detail__card support-contact__card support-contact__card--aside px-3'>
-          <h3 className='support-contact__aside-title' dir='auto'>
-            {asideTitle}
-          </h3>
-
+        <aside className='article-detail__card support-contact__card support-contact__card--aside'>
           {sanitizedFocus.length ? (
             <div className='support-contact__aside-block'>
-              <h4>{labels.focus || "Support scope"}</h4>
+              <h4>{labels.focus || "Support scope"}:</h4>
               <ul>
                 {sanitizedFocus.map((item) => (
                   <li key={item} dir='auto'>
@@ -108,7 +97,7 @@ const ContactUsInner = ({
 
           {sanitizedHours.length ? (
             <div className='support-contact__aside-block'>
-              <h4>{labels.hours || "Office hours"}</h4>
+              <h4>{labels.hours || "Office hours"}:</h4>
               <ul>
                 {sanitizedHours.map((item) => (
                   <li key={item} dir='auto'>

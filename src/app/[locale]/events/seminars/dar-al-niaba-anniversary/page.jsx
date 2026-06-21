@@ -208,6 +208,14 @@ const CONTENT = {
 };
 
 const getContent = (locale) => CONTENT[normalizeLocale(locale)] ?? CONTENT.en;
+const splitTitle = (value) => {
+  const title = typeof value === "string" ? value.trim() : "";
+  const splitIndex = title.indexOf(" ");
+  return {
+    lead: splitIndex > 0 ? title.slice(0, splitIndex) : title,
+    rest: splitIndex > 0 ? title.slice(splitIndex + 1) : "",
+  };
+};
 const formatGalleryAlt = (template, number, locale) =>
   template.replace("{number}", new Intl.NumberFormat(locale).format(number));
 
@@ -227,6 +235,7 @@ const DarAlNiabaAnniversaryPage = async ({ params }) => {
   const content = getContent(locale);
   const labels = content.labels;
   const isRtl = isRtlLocale(locale);
+  const titleParts = splitTitle(content.title);
 
   const breadcrumbs = [
     { label: labels.home, href: "/" },
@@ -246,7 +255,8 @@ const DarAlNiabaAnniversaryPage = async ({ params }) => {
 
           <header className='event-detail-static__hero section__header' aria-labelledby='event-detail-title'>
             <h1 id='event-detail-title' className='title-animation_inner'>
-              {content.title}
+              <span>{titleParts.lead || content.title}</span>
+              {titleParts.rest ? ` ${titleParts.rest}` : ""}
             </h1>
 
             <dl className='event-detail-static__meta'>
