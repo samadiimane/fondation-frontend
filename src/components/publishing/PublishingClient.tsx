@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -21,6 +22,25 @@ type TocItem = {
   label: string;
 };
 
+const BREADCRUMB_LABELS = {
+  ar: {
+    home: "الرئيسية",
+    ariaLabel: "مسار التنقل"
+  },
+  en: {
+    home: "Home",
+    ariaLabel: "Breadcrumb"
+  },
+  fr: {
+    home: "Accueil",
+    ariaLabel: "Fil d'Ariane"
+  },
+  es: {
+    home: "Inicio",
+    ariaLabel: "Ruta de navegación"
+  }
+} as const;
+
 const safeArray = <T,>(value: unknown): T[] => (Array.isArray(value) ? (value as T[]) : []);
 
 const PublishingClient = () => {
@@ -29,6 +49,7 @@ const PublishingClient = () => {
   const t = useTranslations("publishing");
   const tTopbar = useTranslations("topbar");
   const [activeId, setActiveId] = useState<string>("overview");
+  const breadcrumbLabels = BREADCRUMB_LABELS[locale as keyof typeof BREADCRUMB_LABELS] ?? BREADCRUMB_LABELS.en;
 
   const headerTitle = t("header.title");
   const titleSplitIndex = headerTitle.indexOf(" ");
@@ -113,12 +134,21 @@ const PublishingClient = () => {
 
   return (
     <main className="publishing-page" dir={isRtl ? "rtl" : "ltr"} lang={locale}>
-      <div className="container">
+      <div className="publishing-page__container">
+        <Breadcrumbs
+          items={[
+            { label: breadcrumbLabels.home, href: "/" },
+            { label: headerTitle, current: true }
+          ]}
+          ariaLabel={breadcrumbLabels.ariaLabel}
+          locale={locale}
+        />
+
         <header className="publishing-hero">
-          <h3 className="publishing-hero__title title-animation_inner">
+          <h1 className="publishing-hero__title title-animation_inner">
             <span>{titleLead}</span>
             {titleRest ? ` ${titleRest}` : ""}
-          </h3>
+          </h1>
           <p className="publishing-hero__subtitle">{t("header.subtitle")}</p>
         </header>
 

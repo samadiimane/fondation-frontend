@@ -3,17 +3,28 @@
  ==== */
 .publishing-page {
   background-color: #f7f8fc;
-  padding: 1em;
+  min-block-size: 120vh;
+  padding-block: 1rem clamp(3rem, 6vw, 5rem);
 }
 
+.publishing-page__container {
+  width: min(1120px, 92vw);
+  margin-inline: auto;
+}
+
+.publishing-page .breadcrumb-nav {
+  margin-block-end: clamp(1rem, 2vw, 1.5rem);
+}
 
 .publishing-hero {
   margin-block-end: 2rem;
 }
 
 .publishing-hero__title {
-  font-weight: 700;
-  font-size: 30px;
+  margin: 0;
+  font-size: clamp(30px, 2.25vw, 36px);
+  font-weight: 600;
+  line-height: 1.25;
   color: var(--secondary-color);
 
   span {
@@ -22,8 +33,11 @@
 }
 
 .publishing-hero__subtitle {
+  margin: clamp(0.75rem, 1.4vw, 1rem) 0 0;
   color: var(--tertiary-color, #6b7280);
-  max-width: 720px;
+  max-width: 880px;
+  font-size: clamp(1.08rem, 1.15vw, 1.24rem);
+  line-height: 1.85;
 }
 
 .publishing-layout {
