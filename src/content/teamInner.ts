@@ -18,32 +18,112 @@ export interface TeamInnerContent {
   members: TeamMember[];
 }
 
-const members: TeamMember[] = [
-  {
-    id: "adil-khallouk-temsamani",
-    name: "عادل خلوق التمسماني",
-    profile: "رئيس مؤسسة عبد العزيز خلوق التمسماني للبحث العلمي",
-    role: "الإشراف المؤسسي"
-  },
-  {
-    id: "abdelouahed-el-bekkali",
-    name: "عبد الواحد البقالي",
-    profile: "الكتابة العامة للمؤسسة",
-    role: "الكاتب العام للمؤسسة"
-  },
-  {
-    id: "mohamed-bourrass",
-    name: "محمد بوراس",
-    profile: "مؤرخ وباحث وأستاذ للتعليم العالي، متخصص في التاريخ المعاصر للمغرب.",
-    role: "عضو الهيئة العلمية والإشراف البحثي"
-  },
-  {
-    id: "mustapha-el-merroun",
-    name: "مصطفى المرون",
-    profile: "مؤرخ وباحث مغربي، متخصص في التاريخ العسكري للمغرب",
-    role: "عضو الهيئة العلمية والإشراف البحثي"
-  }
-];
+const membersByLocale: Record<Locale, TeamMember[]> = {
+  en: [
+    {
+      id: "adil-khallouk-temsamani",
+      name: "Adil Khallouk Temsamani",
+      profile: "President of the Abdelaziz Khallouk Temsamani Foundation for Scientific Research",
+      role: "Institutional supervision"
+    },
+    {
+      id: "abdelouahed-el-bekkali",
+      name: "Abdelouahed El Bekkali",
+      profile: "General coordination of the Foundation",
+      role: "General Coordinator of the Foundation"
+    },
+    {
+      id: "mohamed-bourrass",
+      name: "Mohamed Bourass",
+      profile: "Historian, researcher, and professor of higher education specializing in the contemporary history of Morocco.",
+      role: "Member of the Scientific Board and Research Supervision"
+    },
+    {
+      id: "mustapha-el-merroun",
+      name: "Mustapha El Merroun",
+      profile: "Moroccan historian and researcher specializing in the military history of Morocco.",
+      role: "Member of the Scientific Board and Research Supervision"
+    }
+  ],
+  fr: [
+    {
+      id: "adil-khallouk-temsamani",
+      name: "Adil Khallouk Temsamani",
+      profile: "Président de la Fondation Abdelaziz Khallouk Temsamani pour la recherche scientifique",
+      role: "Supervision institutionnelle"
+    },
+    {
+      id: "abdelouahed-el-bekkali",
+      name: "Abdelouahed El Bekkali",
+      profile: "Coordination générale de la Fondation",
+      role: "Coordinateur général de la Fondation"
+    },
+    {
+      id: "mohamed-bourrass",
+      name: "Mohamed Bourass",
+      profile: "Historien, chercheur et professeur de l’enseignement supérieur, spécialiste de l’histoire contemporaine du Maroc.",
+      role: "Membre de l’instance scientifique et de l’encadrement de la recherche"
+    },
+    {
+      id: "mustapha-el-merroun",
+      name: "Mustapha El Merroun",
+      profile: "Historien et chercheur marocain, spécialiste de l’histoire militaire du Maroc.",
+      role: "Membre de l’instance scientifique et de l’encadrement de la recherche"
+    }
+  ],
+  es: [
+    {
+      id: "adil-khallouk-temsamani",
+      name: "Adil Khallouk Temsamani",
+      profile: "Presidente de la Fundación Abdelaziz Khallouk Temsamani para la Investigación Científica",
+      role: "Supervisión institucional"
+    },
+    {
+      id: "abdelouahed-el-bekkali",
+      name: "Abdelouahed El Bekkali",
+      profile: "Coordinación general de la Fundación",
+      role: "Coordinador general de la Fundación"
+    },
+    {
+      id: "mohamed-bourrass",
+      name: "Mohamed Bourass",
+      profile: "Historiador, investigador y profesor de enseñanza superior, especializado en la historia contemporánea de Marruecos.",
+      role: "Miembro del Consejo Científico y de Supervisión de Investigación"
+    },
+    {
+      id: "mustapha-el-merroun",
+      name: "Mustapha El Merroun",
+      profile: "Historiador e investigador marroquí, especializado en la historia militar de Marruecos.",
+      role: "Miembro del Consejo Científico y de Supervisión de Investigación"
+    }
+  ],
+  ar: [
+    {
+      id: "adil-khallouk-temsamani",
+      name: "عادل خلوق التمسماني",
+      profile: "رئيس مؤسسة عبد العزيز خلوق التمسماني للبحث العلمي",
+      role: "الإشراف المؤسسي"
+    },
+    {
+      id: "abdelouahed-el-bekkali",
+      name: "عبد الواحد البقالي",
+      profile: "الكتابة العامة للمؤسسة",
+      role: "الكاتب العام للمؤسسة"
+    },
+    {
+      id: "mohamed-bourrass",
+      name: "محمد بوراس",
+      profile: "مؤرخ وباحث وأستاذ للتعليم العالي، متخصص في التاريخ المعاصر للمغرب.",
+      role: "عضو الهيئة العلمية والإشراف البحثي"
+    },
+    {
+      id: "mustapha-el-merroun",
+      name: "مصطفى المرون",
+      profile: "مؤرخ وباحث مغربي، متخصص في التاريخ العسكري للمغرب.",
+      role: "عضو الهيئة العلمية والإشراف البحثي"
+    }
+  ]
+};
 
 const teamInnerContent: Record<Locale, TeamInnerContent> = {
   en: {
@@ -54,27 +134,27 @@ const teamInnerContent: Record<Locale, TeamInnerContent> = {
       profile: "Area of expertise",
       role: "Institutional role"
     },
-    members
+    members: membersByLocale.en
   },
   fr: {
     title: "Instance scientifique et encadrement de la recherche",
     intro:
-      "La Fondation articule encadrement academique, travail de recherche et organisation documentaire afin que ses projets restent lies a la rigueur scientifique, a la methode archivistique et au service des chercheurs et lecteurs dans un cadre institutionnel clair.",
+      "La Fondation articule encadrement académique, travail de recherche et organisation documentaire afin que ses projets restent liés à la rigueur scientifique, à la méthode archivistique et au service des chercheurs et lecteurs dans un cadre institutionnel clair.",
     labels: {
-      profile: "Domaine de specialite",
-      role: "Qualite institutionnelle"
+      profile: "Domaine de spécialité",
+      role: "Qualité institutionnelle"
     },
-    members
+    members: membersByLocale.fr
   },
   es: {
-    title: "Comite cientifico y supervision de investigacion",
+    title: "Comité científico y supervisión de investigación",
     intro:
-      "La Fundacion combina supervision academica, trabajo de investigacion y organizacion documental para que sus proyectos permanezcan vinculados al rigor cientifico, a la metodologia archivistica y al servicio de investigadores y lectores dentro de un marco institucional claro.",
+      "La Fundación combina supervisión académica, trabajo de investigación y organización documental para que sus proyectos permanezcan vinculados al rigor científico, a la metodología archivística y al servicio de investigadores y lectores dentro de un marco institucional claro.",
     labels: {
-      profile: "Area de especialidad",
-      role: "Funcion institucional"
+      profile: "Área de especialidad",
+      role: "Función institucional"
     },
-    members
+    members: membersByLocale.es
   },
   ar: {
     title: "الهيئة العلمية والإشراف البحثي",
@@ -84,7 +164,7 @@ const teamInnerContent: Record<Locale, TeamInnerContent> = {
       profile: "مجال الاختصاص",
       role: "الصفة المؤسسية"
     },
-    members
+    members: membersByLocale.ar
   }
 };
 

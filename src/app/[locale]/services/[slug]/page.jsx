@@ -111,7 +111,7 @@ const ServiceDetailPage = async ({ params }) => {
                 )}
               </article>
               <nav className='service-detail__actions' aria-label={t("returnHome")}>
-                <Link href='/' className='service-detail__return-link'>
+                <Link href='/' locale={locale} className='service-detail__return-link'>
                   {t("returnHome")}
                 </Link>
               </nav>
