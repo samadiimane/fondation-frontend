@@ -11,6 +11,7 @@ const EMPTY_FACETS = {
   year: { min: null, max: null, buckets: [] },
 };
 
+const LIBRARY_UNAVAILABLE_ERROR = "libraryUnavailable";
 const LEGACY_AUTHOR_ERROR_CODES = new Set([400, 422]);
 
 const pickText = (...values) => {
@@ -131,6 +132,18 @@ const useDocumentsSearch = () => {
   const [error, setError] = useState(null);
   const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 
+  const setLibraryUnavailable = useCallback((err) => {
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("Digital library search is unavailable.", err);
+    }
+    setItems([]);
+    setFacets(EMPTY_FACETS);
+    setTotal(0);
+    setHasNext(false);
+    setHasLoadedOnce(true);
+    setError(LIBRARY_UNAVAILABLE_ERROR);
+  }, []);
+
   useEffect(() => {
     let active = true;
     const controller = new AbortController();
@@ -149,7 +162,9 @@ const useDocumentsSearch = () => {
       })
       .catch((err) => {
         if (!active || controller.signal.aborted) return;
-        console.error(err);
+        if (process.env.NODE_ENV !== "production") {
+          console.warn("Library category facets are unavailable.", err);
+        }
         journalCategoriesRef.current = [];
         setJournalCategories([]);
       });
@@ -337,13 +352,11 @@ const useDocumentsSearch = () => {
             return;
           } catch (fallbackError) {
             if (controller.signal.aborted) return;
-            console.error(fallbackError);
-            setError(fallbackError.message || "Unable to load documents.");
+            setLibraryUnavailable(fallbackError);
             return;
           }
         }
-        console.error(err);
-        setError(err.message || "Unable to load documents.");
+        setLibraryUnavailable(err);
       } finally {
         if (!controller.signal.aborted) {
           setLoading(false);
@@ -355,7 +368,7 @@ const useDocumentsSearch = () => {
 
     return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [requestKey, locale]);
+  }, [requestKey, locale, setLibraryUnavailable]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;

@@ -1,6 +1,6 @@
 .library-search {
   background: #f6f8fb;
-  min-height: 100vh;
+  min-height: 130vh;
   padding: 1rem;
   color: #1f2a4a;
   font-family: var(--template-font);
@@ -25,6 +25,24 @@
   padding: 0.5rem;
   text-align: center;
   border-radius: 26px;
+}
+
+.library-search__header {
+  margin-bottom: clamp(1rem, 2vw, 1.75rem);
+  text-align: center;
+}
+
+.library-search__header h1 {
+  color: var(--secondary-color);
+  font-size: clamp(30px, 2.25vw, 36px);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+  text-align: center;
+}
+
+.library-search__header h1 span {
+  color: var(--base-color);
 }
 
 .search-bar-container {
@@ -111,7 +129,7 @@
 }
 
 .filters-row__label {
-  font-size: 0.85rem;
+  font-size: 1rem;
   font-weight: 800;
   color: #253354;
 }
@@ -133,9 +151,9 @@
   gap: 0.5rem;
   border: 1px solid #ccd9f0;
   border-radius: 999px;
-  padding: 0.55rem 1.05rem;
+  padding: 0.7rem 1.25rem;
   background: #fff;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #1f2a4a;
 }
@@ -161,7 +179,7 @@
 }
 
 .advanced-panel--inline {
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   align-items: end;
 }
 
@@ -188,7 +206,7 @@
 
 .advanced-panel__body {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 1rem;
 }
 
@@ -198,8 +216,8 @@
 }
 
 .advanced-panel__label {
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: 1rem;
+  font-weight: 700;
   color: #253354;
 }
 
@@ -216,9 +234,11 @@
 }
 
 .advanced-panel__reset {
-  border: none;
-  background: transparent;
-  font-size: 0.85rem;
+  border: 1px solid rgba(15, 76, 129, 0.18);
+  border-radius: 999px;
+  background: #fff;
+  padding: 0.65rem 1.1rem;
+  font-size: 1rem;
   font-weight: 600;
   color: #0f4c81;
   display: inline-flex;
@@ -444,6 +464,10 @@
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
   }
 
+  .advanced-panel__body {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .results-toolbar__filters {
     display: inline-flex;
   }
@@ -473,6 +497,10 @@
 
   .filters-row {
     padding: 1.1rem 1.2rem;
+  }
+
+  .advanced-panel__body {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
 

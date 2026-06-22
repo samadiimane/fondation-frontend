@@ -89,8 +89,8 @@ export const decodeJwtPayload = (token) => {
 
 const ensureBaseUrl = () => {
   if (!API_BASE) {
-    if (!warnedMissingBase && typeof window !== "undefined") {
-      console.error(
+    if (!warnedMissingBase && typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
+      console.warn(
         "NEXT_PUBLIC_API_BASE_URL is not set. Add it to .env.local (e.g. http://127.0.0.1:8000)."
       );
       warnedMissingBase = true;

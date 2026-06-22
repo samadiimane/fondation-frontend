@@ -101,6 +101,7 @@ const LibrarySearch = () => {
 
         <ResultsToolbar
           loading={loading}
+          error={error}
           total={total}
           page={page}
           pageSize={pageSize}
@@ -124,7 +125,7 @@ const LibrarySearch = () => {
           textAlign={textAlign}
         />
 
-        {(hasNext || page > 1) && (
+        {!error && (hasNext || page > 1) && (
           <div className="library-search__pagination">
             <SearchPagination page={page} hasNext={hasNext} setPage={setPage} loading={loading} content={tSearch} />
           </div>

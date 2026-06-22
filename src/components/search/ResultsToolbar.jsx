@@ -4,6 +4,7 @@ import {memo, useCallback} from "react";
 
 const ResultsToolbar = ({
   loading,
+  error,
   total,
   page,
   pageSize,
@@ -17,6 +18,8 @@ const ResultsToolbar = ({
   content,
   textAlign
 }) => {
+  const hasError = Boolean(error);
+
   const handleSortChange = useCallback(
     (event) => {
       setSort?.(event.target.value);
@@ -40,8 +43,9 @@ const ResultsToolbar = ({
         <p className={`results-toolbar__summary ${textAlign}`} aria-live="polite">
           {loading && !hasLoadedOnce && content.toolbar.searching}
           {loading && hasLoadedOnce && content.toolbar.refreshing}
-          {!loading && hasLoadedOnce && total > 0 && content.toolbar.results(total, page, totalPages)}
-          {!loading && hasLoadedOnce && total === 0 && content.toolbar.noResults}
+          {!loading && hasError && content.unavailable.title}
+          {!loading && !hasError && hasLoadedOnce && total > 0 && content.toolbar.results(total, page, totalPages)}
+          {!loading && !hasError && hasLoadedOnce && total === 0 && content.toolbar.noResults}
           {!loading && !hasLoadedOnce && content.toolbar.start}
           {activeFiltersSummary ? ` — ${activeFiltersSummary}` : ""}
         </p>

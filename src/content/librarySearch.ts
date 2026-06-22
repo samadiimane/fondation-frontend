@@ -49,6 +49,11 @@ export interface LibrarySearchContent {
     emptySubtitle: string;
     errorTitle: string;
   };
+  unavailable: {
+    title: string;
+    message: string;
+    retry: string;
+  };
   card: {
     metaAria: string;
     pagesSuffix: string;
@@ -120,6 +125,11 @@ const librarySearchContent: Record<Locale, LibrarySearchContent> = {
       emptySubtitle: "Try broadening your search terms or resetting your filters.",
       errorTitle: "We could not load documents."
     },
+    unavailable: {
+      title: "The digital library is temporarily unavailable",
+      message: "We are working to make the digital library content available soon. Please try again later, or contact the Foundation if your request is urgent.",
+      retry: "You can keep this page open and try another search later."
+    },
     card: {
       metaAria: "Document metadata",
       pagesSuffix: "pages",
@@ -188,6 +198,11 @@ const librarySearchContent: Record<Locale, LibrarySearchContent> = {
       emptyTitle: "Aucun document ne correspond à vos filtres.",
       emptySubtitle: "Élargissez vos termes ou réinitialisez les filtres.",
       errorTitle: "Impossible de charger les documents."
+    },
+    unavailable: {
+      title: "La bibliothèque numérique est temporairement indisponible",
+      message: "Nous travaillons à rendre le contenu de la bibliothèque numérique disponible prochainement. Veuillez réessayer plus tard ou contacter la Fondation si votre demande est urgente.",
+      retry: "Vous pouvez garder cette page ouverte et relancer une recherche plus tard."
     },
     card: {
       metaAria: "Métadonnées du document",
@@ -258,6 +273,11 @@ const librarySearchContent: Record<Locale, LibrarySearchContent> = {
       emptySubtitle: "Amplía los términos o restablece los filtros.",
       errorTitle: "No pudimos cargar los documentos."
     },
+    unavailable: {
+      title: "La biblioteca digital no está disponible temporalmente",
+      message: "Estamos trabajando para que el contenido de la biblioteca digital esté disponible pronto. Inténtelo de nuevo más tarde o contacte con la Fundación si su solicitud es urgente.",
+      retry: "Puede mantener esta página abierta e intentar otra búsqueda más tarde."
+    },
     card: {
       metaAria: "Metadatos del documento",
       pagesSuffix: "páginas",
@@ -273,7 +293,7 @@ const librarySearchContent: Record<Locale, LibrarySearchContent> = {
     }
   },
   ar: {
-    heroTitle: "استكشاف مكتبة المؤسسة",
+    heroTitle: "المكتبة الرقمية للمؤسسة",
     search: {
       placeholder: "ابحث عن الوثائق أو المواضيع أو الكلمات المفتاحية...",
       aria: "بحث في الوثائق",
@@ -326,6 +346,11 @@ const librarySearchContent: Record<Locale, LibrarySearchContent> = {
       emptyTitle: "لا توجد وثائق تطابق المرشحات الحالية.",
       emptySubtitle: "جرّب توسيع كلمات البحث أو إعادة تعيين المرشحات.",
       errorTitle: "تعذر تحميل الوثائق."
+    },
+    unavailable: {
+      title: "المكتبة الرقمية غير متاحة مؤقتاً",
+      message: "نعمل على إتاحة محتوى المكتبة الرقمية قريباً. يرجى المحاولة لاحقاً، أو التواصل مع المؤسسة إذا كان طلبكم مستعجلاً.",
+      retry: "يمكنكم إبقاء الصفحة مفتوحة وإعادة المحاولة لاحقاً."
     },
     card: {
       metaAria: "بيانات الوثيقة",
