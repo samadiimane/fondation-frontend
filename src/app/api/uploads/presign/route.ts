@@ -1,12 +1,5 @@
 import {NextResponse} from "next/server";
-
-const rawBase =
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  process.env.NEXT_PUBLIC_API_BASE ||
-  process.env.NEXT_PUBLIC_API_BASEPATH ||
-  "";
-
-const API_BASE = (rawBase || "http://127.0.0.1:8000").replace(/\/+$/, "");
+import {getServerApiBaseUrl} from "@/lib/apiBase";
 
 export async function POST(request: Request) {
   let body: any = null;
@@ -48,7 +41,15 @@ export async function POST(request: Request) {
   }
 
   try {
-    const upstream = await fetch(`${API_BASE}/v1/uploads/presign`, {
+    const apiBase = getServerApiBaseUrl();
+    if (!apiBase) {
+      return NextResponse.json(
+        {userMessage: "API base URL is not configured"},
+        {status: 500},
+      );
+    }
+
+    const upstream = await fetch(`${apiBase}/v1/uploads/presign`, {
       method: "POST",
       headers,
       body: JSON.stringify(finalBody),

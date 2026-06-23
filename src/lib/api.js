@@ -1,10 +1,5 @@
-const rawBase =
-  process.env.NEXT_PUBLIC_API_BASE_URL ||
-  process.env.NEXT_PUBLIC_API_BASE ||
-  process.env.NEXT_PUBLIC_API_BASEPATH ||
-  "";
+import { getApiBaseUrl } from "@/lib/apiBase";
 
-const API_BASE = rawBase.replace(/\/+$/, "");
 const CACHE_TTL = 30_000;
 const AUTH_TOKEN_STORAGE_KEY = "akt.auth.token";
 const AUTH_EVENT_NAME = "akt:auth-change";
@@ -88,7 +83,9 @@ export const decodeJwtPayload = (token) => {
 };
 
 const ensureBaseUrl = () => {
-  if (!API_BASE) {
+  const apiBase = getApiBaseUrl();
+
+  if (!apiBase) {
     if (!warnedMissingBase && typeof window !== "undefined" && process.env.NODE_ENV !== "production") {
       console.warn(
         "NEXT_PUBLIC_API_BASE_URL is not set. Add it to .env.local (e.g. http://127.0.0.1:8000)."
@@ -97,7 +94,7 @@ const ensureBaseUrl = () => {
     }
     throw new Error("Missing NEXT_PUBLIC_API_BASE_URL");
   }
-  return API_BASE;
+  return apiBase;
 };
 
 export const apiCache = responseCache;
