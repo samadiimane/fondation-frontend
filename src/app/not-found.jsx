@@ -1,7 +1,9 @@
-import {redirect} from "next/navigation";
-import {defaultLocale} from "@/i18n/config";
+import ErrorInner from "@/components/ErrorInner";
 
 export default function NotFound() {
-  redirect(`/${defaultLocale}`);
+  return (
+    <section className="page-wrapper">
+      <ErrorInner />
+    </section>
+  );
 }
-

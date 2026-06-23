@@ -1,7 +1,8 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
+import PublicUnavailableNotice from "@/components/PublicUnavailableNotice";
 import ResearchThemeClient from "./ResearchThemeClient";
-import { getCategory } from "@/lib/api";
+import {getPublicCategory} from "../../_helpers";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { defaultLocale } from "@/i18n/config";
@@ -24,11 +25,34 @@ const ResearchThemePage = async ({ params }) => {
     notFound();
   }
 
-  const category = await getCategory(slug, { locale });
+  const t = await getTranslations({ locale, namespace: "library.researchThemes" });
+  const {category, unavailable} = await getPublicCategory(slug, { locale });
+
+  if (unavailable) {
+    return (
+      <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
+        <main className="category-section">
+          <Breadcrumbs
+            items={[
+              { label: t("breadcrumbs.home"), href: "/" },
+              { label: t("breadcrumbs.library"), href: "/library" },
+              { label: t("breadcrumbs.themes"), href: "/categories/research-themes" },
+              { label: slug, current: true },
+            ]}
+            ariaLabel={t("a11y.breadcrumbs")}
+            locale={locale}
+          />
+          <PublicUnavailableNotice locale={locale} />
+        </main>
+
+        <Footer locale={locale} />
+      </section>
+    );
+  }
+
   if (!category) {
     notFound();
   }
-  const t = await getTranslations({ locale, namespace: "library.researchThemes" });
 
   return (
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>

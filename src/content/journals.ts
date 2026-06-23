@@ -1,6 +1,8 @@
 import {defaultLocale, normalizeLocale} from "@/i18n/config";
 import {Locale} from "@/types/i18n";
 
+export {PUBLIC_JOURNAL_SLUGS, isPublicJournalSlug} from "./journalSlugs";
+
 export interface StaticJournalItem {
   slug: string;
   title: string;

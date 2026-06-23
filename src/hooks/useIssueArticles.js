@@ -66,9 +66,9 @@ const useIssueArticles = ({ slug, issueId, locale }) => {
         setHasLoadedOnce(true);
         const formatter = new Intl.NumberFormat(locale || undefined);
         setAnnouncement(formatter.format(Number(response.total) || documents.length));
-      } catch (err) {
+      } catch {
         if (controller.signal.aborted) return;
-        setError(err.message || "Unable to load issue articles.");
+        setError("issueArticlesUnavailable");
         setItems([]);
         setTotal(0);
         setHasNext(false);

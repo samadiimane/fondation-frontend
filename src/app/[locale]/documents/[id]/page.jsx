@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation";
 import DocumentDownloadButton from "@/components/documents/DocumentDownloadButton";
 import DocumentPreview from "@/components/documents/DocumentPreview";
 import ExpandableText from "@/components/documents/ExpandableText";
+import PublicUnavailableNotice from "@/components/PublicUnavailableNotice";
 import { getDocument } from "@/lib/api";
 import { mapAuthors } from "@/lib/authors";
 import { getDocumentTypeLabel } from "@/lib/documentTypes";
@@ -85,6 +86,11 @@ const buildStrings = (t) => ({
   },
 });
 
+const isDocumentNotFoundError = (error) => {
+  const message = String(error?.message || "");
+  return Number(error?.status) === 404 || /\b404\b|not found/i.test(message);
+};
+
 export async function generateMetadata(context) {
   const resolvedParams = await context?.params;
   const locale = resolvedParams?.locale || defaultLocale;
@@ -119,10 +125,20 @@ export default async function DocumentDetailPage(context) {
   try {
     document = await getDocument(id, { locale });
   } catch (error) {
-    if (error?.message?.includes("404")) {
+    if (isDocumentNotFoundError(error)) {
       notFound();
     }
-    throw error;
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(`Document "${id}" is temporarily unavailable.`, error);
+    }
+    return (
+      <section className="page-wrapper" style={{ backgroundColor: "#f7f8fc" }}>
+        <main lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
+          <PublicUnavailableNotice locale={locale} />
+        </main>
+        <Footer locale={locale} />
+      </section>
+    );
   }
 
   const t = await getTranslations({ locale, namespace: "library.articleDetail" });

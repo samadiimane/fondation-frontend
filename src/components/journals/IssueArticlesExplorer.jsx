@@ -56,7 +56,7 @@ const IssueArticlesExplorer = ({
     ? strings.header.documentsCount.replace("{count}", numberFormatter.format(normalizedTotal))
     : strings.header.unknown;
 
-  const canShowPagination = normalizedTotal > currentPageSize || currentPage > 1 || hasNext;
+  const canShowPagination = !error && (normalizedTotal > currentPageSize || currentPage > 1 || hasNext);
   const announcementValue = announcement || numberFormatter.format(normalizedTotal);
   const journalName = journal?.name ?? strings.header.unknown;
 

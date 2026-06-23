@@ -1,3 +1,9 @@
+import 'slick-carousel/slick/slick.css';
+import '@/styles/vendor/slick-theme.css';
+import 'react-modal-video/scss/modal-video.scss';
+import '@/styles/bootstrap-lite.scss';
+import '@/app/globals.scss';
+
 import {defaultLocale, isRtlLocale, normalizeLocale} from '@/i18n/config';
 import {getLocale} from 'next-intl/server';
 import {Caveat, Nunito} from 'next/font/google';

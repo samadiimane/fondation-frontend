@@ -1,105 +1,68 @@
-/* ==== 
- --------- (5.19) error section styles start ---------
- ==== */
+/* Public not-found */
 .error {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-
-  .thumb {
-    margin-bottom: 40px;
-    img {
-      max-width: 500px;
-      width: 100%;
-    }
-  }
-
-  h3 {
-    font-weight: 900;
-    color: var(--black);
-    text-align: center !important;
-  }
-
-  p {
-    font-weight: 500;
-    margin-top: 20px;
-    font-size: 18px;
-    line-height: 30px;
-    color: var(--black);
-    max-width: 600px;
-    margin-inline: auto;
-  }
-
-  .btn--primary {
-    padding: 18px 40px;
-    border-radius: 60px;
-    font-weight: 700;
-    gap: 8px;
-    &::before,
-    &::after {
-      border-radius: 0px;
-    }
-    i {
-      transform: rotate(-45deg);
-      transition: transform 0.5s ease, color 0s ease;
-      font-size: 18px;
-    }
-    &:hover {
-      i {
-        transform: rotate(0deg);
-      }
-    }
-  }
-  .spade {
-    position: absolute;
-    bottom: -5%;
-    inset-inline-start: 10%;
-    z-index: -1;
-    img {
-      max-width: 20vw;
-      min-width: 60px;
-      animation: pulse 4s infinite ease-in-out;
-    }
-  }
-
-  .spade-green {
-    position: absolute;
-    top: 18%;
-    inset-inline-end: 3%;
-    z-index: -1;
-    img {
-      max-width: 5vw;
-      min-width: 30px;
-      animation: pulse 4s infinite ease-in-out;
-    }
-  }
+  background: #f7f8fc;
+  min-block-size: 100vh;
+  display: grid;
+  align-items: center;
+  padding: clamp(3rem, 8vw, 6rem) 0;
 }
 
 .error__content {
-  display: flex;
+  width: min(760px, 92vw);
+  margin-inline: auto;
+}
+
+.error__panel {
+  background: #fff;
+  border: 1px solid rgba(15, 49, 95, 0.12);
+  border-radius: 20px;
+  box-shadow: 0 18px 42px rgba(18, 32, 56, 0.07);
+  padding: clamp(2rem, 5vw, 3rem);
+  text-align: center;
+}
+
+.error h1 {
+  margin: 0;
+  color: var(--secondary-color);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.error h1 span {
+  color: var(--base-color);
+}
+
+.error__message {
+  max-width: 620px;
+  margin: 1rem auto 0;
+  color: #4a5a78;
+  font-size: clamp(1.05rem, 1.5vw, 1.22rem);
+  line-height: 1.85;
+}
+
+.error__home-link {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  min-height: 100vh;
-  height: 100%;
-  padding: 100px 0px;
+  margin-top: 1.5rem;
+  padding: 0.7rem 1.25rem;
+  border: 1px solid var(--base-color);
+  border-radius: 999px;
+  background: var(--base-color);
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
 }
 
-@media only screen and (max-width: 767.98px) {
-  .error {
-    p {
-      max-width: 400px;
-      font-size: 17px;
-    }
+.error__home-link:hover {
+  background: transparent;
+  color: var(--base-color);
+}
+
+@media only screen and (max-width: 575.98px) {
+  .error__panel {
+    padding: 1.5rem;
   }
 }
-
-.rtl {
-  .error {
-    direction: ltr;
-  }
-}
-
-/* ==== 
- --------- (5.19) error section styles end ---------
- ==== */

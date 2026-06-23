@@ -2,10 +2,13 @@ import Footer from "@/components/Footer";
 import JournalHeader from "@/components/journals/JournalHeader";
 import JournalIssuesExplorer from "@/components/journals/JournalIssuesExplorer";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import {isPublicJournalSlug} from "@/content/journalSlugs";
 import {getJournal} from "@/lib/api";
 import {getTranslations} from "next-intl/server";
 import {notFound} from "next/navigation";
 import {defaultLocale, isRtlLocale} from "@/i18n/config";
+
+export const dynamic = "force-dynamic";
 
 const extractCoverage = (journal, t) => {
   const rawCoverage = journal?.raw?.coverage ?? journal?.raw?.years ?? {};
@@ -126,7 +129,7 @@ export async function generateMetadata({params}) {
   const resolvedParams = await params;
   const locale = resolvedParams?.locale || defaultLocale;
   const slug = resolvedParams?.slug;
-  if (!slug) {
+  if (!isPublicJournalSlug(slug)) {
     return {};
   }
 
@@ -152,18 +155,15 @@ export default async function JournalDetailPage({params}) {
   const locale = resolvedParams?.locale || defaultLocale;
   const slug = resolvedParams?.slug;
 
-  if (!slug) {
+  if (!isPublicJournalSlug(slug)) {
     notFound();
   }
 
   let journal;
   try {
     journal = await getJournal(slug, { locale });
-  } catch (error) {
-    if (error?.message?.includes("404")) {
-      notFound();
-    }
-    throw error;
+  } catch {
+    notFound();
   }
 
   if (!journal) {

@@ -4,6 +4,39 @@
   margin: auto;
 }
 
+.public-unavailable {
+  display: grid;
+  place-items: center;
+  min-block-size: 80vh;
+  padding: clamp(2rem, 6vw, 4rem) 0;
+}
+
+.public-unavailable__panel {
+  width: min(720px, 100%);
+  border: 1px solid rgba(15, 49, 95, 0.12);
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0 18px 42px rgba(18, 32, 56, 0.07);
+  padding: clamp(1.75rem, 4vw, 2.75rem);
+  text-align: center;
+}
+
+.public-unavailable__panel h2 {
+  margin: 0;
+  color: var(--secondary-color);
+  font-size: clamp(1.6rem, 3vw, 2.3rem);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.public-unavailable__panel p {
+  max-width: 58ch;
+  margin: 1rem auto 0;
+  color: #4a5a78;
+  font-size: clamp(1.02rem, 1.4vw, 1.18rem);
+  line-height: 1.85;
+}
+
 .category-header {
   color: #0f315f;
 }

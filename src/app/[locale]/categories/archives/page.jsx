@@ -1,7 +1,8 @@
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
+import PublicUnavailableNotice from "@/components/PublicUnavailableNotice";
 import ArchivesClient from "./ArchivesClient";
-import { getCategory } from "@/lib/api";
+import {getPublicCategory} from "../_helpers";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { defaultLocale } from "@/i18n/config";
@@ -19,26 +20,45 @@ export async function generateMetadata({ params }) {
 const ArchivesPage = async ({ params }) => {
   const resolvedParams = await params;
   const locale = resolvedParams?.locale || defaultLocale;
-  const category = await getCategory("archives", { locale });
+  const t = await getTranslations({ locale, namespace: "library.category" });
+  const tCategories = await getTranslations({ locale, namespace: "library.categories" });
+  const {category, unavailable} = await getPublicCategory("archives", { locale });
+  const breadcrumbsItems = [
+    { label: t("breadcrumbs.home"), href: "/" },
+    { label: t("breadcrumbs.library"), href: "/library" },
+    {
+      label: tCategories("heading") || t("breadcrumbs.archives"),
+      current: true
+    },
+  ];
+
+  if (unavailable) {
+    return (
+      <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
+        <main className="category-section">
+          <Breadcrumbs
+            items={breadcrumbsItems}
+            ariaLabel={t("a11y.breadcrumbs")}
+            locale={locale}
+          />
+          <PublicUnavailableNotice locale={locale} />
+        </main>
+
+        <Footer locale={locale} />
+      </section>
+    );
+  }
+
   if (!category) {
     notFound();
   }
-  const t = await getTranslations({ locale, namespace: "library.category" });
-  const tCategories = await getTranslations({ locale, namespace: "library.categories" });
 
   return (
       <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
 
         <main className="category-section">
           <Breadcrumbs
-            items={[
-              { label: t("breadcrumbs.home"), href: "/" },
-              { label: t("breadcrumbs.library"), href: "/library" },
-              {
-                label: tCategories("heading") || t("breadcrumbs.archives"),
-                current: true
-              },
-            ]}
+            items={breadcrumbsItems}
             ariaLabel={t("a11y.breadcrumbs")}
             locale={locale}
           />

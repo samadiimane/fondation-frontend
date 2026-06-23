@@ -50,7 +50,7 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
     numberFormatter.format(total ?? 0)
   );
 
-  const canShowPagination = total > pageSize || page > 1 || hasNext;
+  const canShowPagination = !error && (total > pageSize || page > 1 || hasNext);
 
   const isRtl = typeof locale === "string" && locale.toLowerCase().startsWith("ar");
 

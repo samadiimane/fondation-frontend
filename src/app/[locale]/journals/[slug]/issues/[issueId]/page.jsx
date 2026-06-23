@@ -1,6 +1,7 @@
 import Footer from "@/components/Footer";
 import IssueArticlesExplorer from "@/components/journals/IssueArticlesExplorer";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import {isPublicJournalSlug, isValidJournalIssueId} from "@/content/journalSlugs";
 import { getJournal, getJournalIssues } from "@/lib/api";
 import { getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
@@ -41,8 +42,8 @@ export async function generateMetadata(context) {
   const resolvedParams = await context?.params;
   const locale = resolvedParams?.locale || defaultLocale;
   const slug = resolvedParams?.slug;
-  const issueId = Number(resolvedParams?.issueId);
-  if (!slug || Number.isNaN(issueId)) {
+  const issueIdParam = resolvedParams?.issueId;
+  if (!isPublicJournalSlug(slug) || !isValidJournalIssueId(issueIdParam)) {
     return {};
   }
 
@@ -67,23 +68,27 @@ export default async function IssueArticlesPage(context) {
   const locale = resolvedParams?.locale || defaultLocale;
   const slug = resolvedParams?.slug;
   const issueIdParam = resolvedParams?.issueId;
-  const issueId = Number(issueIdParam);
 
-  if (!slug || Number.isNaN(issueId)) {
+  if (!isPublicJournalSlug(slug) || !isValidJournalIssueId(issueIdParam)) {
     notFound();
   }
+
+  const issueId = Number(issueIdParam);
 
   let journal;
   try {
     journal = await getJournal(slug, { locale });
-  } catch (error) {
-    if (error?.message?.includes("404")) {
-      notFound();
-    }
-    throw error;
+  } catch {
+    notFound();
   }
 
-  const issue = await findIssueById(slug, issueId, locale);
+  let issue;
+  try {
+    issue = await findIssueById(slug, issueId, locale);
+  } catch {
+    notFound();
+  }
+
   if (!issue) {
     notFound();
   }

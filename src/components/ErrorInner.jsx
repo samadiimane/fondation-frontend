@@ -1,48 +1,33 @@
-import Link from "next/link";
+"use client";
 
-const ErrorInner = () => {
+import Link from "next/link";
+import {usePathname} from "next/navigation";
+
+import {getNotFoundCopy} from "@/content/notFoundCopy";
+import {defaultLocale, isRtlLocale, locales, normalizeLocale} from "@/i18n/config";
+
+const getLocaleFromPathname = (pathname) => {
+  const [firstSegment] = String(pathname || "").split("/").filter(Boolean);
+  return locales.includes(firstSegment) ? firstSegment : defaultLocale;
+};
+
+const ErrorInner = ({locale: localeInput}) => {
+  const pathname = usePathname();
+  const locale = normalizeLocale(localeInput || getLocaleFromPathname(pathname));
+  const copy = getNotFoundCopy(locale);
+  const isRtl = isRtlLocale(locale);
+  const homeHref = `/${locale}`;
+
   return (
-    <section className='error'>
-      <div className='container'>
-        <div className='row justify-content-center'>
-          <div className='col-12 col-xl-7'>
-            <div
-              className='error__content text-center'
-              data-aos='fade-up'
-              data-aos-duration={1000}
-              data-aos-delay={300}
-            >
-              <div className='thumb'>
-                <img src='assets/images/error.png' alt='Image_inner' />
-              </div>
-              <h3 className='title-animation_inner'>Page Not Found</h3>
-              <p>
-                It could have been removed, renamed, or temporarily unavailable.
-                Try searching for what you're looking for.
-              </p>
-              <div className='cta'>
-                <Link
-                  href='/'
-                  aria-label='back to home'
-                  title='back to home'
-                  className='btn--primary'
-                >
-                  Back To Home <i className='fa-solid fa-arrow-right' />
-                </Link>
-              </div>
-            </div>
-          </div>
+    <section className="error" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
+      <div className="error__content">
+        <div className="error__panel">
+          <h1 className="title-animation_inner">{copy.title}</h1>
+          <p className="error__message">{copy.message}</p>
+          <Link href={homeHref} className="error__home-link">
+            {copy.cta}
+          </Link>
         </div>
-      </div>
-      <div className='spade'>
-        <img
-          src='assets/images/blog/spade-base.png'
-          alt='Image_inner'
-          className='base-img'
-        />
-      </div>
-      <div className='spade-green'>
-        <img src='assets/images/sprade-green.png' alt='Image_inner' />
       </div>
     </section>
   );

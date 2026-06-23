@@ -1,17 +1,12 @@
-import 'slick-carousel/slick/slick.css';
-import '@/styles/vendor/slick-theme.css';
-import 'react-modal-video/scss/modal-video.scss';
-import '@/styles/bootstrap-lite.scss';
-import '@/app/globals.scss';
-
 import RouteScrollToTop from '@/helper/RouteScrollToTop';
-import {defaultLocale, locales} from '@/i18n/config';
+import {locales} from '@/i18n/config';
 import {getMessagesForLocale} from '@/messages';
 import {AuthProvider} from '@/hooks/useAuth';
 import PublicShell from '@/components/PublicShell';
 import QueryProvider from '@/components/providers/QueryProvider';
 import {NextIntlClientProvider} from 'next-intl';
 import {setRequestLocale} from 'next-intl/server';
+import {notFound} from 'next/navigation';
 
 export function generateStaticParams() {
   return locales.map((locale) => ({locale}));
@@ -19,7 +14,12 @@ export function generateStaticParams() {
 
 export default async function LocaleLayout({children, params}) {
   const resolvedParams = await params;
-  const locale = resolvedParams?.locale ?? defaultLocale;
+  const locale = resolvedParams?.locale;
+
+  if (!locales.includes(locale)) {
+    notFound();
+  }
+
   setRequestLocale(locale);
   const messages = await getMessagesForLocale(locale);
 

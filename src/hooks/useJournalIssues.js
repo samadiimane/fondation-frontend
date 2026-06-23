@@ -113,9 +113,9 @@ const useJournalIssues = ({ slug, locale }) => {
         const formatter = new Intl.NumberFormat(locale || undefined);
         setAnnouncement(formatter.format(aggregated.length));
         setError(null);
-      } catch (err) {
+      } catch {
         if (controller.signal.aborted) return;
-        setError(err.message || "Unable to load issues.");
+        setError("journalIssuesUnavailable");
         setAllIssues([]);
         setItems([]);
         setTotal(0);
