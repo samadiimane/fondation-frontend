@@ -29,6 +29,34 @@
   margin: 0;
 }
 
+.category-publications-page {
+  background-color: #f7f8fc;
+  min-block-size: 120vh;
+  padding-block-start: 1rem;
+}
+
+.category-publications-page__container {
+  width: min(1120px, 92vw);
+  margin-inline: auto;
+  padding-block-end: clamp(2.5rem, 6vw, 5rem);
+}
+
+.category-publications-page .section__header {
+  margin-bottom: clamp(1rem, 2vw, 1.75rem);
+}
+
+.category-publications-page .section__header h1 {
+  color: var(--secondary-color);
+  font-size: clamp(30px, 2.25vw, 36px);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.category-publications-page .section__header h1 span {
+  color: var(--base-color);
+}
+
 .public-unavailable {
   display: grid;
   align-items: start;

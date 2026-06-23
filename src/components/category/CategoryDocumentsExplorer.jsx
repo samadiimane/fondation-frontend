@@ -7,6 +7,7 @@ import CategoryToolbar from "./CategoryToolbar";
 import ResultsToolbar from "@/components/search/ResultsToolbar";
 import ResultsList from "@/components/search/ResultsList";
 import Pagination from "@/components/search/Pagination";
+import PublicUnavailableNotice from "@/components/PublicUnavailableNotice";
 import { getLibrarySearchContent } from "@/content/librarySearch";
 
 const DEFAULT_VIEW_MODE = "detailed";
@@ -133,6 +134,7 @@ const CategoryDocumentsExplorer = ({
   const authorSummary =
     authorSupported && authorFilter ? tToolbar("summaryAuthor", { author: authorFilter }) : null;
   const summaryWithFilters = authorSummary ? `${summaryLabel} - ${authorSummary}` : summaryLabel;
+  const shouldShowUnavailableOnly = Boolean(error) && hasLoadedOnce && items.length === 0;
 
   const setPageSafe = useCallback(
     (value) => {
@@ -192,6 +194,14 @@ const CategoryDocumentsExplorer = ({
     setTypesSafe([]);
     setAuthorSafe("");
   }, [setQSafe, setSortSafe, setTypesSafe, setAuthorSafe]);
+
+  if (shouldShowUnavailableOnly) {
+    return (
+      <section className="category-documents">
+        <PublicUnavailableNotice locale={resolvedLocale} />
+      </section>
+    );
+  }
 
   const typeFilterControl = defaultTypeFilter
     ? {

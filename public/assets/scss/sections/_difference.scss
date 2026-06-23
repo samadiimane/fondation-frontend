@@ -479,6 +479,27 @@
   }
 }
 
+.foundation-intro {
+  .thumb-sm {
+    inset-inline-start: auto;
+    inset-inline-end: auto;
+  }
+}
+
+.foundation-intro--ltr {
+  .thumb-sm {
+    left: 0;
+    right: auto;
+  }
+}
+
+.foundation-intro--rtl {
+  .thumb-sm {
+    left: auto;
+    right: 0;
+  }
+}
+
 // difference three styles
 .difference-three {
   padding: 100px 0px;

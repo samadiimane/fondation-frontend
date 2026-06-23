@@ -8,6 +8,16 @@ import { buildCategoryQuery } from "@/lib/categoryQuery";
 const DEFAULT_SORT = "title_asc";
 const ALLOWED_SORTS = new Set(["title_asc", "title_desc", "year_desc", "year_asc"]);
 const LEGACY_AUTHOR_ERROR_CODES = new Set([400, 422]);
+const CATEGORY_DOCUMENTS_UNAVAILABLE = "categoryDocumentsUnavailable";
+
+const warnCategoryDocumentsUnavailable = (error) => {
+  if (process.env.NODE_ENV !== "production") {
+    console.warn(
+      "Category documents are temporarily unavailable.",
+      error?.status ? `status=${error.status}` : error?.message || ""
+    );
+  }
+};
 
 const parseInitialState = () => {
   if (typeof window === "undefined") {
@@ -257,8 +267,8 @@ const useCategoryDocuments = (
           } catch (fallbackError) {
             if (!active || controller.signal.aborted) return;
             if (fallbackError?.name === "AbortError") return;
-            console.error(fallbackError);
-            setError(fallbackError?.message || "Unable to load documents.");
+            warnCategoryDocumentsUnavailable(fallbackError);
+            setError(CATEGORY_DOCUMENTS_UNAVAILABLE);
             setItems([]);
             setTotal(0);
             setHasNext(false);
@@ -266,8 +276,8 @@ const useCategoryDocuments = (
             return;
           }
         }
-        console.error(err);
-        setError(err?.message || "Unable to load documents.");
+        warnCategoryDocumentsUnavailable(err);
+        setError(CATEGORY_DOCUMENTS_UNAVAILABLE);
         setItems([]);
         setTotal(0);
         setHasNext(false);

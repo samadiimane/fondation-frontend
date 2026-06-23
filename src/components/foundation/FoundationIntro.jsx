@@ -28,7 +28,11 @@ const FoundationIntro = () => {
 
   return (
     <>
-      <section className='difference-two' dir={isRtl ? "rtl" : "ltr"} lang={locale}>
+      <section
+        className={`difference-two foundation-intro ${isRtl ? "foundation-intro--rtl" : "foundation-intro--ltr"}`}
+        dir={isRtl ? "rtl" : "ltr"}
+        lang={locale}
+      >
         <div className='container'>
           <div className='row gutter-40 align-items-center'>
             <div className='col-12 col-lg-3 col-xxl-5 d-none d-lg-block'>

@@ -7,7 +7,7 @@ import CategoryDocumentsExplorer from "@/components/category/CategoryDocumentsEx
 import { isRtlLocale } from "@/i18n/config";
 import { getDocumentTypeLabel } from "@/lib/documentTypes";
 
-const PublicationsClient = ({ category }) => {
+const PublicationsClient = ({ category, showHeader = true }) => {
   const locale = useLocale();
   const isRtl = isRtlLocale(locale);
   const textAlign = isRtl ? "text-end" : "text-start";
@@ -40,15 +40,17 @@ const PublicationsClient = ({ category }) => {
 
   return (
     <section dir={isRtl ? "rtl" : "ltr"} lang={locale}>
-      <CategoryHeader
-        title={t("title")}
-        description={t("subtitle")}
-        meta={
-          documentsCount !== null ? (
-            <span>{tToolbar("resultsSummary", { count: documentsCount })}</span>
-          ) : null
-        }
-      />
+      {showHeader ? (
+        <CategoryHeader
+          title={t("title")}
+          description={t("subtitle")}
+          meta={
+            documentsCount !== null ? (
+              <span>{tToolbar("resultsSummary", { count: documentsCount })}</span>
+            ) : null
+          }
+        />
+      ) : null}
 
       <CategoryDocumentsExplorer
         categorySlug={slug}
