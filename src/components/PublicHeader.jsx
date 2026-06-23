@@ -28,6 +28,19 @@ const LIBRARY_LINKS = [
     activeTargets: ["/journals"],
   },
   {
+    id: "publications",
+    href: "/categories/publications",
+    labelKey: "publications",
+    activeTargets: ["/categories/publications"],
+  },
+  
+  {
+    id: "research-themes",
+    href: "/categories/research-themes",
+    labelKey: "issues",
+    activeTargets: ["/categories/research-themes"],
+  },
+  {
     id: "archives",
     href: "/categories/archives",
     labelKey: "archives",
@@ -39,18 +52,7 @@ const LIBRARY_LINKS = [
     labelKey: "sites",
     activeTargets: ["/categories/historical-sites"],
   },
-  {
-    id: "research-themes",
-    href: "/categories/research-themes",
-    labelKey: "issues",
-    activeTargets: ["/categories/research-themes"],
-  },
-  {
-    id: "publications",
-    href: "/categories/publications",
-    labelKey: "publications",
-    activeTargets: ["/categories/publications"],
-  },
+  
 ];
 
 const LIBRARY_ACTIVE_TARGETS = LIBRARY_LINKS.flatMap((item) => item.activeTargets);

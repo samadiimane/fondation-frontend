@@ -4,11 +4,37 @@
   margin: auto;
 }
 
+.category-page-shell {
+  background-color: #f7f8fc;
+}
+
+.category-page-static {
+  width: min(1120px, 92vw);
+  margin-inline: auto;
+  display: grid;
+  align-content: start;
+  row-gap: clamp(0.3rem, 1vw, 1rem);
+  padding-block: clamp(1rem, 3vw, 1.8rem);
+}
+
+.category-page-static .breadcrumb-nav {
+  margin-bottom: 0;
+}
+
+.category-page-static__header h1 {
+  color: var(--secondary-color);
+  font-size: clamp(30px, 2.25vw, 36px);
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+}
+
 .public-unavailable {
   display: grid;
-  place-items: center;
+  align-items: start;
+  justify-items: center;
   min-block-size: 80vh;
-  padding: clamp(2rem, 6vw, 4rem) 0;
+  padding: clamp(1rem, 6vw, 4rem) 0;
 }
 
 .public-unavailable__panel {

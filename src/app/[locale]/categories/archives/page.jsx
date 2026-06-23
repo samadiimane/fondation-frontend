@@ -1,11 +1,19 @@
+import {defaultLocale} from "@/i18n/config";
+import {
+  getStaticCategoryPageCopy,
+  StaticCategoryUnavailablePage,
+} from "../_staticPages";
+
+/*
+Backend-driven implementation preserved for later database restoration.
+
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
 import PublicUnavailableNotice from "@/components/PublicUnavailableNotice";
 import ArchivesClient from "./ArchivesClient";
 import {getPublicCategory} from "../_helpers";
-import { notFound } from "next/navigation";
-import { getTranslations } from "next-intl/server";
-import { defaultLocale } from "@/i18n/config";
+import {notFound} from "next/navigation";
+import {getTranslations} from "next-intl/server";
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
@@ -54,20 +62,40 @@ const ArchivesPage = async ({ params }) => {
   }
 
   return (
-      <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
+    <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
+      <main className="category-section">
+        <Breadcrumbs
+          items={breadcrumbsItems}
+          ariaLabel={t("a11y.breadcrumbs")}
+          locale={locale}
+        />
+        <ArchivesClient category={category} />
+      </main>
 
-        <main className="category-section">
-          <Breadcrumbs
-            items={breadcrumbsItems}
-            ariaLabel={t("a11y.breadcrumbs")}
-            locale={locale}
-          />
-          <ArchivesClient category={category} />
-        </main>
-
-        <Footer locale={locale} />
-      </section>
+      <Footer locale={locale} />
+    </section>
   );
+};
+
+export default ArchivesPage;
+*/
+
+export async function generateMetadata({params}) {
+  const resolvedParams = await params;
+  const locale = resolvedParams?.locale || defaultLocale;
+  const copy = getStaticCategoryPageCopy(locale, "archives");
+
+  return {
+    title: `${copy.title} | AKT Research Foundation`,
+    description: copy.title,
+  };
+}
+
+const ArchivesPage = async ({params}) => {
+  const resolvedParams = await params;
+  const locale = resolvedParams?.locale || defaultLocale;
+
+  return <StaticCategoryUnavailablePage locale={locale} categoryKey="archives" />;
 };
 
 export default ArchivesPage;
