@@ -20,8 +20,6 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
     setYearMin,
     yearMax,
     setYearMax,
-    volume,
-    setVolume,
     number,
     setNumber,
     setPage,
@@ -37,14 +35,6 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
     }
   }, [locale]);
 
-  const dateFormatter = useMemo(() => {
-    try {
-      return new Intl.DateTimeFormat(locale || undefined, { dateStyle: "medium" });
-    } catch {
-      return new Intl.DateTimeFormat("en", { dateStyle: "medium" });
-    }
-  }, [locale]);
-
   const summaryText = strings.summaryTemplate.replace(
     "{count}",
     numberFormatter.format(total ?? 0)
@@ -53,16 +43,22 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
   const canShowPagination = !error && (total > pageSize || page > 1 || hasNext);
 
   const isRtl = typeof locale === "string" && locale.toLowerCase().startsWith("ar");
+  const isInvalidFilters = error === "invalidFilters";
+  const isUnavailable = error === "journalIssuesUnavailable";
 
   return (
     <section className="journal-issues-section" id="issues" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
       <div className="journal-issues__header">
-        <div>
-          <h5>{strings.title}</h5>
-          <p>{strings.subtitle}</p>
+        <div className="journal-issues__heading">
+          <h2>{strings.title}</h2>
+          <div className="journal-issues__summary" role="status" aria-live="polite">
+            <span className="sr-only">
+              {strings.a11y.resultsTemplate.replace("{count}" || "0")}
+            </span>
+            <span>{loading ? strings.loading : summaryText}</span>
+          </div>
         </div>
         <div className="journal-issues__sort">
-          <label htmlFor="issues-sort">{strings.sort.label}</label>
           <select
             id="issues-sort"
             value={sort}
@@ -82,6 +78,8 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
               <label htmlFor="filter-year-min">{strings.filters.yearMin}</label>
               <input
                 id="filter-year-min"
+                type="number"
+                min="0"
                 value={yearMin}
                 inputMode="numeric"
                 onChange={(event) => setYearMin(event.target.value)}
@@ -92,6 +90,8 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
               <label htmlFor="filter-year-max">{strings.filters.yearMax}</label>
               <input
                 id="filter-year-max"
+                type="number"
+                min="0"
                 value={yearMax}
                 inputMode="numeric"
                 onChange={(event) => setYearMax(event.target.value)}
@@ -99,19 +99,11 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
               />
             </div>
             <div className="journal-issues__filter-group">
-              <label htmlFor="filter-volume">{strings.filters.volume}</label>
-              <input
-                id="filter-volume"
-                value={volume}
-                inputMode="numeric"
-                onChange={(event) => setVolume(event.target.value)}
-                placeholder="1"
-              />
-            </div>
-            <div className="journal-issues__filter-group">
               <label htmlFor="filter-number">{strings.filters.number}</label>
               <input
                 id="filter-number"
+                type="number"
+                min="0"
                 value={number}
                 inputMode="numeric"
                 onChange={(event) => setNumber(event.target.value)}
@@ -125,16 +117,14 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
         </aside>
 
         <div className="journal-issues__results">
-          <div className="journal-issues__summary mb-3" role="status" aria-live="polite">
-            <span className="sr-only">
-              {strings.a11y.resultsTemplate.replace("{count}", announcement || "0")}
-            </span>
-            <span>{loading ? strings.loading : summaryText}</span>
-          </div>
-
           {error ? (
-            <div className="journal-issues__error" role="alert">
-              <p>{strings.error}</p>
+            <div
+              className="journal-issues__error"
+              role={isInvalidFilters ? "alert" : "status"}
+              aria-live="polite"
+            >
+              <h3>{isUnavailable ? strings.unavailable.title : strings.invalidFilters}</h3>
+              {isUnavailable ? <p>{strings.unavailable.message}</p> : null}
             </div>
           ) : (
             <>
@@ -156,18 +146,12 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                         <tr>
                           <th scope="col">{strings.table.year}</th>
                           <th scope="col">{strings.table.title}</th>
-                          <th scope="col">{strings.table.volume}</th>
-                          <th scope="col">{strings.table.number}</th>
-                          <th scope="col">{strings.table.date}</th>
                           <th scope="col">{strings.table.documents}</th>
                           <th scope="col" aria-label={strings.table.actions}></th>
                         </tr>
                       </thead>
                       <tbody>
                         {items.map((issue) => {
-                          const formattedDate = issue.issueDate
-                            ? dateFormatter.format(new Date(issue.issueDate))
-                            : strings.table.dateUnknown;
                           const titleDisplay = issue.title ?? "";
                           const descriptionDisplay = issue.description ?? "";
 
@@ -182,13 +166,6 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                                   <div className="journal-issues__description">{descriptionDisplay}</div>
                                 ) : null}
                               </td>
-                              <td data-title={strings.table.volume}>
-                                {issue.volume ?? strings.table.valueUnknown}
-                              </td>
-                              <td data-title={strings.table.number}>
-                                {issue.number ?? strings.table.valueUnknown}
-                              </td>
-                              <td data-title={strings.table.date}>{formattedDate}</td>
                               <td data-title={strings.table.documents}>
                                 {numberFormatter.format(issue.documentsCount ?? 0)}
                               </td>
@@ -208,9 +185,6 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
 
                     <div className="journal-issues__cards">
                       {items.map((issue) => {
-                        const formattedDate = issue.issueDate
-                          ? dateFormatter.format(new Date(issue.issueDate))
-                          : strings.table.dateUnknown;
                         const titleDisplay = issue.title ?? "";
                         const descriptionDisplay = issue.description ?? "";
                         return (
@@ -225,17 +199,6 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                               <p className="journal-issues__card-description">{descriptionDisplay}</p>
                             ) : null}
                             <ul className="journal-issues__card-meta">
-                              <li>
-                                <strong>{strings.table.volume}</strong>{" "}
-                                {issue.volume ?? strings.table.valueUnknown}
-                              </li>
-                              <li>
-                                <strong>{strings.table.number}</strong>{" "}
-                                {issue.number ?? strings.table.valueUnknown}
-                              </li>
-                              <li>
-                                <strong>{strings.table.date}</strong> {formattedDate}
-                              </li>
                               <li>
                                 <strong>{strings.table.documents}</strong>{" "}
                                 {numberFormatter.format(issue.documentsCount ?? 0)}

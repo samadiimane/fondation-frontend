@@ -112,6 +112,11 @@
         "summary": "{count} números",
         "loading": "Cargando números...",
         "error": "No se pueden cargar los números en este momento.",
+        "invalidFilters": "Introduzca números válidos en los campos de filtro.",
+        "unavailable": {
+          "title": "No se pueden cargar los números en este momento",
+          "message": "Los números de esta revista no pueden mostrarse actualmente. Inténtelo de nuevo más tarde o vuelva a la página de revistas científicas."
+        },
         "sort": {
           "label": "Ordenar",
           "options": {
@@ -129,8 +134,8 @@
           "reset": "Restablecer filtros"
         },
         "empty": {
-          "title": "Números en preparación",
-          "description": "El catalogado de esta revista está en curso. Vuelve pronto para ver los números publicados."
+          "title": "No se encontraron números coincidentes",
+          "description": "No hay números que coincidan con los criterios de filtro actuales. Puede ajustar los valores o restablecer los filtros."
         },
         "table": {
           "year": "Año",

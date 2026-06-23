@@ -1,70 +1,32 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import { isRtlLocale } from "@/i18n/config";
 
-const JournalHeader = ({ journal, strings, stats, locale }) => {
-  const [expanded, setExpanded] = useState(false);
-
-  const numberFormatter = useMemo(() => {
-    try {
-      return new Intl.NumberFormat(locale || undefined);
-    } catch {
-      return new Intl.NumberFormat("en");
-    }
-  }, [locale]);
-
-  const issuesCount = numberFormatter.format(journal.counts?.issues ?? 0);
-  const documentsCount = numberFormatter.format(journal.counts?.documents ?? 0);
-  const descriptionText = journal.description?.trim() ?? "";
+const JournalHeader = ({ journal, strings, locale }) => {
+  const metaItems = [
+    journal.issn ? {label: strings.meta.issn, value: journal.issn, dir: "ltr"} : null,
+    journal.publisher ? {label: strings.meta.publisher, value: journal.publisher} : null,
+    journal.language ? {label: strings.meta.language, value: journal.language} : null,
+    journal.country ? {label: strings.meta.country, value: journal.country} : null,
+  ].filter(Boolean);
 
   return (
     <header className="journal-header" id="overview" lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
       <div>
-        <div
-          className='section__header'
-          data-aos='fade-up'
-          data-aos-duration={900}
-        >
-          <h2 className="title-animation_inner mt-0"><span>{strings.eyebrow} :</span> {journal.name}</h2>
-
+        <div className="section__header">
+          <h1 className="title-animation_inner mt-0"><span>{strings.eyebrow} :</span> {journal.name}</h1>
         </div>
 
-        <ul className="journal-header__meta mb-3">
-          <li>
-            <span className="label">{strings.meta.issn} :</span>
-            <span>{journal.issn || strings.meta.issnUnknown}</span>
-          </li>
-          <li title={journal.publisher || undefined}>
-            <span className="label">{strings.meta.publisher} :</span>
-            <span>{journal.publisher || ""}</span>
-          </li>
-          {journal.language && (
-            <li>
-              <span className="label">{strings.meta.language} :</span>
-              <span>{journal.language}</span>
-            </li>
-          )}
-          {journal.country && (
-            <li>
-              <span className="label">{strings.meta.country} :</span>
-              <span>{journal.country}</span>
-            </li>
-          )}
-        </ul>
-
-        <div className={`journal-header__description mb-2 ${expanded ? "is-expanded" : ""}`}>
-          <p>{descriptionText}</p>
-          {descriptionText.length > 320 && (
-            <button
-              type="button"
-              className="journal-header__toggle"
-              onClick={() => setExpanded((prev) => !prev)}
-            >
-              {expanded ? strings.descriptionToggle.less : strings.descriptionToggle.more}
-            </button>
-          )}
-        </div>
+        {/* {metaItems.length > 0 ? (
+          <ul className="journal-header__meta mb-3">
+            {metaItems.map((item) => (
+              <li key={item.label} title={typeof item.value === "string" ? item.value : undefined}>
+                <span className="label">{item.label} :</span>
+                <span dir={item.dir}>{item.value}</span>
+              </li>
+            ))}
+          </ul>
+        ) : null} */}
       </div>
     </header>
   );

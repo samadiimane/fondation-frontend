@@ -1,4 +1,4 @@
-export const PUBLIC_JOURNAL_SLUGS = ["dar-al-niaba", "tangerois"];
+export const PUBLIC_JOURNAL_SLUGS = ["dar-al-niaba", "les-tangerois"];
 
 export function isPublicJournalSlug(value) {
   return PUBLIC_JOURNAL_SLUGS.includes(String(value || ""));

@@ -48,7 +48,7 @@ const contentByLocale: Record<Locale, JournalsContent> = {
           "A scholarly journal connected to the history of Tangier, Dar Al-Niaba, and diplomatic archives, contributing to historical and documentary research on northern Morocco.",
       },
       {
-        slug: "tangerois",
+        slug: "les-tangerois",
         title: "Les Tangérois",
         image: journalImages.tangerois,
         imageAlt: "Cover of Les Tangérois journal",
@@ -56,7 +56,7 @@ const contentByLocale: Record<Locale, JournalsContent> = {
           "A documentary and cultural initiative devoted to Tangier's urban, social, and cultural history, highlighting the city's place in Moroccan and Mediterranean memory.",
       },
     ],
-    availabilityLabel: "Issues will be available soon",
+    availabilityLabel: "See all issues",
   },
   fr: {
     title: "Revues scientifiques",
@@ -77,7 +77,7 @@ const contentByLocale: Record<Locale, JournalsContent> = {
           "Une revue scientifique liée à l'histoire de Tanger, de Dar Al-Niaba et des archives diplomatiques, au service de la recherche historique et documentaire sur le nord du Maroc.",
       },
       {
-        slug: "tangerois",
+        slug: "les-tangerois",
         title: "Les Tangérois",
         image: journalImages.tangerois,
         imageAlt: "Couverture de la revue Les Tangérois",
@@ -85,7 +85,7 @@ const contentByLocale: Record<Locale, JournalsContent> = {
           "Une initiative documentaire et culturelle consacrée à l'histoire urbaine, sociale et culturelle de Tanger, mettant en valeur la place de la ville dans la mémoire marocaine et méditerranéenne.",
       },
     ],
-    availabilityLabel: "Les numéros seront disponibles prochainement",
+    availabilityLabel: "Voir tous les numéros",
   },
   es: {
     title: "Revistas científicas",
@@ -106,7 +106,7 @@ const contentByLocale: Record<Locale, JournalsContent> = {
           "Una revista académica vinculada a la historia de Tánger, Dar Al-Niaba y los archivos diplomáticos, al servicio de la investigación histórica y documental sobre el norte de Marruecos.",
       },
       {
-        slug: "tangerois",
+        slug: "les-tangerois",
         title: "Les Tangérois",
         image: journalImages.tangerois,
         imageAlt: "Cubierta de la revista Les Tangérois",
@@ -114,7 +114,7 @@ const contentByLocale: Record<Locale, JournalsContent> = {
           "Una iniciativa documental y cultural dedicada a la historia urbana, social y cultural de Tánger, destacando el lugar de la ciudad en la memoria marroquí y mediterránea.",
       },
     ],
-    availabilityLabel: "Los números estarán disponibles próximamente",
+    availabilityLabel: "Ver todos los números",
   },
   ar: {
     title: "منابر البحث التاريخي",
@@ -135,7 +135,7 @@ const contentByLocale: Record<Locale, JournalsContent> = {
           "منبر علمي ارتبط بتاريخ طنجة ومؤسسة دار النيابة والأرشيف الدبلوماسي، وأسهم في خدمة البحث التاريخي والوثائقي حول شمال المغرب.",
       },
       {
-        slug: "tangerois",
+        slug: "les-tangerois",
         title: "مجلة الطنجيون",
         image: journalImages.tangerois,
         imageAlt: "غلاف مجلة الطنجيون",
@@ -143,7 +143,7 @@ const contentByLocale: Record<Locale, JournalsContent> = {
           "تجربة وثائقية وثقافية تعنى بتاريخ طنجة في أبعاده الحضرية والاجتماعية والثقافية، وتبرز مكانة المدينة في الذاكرة المغربية والمتوسطية.",
       },
     ],
-    availabilityLabel: "سيتم إتاحة الأعداد قريباً",
+    availabilityLabel: "اطلع على أعداد المجلة",
   },
 };
 

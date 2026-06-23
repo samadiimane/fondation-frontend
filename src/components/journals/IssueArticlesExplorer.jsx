@@ -73,10 +73,6 @@ const IssueArticlesExplorer = ({
         </div>
         <dl className="issue-articles__meta">
           <div>
-            <dt>{strings.header.meta.volume}</dt>
-            <dd>{issue?.volume ?? strings.header.unknown}</dd>
-          </div>
-          <div>
             <dt>{strings.header.meta.number}</dt>
             <dd>{issue?.number ?? strings.header.unknown}</dd>
           </div>
@@ -112,7 +108,6 @@ const IssueArticlesExplorer = ({
                       <th scope="col">{strings.table.authors}</th>
                       <th scope="col">{strings.table.year}</th>
                       <th scope="col">{strings.table.langOnly}</th>
-                      <th scope="col">{strings.table.pages}</th>
                       <th scope="col" aria-label={strings.table.actions}></th>
                     </tr>
                   </thead>
@@ -141,7 +136,6 @@ const IssueArticlesExplorer = ({
                           <td data-title={strings.table.langOnly}>
                             {langLabel || strings.table.languageFallback}
                           </td>
-                          <td data-title={strings.table.pages}>{pages}</td>
                           <td data-title={strings.table.actions}>
                             <Link href={`/library/${doc.id}`} className="journal-issues__action">
                               {strings.table.seeDetails}

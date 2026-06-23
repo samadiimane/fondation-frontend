@@ -112,6 +112,11 @@
         "summary": "{count} numéros",
         "loading": "Chargement des numéros...",
         "error": "Impossible de charger les numéros pour le moment.",
+        "invalidFilters": "Veuillez saisir des nombres valides dans les champs de filtrage.",
+        "unavailable": {
+          "title": "Impossible de charger les numéros pour le moment",
+          "message": "Les numéros de cette revue ne peuvent pas être affichés actuellement. Veuillez réessayer plus tard ou revenir à la page des revues scientifiques."
+        },
         "sort": {
           "label": "Trier",
           "options": {
@@ -129,8 +134,8 @@
           "reset": "Réinitialiser les filtres"
         },
         "empty": {
-          "title": "Numéros en préparation",
-          "description": "Le catalogage de cette revue est en cours. Revenez bientôt pour découvrir les numéros publiés."
+          "title": "Aucun numéro correspondant",
+          "description": "Aucun numéro ne correspond aux critères de filtrage actuels. Vous pouvez modifier les valeurs ou réinitialiser les filtres."
         },
         "table": {
           "year": "Année",

@@ -2,6 +2,7 @@ import Footer from "@/components/Footer";
 import JournalHeader from "@/components/journals/JournalHeader";
 import JournalIssuesExplorer from "@/components/journals/JournalIssuesExplorer";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import PublicUnavailableNotice from "@/components/PublicUnavailableNotice";
 import {isPublicJournalSlug} from "@/content/journalSlugs";
 import {getJournal} from "@/lib/api";
 import {getTranslations} from "next-intl/server";
@@ -10,65 +11,30 @@ import {defaultLocale, isRtlLocale} from "@/i18n/config";
 
 export const dynamic = "force-dynamic";
 
-const extractCoverage = (journal, t) => {
-  const rawCoverage = journal?.raw?.coverage ?? journal?.raw?.years ?? {};
-  const start =
-    rawCoverage.start_year ??
-    rawCoverage.start ??
-    rawCoverage.year_min ??
-    rawCoverage.min_year ??
-    rawCoverage.min;
-  const end =
-    rawCoverage.end_year ??
-    rawCoverage.end ??
-    rawCoverage.year_max ??
-    rawCoverage.max_year ??
-    rawCoverage.max;
-
-  if (start && end) {
-    return `${start} - ${end}`;
-  }
-  if (start) {
-    return `${t("header.stats.coverageSingle")} ${start}`;
-  }
-  if (end) {
-    return `${t("header.stats.coverageSingle")} ${end}`;
-  }
-  return null;
-};
-
 const buildHeaderStrings = (t) => ({
   eyebrow: t("header.eyebrow"),
-  descriptionFallback: t("header.descriptionFallback"),
-  descriptionToggle: {
-    more: t("header.descriptionToggle.more"),
-    less: t("header.descriptionToggle.less"),
-  },
   meta: {
     issn: t("header.meta.issn"),
-    issnUnknown: t("header.meta.issnUnknown"),
     publisher: t("header.meta.publisher"),
-    publisherUnknown: t("header.meta.publisherUnknown"),
     language: t("header.meta.language"),
     country: t("header.meta.country"),
   },
-  stats: {
-    issues: t("header.stats.issues"),
-    documents: t("header.stats.documents"),
-    coverage: t("header.stats.coverage"),
-    coverageUnknown: t("header.stats.coverageUnknown"),
-    coverageSingle: t("header.stats.coverageSingle"),
-    holdings: t("header.stats.holdings"),
-  },
-  statsCardLabel: t("header.statsCardLabel"),
 });
+
+const isJournalNotFoundError = (error) => {
+  const message = String(error?.message || "");
+  return Number(error?.status) === 404 || /\b404\b|not found/i.test(message);
+};
 
 const buildIssuesStrings = (t, tPagination) => ({
   title: t("issues.title"),
-  subtitle: t("issues.subtitle"),
   summaryTemplate: t("issues.summary", {count: "{count}"}),
   loading: t("issues.loading"),
-  error: t("issues.error"),
+  invalidFilters: t("issues.invalidFilters"),
+  unavailable: {
+    title: t("issues.unavailable.title"),
+    message: t("issues.unavailable.message"),
+  },
   sort: {
     label: t("issues.sort.label"),
     options: {
@@ -81,7 +47,6 @@ const buildIssuesStrings = (t, tPagination) => ({
     title: t("issues.filters.title"),
     yearMin: t("issues.filters.yearMin"),
     yearMax: t("issues.filters.yearMax"),
-    volume: t("issues.filters.volume"),
     number: t("issues.filters.number"),
     reset: t("issues.filters.reset"),
   },
@@ -91,11 +56,7 @@ const buildIssuesStrings = (t, tPagination) => ({
   },
   table: {
     year: t("issues.table.year"),
-    volume: t("issues.table.volume"),
-    number: t("issues.table.number"),
     title: t("issues.table.title"),
-    date: t("issues.table.date"),
-    dateUnknown: t("issues.table.dateUnknown"),
     documents: t("issues.table.documents"),
     actions: t("issues.table.actions"),
     browseIssue: t("issues.table.browseIssue"),
@@ -118,12 +79,6 @@ const buildBreadcrumbs = (t, journalName) => [
   {label: t("breadcrumbs.journals.label"), href: t("breadcrumbs.journals.href")},
   {label: journalName, current: true},
 ];
-
-const buildNavStrings = (t) => ({
-  ariaLabel: t("nav.ariaLabel"),
-  overview: t("nav.overview"),
-  issues: t("nav.issues"),
-});
 
 export async function generateMetadata({params}) {
   const resolvedParams = await params;
@@ -162,8 +117,21 @@ export default async function JournalDetailPage({params}) {
   let journal;
   try {
     journal = await getJournal(slug, { locale });
-  } catch {
-    notFound();
+  } catch (error) {
+    if (isJournalNotFoundError(error)) {
+      notFound();
+    }
+    if (process.env.NODE_ENV !== "production") {
+      console.warn(`Journal "${slug}" is temporarily unavailable.`, error);
+    }
+    return (
+      <section className="page-wrapper journal-page-shell">
+        <main className="journal-page-content journal-detail-page" lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
+          <PublicUnavailableNotice locale={locale} />
+        </main>
+        <Footer locale={locale} />
+      </section>
+    );
   }
 
   if (!journal) {
@@ -174,27 +142,18 @@ export default async function JournalDetailPage({params}) {
   const tPagination = await getTranslations({locale, namespace: "shared.pagination"});
   const headerStrings = buildHeaderStrings(t);
   const issuesStrings = buildIssuesStrings(t, tPagination);
-  const navStrings = buildNavStrings(t);
   const breadcrumbsItems = buildBreadcrumbs(t, journal.name);
   const isRtl = isRtlLocale(locale);
 
-  const coverage = extractCoverage(journal, t);
-  const holdings =
-    journal.raw?.holdings_note ?? journal.raw?.holding_note ?? journal.raw?.holdings ?? null;
-
   return (
-      <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
+      <section className="page-wrapper journal-page-shell">
 
-        <main className="journal-detail-page" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
+        <main className="journal-page-content journal-detail-page" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
           <Breadcrumbs items={breadcrumbsItems} ariaLabel={t("a11y.breadcrumbs")} locale={locale} />
 
           <JournalHeader
             journal={journal}
             strings={headerStrings}
-            stats={{
-              coverage,
-              holdings,
-            }}
             locale={locale}
           />
 

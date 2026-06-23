@@ -3,6 +3,7 @@ import Image from "next/image";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Footer from "@/components/Footer";
 import {getJournalsContent} from "@/content/journals";
+import {Link} from "@/i18n/navigation";
 import {defaultLocale, isRtlLocale, locales, normalizeLocale} from "@/i18n/config";
 
 export function generateStaticParams() {
@@ -74,9 +75,12 @@ export default async function JournalsPage({params}) {
                 <div className="journal-feature-card__content">
                   <h2>{journal.title}</h2>
                   <p className="journal-feature-card__description">{journal.description}</p>
-                  <span className="journal-feature-card__availability">
+                  <Link
+                    className="journal-feature-card__availability"
+                    href={`/journals/${journal.slug}`}
+                  >
                     {content.availabilityLabel}
-                  </span>
+                  </Link>
                 </div>
               </article>
             ))}

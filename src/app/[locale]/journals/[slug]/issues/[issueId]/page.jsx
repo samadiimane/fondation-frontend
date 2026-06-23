@@ -103,7 +103,6 @@ export default async function IssueArticlesPage(context) {
     header: {
       journalLabel: t("header.journalLabel"),
       title: t("header.title", { journal: "{journal}" }),
-      subtitle: t("header.subtitle", { issue: "{issue}" }),
       issueLabel: t("header.issueLabel", {
         volume: "{volume}",
         number: "{number}",
@@ -174,21 +173,20 @@ export default async function IssueArticlesPage(context) {
   ];
 
   return (
-      <section className="page-wrapper" style={{backgroundColor: "#f7f8fc"}}>
+    <section className="page-wrapper journal-page-shell">
+      <main className="journal-page-content issue-articles-page pt-3" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
+        <Breadcrumbs items={breadcrumbsItems} ariaLabel={t("a11y.breadcrumbs")} locale={locale} />
+        <IssueArticlesExplorer
+          slug={slug}
+          issueId={issueId}
+          locale={locale}
+          strings={strings}
+          journal={{ ...journal, name: journalDisplayName }}
+          issue={issue}
+        />
+      </main>
 
-        <main className="issue-articles-page" lang={locale} dir={isRtl ? "rtl" : "ltr"}>
-          <Breadcrumbs items={breadcrumbsItems} ariaLabel={t("a11y.breadcrumbs")} locale={locale} />
-          <IssueArticlesExplorer
-            slug={slug}
-            issueId={issueId}
-            locale={locale}
-            strings={strings}
-            journal={{ ...journal, name: journalDisplayName }}
-            issue={issue}
-          />
-        </main>
-
-        <Footer locale={locale} />
-      </section>
+      <Footer locale={locale} />
+    </section>
   );
 }

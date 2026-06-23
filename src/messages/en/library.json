@@ -112,6 +112,11 @@
         "summary": "{count} issues",
         "loading": "Loading issues...",
         "error": "Unable to load issues right now.",
+        "invalidFilters": "Please enter valid numbers in the filter fields.",
+        "unavailable": {
+          "title": "Unable to load issues right now",
+          "message": "The issues for this journal cannot be displayed at the moment. Please try again later or return to the scientific journals page."
+        },
         "sort": {
           "label": "Sort",
           "options": {
@@ -129,8 +134,8 @@
           "reset": "Reset filters"
         },
         "empty": {
-          "title": "Issues in preparation",
-          "description": "Cataloguing for this journal is ongoing. Please check back for newly published issues."
+          "title": "No matching issues found",
+          "description": "No issues match the current filter criteria. You can adjust the values or reset the filters."
         },
         "table": {
           "year": "Year",

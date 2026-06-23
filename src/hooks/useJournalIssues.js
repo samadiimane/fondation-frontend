@@ -5,6 +5,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { getJournalIssues, buildQuery } from "@/lib/api";
 
 const PAGE_SIZE = 20;
+const digitsOnly = (value) => String(value || "").replace(/\D/g, "");
 
 const parseInitialParams = (searchParams) => {
   if (!searchParams) {
@@ -13,21 +14,19 @@ const parseInitialParams = (searchParams) => {
       sort: "year_desc",
       yearMin: "",
       yearMax: "",
-      volume: "",
       number: "",
     };
   }
 
-  const valueOrEmpty = (key) => searchParams.get(key) ?? "";
+  const numericValueOrEmpty = (key) => digitsOnly(searchParams.get(key));
   const sortParam = searchParams.get("sort") ?? "year_desc";
 
   return {
     page: Math.max(Number(searchParams.get("page")) || 1, 1),
     sort: ["year_desc", "year_asc"].includes(sortParam) ? sortParam : "year_desc",
-    yearMin: valueOrEmpty("year_min"),
-    yearMax: valueOrEmpty("year_max"),
-    volume: valueOrEmpty("volume"),
-    number: valueOrEmpty("number"),
+    yearMin: numericValueOrEmpty("year_min"),
+    yearMax: numericValueOrEmpty("year_max"),
+    number: numericValueOrEmpty("number"),
   };
 };
 
@@ -42,7 +41,6 @@ const useJournalIssues = ({ slug, locale }) => {
   const [sort, setSort] = useState(initial.sort);
   const [yearMin, setYearMin] = useState(initial.yearMin);
   const [yearMax, setYearMax] = useState(initial.yearMax);
-  const [volume, setVolume] = useState(initial.volume);
   const [number, setNumber] = useState(initial.number);
 
   const [allIssues, setAllIssues] = useState([]);
@@ -60,12 +58,11 @@ const useJournalIssues = ({ slug, locale }) => {
     () => ({
       year_min: yearMin?.trim() || undefined,
       year_max: yearMax?.trim() || undefined,
-      volume: volume?.trim() || undefined,
       number: number?.trim() || undefined,
       sort: sort !== "year_desc" ? sort : undefined,
       page: page > 1 ? String(page) : undefined,
     }),
-    [yearMin, yearMax, volume, number, sort, page]
+    [yearMin, yearMax, number, sort, page]
   );
 
   useEffect(() => {
@@ -150,21 +147,33 @@ const useJournalIssues = ({ slug, locale }) => {
 
     const parsedYearMin = parseNumeric(yearMin);
     const parsedYearMax = parseNumeric(yearMax);
-    const parsedVolume = parseNumeric(volume);
     const parsedNumber = parseNumeric(number);
+
+    if (
+      parsedYearMin !== undefined &&
+      parsedYearMax !== undefined &&
+      parsedYearMin > parsedYearMax
+    ) {
+      setError("invalidFilters");
+      setItems([]);
+      setTotal(0);
+      setHasNext(false);
+      setAnnouncement("0");
+      return;
+    }
+
+    if (error === "invalidFilters") {
+      setError(null);
+    }
 
     const filtered = allIssues.filter((issue) => {
       const year = typeof issue.year === "number" ? issue.year : undefined;
-      const volumeValue = typeof issue.volume === "number" ? issue.volume : undefined;
       const numberValue = typeof issue.number === "number" ? issue.number : undefined;
 
       if (parsedYearMin !== undefined && (year === undefined || year < parsedYearMin)) {
         return false;
       }
       if (parsedYearMax !== undefined && (year === undefined || year > parsedYearMax)) {
-        return false;
-      }
-      if (parsedVolume !== undefined && (volumeValue === undefined || volumeValue !== parsedVolume)) {
         return false;
       }
       if (parsedNumber !== undefined && (numberValue === undefined || numberValue !== parsedNumber)) {
@@ -178,11 +187,6 @@ const useJournalIssues = ({ slug, locale }) => {
       const yearB = typeof b.year === "number" ? b.year : -Infinity;
       if (yearA !== yearB) {
         return yearA - yearB;
-      }
-      const volumeA = typeof a.volume === "number" ? a.volume : -Infinity;
-      const volumeB = typeof b.volume === "number" ? b.volume : -Infinity;
-      if (volumeA !== volumeB) {
-        return volumeA - volumeB;
       }
       const numberA = typeof a.number === "number" ? a.number : -Infinity;
       const numberB = typeof b.number === "number" ? b.number : -Infinity;
@@ -224,25 +228,30 @@ const useJournalIssues = ({ slug, locale }) => {
     sort,
     yearMin,
     yearMax,
-    volume,
     number,
     locale,
     hasLoadedOnce,
+    error,
   ]);
 
   const updateAndResetPage = useCallback((setter) => {
     return (value) => {
-      setter(value);
+      setter(digitsOnly(value));
       setPage(1);
     };
+  }, []);
+
+  const updateSortAndResetPage = useCallback((value) => {
+    setSort(value);
+    setPage(1);
   }, []);
 
   const resetFilters = useCallback(() => {
     setYearMin("");
     setYearMax("");
-    setVolume("");
     setNumber("");
     setSort("year_desc");
+    setError(null);
     setPage(1);
   }, []);
 
@@ -256,13 +265,11 @@ const useJournalIssues = ({ slug, locale }) => {
     error,
     hasLoadedOnce,
     sort,
-    setSort: updateAndResetPage(setSort),
+    setSort: updateSortAndResetPage,
     yearMin,
     setYearMin: updateAndResetPage(setYearMin),
     yearMax,
     setYearMax: updateAndResetPage(setYearMax),
-    volume,
-    setVolume: updateAndResetPage(setVolume),
     number,
     setNumber: updateAndResetPage(setNumber),
     setPage,
