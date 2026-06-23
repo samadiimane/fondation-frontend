@@ -181,6 +181,9 @@
       "a11y": {
         "breadcrumbs": "Fil d’Ariane"
       },
+      "actions": {
+        "backToLibrary": "Retour à la bibliothèque numérique"
+      },
       "header": {
         "metaSeparator": " | ",
         "authorsFallback": "Auteurs inconnus",
@@ -208,13 +211,13 @@
       "download": {
         "cta": "Télécharger",
         "loading": "Préparation du téléchargement...",
-        "error": "Téléchargement indisponible pour le moment."
+        "error": "Le fichier ne peut pas être consulté ou téléchargé pour le moment. Veuillez réessayer plus tard ou contacter la Fondation si votre demande est urgente."
       },
       "preview": {
         "loading": "Chargement de l’aperçu...",
-        "unavailable": "Aperçu indisponible dans ce navigateur.",
-        "hint": "Utilisez le bouton de téléchargement pour ouvrir l’article dans un nouvel onglet.",
-        "ariaLabel": "Aperçu de l’article"
+        "unavailable": "Le fichier est temporairement indisponible",
+        "hint": "Le fichier ne peut pas être consulté ou téléchargé pour le moment. Veuillez réessayer plus tard ou contacter la Fondation si votre demande est urgente.",
+        "ariaLabel": "Aperçu du document"
       },
       "abstract": {
         "title": "Résumé",

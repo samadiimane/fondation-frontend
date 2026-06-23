@@ -181,6 +181,9 @@
       "a11y": {
         "breadcrumbs": "Ruta de navegación"
       },
+      "actions": {
+        "backToLibrary": "Volver a la biblioteca digital"
+      },
       "header": {
         "metaSeparator": " | ",
         "authorsFallback": "Autores desconocidos",
@@ -208,13 +211,13 @@
       "download": {
         "cta": "Descargar",
         "loading": "Preparando descarga...",
-        "error": "Descarga no disponible en este momento."
+        "error": "El archivo no se puede ver ni descargar en este momento. Inténtelo de nuevo más tarde o contacte con la Fundación si su solicitud es urgente."
       },
       "preview": {
         "loading": "Cargando vista previa...",
-        "unavailable": "Vista previa no disponible en este navegador.",
-        "hint": "Usa el botón de descarga para abrir el artículo en una nueva pestaña.",
-        "ariaLabel": "Vista previa del artículo"
+        "unavailable": "El archivo no está disponible temporalmente",
+        "hint": "El archivo no se puede ver ni descargar en este momento. Inténtelo de nuevo más tarde o contacte con la Fundación si su solicitud es urgente.",
+        "ariaLabel": "Vista previa del documento"
       },
       "abstract": {
         "title": "Resumen",

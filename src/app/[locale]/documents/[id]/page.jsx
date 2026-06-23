@@ -26,6 +26,9 @@ const buildStrings = (t) => ({
   a11y: {
     breadcrumbs: t("a11y.breadcrumbs"),
   },
+  actions: {
+    backToLibrary: t("actions.backToLibrary"),
+  },
   header: {
     metaSeparator: t("header.metaSeparator"),
     authorsFallback: t("header.authorsFallback"),
@@ -91,6 +94,18 @@ const isDocumentNotFoundError = (error) => {
   return Number(error?.status) === 404 || /\b404\b|not found/i.test(message);
 };
 
+const hasValue = (value) => {
+  if (value === null || value === undefined) return false;
+  if (typeof value === "string") return value.trim().length > 0;
+  return true;
+};
+
+const TechnicalValue = ({ children }) => (
+  <span className="article-detail__technical-value" dir="ltr">
+    {children}
+  </span>
+);
+
 export async function generateMetadata(context) {
   const resolvedParams = await context?.params;
   const locale = resolvedParams?.locale || defaultLocale;
@@ -132,12 +147,14 @@ export default async function DocumentDetailPage(context) {
       console.warn(`Document "${id}" is temporarily unavailable.`, error);
     }
     return (
-      <section className="page-wrapper" style={{ backgroundColor: "#f7f8fc" }}>
-        <main lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
-          <PublicUnavailableNotice locale={locale} />
-        </main>
+      <>
+        <section className="document-detail-page">
+          <main lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
+            <PublicUnavailableNotice locale={locale} />
+          </main>
+        </section>
         <Footer locale={locale} />
-      </section>
+      </>
     );
   }
 
@@ -154,30 +171,28 @@ export default async function DocumentDetailPage(context) {
         ? [{ key: "fallback-author", name: document.author, affiliation: null }]
         : [];
 
-  const authorsDetailValue =
-    authorEntries.length > 0
-      ? (
+  const authorsDetailValue = authorEntries.length > 0
+    ? (
         <ul className="article-detail__author-list">
           {authorEntries.map((entry) => (
             <li key={entry.key} className="article-detail__author-list-item">
               <span className="article-detail__author-name">{entry.name}</span>
               {entry.affiliation && (
-                <span className="article-detail__author-affiliation"> — {entry.affiliation}</span>
+                <span className="article-detail__author-affiliation"> - {entry.affiliation}</span>
               )}
             </li>
           ))}
         </ul>
       )
-      : strings.header.authorsFallback;
-  const year = document.year ?? strings.header.yearFallback;
+    : null;
+  const year = document.year ?? null;
   const typeLabel = getDocumentTypeLabel(document.type, tTypes, strings.header.typeFallback);
-  const languageRaw = document.language ?? strings.header.languageFallback;
-  const language = String(languageRaw).toUpperCase();
+  const languageRaw = document.language ?? null;
+  const language = hasValue(languageRaw) ? String(languageRaw).toUpperCase() : null;
   const pages =
     document.startPage && document.endPage
       ? `${document.startPage}-${document.endPage}`
       : document.pages || null;
-  const pagesValue = pages ?? strings.header.valueUnknown;
   const coverImage = document.coverImage ?? document.cover_image_url ?? null;
   const normalizeMetaValue = (value) =>
     value === null || value === undefined || value === "" ? strings.header.valueUnknown : value;
@@ -223,13 +238,35 @@ export default async function DocumentDetailPage(context) {
       new Date(document.createdAt)
     )
     : null;
-  const detailEntries = [
-    { key: "authors", label: strings.header.labels.authors, value: authorsDetailValue },
-    { key: "year", label: strings.header.labels.year, value: year },
-    { key: "type", label: strings.header.labels.type, value: typeLabel },
-    { key: "language", label: strings.header.labels.language, value: language },
-    { key: "pages", label: strings.header.labels.pages, value: pagesValue },
-  ];
+  const detailEntries = [];
+
+  if (authorsDetailValue) {
+    detailEntries.push({ key: "authors", label: strings.header.labels.authors, value: authorsDetailValue });
+  }
+
+  if (hasValue(year)) {
+    detailEntries.push({ key: "year", label: strings.header.labels.year, value: <TechnicalValue>{year}</TechnicalValue> });
+  }
+
+  if (hasValue(document.type)) {
+    detailEntries.push({ key: "type", label: strings.header.labels.type, value: typeLabel });
+  }
+
+  if (hasValue(language)) {
+    detailEntries.push({
+      key: "language",
+      label: strings.header.labels.language,
+      value: <TechnicalValue>{language}</TechnicalValue>,
+    });
+  }
+
+  if (hasValue(pages)) {
+    detailEntries.push({
+      key: "pages",
+      label: strings.header.labels.pages,
+      value: <TechnicalValue>{pages}</TechnicalValue>,
+    });
+  }
 
   if (journalName) {
     detailEntries.push({
@@ -256,6 +293,7 @@ export default async function DocumentDetailPage(context) {
           href={`https://doi.org/${document.doi}`}
           target="_blank"
           rel="noopener noreferrer"
+          dir="ltr"
         >
           {document.doi}
         </a>
@@ -267,7 +305,7 @@ export default async function DocumentDetailPage(context) {
     detailEntries.push({
       key: "isbn",
       label: strings.details.isbn,
-      value: document.isbn,
+      value: <TechnicalValue>{document.isbn}</TechnicalValue>,
     });
   }
 
@@ -275,7 +313,7 @@ export default async function DocumentDetailPage(context) {
     detailEntries.push({
       key: "issn",
       label: strings.details.issn,
-      value: document.issn,
+      value: <TechnicalValue>{document.issn}</TechnicalValue>,
     });
   }
 
@@ -312,10 +350,10 @@ export default async function DocumentDetailPage(context) {
   const breadcrumbItems = [
     strings.breadcrumbs.home,
     strings.breadcrumbs.library,
-    strings.breadcrumbs.journals,
   ];
 
   if (journalName) {
+    breadcrumbItems.push(strings.breadcrumbs.journals);
     breadcrumbItems.push({
       label: journalName,
       href: journalLink ?? undefined,
@@ -328,25 +366,22 @@ export default async function DocumentDetailPage(context) {
   }
 
   breadcrumbItems.push({ label: documentTitle, current: true });
+  const hasDetailsAside = detailEntries.length > 0 || keywords.length > 0;
 
   return (
-      <section className="page-wrapper" style={{ backgroundColor: "#f7f8fc" }}>
-
+    <>
+      <section className="document-detail-page">
         <main className={detailClassName} lang={locale} dir={isRtlLocale(locale) ? "rtl" : "ltr"}>
           <Breadcrumbs items={breadcrumbItems} ariaLabel={strings.a11y.breadcrumbs} locale={locale} />
 
-          <section className="article-detail__section">
+          <section className="article-detail__section document-detail__record">
             <header className="article-detail__header">
-              <div
-                className='section__header'
-                data-aos='fade-up'
-                data-aos-duration={900}
-              >
-                <h5 className="title-animation_inner mt-0"><span>{typeLabel} :</span> {documentTitle}</h5>
+              <div className="article-detail__title-block">
+                <h4 className="mt-0">{documentTitle}</h4>
               </div>
             </header>
 
-            <div className="article-detail__grid">
+            <div className={`article-detail__grid ${hasDetailsAside ? "" : "article-detail__grid--single"}`}>
               <article className="article-detail__card article-detail__card--primary">
                 {coverImage && (
                   <figure className="article-detail__cover">
@@ -379,35 +414,45 @@ export default async function DocumentDetailPage(context) {
                 </section>
               </article>
 
-              <aside className="article-detail__card--info">
-                <h2>{strings.details.title}</h2>
-                <dl className="article-detail__info-list">
-                  {detailEntries.map((entry) => (
-                    <div key={entry.key}>
-                      <dt>{entry.label}</dt>
-                      <dd>{entry.value}</dd>
-                    </div>
-                  ))}
-                </dl>
+              {hasDetailsAside ? (
+                <aside className="article-detail__card article-detail__card--info">
+                  {detailEntries.length > 0 ? (
+                    <>
+                      <h2>{strings.details.title}</h2>
+                      <dl className="article-detail__info-list">
+                        {detailEntries.map((entry) => (
+                          <div key={entry.key}>
+                            <dt>{entry.label}</dt>
+                            <dd>{entry.value}</dd>
+                          </div>
+                        ))}
+                      </dl>
+                    </>
+                  ) : null}
 
-                <div className="article-detail__keywords">
-                  <h3>{strings.details.keywords}</h3>
                   {keywords.length ? (
-                    <ul>
-                      {keywords.map((keyword) => (
-                        <li key={keyword}>{keyword}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p>{strings.details.noKeywords}</p>
-                  )}
-                </div>
-              </aside>
+                    <div className="article-detail__keywords">
+                      <h3>{strings.details.keywords}</h3>
+                      <ul>
+                        {keywords.map((keyword) => (
+                          <li key={keyword}>{keyword}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
+                </aside>
+              ) : null}
+            </div>
+
+            <div className="document-detail__footer-actions">
+              <Link href="/library" className="document-detail__back-link">
+                {strings.actions.backToLibrary}
+              </Link>
             </div>
           </section>
         </main>
-
-        <Footer locale={locale} />
       </section>
+      <Footer locale={locale} />
+    </>
   );
 }

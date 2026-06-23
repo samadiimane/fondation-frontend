@@ -181,6 +181,9 @@
       "a11y": {
         "breadcrumbs": "Breadcrumb"
       },
+      "actions": {
+        "backToLibrary": "Back to the digital library"
+      },
       "header": {
         "metaSeparator": " | ",
         "authorsFallback": "Unknown authors",
@@ -208,13 +211,13 @@
       "download": {
         "cta": "Download",
         "loading": "Preparing download...",
-        "error": "Download unavailable right now."
+        "error": "The file cannot be viewed or downloaded right now. Please try again later or contact the Foundation if your request is urgent."
       },
       "preview": {
         "loading": "Loading preview...",
-        "unavailable": "Preview unavailable in this browser.",
-        "hint": "Use the download button to open the article in a new tab.",
-        "ariaLabel": "Article preview"
+        "unavailable": "The file is temporarily unavailable",
+        "hint": "The file cannot be viewed or downloaded right now. Please try again later or contact the Foundation if your request is urgent.",
+        "ariaLabel": "Document preview"
       },
       "abstract": {
         "title": "Abstract",

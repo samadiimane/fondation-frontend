@@ -4,27 +4,32 @@ import { useState } from "react";
 import { getDocumentFileLink } from "@/lib/api";
 
 const DocumentDownloadButton = ({ documentId, strings, tone = "primary" }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [status, setStatus] = useState("idle");
 
   const handleClick = async () => {
-    setLoading(true);
-    setError(null);
+    setStatus("loading");
 
     try {
       const payload = await getDocumentFileLink(documentId);
       const url = payload?.url;
       if (url) {
         window.open(url, "_blank", "noopener,noreferrer");
+        setStatus("idle");
       } else {
-        setError(strings.error);
+        setStatus("error");
       }
-    } catch (err) {
-      setError(strings.error);
-    } finally {
-      setLoading(false);
+    } catch {
+      setStatus("error");
     }
   };
+
+  if (status === "error") {
+    return (
+      <div className="document-download document-download--unavailable" role="alert">
+        <p>{strings.error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="document-download">
@@ -32,12 +37,11 @@ const DocumentDownloadButton = ({ documentId, strings, tone = "primary" }) => {
         type="button"
         className={`document-download__button document-download__button--${tone}`}
         onClick={handleClick}
-        disabled={loading}
+        disabled={status === "loading"}
       >
         <i className="fa-solid fa-file-arrow-down" aria-hidden="true" />
-        <span>{loading ? strings.loading : strings.cta}</span>
+        <span>{status === "loading" ? strings.loading : strings.cta}</span>
       </button>
-      {error && <p className="document-download__error">{error}</p>}
     </div>
   );
 };

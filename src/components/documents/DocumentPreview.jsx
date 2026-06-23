@@ -4,13 +4,15 @@ import { useEffect, useState } from "react";
 import { getDocumentFileLink } from "@/lib/api";
 
 const DocumentPreview = ({ documentId, strings }) => {
-  const [status, setStatus] = useState("idle");
+  const [status, setStatus] = useState("loading");
   const [previewUrl, setPreviewUrl] = useState(null);
 
   useEffect(() => {
     let mounted = true;
-    const timer = setTimeout(async () => {
+    const loadPreview = async () => {
       setStatus("loading");
+      setPreviewUrl(null);
+
       try {
         const payload = await getDocumentFileLink(documentId);
         const url = payload?.url ?? null;
@@ -26,11 +28,12 @@ const DocumentPreview = ({ documentId, strings }) => {
           setStatus("error");
         }
       }
-    }, 400);
+    };
+
+    loadPreview();
 
     return () => {
       mounted = false;
-      clearTimeout(timer);
     };
   }, [documentId]);
 
@@ -44,7 +47,7 @@ const DocumentPreview = ({ documentId, strings }) => {
 
   if (status !== "ready" || !previewUrl) {
     return (
-      <div className="document-preview document-preview--fallback">
+      <div className="document-preview document-preview--fallback" role="status" aria-live="polite">
         <i className="fa-regular fa-file-pdf" aria-hidden="true" />
         <p>{strings.unavailable}</p>
         <p className="document-preview__hint">{strings.hint}</p>
