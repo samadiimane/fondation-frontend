@@ -480,6 +480,17 @@
 }
 
 .foundation-intro {
+  .thumb-lg {
+    .video-btn-wrapper {
+      inset-inline-start: auto;
+      inset-inline-end: auto;
+      left: 50%;
+      right: auto;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
   .thumb-sm {
     inset-inline-start: auto;
     inset-inline-end: auto;

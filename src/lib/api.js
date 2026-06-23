@@ -570,12 +570,68 @@ export const getDocuments = async ({ q, page = 1, pageSize = 20, signal } = {}) 
   return resolvePaginatedDocuments(payload);
 };
 
-export const getDocument = async (id, { signal } = {}) => {
+const findDocumentInList = async (id, { locale, signal } = {}) => {
+  const targetId = String(id);
+  const pageSize = 100;
+  const maxPages = 10;
+
+  for (let page = 1; page <= maxPages; page += 1) {
+    const payload = await apiFetch("/v1/documents", {
+      params: {
+        page,
+        page_size: pageSize,
+        locale,
+      },
+      signal,
+      noCache: true,
+    });
+    const result = resolvePaginatedDocuments(payload);
+    const match = result.documents.find((document) => String(document.id) === targetId);
+
+    if (match) {
+      return match;
+    }
+
+    if (!result.hasNext || result.documents.length === 0) {
+      break;
+    }
+  }
+
+  return null;
+};
+
+export const getDocument = async (id, { signal, locale } = {}) => {
   if (!id) {
     throw new Error("Document id is required");
   }
-  const payload = await apiFetch(`/v1/documents/${id}`, { signal });
-  return normalizeDocument(payload);
+
+  try {
+    const payload = await apiFetch(`/v1/documents/${id}`, {
+      params: { locale },
+      signal,
+    });
+    return normalizeDocument(payload);
+  } catch (error) {
+    if (Number(error?.status) === 404) {
+      throw error;
+    }
+
+    try {
+      const fallbackDocument = await findDocumentInList(id, { locale, signal });
+      if (fallbackDocument) {
+        return fallbackDocument;
+      }
+    } catch (fallbackError) {
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(
+          `Document metadata fallback failed for "${id}".`,
+          fallbackError?.message || fallbackError
+        );
+      }
+    }
+
+    throw error;
+  }
 };
 
 const normalizeEventBase = (raw = {}, fallbackTitle = "Untitled event") => ({
