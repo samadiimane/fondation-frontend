@@ -306,7 +306,7 @@ const PublicHeader = () => {
       );
     }
     return (
-      <Link href='/auth/login' className='btn--secondary d-none d-md-flex align-items-center gap-2'>
+      <Link href='/join-us' className='btn--secondary d-none d-md-flex align-items-center gap-2'>
         {t("joinUs")} <i className='fa-solid fa-arrow-right' />
       </Link>
     );
@@ -530,7 +530,7 @@ const PublicHeader = () => {
                 {t("logout")} <i className='fa-solid fa-arrow-right' />
               </button>
             ) : (
-              <Link href='/auth/login' className='btn--secondary w-100' onClick={handleMobileMenu}>
+              <Link href='/join-us' className='btn--secondary w-100' onClick={handleMobileMenu}>
                 {t("joinUs")} <i className='fa-solid fa-arrow-right' />
               </Link>
             )}
