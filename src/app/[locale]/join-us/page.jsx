@@ -62,7 +62,7 @@ const JoinUsPage = async ({ params }) => {
               <p>{content.note}</p>
             </aside>
             <div className="join-us-page__form-card">
-              <JoinUsForm content={content} />
+              <JoinUsForm content={content} locale={normalizedLocale} />
             </div>
           </div>
         </section>
@@ -73,4 +73,3 @@ const JoinUsPage = async ({ params }) => {
 };
 
 export default JoinUsPage;
-

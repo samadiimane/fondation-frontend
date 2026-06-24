@@ -41,7 +41,12 @@ const sanitizePhone = (value = "") =>
 
 const isValidEmail = (value) => EMAIL_PATTERN.test(value);
 
-const JoinUsForm = ({ content }) => {
+const SERVER_FIELD_MAP = {
+  specialization: "field",
+  preferredContactMethod: "preferredContact",
+};
+
+const JoinUsForm = ({ content, locale }) => {
   const [form, setForm] = useState(INITIAL_FORM);
   const [errors, setErrors] = useState({});
   const [status, setStatus] = useState("idle");
@@ -97,6 +102,7 @@ const JoinUsForm = ({ content }) => {
     cityCountry: sanitizeText(values.cityCountry),
     academicLevel: sanitizeText(values.academicLevel),
     preferredContact: sanitizeText(values.preferredContact),
+    locale: sanitizeText(locale),
     consent: Boolean(values.consent),
   });
 
@@ -140,8 +146,21 @@ const JoinUsForm = ({ content }) => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(buildPayload(form)),
       });
+      const payload = await response.json().catch(() => null);
 
-      if (!response.ok) {
+      if (!response.ok || payload?.ok === false) {
+        if (payload?.code === "validation_error" && payload?.fields) {
+          const serverErrors = {};
+          Object.keys(payload.fields).forEach((fieldName) => {
+            const mappedName = SERVER_FIELD_MAP[fieldName] || fieldName;
+            if (content.validation[mappedName]) {
+              serverErrors[mappedName] = content.validation[mappedName];
+            }
+          });
+          setErrors(serverErrors);
+          setStatus(Object.keys(serverErrors).length > 0 ? "invalid" : "error");
+          return;
+        }
         throw new Error("Join request failed");
       }
 
@@ -409,4 +428,3 @@ const JoinUsForm = ({ content }) => {
 };
 
 export default JoinUsForm;
-

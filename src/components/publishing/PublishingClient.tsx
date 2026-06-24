@@ -15,7 +15,6 @@ import {
 import { isRtlLocale } from "@/i18n/config";
 import Section from "./Section";
 import Timeline from "./Timeline";
-import Downloads from "./Downloads";
 
 type TocItem = {
   id: string;
@@ -59,7 +58,6 @@ const PublishingClient = () => {
   const eligibilityItems = safeArray<string>(t.raw("sections.eligibility.items"));
   const guidelinesItems = safeArray<string>(t.raw("sections.guidelines.items"));
   const policiesItems = safeArray<string>(t.raw("sections.policies.items"));
-  const templateItems = safeArray<{ label: string; description: string }>(t.raw("sections.templates.items"));
   const timelineSteps = safeArray<{ label: string; duration: string }>(t.raw("sections.timeline.steps"));
   const faqItems = safeArray<{ q: string; a: string }>(t.raw("sections.faq.items"));
 
@@ -69,7 +67,6 @@ const PublishingClient = () => {
       { id: "eligibility", label: t("sections.eligibility.title") },
       { id: "guidelines", label: t("sections.guidelines.title") },
       { id: "policies", label: t("sections.policies.title") },
-      { id: "templates", label: t("sections.templates.title") },
       { id: "start", label: t("sections.submission.title") },
       { id: "timeline", label: t("sections.timeline.title") },
       { id: "faq", label: t("sections.faq.title") },
@@ -122,15 +119,6 @@ const PublishingClient = () => {
     window.scrollTo({ top, behavior: "smooth" });
     setActiveId(id);
   };
-
-  const templateSlugs = ["manuscript-template", "cover-letter", "declarations"];
-  const downloads = templateItems.map((item, index) => {
-    const suffix = templateSlugs[index] || `template-${index + 1}`;
-    return {
-      ...item,
-      href: `/${locale}/publishing/templates/${index + 1}-${suffix}.pdf`,
-    };
-  });
 
   return (
     <main className="publishing-page" dir={isRtl ? "rtl" : "ltr"} lang={locale}>
@@ -218,18 +206,10 @@ const PublishingClient = () => {
               </ul>
             </Section>
 
-            <Section id="templates" title={t("sections.templates.title")}>
-              <Downloads
-                items={downloads}
-                downloadAllLabel={t("sections.templates.downloadAll")}
-                downloadAllHref={`/${locale}/publishing/templates/all-templates.zip`}
-              />
-            </Section>
-
             <Section id="start" title={t("sections.submission.title")}>
               <div className="publishing-cta">
                 <Button asChild>
-                  <Link href="/publishing#start">{t("sections.submission.cta")}</Link>
+                  <Link href="/join-us">{t("sections.submission.cta")}</Link>
                 </Button>
               </div>
             </Section>
