@@ -1,11 +1,16 @@
 {
   "assistant": {
     "meta": {
-      "title": "Advanced Search | AKT Research Foundation",
-      "description": "Chat with the AI assistant about the foundation's documents."
+      "title": "Research Assistant | AKT Research Foundation",
+      "description": "Ask questions related to the available digital archive and review the supporting sources."
+    },
+    "breadcrumbs": {
+      "home": "Home",
+      "ariaLabel": "Breadcrumb"
     },
     "header": {
-      "title": "Advanced Search : Your AI Assistant"
+      "title": "Research Assistant",
+      "subtitle": "Ask questions related to the available digital archive and review the sources used to support the answer whenever available."
     },
     "toolbar": {
       "scope": {
@@ -32,11 +37,19 @@
       "strictCitations": "Strict citations only"
     },
     "chat": {
-      "placeholder": "Ask a question about the collection...",
-      "send": "Send"
+      "label": "Your question",
+      "placeholder": "Ask a question about the digital archive...",
+      "send": "Send",
+      "loading": "Searching the digital archive..."
     },
     "empty": {
-      "examplesTitle": "Try one of these questions"
+      "examplesTitle": "Suggested research questions",
+      "examples": [
+        "What is the subject of this issue's editorial?",
+        "What information is available about the Hejaz Railway?",
+        "Summarize the main ideas in the document.",
+        "Which sources discuss Tangier in this collection?"
+      ]
     },
     "actions": {
       "copy": "Copy",
@@ -47,10 +60,14 @@
     },
     "sources": {
       "title": "Sources",
-      "empty": "No sources yet."
+      "empty": "No sources were returned for this answer.",
+      "untitled": "Source",
+      "page": "p."
     },
     "error": {
-      "title": "Something went wrong.",
+      "title": "The research assistant is temporarily unavailable.",
+      "unavailable": "The research assistant is temporarily unavailable. Please try again later.",
+      "noAnswer": "No sufficient answer could be generated from the currently available content.",
       "retry": "Try again"
     },
     "citation": {

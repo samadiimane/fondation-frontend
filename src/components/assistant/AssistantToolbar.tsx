@@ -2,7 +2,7 @@
 
 import { useMemo } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import type { AssistantFilters } from "@/lib/ai/mockClient";
+import type { AssistantFilters } from "@/lib/ai/assistantClient";
 
 const LANGUAGE_CODES = ["en", "fr", "es", "ar"];
 

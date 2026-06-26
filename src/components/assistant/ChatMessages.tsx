@@ -2,14 +2,14 @@
 
 import { useCallback, useEffect, useRef, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import type { AssistantMessage } from "@/lib/ai/mockClient";
+import type { AssistantMessage } from "@/lib/ai/assistantClient";
 
 type ChatMessagesProps = {
   messages: AssistantMessage[];
   input: string;
   onInputChange: (value: string) => void;
   onSend: () => void;
-  isStreaming: boolean;
+  isLoading: boolean;
   suggestions: string[];
   onExampleClick: (value: string) => void;
   onCopyMessage: (message: AssistantMessage) => void;
@@ -22,7 +22,7 @@ const ChatMessages = ({
   input,
   onInputChange,
   onSend,
-  isStreaming,
+  isLoading,
   suggestions,
   onExampleClick,
   onCopyMessage,
@@ -70,14 +70,17 @@ const ChatMessages = ({
         <div className="assistant-messages">
           {messages.map((message) => {
             const isAssistant = message.role === "assistant";
+            const showLoading = isAssistant && !message.content && isLoading;
             return (
               <article
                 key={message.id}
                 className={`assistant-message ${isAssistant ? "assistant-message--assistant" : "assistant-message--user"}`}
               >
-                <p className="assistant-message__content">{message.content}</p>
+                <p className="assistant-message__content">
+                  {showLoading ? t("chat.loading") : message.content}
+                </p>
 
-                {isAssistant && (
+                {isAssistant && message.content && (
                   <button
                     type="button"
                     className="assistant-message__copy"
@@ -98,20 +101,22 @@ const ChatMessages = ({
       )}
 
       <form className="assistant-input" onSubmit={handleSubmit}>
-        <textarea
-          value={input}
-          onChange={(event) => onInputChange(event.target.value)}
-          placeholder={t("chat.placeholder")}
-          aria-label={t("chat.placeholder")}
-          disabled={isStreaming}
-          onKeyDown={(event) => {
-            if (event.key === "Enter" && !event.shiftKey) {
-              event.preventDefault();
-              onSend();
-            }
-          }}
-        />
-        <button type="submit" disabled={!input.trim() || isStreaming}>
+        <label className="assistant-input__field">
+          <span className="sr-only">{t("chat.label")}</span>
+          <textarea
+            value={input}
+            onChange={(event) => onInputChange(event.target.value)}
+            placeholder={t("chat.placeholder")}
+            disabled={isLoading}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+                event.preventDefault();
+                onSend();
+              }
+            }}
+          />
+        </label>
+        <button type="submit" disabled={!input.trim() || isLoading}>
           {t("chat.send")}
         </button>
       </form>

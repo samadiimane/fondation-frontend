@@ -1,11 +1,16 @@
 {
   "assistant": {
     "meta": {
-      "title": "Búsqueda avanzada | Fundación de Investigación AKT",
-      "description": "Conversa con el asistente de IA sobre los documentos de la fundación."
+      "title": "Asistente de investigación | Fundación AKT",
+      "description": "Haga preguntas relacionadas con el archivo digital disponible y revise las fuentes asociadas."
+    },
+    "breadcrumbs": {
+      "home": "Inicio",
+      "ariaLabel": "Ruta de navegación"
     },
     "header": {
-      "title": "Búsqueda avanzada: tu asistente de IA"
+      "title": "Asistente de investigación",
+      "subtitle": "Haga preguntas relacionadas con el archivo digital disponible y revise las fuentes utilizadas para respaldar la respuesta cuando estén disponibles."
     },
     "toolbar": {
       "scope": {
@@ -32,25 +37,37 @@
       "strictCitations": "Solo citas estrictas"
     },
     "chat": {
-      "placeholder": "Haz una pregunta sobre la colección...",
-      "send": "Enviar"
+      "label": "Su pregunta",
+      "placeholder": "Haga una pregunta sobre el archivo digital...",
+      "send": "Enviar",
+      "loading": "Buscando en el archivo digital..."
     },
     "empty": {
-      "examplesTitle": "Prueba una de estas preguntas"
+      "examplesTitle": "Preguntas de investigación sugeridas",
+      "examples": [
+        "¿Cuál es el tema del editorial de este número?",
+        "¿Qué información está disponible sobre el ferrocarril del Hiyaz?",
+        "Resume las ideas principales del documento.",
+        "¿Qué fuentes hablan de Tánger en esta colección?"
+      ]
     },
     "actions": {
       "copy": "Copiar",
       "copied": "Copiado",
       "exportBib": "Exportar referencias",
-      "newChat": "Iniciar nuevo chat",
+      "newChat": "Nueva conversación",
       "close": "Cerrar vista previa"
     },
     "sources": {
       "title": "Fuentes",
-      "empty": "Aún no hay fuentes."
+      "empty": "No se devolvieron fuentes para esta respuesta.",
+      "untitled": "Fuente",
+      "page": "p."
     },
     "error": {
-      "title": "Algo salió mal.",
+      "title": "El asistente de investigación no está disponible temporalmente.",
+      "unavailable": "El asistente de investigación no está disponible temporalmente. Inténtelo de nuevo más tarde.",
+      "noAnswer": "No se pudo generar una respuesta suficiente a partir del contenido disponible actualmente.",
       "retry": "Intentar de nuevo"
     },
     "citation": {

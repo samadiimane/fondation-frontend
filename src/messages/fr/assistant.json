@@ -1,11 +1,16 @@
 {
   "assistant": {
     "meta": {
-      "title": "Recherche avancée | Fondation de recherche AKT",
-      "description": "Discutez avec l'assistant IA des documents de la fondation."
+      "title": "Assistant de recherche | Fondation AKT",
+      "description": "Posez des questions liées aux archives numériques disponibles et consultez les sources associées."
+    },
+    "breadcrumbs": {
+      "home": "Accueil",
+      "ariaLabel": "Fil d'Ariane"
     },
     "header": {
-      "title": "Recherche avancée : votre assistant IA"
+      "title": "Assistant de recherche",
+      "subtitle": "Posez des questions liées aux archives numériques disponibles et consultez les sources utilisées pour étayer la réponse lorsqu'elles sont disponibles."
     },
     "toolbar": {
       "scope": {
@@ -19,8 +24,8 @@
         }
       },
       "language": "Langue",
-      "yearFrom": "Année (de)",
-      "yearTo": "Année (à)",
+      "yearFrom": "Année (début)",
+      "yearTo": "Année (fin)",
       "type": "Type",
       "typeOptions": {
         "all": "Tous les types",
@@ -32,25 +37,37 @@
       "strictCitations": "Citations strictes uniquement"
     },
     "chat": {
-      "placeholder": "Posez une question sur la collection...",
-      "send": "Envoyer"
+      "label": "Votre question",
+      "placeholder": "Posez une question sur l'archive numérique...",
+      "send": "Envoyer",
+      "loading": "Recherche dans l'archive numérique..."
     },
     "empty": {
-      "examplesTitle": "Essayez l'une de ces questions"
+      "examplesTitle": "Questions de recherche suggérées",
+      "examples": [
+        "Quel est le sujet de l'éditorial de ce numéro ?",
+        "Quelles informations sont disponibles sur le chemin de fer du Hedjaz ?",
+        "Résumez les idées principales du document.",
+        "Quelles sources évoquent Tanger dans cette collection ?"
+      ]
     },
     "actions": {
       "copy": "Copier",
       "copied": "Copié",
       "exportBib": "Exporter les références",
-      "newChat": "Nouvelle discussion",
+      "newChat": "Nouvelle conversation",
       "close": "Fermer l'aperçu"
     },
     "sources": {
       "title": "Sources",
-      "empty": "Aucune source pour l'instant."
+      "empty": "Aucune source n'a été retournée pour cette réponse.",
+      "untitled": "Source",
+      "page": "p."
     },
     "error": {
-      "title": "Une erreur s'est produite.",
+      "title": "L'assistant de recherche est temporairement indisponible.",
+      "unavailable": "L'assistant de recherche est temporairement indisponible. Veuillez réessayer plus tard.",
+      "noAnswer": "Aucune réponse suffisante n'a pu être générée à partir du contenu actuellement disponible.",
       "retry": "Réessayer"
     },
     "citation": {

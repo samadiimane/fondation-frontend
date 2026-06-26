@@ -3,13 +3,13 @@
 import { forwardRef, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import type { Citation } from "@/lib/ai/mockClient";
+import type { NormalizedSource } from "@/lib/ai/assistantClient";
 
 type SourcesPanelProps = {
-  sources: Citation[];
+  sources: NormalizedSource[];
   selectedId: string | null;
   onSelect: (id: string) => void;
-  onPreview: (citation: Citation) => void;
+  onPreview: (citation: NormalizedSource) => void;
   isOpen: boolean;
   onToggle: (open: boolean) => void;
 };
@@ -17,19 +17,15 @@ type SourcesPanelProps = {
 const SourcesPanel = forwardRef<HTMLDivElement, SourcesPanelProps>(
   ({ sources, selectedId, onSelect, onPreview, isOpen, onToggle }, ref) => {
     const t = useTranslations("assistant");
-    const itemRefs = useRef(new Map<string, HTMLDivElement>());
+    const itemRefs = useRef(new Map<string, HTMLElement>());
 
     useEffect(() => {
       if (!selectedId) return;
       const node = itemRefs.current.get(selectedId);
-      if (node) {
-        node.scrollIntoView({ block: "nearest" });
-      }
+      node?.scrollIntoView({ block: "nearest" });
     }, [selectedId, sources, isOpen]);
 
     const hasSources = sources.length > 0;
-
-    const toggleLabel = t("sources.title");
 
     return (
       <>
@@ -40,7 +36,7 @@ const SourcesPanel = forwardRef<HTMLDivElement, SourcesPanelProps>(
           aria-expanded={isOpen}
           aria-controls="assistant-sources-panel"
         >
-          {toggleLabel}
+          {t("sources.title")}
         </button>
 
         {isOpen && <div className="assistant-sources__backdrop" onClick={() => onToggle(false)} />}
@@ -52,14 +48,17 @@ const SourcesPanel = forwardRef<HTMLDivElement, SourcesPanelProps>(
           id="assistant-sources-panel"
           aria-label={t("sources.title")}
         >
-          <h5 className="assistant-sources__title">{t("sources.title")}</h5>
-          {!hasSources && <p>{t("sources.empty")}</p>}
+          <h2 className="assistant-sources__title">{t("sources.title")}</h2>
+          {!hasSources && <p className="assistant-sources__empty">{t("sources.empty")}</p>}
 
           {hasSources &&
             sources.map((source) => {
               const isActive = source.id === selectedId;
+              const title = source.title || source.documentId || t("sources.untitled");
+              const canPreview = Boolean(source.snippet);
+
               return (
-                <div
+                <article
                   key={source.id}
                   ref={(node) => {
                     if (!node) {
@@ -69,44 +68,38 @@ const SourcesPanel = forwardRef<HTMLDivElement, SourcesPanelProps>(
                     itemRefs.current.set(source.id, node);
                   }}
                   className={`assistant-source ${isActive ? "is-active" : ""}`}
-                  onClick={() => {
-                    onSelect(source.id);
-                    onPreview(source);
-                  }}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      onSelect(source.id);
-                      onPreview(source);
-                    }
-                  }}
                 >
                   <div className="assistant-source__title">
-                    <Link href={`/documents/${source.docId}`} onClick={(event) => event.stopPropagation()}>
-                      {source.title}
-                    </Link>
-                    {source.page ? ` · p.${source.page}` : ""}
+                    {source.documentId ? (
+                      <Link href={`/library/${source.documentId}`}>{title}</Link>
+                    ) : (
+                      <span>{title}</span>
+                    )}
+                    {source.page ? ` · ${t("sources.page")} ${source.page}` : ""}
                   </div>
-                  <p className="assistant-source__snippet">{source.snippet}</p>
+
+                  {source.snippet ? <p className="assistant-source__snippet">{source.snippet}</p> : null}
+
                   <div className="assistant-source__badges">
                     {source.year && <span className="assistant-badge">{source.year}</span>}
-                    {source.lang && <span className="assistant-badge">{source.lang.toUpperCase()}</span>}
+                    {source.language && <span className="assistant-badge">{source.language.toUpperCase()}</span>}
                     {source.type && <span className="assistant-badge">{source.type}</span>}
-                    <button
-                      type="button"
-                      className="assistant-chip"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onSelect(source.id);
-                        onPreview(source);
-                      }}
-                    >
-                      {t("citation.preview")}
-                    </button>
+                    {source.journal && <span className="assistant-badge">{source.journal}</span>}
+                    {source.issue && <span className="assistant-badge">{source.issue}</span>}
+                    {canPreview ? (
+                      <button
+                        type="button"
+                        className="assistant-chip"
+                        onClick={() => {
+                          onSelect(source.id);
+                          onPreview(source);
+                        }}
+                      >
+                        {t("citation.preview")}
+                      </button>
+                    ) : null}
                   </div>
-                </div>
+                </article>
               );
             })}
         </aside>
