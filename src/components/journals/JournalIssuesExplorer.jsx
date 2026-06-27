@@ -43,6 +43,8 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
   const canShowPagination = !error && (total > pageSize || page > 1 || hasNext);
 
   const isRtl = typeof locale === "string" && locale.toLowerCase().startsWith("ar");
+  const previousIcon = isRtl ? "fa-arrow-right" : "fa-arrow-left";
+  const nextIcon = isRtl ? "fa-arrow-left" : "fa-arrow-right";
   const isInvalidFilters = error === "invalidFilters";
   const isUnavailable = error === "journalIssuesUnavailable";
 
@@ -53,7 +55,7 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
           <h2>{strings.title}</h2>
           <div className="journal-issues__summary" role="status" aria-live="polite">
             <span className="sr-only">
-              {strings.a11y.resultsTemplate.replace("{count}" || "0")}
+              {strings.a11y.resultsTemplate.replace("{count}", announcement || "0")}
             </span>
             <span>{loading ? strings.loading : summaryText}</span>
           </div>
@@ -146,7 +148,6 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                         <tr>
                           <th scope="col">{strings.table.year}</th>
                           <th scope="col">{strings.table.title}</th>
-                          <th scope="col">{strings.table.documents}</th>
                           <th scope="col" aria-label={strings.table.actions}></th>
                         </tr>
                       </thead>
@@ -165,9 +166,6 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                                 {descriptionDisplay ? (
                                   <div className="journal-issues__description">{descriptionDisplay}</div>
                                 ) : null}
-                              </td>
-                              <td data-title={strings.table.documents}>
-                                {numberFormatter.format(issue.documentsCount ?? 0)}
                               </td>
                               <td data-title={strings.table.actions}>
                                 <Link
@@ -198,12 +196,6 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                             {descriptionDisplay ? (
                               <p className="journal-issues__card-description">{descriptionDisplay}</p>
                             ) : null}
-                            <ul className="journal-issues__card-meta">
-                              <li>
-                                <strong>{strings.table.documents}</strong>{" "}
-                                {numberFormatter.format(issue.documentsCount ?? 0)}
-                              </li>
-                            </ul>
                             <Link
                               href={`/journals/${slug}/issues/${issue.id}`}
                               className="journal-issues__action journal-issues__action--full"
@@ -225,7 +217,7 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                     onClick={() => setPage(Math.max(page - 1, 1))}
                     disabled={loading || page <= 1}
                   >
-                    <i className="fa-solid fa-arrow-left" aria-hidden="true" />
+                    <i className={`fa-solid ${previousIcon}`} aria-hidden="true" />
                     {strings.pagination.previous}
                   </button>
                   <span>{strings.pagination.pageTemplate.replace("{page}", String(page))}</span>
@@ -235,7 +227,7 @@ const JournalIssuesExplorer = ({ slug, locale, strings }) => {
                     disabled={loading || !hasNext}
                   >
                     {strings.pagination.next}
-                    <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+                    <i className={`fa-solid ${nextIcon}`} aria-hidden="true" />
                   </button>
                 </nav>
               )}

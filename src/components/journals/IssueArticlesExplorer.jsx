@@ -22,7 +22,6 @@ const IssueArticlesExplorer = ({
     loading,
     error,
     hasLoadedOnce,
-    announcement,
     setPage,
   } = useIssueArticles({ slug, issueId, locale });
 
@@ -57,11 +56,13 @@ const IssueArticlesExplorer = ({
     : strings.header.unknown;
 
   const canShowPagination = !error && (normalizedTotal > currentPageSize || currentPage > 1 || hasNext);
-  const announcementValue = announcement || numberFormatter.format(normalizedTotal);
   const journalName = journal?.name ?? strings.header.unknown;
+  const isRtl = typeof locale === "string" && locale.toLowerCase().startsWith("ar");
+  const previousIcon = isRtl ? "fa-arrow-right" : "fa-arrow-left";
+  const nextIcon = isRtl ? "fa-arrow-left" : "fa-arrow-right";
 
   return (
-    <section className="issue-articles" aria-live="polite">
+    <section className="issue-articles" aria-live="polite" dir={isRtl ? "rtl" : "ltr"}>
       <header className="issue-articles__header">
         <div
           className='section__header'
@@ -101,7 +102,11 @@ const IssueArticlesExplorer = ({
               </div>
             ) : (
               <>
-                <table className="issue-articles__table" aria-label={strings.table.ariaLabel}>
+                <table
+                  className="issue-articles__table"
+                  aria-label={strings.table.ariaLabel}
+                  dir={isRtl ? "rtl" : "ltr"}
+                >
                   <thead>
                     <tr>
                       <th scope="col">{strings.table.title}</th>
@@ -118,12 +123,8 @@ const IssueArticlesExplorer = ({
                         authorsFromList ||
                         (typeof doc.author === "string" && doc.author.trim().length > 0
                           ? doc.author.trim()
-                          : strings.table.authorsFallback);
+                          : "-");
                       const langLabel = (doc.language || "").toUpperCase();
-                      const pages =
-                        doc.startPage && doc.endPage
-                          ? `${doc.startPage}-${doc.endPage}`
-                          : doc.pages || strings.table.noPages;
                       return (
                         <tr key={doc.id}>
                           <td data-title={strings.table.title}>
@@ -137,7 +138,10 @@ const IssueArticlesExplorer = ({
                             {langLabel || strings.table.languageFallback}
                           </td>
                           <td data-title={strings.table.actions}>
-                            <Link href={`/library/${doc.id}`} className="journal-issues__action">
+                            <Link
+                              href={`/library/${doc.id}`}
+                              className="journal-issues__action issue-articles__details-link"
+                            >
                               {strings.table.seeDetails}
                             </Link>
                           </td>
@@ -154,7 +158,7 @@ const IssueArticlesExplorer = ({
                       firstAuthor ?? (doc.author ? { name: doc.author, affiliation: null } : null);
                     const authorLine = authorEntry
                       ? `${authorEntry.name}${authorEntry.affiliation ? ` — ${authorEntry.affiliation}` : ""}`
-                      : strings.table.authorsFallback;
+                      : "-";
                     const langLabel = (doc.language || "").toUpperCase();
                     const pages =
                       doc.startPage && doc.endPage
@@ -182,7 +186,10 @@ const IssueArticlesExplorer = ({
                           </li>
                         </ul>
                         <div className="issue-articles__card-actions">
-                          <Link href={`/library/${doc.id}`} className="journal-issues__action">
+                          <Link
+                            href={`/library/${doc.id}`}
+                            className="journal-issues__action issue-articles__details-link"
+                          >
                             {strings.table.seeDetails}
                           </Link>
                         </div>
@@ -202,7 +209,7 @@ const IssueArticlesExplorer = ({
               onClick={() => setPage(Math.max(currentPage - 1, 1))}
               disabled={loading || currentPage <= 1}
             >
-              <i className="fa-solid fa-arrow-left" aria-hidden="true" />
+              <i className={`fa-solid ${previousIcon}`} aria-hidden="true" />
               {strings.pagination.previous}
             </button>
             <span>{strings.pagination.pageTemplate.replace("{page}", String(currentPage))}</span>
@@ -212,7 +219,7 @@ const IssueArticlesExplorer = ({
               disabled={loading || !hasNext}
             >
               {strings.pagination.next}
-              <i className="fa-solid fa-arrow-right" aria-hidden="true" />
+              <i className={`fa-solid ${nextIcon}`} aria-hidden="true" />
             </button>
           </nav>
         )}

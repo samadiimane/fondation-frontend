@@ -20,7 +20,7 @@
 
 .issue-articles__meta div {
   display: grid;
-  text-align: right;
+  text-align: start;
 }
 
 .issue-articles__meta dt {
@@ -76,8 +76,12 @@
 .issue-articles__table th,
 .issue-articles__table td {
   padding: 1rem;
-  text-align: left;
+  text-align: start;
   font-size: 0.95rem;
+}
+
+.issue-articles__table td:last-child {
+  width: 1%;
 }
 
 .issue-articles__table thead {
@@ -115,6 +119,11 @@
 .issue-articles__details:focus {
   background: #0f315f;
   color: #ffffff;
+}
+
+.issue-articles__details-link {
+  min-inline-size: max-content;
+  white-space: nowrap;
 }
 
 .issue-articles__cards {
@@ -224,11 +233,11 @@
 
   .issue-articles__meta {
     grid-template-columns: repeat(2, minmax(0, auto));
-    text-align: left;
+    text-align: start;
   }
 
   .issue-articles__meta div {
-    text-align: left;
+    text-align: start;
   }
 
   .issue-articles__table {
